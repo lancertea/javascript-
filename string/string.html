@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>关于字符串的问题</title>
+<script>
+
+//字符串的“只读性”
+var s="hello";
+console.log(s.length);//5
+console.log(s[0]);//'h'
+s[0]='x';
+//字符串是不可变的，对字符串某个索引赋值，不会出错，但也没有任何效果
+console.log(s[0]);//'h' 
+s[6]='!';  //s[6]会返回undefined
+console.log(s);//'hello'
+
+//JavaScript为字符串提供了一些常用方法，注意，调用这些方法本身不会改变原有字符串的内容，而是返回一个新字符串
+//所以一般想对字符串操作的时候，可先用split("")将其转换为字符串数组再操作
+</script>
+</head>
+<body>
+
+</body>
+</html>
