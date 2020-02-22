@@ -1,110 +1,111 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>关于数组的问题</title>
-<script>
-
-//1.数组是动态变化的
-//JavaScript的Array可以包含任意数据类型，并通过索引来访问修改每个元素。
-var a = [1, 2, 3.14, 'Hello', null, true];
-a[1]=99;
-console.log(a);//[1, 99, 3.14, 'Hello', null, true]
-//Array的大小是动态调整的
-a.length=8;
-console.log(a);//[1, 99, 3.14, 'Hello', null, true，undefined，undefined]
-
+    <meta charset="utf-8">
+    <title>关于数组的问题</title>
+    <script>
+        //1.数组是动态变化的
+        //JavaScript的Array可以包含任意数据类型，并通过索引来访问修改每个元素。
+        var a = [1, 2, 3.14, 'Hello', null, true];
+        a[1] = 99;
+        console.log(a); //[1, 99, 3.14, 'Hello', null, true]
+        //Array的大小是动态调整的
+        a.length = 8;
+        console.log(a); //[1, 99, 3.14, 'Hello', null, true，undefined，undefined]
 
 
-//2.复制数组的方法
-var a=[1,2,3,4,5];
-var acopy=a.slice();
-console.log(acopy);         //[1,2,3,4,5]
-console.log(a===acopy);    //false 返回的是原数组的副本
+        //2.复制数组的方法
+        var a = [1, 2, 3, 4, 5];
+        var acopy = a.slice();
+        console.log(acopy); //[1,2,3,4,5]
+        console.log(a === acopy); //false 返回的是原数组的副本
 
-var acopy1=a.concat();
-console.log(acopy1);        //[1,2,3,4,5]
-console.log(a===acopy1);   //false 返回的是原数组的副本
+        var acopy1 = a.concat();
+        console.log(acopy1); //[1,2,3,4,5]
+        console.log(a === acopy1); //false 返回的是原数组的副本
 
-//错误示例：不要用改变原数组的方法去复制数组，这样对新数组操作时，原数组也会改变
-var acopy2=a.copyWithin(0);//a2.copyWithin(0,0)也可
-console.log(acopy2);        //[1,2,3,4,5]
-console.log(a);             //[1,2,3,4,5]
-console.log(a===acopy2);   //true  在原数组上做修改
-acopy2.push(6);
-console.log(acopy2);        //[1,2,3,4,5,6]
-console.log(a);             //[1,2,3,4,5,6]
+        //错误示例：不要用改变原数组的方法去复制数组，这样对新数组操作时，原数组也会改变
+        var acopy2 = a.copyWithin(0); //a2.copyWithin(0,0)也可
+        console.log(acopy2); //[1,2,3,4,5]
+        console.log(a); //[1,2,3,4,5]
+        console.log(a === acopy2); //true  在原数组上做修改
+        acopy2.push(6);
+        console.log(acopy2); //[1,2,3,4,5,6]
+        console.log(a); //[1,2,3,4,5,6]
 
-/*
-3.改变原数组、不改变原数组生成副本的方法总结
-改变原数组：copyWithin()、fill()、push()、pop()、shift()、unshift()、reverse()、sort()、splice()
-生成副本：concat()、filter()、find()、findIndex()、map()、slice()、some()
+        /*
+        3.改变原数组、不改变原数组生成副本的方法总结
+        改变原数组：copyWithin()、fill()、push()、pop()、shift()、unshift()、reverse()、sort()、splice()
+        生成副本：concat()、filter()、find()、findIndex()、map()、slice()、some()
 
-*/
+        */
 
 
-//4.数组去重的方法
-var arr =[1,2,3,3,4];
-console.log(...new Set(arr));   //1,2,3,4
-console.log([...new Set(arr)]); //[1,2,3,4]
+        //4.数组去重的方法
+        var arr = [1, 2, 3, 3, 4];
+        console.log(...new Set(arr)); //1,2,3,4
+        console.log([...new Set(arr)]); //[1,2,3,4]
 
-/*
-5.数组和布尔
-有时我们需要过滤数组中值为 false 的值. 例如(0, undefined, null, false)，可传入一个 Boolean 函数
-*/
-var arr = [1, 0 , undefined, null, false];
-console.log(arr.filter(Boolean));  //[1]
+        /*
+        5.数组和布尔
+        有时我们需要过滤数组中值为 false 的值. 例如(0, undefined, null, false)，可传入一个 Boolean 函数
+        */
+        var arr = [1, 0, undefined, null, false];
+        console.log(arr.filter(Boolean)); //[1]
 
-/*
-6.concat()方法
-用于连接两个或多个数组
-不改变原数组、返回被连接数组的副本
-*/
-var colors = ["red", "green", "blue"];
-var colors1 = colors.concat("yellow", ["black", "brown"]);
-var colors2 = colors.concat("yellow", ["black", "brown",["white","grey"]]);
-        
-console.log(colors);     //["red", "green", "blue"]       
-console.log(colors1);    //["red", "green", "blue", "yellow", "black", "brown" ]
-console.log(colors2);    //["red", "green", "blue", "yellow", "black", "brown",["white","grey"]]
-        
-/*
-7.copyWithin()方法
-用于从数组的指定位置拷贝元素到数组的另一个指定位置
-改变原数组
-array.copyWithin(target, start, end)
-target: 必需。复制到指定目标索引位置
-start : 可选。元素复制的起始位置
-end:    可选。停止复制的索引位置 (默认为 array.length)。如果为负值，表示倒数
-*/  
-var a=[1,2,3,4,5];
-console.log(a.copyWithin(0,2));        //[ 3, 4, 5, 4, 5 ]
-console.log(a);                        //[ 3, 4, 5, 4, 5 ] 改变原数组
-var acopy=[1,2,3,4,5];
-console.log(acopy.copyWithin(2,0,2));  //[1,2,1,2,5]
-var acopy1=[1,2,3,4,5];
-console.log(acopy1.copyWithin(1,0,-2));//[1,1,2,3,5]
+        /*
+        6.concat()方法
+        用于连接两个或多个数组
+        不改变原数组、返回被连接数组的副本
+        */
+        var colors = ["red", "green", "blue"];
+        var colors1 = colors.concat("yellow", ["black", "brown"]);
+        var colors2 = colors.concat("yellow", ["black", "brown", ["white", "grey"]]);
 
-/*
-8.splice()方法
-splice() 方法用于添加或删除数组中的元素。
-这种方法会改变原始数组。
-*/
-var colors = ["red", "green", "blue"];
-var removed = colors.splice(0,1);                    //移除第一项
-console.log(colors);                                 // [green", "blue" ]
-console.log(removed);                                // [ "red"]
-        
-removed = colors.splice(1, 0, "yellow", "orange");   //在索引为1的位置插入两项
-console.log(colors);                                 //[ "green", "yellow", "orange", "blue" ]
-console.log(removed);                                //[]
+        console.log(colors); //["red", "green", "blue"]       
+        console.log(colors1); //["red", "green", "blue", "yellow", "black", "brown" ]
+        console.log(colors2); //["red", "green", "blue", "yellow", "black", "brown",["white","grey"]]
 
-removed = colors.splice(1, 1, "red", "purple");      //i在索引为1的位置删除一项，插入两项
-console.log(colors);                                 //[ "green", "red", "purple", "orange", "blue" ]
-console.log(removed);                                //[ "yellow" ]
-</script>
+        /*
+        7.copyWithin()方法
+        用于从数组的指定位置拷贝元素到数组的另一个指定位置
+        改变原数组
+        array.copyWithin(target, start, end)
+        target: 必需。复制到指定目标索引位置
+        start : 可选。元素复制的起始位置
+        end:    可选。停止复制的索引位置 (默认为 array.length)。如果为负值，表示倒数
+        */
+        var a = [1, 2, 3, 4, 5];
+        console.log(a.copyWithin(0, 2)); //[ 3, 4, 5, 4, 5 ]
+        console.log(a); //[ 3, 4, 5, 4, 5 ] 改变原数组
+        var acopy = [1, 2, 3, 4, 5];
+        console.log(acopy.copyWithin(2, 0, 2)); //[1,2,1,2,5]
+        var acopy1 = [1, 2, 3, 4, 5];
+        console.log(acopy1.copyWithin(1, 0, -2)); //[1,1,2,3,5]
+
+        /*
+        8.splice()方法
+        splice() 方法用于添加或删除数组中的元素。
+        这种方法会改变原始数组。
+        */
+        var colors = ["red", "green", "blue"];
+        var removed = colors.splice(0, 1); //移除第一项
+        console.log(colors); // [green", "blue" ]
+        console.log(removed); // [ "red"]
+
+        removed = colors.splice(1, 0, "yellow", "orange"); //在索引为1的位置插入两项
+        console.log(colors); //[ "green", "yellow", "orange", "blue" ]
+        console.log(removed); //[]
+
+        removed = colors.splice(1, 1, "red", "purple"); //i在索引为1的位置删除一项，插入两项
+        console.log(colors); //[ "green", "red", "purple", "orange", "blue" ]
+        console.log(removed); //[ "yellow" ]
+    </script>
 </head>
+
 <body>
 
 </body>
+
 </html>
