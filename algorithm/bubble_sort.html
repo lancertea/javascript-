@@ -1,0 +1,37 @@
+<!-- author:lancer
+     date:2020/01/07 -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>冒泡排序</title>
+    <script>
+        /*
+升序：
+从左到右不断交换相邻逆序的元素，在一轮的循环之后，可以让未排序的最大元素上浮到右侧。
+在一轮循环中，如果没有发生交换，那么说明数组已经是有序的，此时可以直接退出。
+*/
+        //测试用例
+        let a=[3,1,2,0];
+        bubble(a);
+        console.log(a);
+
+        //参考代码
+        function bubble(arr) {
+            for (let i = 1; i < arr.length; i++)
+                for (let j = 0; j < arr.length - i; j++) {
+                    if (arr[j] > arr[j + 1]) {
+                        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                    }
+                }
+
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
