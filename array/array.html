@@ -175,6 +175,11 @@
         obj.sayHi(); //hi
         delete obj.sayHi;
         console.log(obj); //Object { weight: 80, height: 168 }
+        obj.sayBye=function(){
+            console.log("bye");   
+        };
+        console.log(obj);//Object { weight: 80, height: 168, sayBye: sayBye()}
+
 
         //当你删除一个数组元素时，数组的长度不受影响。即便你删除了数组的最后一个元素也是如此。
         //当用 delete 操作符删除一个数组元素时，被删除的元素已经不再属于该数组。
