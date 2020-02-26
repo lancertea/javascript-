@@ -45,6 +45,12 @@
             a: "b"
         }); //false
 
+        var a = {};
+        console.log(a == true); //false
+        console.log(a == false); //false
+        //因为 a.toString() -> '[object Object]' -> NaN
+
+
         //（6）两边都是对象的话，那么只要不是同一对象的不同引用，都为false
         var obj = {
             a: 1,
@@ -74,6 +80,47 @@
         console.log(5 == NaN); //false 
         console.log(NaN == NaN); //false
         console.log(NaN != NaN); //true
+
+        /*
+        === 操作符
+        不转类型，直接判断类型和值是否相同。 但是 NaN === NaN 还是false
+        */
+
+        /*
+        1 与 Number(1)有什么区别
+        */
+        var a = new Number(1);
+        console.log(typeof 1); //number
+        console.log(typeof a); //object
+        console.log(1 == a); //true
+        console.log(1 instanceof Number); //false
+        console.log(a instanceof Number); //true
+        console.log(1 === a); //false
+
+        /*
+        console.log(!!(new Boolean(false)))输出什么 
+        */
+        console.log(!!(new Boolean(false)));//true
+        console.log((new Boolean(false)).valueOf()); //false
+
+        /*
+        易错点
+        */
+        //加性操作符：如果只有一个操作数是字符串，则将另一个操作数转换为字符串，然后再将两个字符串拼接起来
+        console.log(1+"1"); //'11'
+        //乘性操作符：如果有一个操作数不是数值，则在后台调用 Number()将其转换为数值
+        console.log(2*"2"); //4
+        //Javascript中所有对象基本都是先调用valueOf方法，如果结果是NaN，再调用toString方法。
+        //所以两个数组对象的toString方法相加，值为："1,22,1"
+        console.log([1,2]+[2,1]); //"1,22,1"
+
+        //console.log("a"++"b"); 'aNaN'
+        //后边的“+”将作为一元操作符，如果操作数是字符串，将调用Number方法将该操作数转为数值，如果操作数无法转为数值，则为NaN。
+        
+        
+        
+        
+
     </script>
 </head>
 
