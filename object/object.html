@@ -53,19 +53,19 @@
         //只有对同一个对象引用，Map才将其视为同一个键
         var a = {},
             c = a;
-        m.set({},1);
+        m.set({}, 1);
         console.log(m.get({})); // undefined
-        m.set(a,2);
-        console.log(m);//Map(3) { Bob → 59, {} → 1, {} → 2 }
+        m.set(a, 2);
+        console.log(m); //Map(3) { Bob → 59, {} → 1, {} → 2 }
         console.log(m.get(c)); //2
-       /*
-       由上可知，Map 的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键。这就解决了同名属性碰撞（clash）的问题，
-       我们扩展别人的库的时候，如果使用对象作为键名，就不用担心自己的属性与原作者的属性同名。
+        /*
+        由上可知，Map 的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键。这就解决了同名属性碰撞（clash）的问题，
+        我们扩展别人的库的时候，如果使用对象作为键名，就不用担心自己的属性与原作者的属性同名。
 
-       如果 Map 的键是一个简单类型的值（数字、字符串、布尔值），则只要两个值严格相等，Map 将其视为一个键，比如0和-0就是一个键，
-       布尔值true和字符串true则是两个不同的键。另外，undefined和null也是两个不同的键。虽然NaN不严格相等于自身，但 Map 将其视为同一个键。
-       */ 
-        
+        如果 Map 的键是一个简单类型的值（数字、字符串、布尔值），则只要两个值严格相等，Map 将其视为一个键，比如0和-0就是一个键，
+        布尔值true和字符串true则是两个不同的键。另外，undefined和null也是两个不同的键。虽然NaN不严格相等于自身，但 Map 将其视为同一个键。
+        */
+
         /*
         属性：
         Map.prototype.constructor：构造函数，默认就是Map函数。
@@ -83,8 +83,8 @@
         entries()：返回键值对的遍历器
         forEach()：使用回调函数遍历每个成员
         */
-        
-        
+
+
 
 
         /*3.Set (ES6新数据类型)
@@ -185,9 +185,56 @@
         */
 
         /*
-        6.原型
-
+        6.call()，apply()，bind()的用法
+        https://www.cnblogs.com/Shd-Study/p/6560808.html
         */
+        //例1
+        var name = "小王",
+            age = 17;
+        var obj = {
+            name: '小张',
+            objAge: this.age, //this指向全局
+            myFun: function () {
+                console.log(this.name + '年龄' + this.age); //this指向对象
+                console.log(this.name + '年龄' + this.objAge); //this指向对象
+            }
+        }
+        console.log(obj.objAge); //17
+        obj.myFun(); //'小张年龄undefined'
+        //'小张年龄17'
+
+        //例2
+        var fav = 'klaus';
+
+        function shows() {
+            console.log(this.fav); //this指向全局
+
+        }
+        shows() //'klaus'
+
+        //call()，apply()，bind()都是用来重定义this这个对象的
+        var name = "小王",
+            age = 17;
+        var obj = {
+            name: '小张',
+            objAge: this.age, //this指向全局
+            myFun: function () {
+                console.log(this.name + '年龄' + this.age); //this指向对象
+
+            }
+        }
+        var db={
+            name:'德玛',
+            age:99
+        }
+        obj.myFun.call(db);//'德玛年龄99'
+        obj.myFun.apply(db)//'德玛年龄99'
+        obj.myFun.bind(db)();//'德玛年龄99'
+    //以上除了bind方法后面多了个 () 外 ，结果返回都一致！
+    //由此得出结论，bind 返回的是一个新的函数，你必须调用它才会被执行
+
+ 
+
     </script>
 </head>
 
