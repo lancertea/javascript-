@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <title>类型转换</title>
     <script>
-
-/*
+        /*
 JS变量类型:
 	基本类型（原始值）：字符串（String）、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol（独一无二的值）
      存储在栈（stack）中的简单数据段，也就是说，它们的值直接存储在变量访问的位置。
@@ -15,73 +14,126 @@ JS变量类型:
      存储在堆（heap）中的对象，也就是说，存储在变量处的值是一个指针（point），指向存储对象的内存处。
 */
 
-//undefined
-//变量未声明或未初始化，值为“undefined”
-var a;
-console.log(a==undefined);//true
-console.log(a===undefined);//true
+        //undefined
+        //变量未声明或未初始化，值为“undefined”
+        var a;
+        console.log(a == undefined); //true
+        console.log(a === undefined); //true
 
-console.log(typeof b);//undefined
-//console.log(b==undefined); b未声明，报错
+        console.log(typeof b); //undefined
+        //console.log(b==undefined); b未声明，报错
 
-//当函数无明确返回值时，返回的也是值“undefined”
-function c()
-{
-}
-console.log(c()==undefined);//true
-console.log(c()===undefined);//true
+        //当函数无明确返回值时，返回的也是值“undefined”
+        function c() {}
+        console.log(c() == undefined); //true
+        console.log(c() === undefined); //true
 
-//null
-//用于表示尚未存在的对象（对象的占位符）
-//值 undefined 实际上是从值 null 派生来的，因此 ECMAScript 把它们定义为相等的。
-console.log(undefined==null);//true
-console.log(undefined===null);//false
+        //null
+        //用于表示尚未存在的对象（对象的占位符）
+        //值 undefined 实际上是从值 null 派生来的，因此 ECMAScript 把它们定义为相等的。
+        console.log(undefined == null); //true
+        console.log(undefined === null); //false
 
-//Boolean类型
-//true、false
-//Boolean()转换见下面类型转换
+        //Boolean类型
+        //true、false
+        //Boolean()转换见下面类型转换
 
-/*
-Number类型
-这种类型使用IEEE754格式来表示整数和浮点数值 
+        /*
+        Number类型
+        这种类型使用IEEE754格式来表示整数和浮点数值 
 
-整数也可以被表示为八进制（以 8 为底）或十六进制（以 16 为底）的字面量。
-八进制字面量的首数字必须是 0，其后的数字可以是任何八进制数字（0-7），若数值超出范围，被当做十进制来解析
-十六进制字面量的前两位必须是 0x,然后是任意的十六进制数字（0 到 9 和 A 到 F）,大小写不敏感
-尽管所有整数都可以表示为八进制或十六进制的字面量，但所有数学运算返回的都是十进制结果
+        整数也可以被表示为八进制（以 8 为底）或十六进制（以 16 为底）的字面量。
+        八进制字面量的首数字必须是 0，其后的数字可以是任何八进制数字（0-7），若数值超出范围，被当做十进制来解析
+        十六进制字面量的前两位必须是 0x,然后是任意的十六进制数字（0 到 9 和 A 到 F）,大小写不敏感
+        尽管所有整数都可以表示为八进制或十六进制的字面量，但所有数学运算返回的都是十进制结果
 
-要定义浮点值，必须包括小数点和小数点后的一位数字
-也可用科学计数法表示浮点数  浮点数e/E(正整数/负整数)
+        要定义浮点值，必须包括小数点和小数点后的一位数字
+        也可用科学计数法表示浮点数  浮点数e/E(正整数/负整数)
 
 
-特殊的Number值:
-Number.MAX_VALUE和 Number.MIN_VALUE：定义了 Number 值集合的外边界
+        特殊的Number值:
+        Number.MAX_VALUE和 Number.MIN_VALUE：定义了 Number 值集合的外边界
 
-当计算生成的数大于 Number.MAX_VALUE 时，它将被赋予值 Number.POSITIVE_INFINITY，意味着不再有数字值。同样，生成的数值小于 Number.MIN_VALUE 的计算
-也会被赋予值 Number.NEGATIVE_INFINITY，也意味着不再有数字值。如果计算返回的是无穷大值，那么生成的结果不能再用于其他计算。Number.POSITIVE_INFINITY 的值为 
-Infinity。Number.NEGATIVE_INFINITY 的值为 -Infinity。可以对任何数调用 isFinite() 方法，以确保该数不是无穷大
+        当计算生成的数大于 Number.MAX_VALUE 时，它将被赋予值 Number.POSITIVE_INFINITY，意味着不再有数字值。同样，生成的数值小于 Number.MIN_VALUE 的计算
+        也会被赋予值 Number.NEGATIVE_INFINITY，也意味着不再有数字值。如果计算返回的是无穷大值，那么生成的结果不能再用于其他计算。Number.POSITIVE_INFINITY 的值为 
+        Infinity。Number.NEGATIVE_INFINITY 的值为 -Infinity。可以对任何数调用 isFinite() 方法，以确保该数不是无穷大
 
-NaN，表示非数（Not a Number）
-任何涉及NaN的操作都会返回NaN
-NaN与任何值都不相等，包括NaN本身
-*/
-console.log(typeof Number.MAX_VALUE);//number
-console.log(typeof Number.MIN_VALUE);//number
-console.log(typeof Infinity);//number
-console.log(typeof NaN);//number
-//isNaN()、Number（）、parseInt()、parseFloat()转换见下面类型转换
+        NaN，表示非数（Not a Number）
+        任何涉及NaN的操作都会返回NaN
+        NaN与任何值都不相等，包括NaN本身
+        */
+        console.log(typeof Number.MAX_VALUE); //number
+        console.log(typeof Number.MIN_VALUE); //number
+        console.log(typeof Infinity); //number
+        console.log(typeof NaN); //number
+        //isNaN()、Number()、parseInt()、parseFloat()转换见下面类型转换
+
+        /*
+           1 与 Number(1)有什么区别
+        */
+        var a = new Number(1);
+        console.log(typeof 1); //number
+        console.log(typeof a); //object
+        console.log(1 == a); //true
+        console.log(1 instanceof Number); //false
+        console.log(a instanceof Number); //true
+        console.log(1 === a); //false
+
+        /*
+        valueOf()函数用于返回指定对象的原始值
+        该方法属于Object对象，由于所有的对象都"继承"了Object的对象实例，因此几乎所有的实例对象都可以使用该方法。
+        JavaScript的许多内置对象都重写了该函数，以实现更适合自身的功能需要。因此，不同类型对象的valueOf()方法的返回值和返回值类型均可能不同。
+        */
+        // Array：返回数组对象本身
+        var arr = ["CodePlayer", true, 12, -5];
+        console.log(arr.valueOf() === arr); // true
+        
+        //三个基本包装类型有两种情况：
+        // 布尔：返回布尔值true或false
+        var bool = true;
+        console.log(bool.valueOf() === bool); // true
+        // new一个Boolean对象
+        var bool1 = new Boolean(true);
+        // valueOf()返回的是true，两者的值相等
+        console.log(bool1.valueOf() == bool1); // true
+        // 但是不全等，两者类型不相等，前者是boolean类型，后者是object类型
+        console.log(bool1.valueOf() === bool1); // false
+
+        // String：返回字符串值
+        var str = "hello";
+        console.log(str.valueOf() === str); // true
+        // new一个字符串对象
+        var str1 = new String("hello");
+        // 两者的值相等，但不全等，因为类型不同，前者为string类型，后者为object类型
+        console.log(str1.valueOf() === str1); // false
+
+        // Number：返回数字值
+        var num = 15.26540;
+        console.log(num.valueOf()); // 15.2654
+        var num1 = new Number(12); //道理同上
+        console.log(num1.valueOf() === num1); //false
+
+        // Date：当前时间距1970年1月1日午夜的毫秒数
+        var date = new Date(2013, 7, 18, 23, 11, 59, 230);
+        console.log(date.valueOf()); // 1376838719230
+
+        // Function：返回函数本身
+        function foo() {}
+        console.log(foo.valueOf() === foo); // true
+        var foo2 = new Function("x", "y", "return x + y;");
+        console.log(foo2.valueOf() === foo2); // true
+
+        // Object：返回对象本身
+        var obj = {
+            name: "张三",
+            age: 18
+        };
+        console.log(obj.valueOf() === obj); // true
 
 
-
-
-
-
-
-
-
-
-
-
+        /*
+        
+        */
     </script>
 </head>
 
