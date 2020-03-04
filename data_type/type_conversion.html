@@ -39,7 +39,7 @@ console.log(undefined===null);//false
 
 //Boolean类型
 //true、false
-//Boolean()转换见类型转换
+//Boolean()转换见下面类型转换
 
 /*
 Number类型
@@ -53,11 +53,27 @@ Number类型
 要定义浮点值，必须包括小数点和小数点后的一位数字
 也可用科学计数法表示浮点数  浮点数e/E(正整数/负整数)
 
-特殊的Number值
 
+特殊的Number值:
+Number.MAX_VALUE和 Number.MIN_VALUE：定义了 Number 值集合的外边界
+
+当计算生成的数大于 Number.MAX_VALUE 时，它将被赋予值 Number.POSITIVE_INFINITY，意味着不再有数字值。同样，生成的数值小于 Number.MIN_VALUE 的计算
+也会被赋予值 Number.NEGATIVE_INFINITY，也意味着不再有数字值。如果计算返回的是无穷大值，那么生成的结果不能再用于其他计算。Number.POSITIVE_INFINITY 的值为 
+Infinity。Number.NEGATIVE_INFINITY 的值为 -Infinity。可以对任何数调用 isFinite() 方法，以确保该数不是无穷大
+
+NaN，表示非数（Not a Number）
+任何涉及NaN的操作都会返回NaN
+NaN与任何值都不相等，包括NaN本身
 */
-var a=1.1;
-console.log(typeof a);
+console.log(typeof Number.MAX_VALUE);//number
+console.log(typeof Number.MIN_VALUE);//number
+console.log(typeof Infinity);//number
+console.log(typeof NaN);//number
+//isNaN()、Number（）、parseInt()、parseFloat()转换见下面类型转换
+
+
+
+
 
 
 
