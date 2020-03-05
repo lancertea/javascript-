@@ -28,15 +28,21 @@ JS变量类型:
         console.log(c() == undefined); //true
         console.log(c() === undefined); //true
 
+
+
         //null
         //用于表示尚未存在的对象（对象的占位符）
         //值 undefined 实际上是从值 null 派生来的，因此 ECMAScript 把它们定义为相等的。
         console.log(undefined == null); //true
         console.log(undefined === null); //false
 
+
+
         //Boolean类型
         //true、false
         //Boolean()转换见下面类型转换
+
+
 
         /*
         Number类型
@@ -49,7 +55,6 @@ JS变量类型:
 
         要定义浮点值，必须包括小数点和小数点后的一位数字
         也可用科学计数法表示浮点数  浮点数e/E(正整数/负整数)
-
 
         特殊的Number值:
         Number.MAX_VALUE和 Number.MIN_VALUE：定义了 Number 值集合的外边界
@@ -68,6 +73,8 @@ JS变量类型:
         console.log(typeof NaN); //number
         //isNaN()、Number()、parseInt()、parseFloat()转换见下面类型转换
 
+
+
         /*
            1 与 Number(1)有什么区别
         */
@@ -79,15 +86,18 @@ JS变量类型:
         console.log(a instanceof Number); //true
         console.log(1 === a); //false
 
+
+
         /*
-        valueOf()函数用于返回指定对象的原始值
+        valueOf()用于返回指定对象的原始值
         该方法属于Object对象，由于所有的对象都"继承"了Object的对象实例，因此几乎所有的实例对象都可以使用该方法。
         JavaScript的许多内置对象都重写了该函数，以实现更适合自身的功能需要。因此，不同类型对象的valueOf()方法的返回值和返回值类型均可能不同。
         */
+        //undefined、null没有valueOf()方法
         // Array：返回数组对象本身
         var arr = ["CodePlayer", true, 12, -5];
         console.log(arr.valueOf() === arr); // true
-        
+
         //三个基本包装类型有两种情况：
         // 布尔：返回布尔值true或false
         var bool = true;
@@ -129,10 +139,134 @@ JS变量类型:
             age: 18
         };
         console.log(obj.valueOf() === obj); // true
+        /*
+        参考：https://blog.csdn.net/celi_echo/article/details/100038366
+        */
+
 
 
         /*
-        
+        toString()用来返回该对象的字符串
+        */
+        //undefined、null没有toString()方法
+        //Boolean类型：根据原始布尔值或者 booleanObject 对象的值返回字符串 "true" 或 "false"。
+        console.log(true.toString()); //'true'
+        var bool = new Boolean(true);
+        console.log(bool.toString()); //'true'
+        console.log(bool.toString() === bool); //false
+
+        //String类型原值返回
+        console.log('123'.toString()); //'123'stringObject 的原始字符串值。一般不会调用该方法
+        var str = new String("hello");
+        console.log(str.toString()); //"hello"
+        console.log(str.toString() === str); //false
+
+        //Number类型有两种模式，即默认模式和基模式(参数可选)
+        var num = 10;
+        // 整数直接跟上.toString()形式，会报错，因为整数后的点会被识别为小数点
+        //console.log(10.toString()); 变量名叫identifiers，它符合某些规则，而你打破了这些规则！
+        console.log(num.toString()); //'10'
+        console.log(num.toString(8)); //'12'
+
+        //正浮点数及NaN、Infinity转换为字符串
+        console.log(1.2.toString()); //'1.2'
+        console.log(NaN.toString()); //'NaN'
+        console.log(Infinity.toString()); //'Infinity'
+
+        //负浮点数或加'+'号的正浮点数直接跟上.toString()，相当于先运行toString()，再添加正负号，转换为数字
+
+        console.log(+1.2.toString()); //1.2
+        console.log(typeof + 1.2.toString()); //'number'
+        console.log(-1.2.toString()); //-1.2
+        console.log(typeof - 1.2.toString()); //'number'
+
+        //因此，为了避免以上无效及报错的情况，数字在使用toString()方法时，加括号可解决
+        console.log((10).toString()); //'10'
+        console.log((+1.2).toString()); //'1.2'
+        console.log((-1.2).toString()); //'-1.2'
+
+        //Date类型 把 Date 对象转换为字符串
+        var date = new Date(2013, 7, 18, 23, 11, 59, 230);
+        console.log(date.toString()); // 'Sun Aug 18 2013 23:11:59 GMT+0800 (中国标准时间)'
+
+        // Array类型  把数组转换为由数组中每个值的字符串形式拼接而成的一个以逗号分隔的字符串
+        var arr = ["CodePlayer", true, 12, -5];
+        console.log(arr.toString()); // 'CodePlayer,true,12,-5'
+
+        //Function类型：把整个函数转换为字符串（返回函数代码）
+        function test() {
+            alert(1); //test
+        }
+        console.log(test.toString());
+        /*function test(){
+                                                     alert(1);//test
+                                            } */
+
+        //RegExp类型:返回正则表达式字面量的字符串表示
+        console.log(/ab/g.toString()); //'/ab/g'
+
+        //Object类型及自定义对象类型:返回[object Object]
+        console.log({}.toString()); //'[object Object]'
+        console.log(({}).toString()); //'[object Object]'
+        var obj = {
+            a: 12
+        };
+        console.log(obj.toString()); //'[object Object]'
+
+        function Cat() {
+            this.name = 'tom';
+        }
+        var cat1 = new Cat();
+        console.log(cat1.toString()); //'[object Object]'
+        /*
+        参考：https://blog.csdn.net/u011435776/article/details/90230426
+        */
+
+
+
+        /*
+        类型识别
+        使用Object.prototype.toString()来进行类型识别，返回代表该对象的[object 数据类型]字符串表示
+        Object.prototype.toString()可以识别标准类型及内置对象类型，但不能识别自定义类型
+        */
+
+        console.log(Object.prototype.toString.call("jerry")); //'[object String]'
+        console.log(Object.prototype.toString.call(12)); //'[object Number]'
+        console.log(Object.prototype.toString.call(true)); //'[object Boolean]'
+        console.log(Object.prototype.toString.call(undefined)); //'[object Undefined]'
+        console.log(Object.prototype.toString.call(null)); //'[object Null]'
+        console.log(Object.prototype.toString.call({
+            name: "jerry"
+        })); //[object Object]
+        console.log(Object.prototype.toString.call(function () {})); //'[object Function]'
+        console.log(Object.prototype.toString.call([])); //'[object Array]'
+        console.log(Object.prototype.toString.call(new Date)); //'[object Date]'
+        console.log(Object.prototype.toString.call(/\d/)); //'[object RegExp]'
+        function Person() {};
+        console.log(Object.prototype.toString.call(new Person)); //'[object Object]'
+
+
+        function type(obj) {
+            return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
+
+        }
+
+        console.log(type("jerry")); //"string"
+        console.log(type(12)); //"number"
+        console.log(type(true)); //"boolean"
+        console.log(type(undefined)); //"undefined"
+        console.log(type(null)); //"null"
+        console.log(type({
+            name: "jerry"
+        })); //"object"
+        console.log(type(function () {})); //"function"
+        console.log(type([])); //"array"
+        console.log(type(new Date)); //"date"
+        console.log(type(/\d/)); //"regexp"
+        function Person() {};
+        console.log(type(new Person)); //"object"
+        /*
+        参考：https://blog.csdn.net/u011435776/article/details/90230426
         */
     </script>
 </head>
