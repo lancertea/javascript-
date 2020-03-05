@@ -23,6 +23,15 @@
         //p1是引用，在调用test后，首先将p1的属性age改成了26
         console.log(p1) // -> {name: "hy", age: 26}
         console.log(p2) // -> {name: "yyy", age: 30}
+        
+        //有括号，返回函数调用的结果
+        var p=test('jack'),
+        //无括号，返回函数自身
+            t=test;
+            console.log(p);// -> {name: "yyy", age: 30}
+            console.log(t);
+            
+            
     </script>
 
 </head>
