@@ -71,6 +71,17 @@ JS变量类型:
         console.log(typeof Number.MIN_VALUE); //number
         console.log(typeof Infinity); //number
         console.log(typeof NaN); //number
+        /*
+        另外，数字属性不可用于变量
+        数字属性属于名为 number 的 JavaScript 数字对象包装器。
+        这些属性只能作为 Number.MAX_VALUE 访问。
+        使用 myNumber.MAX_VALUE，其中 myNumber 是变量、表达式或值，将返回 undefined：
+        */
+        console.log(Number.NEGATIVE_INFINITY);//-Infinity
+        var x=6;
+        console.log(x.NEGATIVE_INFINITY);//undefined
+        
+        
         //isNaN()、Number()、parseInt()、parseFloat()转换见下面类型转换
 
 
@@ -95,7 +106,7 @@ JS变量类型:
         */
         //undefined、null没有valueOf()方法
         // Array：返回数组对象本身
-        var arr = ["CodePlayer", true, 12, -5];
+        var arr = ["CodePlayer", true, 12, -5];//等价于arr=new Array("CodePlayer", true, 12, -5);
         console.log(arr.valueOf() === arr); // true
 
         //三个基本包装类型有两种情况：
@@ -286,7 +297,11 @@ JS变量类型:
         console.log(parseFloat('11.22.33'));//11.22
         console.log(parseFloat('3.125e7'));//31250000
 
-
+        //NaN()
+        console.log(NaN+5);//NaN
+        console.log(NaN+'5');//'NaN5'
+        
+        
 
 
         

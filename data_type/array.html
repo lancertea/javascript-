@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>关于数组的问题</title>
     <script>
-        //1.数组是动态变化的
+        //数组是动态变化的
         //JavaScript的Array可以包含任意数据类型，并通过索引来访问修改每个元素。
         var a = [1, 2, 3.14, 'Hello', null, true];
         a[1] = 99;
@@ -15,7 +15,29 @@
         console.log(a); //[1, 99, 3.14, 'Hello', null, true，undefined，undefined]
 
 
-        //2.复制数组的方法
+
+        //避免 使用new Array()
+        //arr与arr1都创建了空数组
+        var arr = new Array(); // 差
+        var arr1 = []; // 优
+        //arr2与arr3创建了内容相同的数组
+        var arr2 = new Array(40, 100, 1, 5, 25, 10); // 差
+        var arr3 = [40, 100, 1, 5, 25, 10]; // 优
+        //new 关键词只会使代码复杂化。它还会产生某些不可预期的结果
+        console.log(new Array(1, 2)); //[ 1, 2 ]
+        console.log(new Array(2)); //创建包含 2个未定义元素的数组
+
+
+
+        //判断是不是数组
+        function isArray(x) {
+            return x.constructor.toString().indexOf("Array") > -1;
+        }
+
+
+
+
+        //复制数组的方法
         var a = [1, 2, 3, 4, 5];
         var acopy = a.slice();
         console.log(acopy); //[1,2,3,4,5]
@@ -35,7 +57,7 @@
         console.log(a); //[1,2,3,4,5,6]
 
         /*
-        3.Array对象常用方法总结
+        Array对象常用方法总结
         改变原数组：
         copyWithin()
         在数组内部，将一段元素序列拷贝到另一段元素序列上，覆盖原有的值
@@ -104,20 +126,20 @@
         */
 
 
-        //4.数组去重的方法
+        //数组去重的方法
         var arr = [1, 2, 3, 3, 4];
         console.log(...new Set(arr)); //1,2,3,4
         console.log([...new Set(arr)]); //[1,2,3,4]
 
         /*
-        5.数组和布尔
+        数组和布尔
         有时我们需要过滤数组中值为 false 的值. 例如(0, undefined, null, false)，可传入一个 Boolean 函数
         */
         var arr = [1, 0, undefined, null, false];
         console.log(arr.filter(Boolean)); //[1]
 
         /*
-        6.concat()方法
+        concat()方法
         用于连接两个或多个数组
         不改变原数组、返回被连接数组的副本
         */
@@ -130,7 +152,7 @@
         console.log(colors2); //["red", "green", "blue", "yellow", "black", "brown",["white","grey"]]
 
         /*
-        7.copyWithin()方法
+        copyWithin()方法
         用于从数组的指定位置拷贝元素到数组的另一个指定位置
         改变原数组
         array.copyWithin(target, start, end)
@@ -147,7 +169,7 @@
         console.log(acopy1.copyWithin(1, 0, -2)); //[1,1,2,3,5]
 
         /*
-        8.splice()方法
+        splice()方法
         splice() 方法用于添加或删除数组中的元素。
         这种方法会改变原始数组。
         */
@@ -165,7 +187,7 @@
         console.log(removed); //[ "yellow" ]
 
         /*
-        9.delete操作符
+        delete操作符
         delete 操作符用于删除对象的某个属性；如果没有指向这个属性的引用，那它最终会被释放。
         */
 
