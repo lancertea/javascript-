@@ -29,11 +29,11 @@
         var b = [1, 2];
         b[4] = 3;
         console.log(b); //[ 1, 2, undefined, undefined, 3 ]
-        
+
         //4.对象没有赋值的属性，也为undefined
-        var obj={};
-        console.log(obj.name);//undefined
-        
+        var obj = {};
+        console.log(obj.name); //undefined
+
         //5.当函数无明确返回值时，默认返回undefined
         function c() {}
         console.log(c() == undefined); //true
@@ -50,28 +50,33 @@
 
         //undefined和null的区分
         //1.两者均为基本类型（原始值），保存在栈中，但数据类型不同
-        console.log(typeof undefined);//'undefined'
-        console.log(typeof null);//'object'
+        console.log(typeof undefined); //'undefined'
+        console.log(typeof null); //'object'
         /*
         为什么 typeof 运算符对于 null 值会返回 "Object"？
         这实际上是 JavaScript 最初实现中的一个错误，然后被 ECMAScript 沿用了。现在，null 被认为是对象的占位符，从而解释了这一矛盾，但从技术上来说，它仍然是原始值。
         */
 
         //2.转为布尔类型均为false，但转为数值类型不同
-        console.log(Boolean(undefined));//false
-        console.log(Boolean(null));//false
-        console.log(Number(undefined));//NaN
-        console.log(Number(null));//0
+        console.log(Boolean(undefined)); //false
+        console.log(Boolean(null)); //false
+        console.log(Number(undefined)); //NaN
+        console.log(Number(null)); //0
 
         //3.都没有valueOf()和toString()方法，但可通过String()方法转为字符串类型
-        console.log(String(undefined));//'undefined'
-        console.log(String(null));//'null'
-        
-        
+        console.log(String(undefined)); //'undefined'
+        console.log(String(null)); //'null'
+
+
 
         //Boolean类型
         //true、false
-        //Boolean()转换见下面类型转换
+        /*
+        Boolean():将任何类型的值转换为布尔值。
+        以下值会被转换为false：
+        false、''、0、NaN、null、undefined
+        其余任何值都会被转换为true。
+        */
 
         /*
         console.log(!!(new Boolean(false)))输出什么 
@@ -158,7 +163,7 @@
         // Array：返回数组对象本身
         var arr = ["CodePlayer", true, 12, -5]; //等价于arr=new Array("CodePlayer", true, 12, -5);
         console.log(arr.valueOf() === arr); // true
-
+        
         //三个基本包装类型有两种情况：
         // 布尔：返回布尔值true或false
         var bool = true;
@@ -282,9 +287,9 @@
         /*
         参考：https://blog.csdn.net/u011435776/article/details/90230426
         */
-
-
-
+        
+       
+       
         /*
         类型识别
         使用Object.prototype.toString()来进行类型识别，返回代表该对象的[object 数据类型]字符串表示
