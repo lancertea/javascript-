@@ -29,12 +29,31 @@
 
 
 
-        //判断是不是数组
-        function isArray(x) {
+        //判断一个数据是不是数组
+        var arr=[1,2,3];
+        var obj={};
+        //1.Array.isArray(obj)
+        //ECMAScript 5种的函数，当使用ie8的时候就会出现问题
+        console.log(Array.isArray(arr));//true
+        console.log(Array.isArray(obj));//false
+
+        //2.obj instanceof Array
+        //当用来检测在不同的window或iframe里构造的数组时会失败。这是因为每一个iframe都有它自己的执行环境，彼此之间并不共享原型链，
+        //所以此时的判断一个对象是否为数组就会失败。
+        console.log(arr instanceof Array);//true
+        console.log(obj instanceof Array);//false
+
+        //3.Object.prototype.toString.call(obj) == '[object Array]' 
+        console.log(Object.prototype.toString.call(arr) == '[object Array]' );//true
+        
+        //4.obj.constructor === Array
+        console.log(arr.constructor === Array);//true
+        //5
+        function isArr(x) {
             return x.constructor.toString().indexOf("Array") > -1;
         }
-
-
+        console.log(isArr(arr));//true
+        
 
 
         //复制数组的方法
@@ -55,6 +74,8 @@
         acopy2.push(6);
         console.log(acopy2); //[1,2,3,4,5,6]
         console.log(a); //[1,2,3,4,5,6]
+
+
 
         /*
         Array对象常用方法总结
@@ -130,6 +151,15 @@
         var arr = [1, 2, 3, 3, 4];
         console.log(...new Set(arr)); //1,2,3,4
         console.log([...new Set(arr)]); //[1,2,3,4]
+        
+        function dedupe(array) {
+            return Array.from(new Set(array));
+
+        }
+
+        console.log(dedupe(arr));//[1,2,3,4]
+        
+
 
         /*
         数组和布尔
