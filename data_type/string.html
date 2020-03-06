@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>关于字符串的问题</title>
+    <title>基本类型（String）</title>
     <script>
         //字符串的“只读性”
         var s = "hello";
@@ -15,32 +15,8 @@
         s[6] = '!'; //s[6]会返回undefined
         console.log(s); //'hello'
 
-        var s = "hello world";
-        console.log(s.slice(0, 6)); //hello 
-        console.log(s.slice(-5, -1)); //worl (6,10)
 
-        console.log(s.substring(0, 6)); //hello 
-        console.log(s.substring(-5, -1)); //<empty string>
-        console.log(s.substring(-1, 6)); //hello 
-
-        console.log(s.substr(0, 5)); //hello
-        console.log(s.substr(-5, 5)); //world
-        console.log(s.substr(-3, -1)); //<empty string>
-
-        //split()
-        console.log(s.split()); //[ "hello world" ]
-        console.log(s.split('')); //[ "h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d" ]
         
-        
-
-
-
-
-
-
-
-
-
         /*
         字符串常用方法总结
         charAt()
@@ -92,6 +68,36 @@
         返回用字符串表示的特定对象。重写 Object.prototype.toString 方法
 
         */
+
+
+
+        //一些方法对比
+        var s = "hello world";
+        console.log(s.slice(0, 6)); //hello 
+        console.log(s.slice(-5, -1)); //worl (6,10)
+
+        console.log(s.substring(0, 6)); //hello 
+        console.log(s.substring(-5, -1)); //<empty string>
+        console.log(s.substring(-1, 6)); //hello 
+
+        console.log(s.substr(0, 5)); //hello
+        console.log(s.substr(-5, 5)); //world
+        console.log(s.substr(-3, -1)); //<empty string>
+
+        //split()
+        console.log(s.split()); //[ "hello world" ]
+        console.log(s.split('')); //[ "h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d" ]
+        
+        
+
+
+
+
+
+
+
+
+
     </script>
 </head>
 

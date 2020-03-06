@@ -7,14 +7,15 @@
     <script>
         /*
      JS变量类型:
-	基本类型（原始值）：字符串（String）、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol（独一无二的值）
+	基本类型（原始值）：字符串(String)、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol（独一无二的值）
      存储在栈（stack）中的简单数据段，也就是说，它们的值直接存储在变量访问的位置。
 
-    引用数据类型（引用值）：对象(Object)、数组(Array)、函数(Function) （正则的typeof是对象或者函数，所以应该是引用类型吧）
+    引用数据类型（引用值）：对象(Object)、数组(Array)、日期(Date)、正则(RegExp)、函数(Function) 
+           基本包装类型：字符串(String)、数字(Number)、布尔(Boolean)
      存储在堆（heap）中的对象，也就是说，存储在变量处的值是一个指针（point），指向存储对象的内存处。
     */
 
-        //undefined ：可理解为此处本该有个值，但是还没有定义
+        //undefined ：所有没有赋值变量的默认值，自动赋值。
         //1.变量被声明但未初始化时为undefined
         var a;
         console.log(a == undefined); //true
@@ -41,13 +42,14 @@
 
 
         //null
-        //用于表示尚未存在的对象（对象的占位符）
+        //用于表示尚未存在的对象（对象的占位符），或主动释放一个变量引用的对象，表示一个变量不再指向任何对象地址
         //值 undefined 实际上是从值 null 派生来的，因此 ECMAScript 把它们定义为相等的。
         console.log(undefined == null); //true
         console.log(undefined === null); //false
+        //当使用完一个比较大的对象时，需要对其进行释放内存时，设置为 null。
 
         //undefined和null的区分
-        //1.两者均为基本类型（原始值），但数据类型不同
+        //1.两者均为基本类型（原始值），保存在栈中，但数据类型不同
         console.log(typeof undefined);//'undefined'
         console.log(typeof null);//'object'
         /*

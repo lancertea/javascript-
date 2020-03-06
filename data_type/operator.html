@@ -17,15 +17,15 @@
             b = 20,
             c = --a + b,
             d = a + b;
-        console.log(c);//21
-        console.log(d);//21
+        console.log(c); //21
+        console.log(d); //21
 
         var a = 2,
             b = 20,
             c = a-- + b,
             d = a + b;
-        console.log(c);//22
-        console.log(d);//21
+        console.log(c); //22
+        console.log(d); //21
 
 
 
@@ -38,16 +38,16 @@
         在对特殊的NaN和Infinity值应用位操作时，这两个值都会被当成0处理
         对非数值应用位操作时，会使用Number()将该值转换为一个数值，然后再进行位操作
         */
-        console.log(~NaN);//-1  ~(0000)->FFFF
-        console.log(~Infinity);//-1
-        console.log(~-Infinity);//-1
-        console.log(NaN&Infinity);//0 (0000)&(0000)
+        console.log(~NaN); //-1  ~(0000)->FFFF
+        console.log(~Infinity); //-1
+        console.log(~-Infinity); //-1
+        console.log(NaN & Infinity); //0 (0000)&(0000)
         /*
         左移<<,最右边补0
         有符号右移>>,最左边补符号位
         无符号右移>>>，最左边补0 ，会把负数的二进制当成正数的二进制码
         */
-        console.log(-2>>>2); //1073741823
+        console.log(-2 >>> 2); //1073741823
 
 
 
@@ -67,25 +67,27 @@
         3.如果两个操作数都是null/NaN/undefined，则返回null/NaN/undefined
         (同时有很多个null/NaN/undefined以最后一个为主，如果有Boolean()转换为true的值和null/NaN/undefined一起，则返回前者)
         */
-        console.log({}&&3);//3
-        console.log(1&&{});//{}
-        console.log({}&&{a:11});//{a:11}
-        console.log(null&&1);//null
-        console.log(null&&undefined);//null
-        console.log(undefined&&null);//undefined
-        console.log(3&&undefined&&null);//undefined
-        console.log(undefined&&null&&3);//undefined
+        console.log({} && 3); //3
+        console.log(1 && {}); //{}
+        console.log({} && {
+            a: 11
+        }); //{a:11}
+        console.log(null && 1); //null
+        console.log(null && undefined); //null
+        console.log(undefined && null); //undefined
+        console.log(3 && undefined && null); //undefined
+        console.log(undefined && null && 3); //undefined
 
-        console.log({}||0);//{}
-        console.log(null||3);//3
-        console.log(null||null);//null
-        console.log(null||undefined);//undefined
-        console.log(undefined||null);//null
-        console.log(3||undefined||null);//3
-        console.log(undefined||null||3);//3
-        
-        
-        
+        console.log({} || 0); //{}
+        console.log(null || 3); //3
+        console.log(null || null); //null
+        console.log(null || undefined); //undefined
+        console.log(undefined || null); //null
+        console.log(3 || undefined || null); //3
+        console.log(undefined || null || 3); //3
+
+
+
         /*
         乘性操作符
         如果参与乘法计算的操作数不是数值，后台会先使用Number()转型函数将其转换为数值
@@ -104,24 +106,24 @@
         3.有效数值%Infinity为其本身
         4.非零有限数%0为NaN
         */
-        console.log(Infinity*0);//NaN
-        console.log(Infinity*1);//Infinity
-        console.log(Infinity*Infinity);//Infinity
+        console.log(Infinity * 0); //NaN
+        console.log(Infinity * 1); //Infinity
+        console.log(Infinity * Infinity); //Infinity
 
-        console.log(7/2);//3.5而不是3
-        console.log(Infinity/0);//Infinity
-        console.log(Infinity/6);//Infinity
-        console.log(Infinity/Infinity);//NaN
-        console.log(0/0);//NaN
-        console.log(3/0);//Infinity
-        
-        console.log(0%NaN);//NaN
-        console.log(Infinity%3);//NaN
-        console.log(Infinity%0);//NaN
-        console.log(Infinity%Infinity);//NaN
-        console.log(0%Infinity);//0
-        console.log(3%Infinity);//3
-        console.log(3%0);//NaN
+        console.log(7 / 2); //3.5而不是3
+        console.log(Infinity / 0); //Infinity
+        console.log(Infinity / 6); //Infinity
+        console.log(Infinity / Infinity); //NaN
+        console.log(0 / 0); //NaN
+        console.log(3 / 0); //Infinity
+
+        console.log(0 % NaN); //NaN
+        console.log(Infinity % 3); //NaN
+        console.log(Infinity % 0); //NaN
+        console.log(Infinity % Infinity); //NaN
+        console.log(0 % Infinity); //0
+        console.log(3 % Infinity); //3
+        console.log(3 % 0); //NaN
 
 
 
@@ -164,9 +166,9 @@
         5.如果一个操作数是布尔值，则将其转换为数值，再进行比较 
         6.NaN是非常特殊的值，它不和任何类型的值相等，包括它自己，所以它与任何类型的值比较大小时结果都为false。
         */
-        
-        
-        
+
+
+
         /*
          ==操作符
          如果对比双方的类型不一样的话，就会进行类型转换
@@ -241,6 +243,8 @@
         console.log(NaN == NaN); //false
         console.log(NaN != NaN); //true
 
+
+
         /*
         === 操作符
         不转类型，直接判断类型和值是否相同。 但是 NaN === NaN 还是false
@@ -259,12 +263,10 @@
         console.log([1, 2] + [2, 1]); //"1,22,1"
 
         //console.log("a"++"b"); 'aNaN'
-        //后边的“+”将作为一元操作符，如果操作数是字符串，将调用Number方法将该操作数转为数值，如果操作数无法转为数值，则为NaN。
-
+        //后边的“+”将作为一元操作符，如果操作数是字符串，将调用Number()方法将该操作数转为数值，如果操作数无法转为数值，则为NaN。
 
         console.log('8' + 3 + 5); //'835'
         console.log(3 + 5 + '8'); //'88'
-
     </script>
 </head>
 
