@@ -8,6 +8,166 @@
     <title>操作符</title>
     <script>
         /*
+        一元操作符(只能操作一个值的操作符)包括
+        递增递减操作符（包括前置和后置）、一元加和减操作符
+        在对非数值应用一元操作符时，该操作符会像Number()转型函数一样对这个值执行转换
+        */
+        //前置、后置型递增、递减
+        var a = 2,
+            b = 20,
+            c = --a + b,
+            d = a + b;
+        console.log(c);//21
+        console.log(d);//21
+
+        var a = 2,
+            b = 20,
+            c = a-- + b,
+            d = a + b;
+        console.log(c);//22
+        console.log(d);//21
+
+
+
+        /*
+        位操作符
+        ~、&、|、^、<<、>>、>>>
+        ECMAScript中的所有数值都以IEEE75464位格式存储的，但位操作符并不直接操作64位的值，而是先将64位的值转换成32位的整数，
+        然后执行操作，最后再将结果转换为64位。对于开发人员来说，由于64位存储格式是透明的，因此整个过程就像是只存在32位的整数一样
+
+        在对特殊的NaN和Infinity值应用位操作时，这两个值都会被当成0处理
+        对非数值应用位操作时，会使用Number()将该值转换为一个数值，然后再进行位操作
+        */
+        console.log(~NaN);//-1  ~(0000)->FFFF
+        console.log(~Infinity);//-1
+        console.log(~-Infinity);//-1
+        console.log(NaN&Infinity);//0 (0000)&(0000)
+        /*
+        左移<<,最右边补0
+        有符号右移>>,最左边补符号位
+        无符号右移>>>，最左边补0 ，会把负数的二进制当成正数的二进制码
+        */
+        console.log(-2>>>2); //1073741823
+
+
+
+        /*
+        布尔操作符
+        逻辑非操作符（！）会将操作数转换为一个布尔值（Boolean()），再进行运算
+        &&、||具备好短路性，在有一个操作数不是布尔值的情况下，不一定返回布尔值：
+        &&：
+        1.如果第一个操作数为对象，则返回第二个操作数
+        2.如果第二个操作数为对象，只有在第一个操作数求值结果为true的情况下才会返回该对象
+        3.如果两个操作数都是对象，则返回第二个操作数
+        4.如果有一个操作数是null/NaN/undefined，则返回null/NaN/undefined。(同时有很多个null/NaN/undefined以第一个为主)
+
+        ||:
+        1.如果第一个操作数为对象，则返回第一个操作数
+        2.如果第一个操作数求值结果为false，则返回第二个操作数
+        3.如果两个操作数都是null/NaN/undefined，则返回null/NaN/undefined
+        (同时有很多个null/NaN/undefined以最后一个为主，如果有Boolean()转换为true的值和null/NaN/undefined一起，则返回前者)
+        */
+        console.log({}&&3);//3
+        console.log(1&&{});//{}
+        console.log({}&&{a:11});//{a:11}
+        console.log(null&&1);//null
+        console.log(null&&undefined);//null
+        console.log(undefined&&null);//undefined
+        console.log(3&&undefined&&null);//undefined
+        console.log(undefined&&null&&3);//undefined
+
+        console.log({}||0);//{}
+        console.log(null||3);//3
+        console.log(null||null);//null
+        console.log(null||undefined);//undefined
+        console.log(undefined||null);//null
+        console.log(3||undefined||null);//3
+        console.log(undefined||null||3);//3
+        
+        
+        
+        /*
+        乘性操作符
+        如果参与乘法计算的操作数不是数值，后台会先使用Number()转型函数将其转换为数值
+        乘法：*
+        1.如果有一个操作数是NaN，则结果是NaN
+        2.Infinity*0为NaN，Infinity*非零为Infinity，Infinity*Infinity为Infinity
+
+        除法：/
+        1.如果有一个操作数是NaN，则结果是NaN
+        2.Infinity/0为Infinity，Infinity/非零为Infinity，Infinity/Infinity为NaN
+        3.0/0为NaN，非零有限数/0为Infinity
+
+        求模:%
+        1.如果有一个操作数是NaN，则结果是NaN
+        2.Infinity%任何数均为NaN
+        3.有效数值%Infinity为其本身
+        4.非零有限数%0为NaN
+        */
+        console.log(Infinity*0);//NaN
+        console.log(Infinity*1);//Infinity
+        console.log(Infinity*Infinity);//Infinity
+
+        console.log(7/2);//3.5而不是3
+        console.log(Infinity/0);//Infinity
+        console.log(Infinity/6);//Infinity
+        console.log(Infinity/Infinity);//NaN
+        console.log(0/0);//NaN
+        console.log(3/0);//Infinity
+        
+        console.log(0%NaN);//NaN
+        console.log(Infinity%3);//NaN
+        console.log(Infinity%0);//NaN
+        console.log(Infinity%Infinity);//NaN
+        console.log(0%Infinity);//0
+        console.log(3%Infinity);//3
+        console.log(3%0);//NaN
+
+
+
+        /*
+        加性操作符
+
+        加法操作符在Javascript也用于字符串连接，所以加法操作符的规则分两种情况：
+        如果两个操作数都是数值，其规则为：
+       1.如果一个操作数为NaN，则结果为NaN
+       2.Infinity+Infinity结果为Infinity ，-Infinity+(-Infinity)结果为-Infinity，Infinity+(-Infinity)结果为NaN
+       3.+0+(+0)结果为+0，(-0)+(-0)结果为-0，(+0)+(-0)结果为+0
+
+         如果有一个操作数为字符串，则：
+       1.如果两个操作数都是字符串，则将它们拼接起来 
+       2.如果只有一个操作数为字符串，则将另一个也转换为字符串，然后拼接起来
+       如果一个操作数是对象、数值或者布尔值，则调用toString()方法取得相应字符串值，然后再应用前面的字符串规则。
+       对于undefined和null，则分别调用String()显式转换为字符串。 
+       总结为：加法运算中，如果有一个操作数为字符串类型，则将另一个操作数转换为字符串，连接起来。
+
+        减法操作符
+        如果两个操作数都是数值，其规则为：
+        1.如果一个操作数为NaN，则结果为NaN
+        2.Infinity-Infinity结果为NaN ，-Infinity-(-Infinity)结果为NaN，Infinity-(-Infinity)结果为Infinity，-Infinity-Infinity结果为-Infinity
+        3.+0-(+0)结果为+0，(-0)-(-0)结果为+0，(+0)-(-0)结果为-0
+
+        如果有一个操作数为字符串、布尔值、null或undefined，则现在后台调用Number()转型函数将其转换为数值再根据前面规则计算
+        如果一个操作数是对象，则调用对象的valueOf()方法以取得该对象的数值，如果得到的结果是NaN，则减法结果为NaN。
+        如果对象没有valueOf()方法，则调用toString()方法并将得到的字符串转换为数值
+        */
+
+
+
+        /*
+        关系操作符
+        <、>、<=、>=
+        1.如果两个操作数都是数值，则进行数值比较
+        2.如果两个操作数都是字符串，则比较字符串对应的字符编码值
+        3.如果只有一个操作数是数值，则将另一个操作数转换为数值，进行数值比较
+        4.如果一个操作数是对象，则调用valueOf()方法（如果对象没有valueOf()方法则调用toString()方法），得到的结果按照前面的规则执行比较
+        5.如果一个操作数是布尔值，则将其转换为数值，再进行比较 
+        6.NaN是非常特殊的值，它不和任何类型的值相等，包括它自己，所以它与任何类型的值比较大小时结果都为false。
+        */
+        
+        
+        
+        /*
          ==操作符
          如果对比双方的类型不一样的话，就会进行类型转换
          1.首先会判断两者类型是否相同。相同的话就是比大小了
@@ -28,16 +188,16 @@
         console.log(undefined == 0); //false
         console.log(null == 0); //false
 
-        /*（5）判断其中一方是否为 object 且另一方为 string、number 或者 symbol，是的话就会把 object 转为原始类型再进行判断
-           '1' == { a: 'b' }
-                  ↓
-          '1' == '[object Object]'
-        */
+        //（5）判断其中一方是否为 object 且另一方不是object，是的话调用对象的 valueOf()方法 转为原始类型再进行判断
         console.log('1' == {
             a: "b"
         }); //false
 
         console.log('1' == {
+            a: 1
+        }); //false
+
+        console.log(1 == {
             a: 1
         }); //false
 
@@ -48,7 +208,7 @@
         var a = {};
         console.log(a == true); //false
         console.log(a == false); //false
-        //因为 a.toString() -> '[object Object]' -> NaN
+        //因为 a.valueOf() -> NaN 
 
 
         //（6）两边都是对象的话，那么只要不是同一对象的不同引用，都为false
@@ -87,13 +247,6 @@
         */
 
 
-
-        /*
-        console.log(!!(new Boolean(false)))输出什么 
-        */
-        console.log(!!(new Boolean(false))); //true
-        console.log((new Boolean(false)).valueOf()); //false
-
         /*
         易错点
         */
@@ -111,12 +264,7 @@
 
         console.log('8' + 3 + 5); //'835'
         console.log(3 + 5 + '8'); //'88'
-        /*
-         幂：**
-         x ** y 产生的结果与 Math.pow(x,y) 相同
 
-         7/2=3.5 不等于3
-        */
     </script>
 </head>
 

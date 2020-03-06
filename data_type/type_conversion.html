@@ -3,27 +3,37 @@
 
 <head>
     <meta charset="utf-8">
-    <title>类型转换</title>
+    <title>基本类型（Undefined、Null、Number）及类型转换</title>
     <script>
         /*
-JS变量类型:
+     JS变量类型:
 	基本类型（原始值）：字符串（String）、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol（独一无二的值）
      存储在栈（stack）中的简单数据段，也就是说，它们的值直接存储在变量访问的位置。
 
     引用数据类型（引用值）：对象(Object)、数组(Array)、函数(Function) （正则的typeof是对象或者函数，所以应该是引用类型吧）
      存储在堆（heap）中的对象，也就是说，存储在变量处的值是一个指针（point），指向存储对象的内存处。
-*/
+    */
 
-        //undefined
-        //变量未声明或未初始化，值为“undefined”
+        //undefined ：可理解为此处本该有个值，但是还没有定义
+        //1.变量被声明但未初始化时为undefined
         var a;
         console.log(a == undefined); //true
         console.log(a === undefined); //true
 
-        console.log(typeof b); //undefined
+        //2.未声明的变量,数据类型为'undefined'
+        console.log(typeof b); //'undefined'
         //console.log(b==undefined); b未声明，报错
 
-        //当函数无明确返回值时，返回的也是值“undefined”
+        //3.数组没有赋值的位置，也为undefined
+        var b = [1, 2];
+        b[4] = 3;
+        console.log(b); //[ 1, 2, undefined, undefined, 3 ]
+        
+        //4.对象没有赋值的属性，也为undefined
+        var obj={};
+        console.log(obj.name);//undefined
+        
+        //5.当函数无明确返回值时，默认返回undefined
         function c() {}
         console.log(c() == undefined); //true
         console.log(c() === undefined); //true
@@ -36,11 +46,36 @@ JS变量类型:
         console.log(undefined == null); //true
         console.log(undefined === null); //false
 
+        //undefined和null的区分
+        //1.两者均为基本类型（原始值），但数据类型不同
+        console.log(typeof undefined);//'undefined'
+        console.log(typeof null);//'object'
+        /*
+        为什么 typeof 运算符对于 null 值会返回 "Object"？
+        这实际上是 JavaScript 最初实现中的一个错误，然后被 ECMAScript 沿用了。现在，null 被认为是对象的占位符，从而解释了这一矛盾，但从技术上来说，它仍然是原始值。
+        */
 
+        //2.转为布尔类型均为false，但转为数值类型不同
+        console.log(Boolean(undefined));//false
+        console.log(Boolean(null));//false
+        console.log(Number(undefined));//NaN
+        console.log(Number(null));//0
+
+        //3.都没有valueOf()和toString()方法，但可通过String()方法转为字符串类型
+        console.log(String(undefined));//'undefined'
+        console.log(String(null));//'null'
+        
+        
 
         //Boolean类型
         //true、false
         //Boolean()转换见下面类型转换
+
+        /*
+        console.log(!!(new Boolean(false)))输出什么 
+        */
+        console.log(!!(new Boolean(false))); //true
+        console.log((new Boolean(false)).valueOf()); //false
 
 
 
@@ -61,29 +96,42 @@ JS变量类型:
 
         当计算生成的数大于 Number.MAX_VALUE 时，它将被赋予值 Number.POSITIVE_INFINITY，意味着不再有数字值。同样，生成的数值小于 Number.MIN_VALUE 的计算
         也会被赋予值 Number.NEGATIVE_INFINITY，也意味着不再有数字值。如果计算返回的是无穷大值，那么生成的结果不能再用于其他计算。Number.POSITIVE_INFINITY 的值为 
-        Infinity。Number.NEGATIVE_INFINITY 的值为 -Infinity。可以对任何数调用 isFinite() 方法，以确保该数不是无穷大
+        Infinity。Number.NEGATIVE_INFINITY 的值为 -Infinity。
+        
+        可以对任何数调用 isFinite() 方法，以确保该数不是无穷大,这个函数在参数位于最小最大数值之间时会返回true
 
         NaN，表示非数（Not a Number）
         任何涉及NaN的操作都会返回NaN
         NaN与任何值都不相等，包括NaN本身
+        
+        可以对任何数调用 isNaN() 方法，以确定这个数是否“不是数值”。isNaN() 在接收到一个值后，会尝试将其转换为数值，不能转换的返回true（相当于调用了Number()）
         */
         console.log(typeof Number.MAX_VALUE); //number
         console.log(typeof Number.MIN_VALUE); //number
         console.log(typeof Infinity); //number
         console.log(typeof NaN); //number
+        console.log(isFinite(NaN)); //false
+        console.log(isFinite(Infinity)); //false
+        console.log(isFinite(Number.MIN_VALUE)); //true
         /*
         另外，数字属性不可用于变量
         数字属性属于名为 number 的 JavaScript 数字对象包装器。
         这些属性只能作为 Number.MAX_VALUE 访问。
         使用 myNumber.MAX_VALUE，其中 myNumber 是变量、表达式或值，将返回 undefined：
         */
-        console.log(Number.NEGATIVE_INFINITY);//-Infinity
-        var x=6;
-        console.log(x.NEGATIVE_INFINITY);//undefined
-        
-        
-        //isNaN()、Number()、parseInt()、parseFloat()转换见下面类型转换
+        console.log(Number.NEGATIVE_INFINITY); //-Infinity
+        var x = 6;
+        console.log(x.NEGATIVE_INFINITY); //undefined
 
+        /*
+        isNaN()、Number()、parseInt()、parseFloat()转换见下面类型转换，前两个方法可用于任何数，后两个多用于字符串
+        以下三个为Number方法：
+        toExponential():返回字符串值，它包含已被四舍五入并使用指数计数法的数字。参数（可选）定义小数点后的字符数
+        
+        toFixed()：返回字符串值，它包含了指定位数小数的数字。参数定义小数点后的字符数
+
+        toPrecision()： 返回字符串值，它包含了指定长度的数字，参数（可选）定义整个数字的长度
+        */
 
 
         /*
@@ -106,7 +154,7 @@ JS变量类型:
         */
         //undefined、null没有valueOf()方法
         // Array：返回数组对象本身
-        var arr = ["CodePlayer", true, 12, -5];//等价于arr=new Array("CodePlayer", true, 12, -5);
+        var arr = ["CodePlayer", true, 12, -5]; //等价于arr=new Array("CodePlayer", true, 12, -5);
         console.log(arr.valueOf() === arr); // true
 
         //三个基本包装类型有两种情况：
@@ -280,31 +328,52 @@ JS变量类型:
         参考：https://blog.csdn.net/u011435776/article/details/90230426
         */
 
+        /*
+        要求能识别所有原始类型，function,  array,  object,  并可以识别包装类
+        */
+        function getType(target) {
+            //先处理最特殊的Null
+            if (target === null) {
+                return 'null';
+            }
+            //判断是不是基础类型
+            const typeOfT = typeof target
+            if (typeOfT !== 'object') {
+                return typeOfT;
+            }
+            //肯定是引用类型了
+            const template = {
+                "[object Object]": "object",
+                "[object Array]": "array",
+                // 一些包装类型
+                "[object String]": "object - string",
+                "[object Number]": "object - number",
+                "[object Boolean]": "object - boolean"
+            };
+            const typeStr = Object.prototype.toString.call(target);
+            return template[typeStr];
+        }
+
 
 
         /*
         类型转换方法总结
         */
         //parseInt()
-        console.log(parseInt('1234blue'));//1234
-        console.log(parseInt(''));//NaN
-        console.log(parseInt('0xa'));//10
-        console.log(parseInt('AF',16));//175
+        console.log(parseInt('1234blue')); //1234
+        console.log(parseInt('')); //NaN
+        console.log(parseInt('0xa')); //10
+        console.log(parseInt('AF', 16)); //175
 
         //parseFloat()
-        console.log(parseFloat('1234blue'));//1234
-        console.log(parseFloat('0xa'));//0
-        console.log(parseFloat('11.22.33'));//11.22
-        console.log(parseFloat('3.125e7'));//31250000
+        console.log(parseFloat('1234blue')); //1234
+        console.log(parseFloat('0xa')); //0
+        console.log(parseFloat('11.22.33')); //11.22
+        console.log(parseFloat('3.125e7')); //31250000
 
-        //NaN()
-        console.log(NaN+5);//NaN
-        console.log(NaN+'5');//'NaN5'
-        
-        
-
-
-        
+        //NaN
+        console.log(NaN + 5); //NaN
+        console.log(NaN + '5'); //'NaN5'
     </script>
 </head>
 
