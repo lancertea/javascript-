@@ -31,22 +31,22 @@
         console.log(c); // 20, 代码执行阶段修改
 
         //变量相对于简单属性来说，变量有一个特性(attribute)：{DontDelete},这个特性的含义就是不能用delete操作符直接删除变量属性。
-        e=10;
-        console.log(window.e);//10 
+        e = 10;
+        console.log(window.e); //10 
 
-        console.log(delete e);//true
+        console.log(delete e); //true
 
-        console.log(window.e);//undefined   另外这里直接输出e,会报错,为什么呢
+        console.log(window.e); //undefined   另外这里直接输出e,会报错,为什么呢
 
-        var f=20;
-        console.log(window.f);//20
+        var f = 20;
+        console.log(window.f); //20
 
-        console.log(delete f);//false
+        console.log(delete f); //false
 
-        console.log(window.f);//20
-        
-        
-        
+        console.log(window.f); //20
+
+
+
         //函数上下文中的变量对象
         function foo(x, y, z) {
 
@@ -81,7 +81,7 @@
         foo(10, 20);
 
 
-        
+
         //函数参数是对象的情况
         function test(person) {
             person.age = 26
@@ -110,7 +110,7 @@
 
 
 
-         /*
+        /*
         call()，apply()，bind()的用法
         https://www.cnblogs.com/Shd-Study/p/6560808.html
         */
@@ -149,16 +149,103 @@
 
             }
         }
-        var db={
-            name:'德玛',
-            age:99
+        var db = {
+            name: '德玛',
+            age: 99
         }
-        obj.myFun.call(db);//'德玛年龄99'
-        obj.myFun.apply(db)//'德玛年龄99'
-        obj.myFun.bind(db)();//'德玛年龄99'
-    //以上除了bind方法后面多了个 () 外 ，结果返回都一致！
-    //由此得出结论，bind 返回的是一个新的函数，你必须调用它才会被执行
-    
+        obj.myFun.call(db); //'德玛年龄99'
+        obj.myFun.apply(db) //'德玛年龄99'
+        obj.myFun.bind(db)(); //'德玛年龄99'
+        //以上除了bind方法后面多了个 () 外 ，结果返回都一致！
+        //由此得出结论，bind 返回的是一个新的函数，你必须调用它才会被执行
+
+
+
+        //hasOwnProperty()
+        // 对象
+        var man = {
+            hands: 2,
+            legs: 2,
+            heads: 1
+        };
+
+        // 一个方法添加给了所有对象
+        if (typeof Object.prototype.clone === "undefined") {
+            Object.prototype.clone = function () {};
+        }
+
+        // 1.
+        // for-in 循环
+        for (var i in man) {
+            if (man.hasOwnProperty(i)) { // 过滤
+                console.log(i, ":", man[i]);
+            }
+        }
+        /* 
+        hands : 2
+        legs : 2
+        heads : 1
+        */
+
+        // 2.
+        // 反面例子:
+        // for-in loop without checking hasOwnProperty()
+        for (var i in man) {
+            console.log(i, ":", man[i]);
+        }
+        /*
+        hands : 2
+        legs : 2
+        heads : 1
+        clone: function()
+        */
+
+        //1的另一种写法：
+        for (var i in man) {
+            if (Object.prototype.hasOwnProperty.call(man, i)) { // 过滤
+                console.log(i, ":", man[i]);
+            }
+        }
+        /* 
+        hands : 2
+        legs : 2
+        heads : 1
+        */
+        //其好处在于在man对象重新定义hasOwnProperty情况下避免命名冲突。也避免了长属性查找对象的所有方法，你可以使用局部变量“缓存”它。
+        var i, hasOwn = Object.prototype.hasOwnProperty;
+        for (i in man) {
+            if (hasOwn.call(man, i)) { // 过滤
+                console.log(i, ":", man[i]);
+            }
+        }
+        /* 
+        hands : 2
+        legs : 2
+        heads : 1
+        */
+
+
+
+        /*
+        eval()
+        当解析器发现代码中调用eval()方法时，它会将传入的参数当作实际的ECMAScript语句来解析，然后把执行结果插入到原位置。
+        */
+        eval('console.log("hi")'); //'hi'
+        //这行代码的作用等价于下面这行
+        console.log("hi"); //'hi'
+
+        //通过eval()执行的代码被认为是包含该次调用的执行环境的一部分，因此被执行的代码具有该执行环境相同的作用域链。
+        var msg = 'hello';
+        eval('console.log(msg)'); //'hello'
+
+        eval('function sayHi(){console.log("hi");}');
+        sayHi(); //'hi'
+
+        //在eval()中创建的任何变量或函数都不会被提升，因为在解析代码的时候，它们被包含在一个字符串中；它们只在eval()执行的时候创建
+        //sayBye();// error,sayBye is not defined
+        eval('function sayBye(){console.log("bye");}');
+   
+   
     </script>
 
 </head>
