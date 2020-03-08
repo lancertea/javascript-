@@ -79,54 +79,7 @@
 
 
 
-        /*
-        call()，apply()，bind()的用法
-        https://www.cnblogs.com/Shd-Study/p/6560808.html
-        */
-        //例1
-        var name = "小王",
-            age = 17;
-        var obj = {
-            name: '小张',
-            objAge: this.age, //this指向全局
-            myFun: function () {
-                console.log(this.name + '年龄' + this.age); //this指向对象
-                console.log(this.name + '年龄' + this.objAge); //this指向对象
-            }
-        }
-        console.log(obj.objAge); //17
-        obj.myFun(); //'小张年龄undefined'
-        //'小张年龄17'
-
-        //例2
-        var fav = 'klaus';
-
-        function shows() {
-            console.log(this.fav); //this指向全局
-
-        }
-        shows() //'klaus'
-
-        //call()，apply()，bind()都是用来重定义this这个对象的
-        var name = "小王",
-            age = 17;
-        var obj = {
-            name: '小张',
-            objAge: this.age, //this指向全局
-            myFun: function () {
-                console.log(this.name + '年龄' + this.age); //this指向对象
-
-            }
-        }
-        var db={
-            name:'德玛',
-            age:99
-        }
-        obj.myFun.call(db);//'德玛年龄99'
-        obj.myFun.apply(db)//'德玛年龄99'
-        obj.myFun.bind(db)();//'德玛年龄99'
-    //以上除了bind方法后面多了个 () 外 ，结果返回都一致！
-    //由此得出结论，bind 返回的是一个新的函数，你必须调用它才会被执行
+       
 
  
 

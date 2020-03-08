@@ -3,8 +3,85 @@
 
 <head>
     <meta charset="utf-8">
-    <title>关于函数的问题</title>
+    <title>function</title>
     <script>
+        /*
+        变量声明
+        通常，各类文章和JavaScript相关的书籍都声称：“不管是使用var关键字(在全局上下文)还是不使用var关键字(在任何地方)，都可以声明一个变量”。
+        请记住，这是错误的概念：任何时候，变量只能通过使用var关键字才能声明。
+
+        a=10;
+        这仅仅是给全局对象创建了一个新属性(但它不是变量)。“不是变量”并不是说它不能被改变，而是指它不符合ECMAScript规范中的变量概念，
+        所以它“不是变量”(它之所以能成为全局对象的属性，完全是因为VO(globalContext) === global)。
+        */
+        console.log(a); //undefined
+        //console.log(b); 报错，'b'没有声明
+        //因为“b”不是一个变量，所以在这个阶段根本就没有“b”，“b”将只在代码执行阶段才会出现(但是在这个例子里，还没有到那就已经出错了)。
+
+        b = 10;
+        var a = 20;
+
+        //修改一下：
+        console.log(c); // undefined
+
+        d = 10;
+        console.log(d); // 10, 代码执行阶段创建
+
+        var c = 20;
+        console.log(c); // 20, 代码执行阶段修改
+
+        //变量相对于简单属性来说，变量有一个特性(attribute)：{DontDelete},这个特性的含义就是不能用delete操作符直接删除变量属性。
+        e=10;
+        console.log(window.e);//10 
+
+        console.log(delete e);//true
+
+        console.log(window.e);//undefined   另外这里直接输出e,会报错,为什么呢
+
+        var f=20;
+        console.log(window.f);//20
+
+        console.log(delete f);//false
+
+        console.log(window.f);//20
+        
+        
+        
+        //函数上下文中的变量对象
+        function foo(x, y, z) {
+
+            // 声明的函数参数数量arguments (x, y, z)
+            console.log(foo.length); // 3
+
+            // 真正传进来的参数个数(only x, y)
+            console.log(arguments.length); // 2
+
+            // 参数的callee是函数自身
+            console.log(arguments.callee === foo); // true
+
+            // 参数共享
+            console.log(x === arguments[0]); // true
+            console.log(x); // 10
+
+            arguments[0] = 20;
+            console.log(x); // 20
+
+            x = 30;
+            console.log(arguments[0]); // 30
+
+            // 不过，没有传进来的参数z，和参数的第3个索引值是不共享的
+            z = 40;
+            console.log(arguments[2]); // undefined
+
+            arguments[2] = 50;
+            console.log(z); // 40
+
+        }
+
+        foo(10, 20);
+
+
+        
         //函数参数是对象的情况
         function test(person) {
             person.age = 26
@@ -23,15 +100,65 @@
         //p1是引用，在调用test后，首先将p1的属性age改成了26
         console.log(p1) // -> {name: "hy", age: 26}
         console.log(p2) // -> {name: "yyy", age: 30}
-        
+
         //有括号，返回函数调用的结果
-        var p=test('jack'),
-        //无括号，返回函数自身
-            t=test;
-            console.log(p);// -> {name: "yyy", age: 30}
-            console.log(t);
-            
-            
+        var p = test('jack'),
+            //无括号，返回函数自身
+            t = test;
+        console.log(p); // -> {name: "yyy", age: 30}
+        console.log(t);
+
+
+
+         /*
+        call()，apply()，bind()的用法
+        https://www.cnblogs.com/Shd-Study/p/6560808.html
+        */
+        //例1
+        var name = "小王",
+            age = 17;
+        var obj = {
+            name: '小张',
+            objAge: this.age, //this指向全局
+            myFun: function () {
+                console.log(this.name + '年龄' + this.age); //this指向对象
+                console.log(this.name + '年龄' + this.objAge); //this指向对象
+            }
+        }
+        console.log(obj.objAge); //17
+        obj.myFun(); //'小张年龄undefined'
+        //'小张年龄17'
+
+        //例2
+        var fav = 'klaus';
+
+        function shows() {
+            console.log(this.fav); //this指向全局
+
+        }
+        shows() //'klaus'
+
+        //call()，apply()，bind()都是用来重定义this这个对象的
+        var name = "小王",
+            age = 17;
+        var obj = {
+            name: '小张',
+            objAge: this.age, //this指向全局
+            myFun: function () {
+                console.log(this.name + '年龄' + this.age); //this指向对象
+
+            }
+        }
+        var db={
+            name:'德玛',
+            age:99
+        }
+        obj.myFun.call(db);//'德玛年龄99'
+        obj.myFun.apply(db)//'德玛年龄99'
+        obj.myFun.bind(db)();//'德玛年龄99'
+    //以上除了bind方法后面多了个 () 外 ，结果返回都一致！
+    //由此得出结论，bind 返回的是一个新的函数，你必须调用它才会被执行
+    
     </script>
 
 </head>
