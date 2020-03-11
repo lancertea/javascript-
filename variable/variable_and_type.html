@@ -15,6 +15,19 @@
      存储在堆（heap）中的对象，也就是说，存储在变量处的值是一个指针（point），指向存储对象的内存处。
     */
 
+    /*
+           1 与 Number(1)有什么区别
+        */
+        var a = new Number(1);
+        console.log(typeof 1); //number
+        console.log(typeof a); //object
+        console.log(1 == a); //true
+        console.log(1 instanceof Number); //false
+        console.log(a instanceof Number); //true
+        console.log(1 === a); //false
+
+        
+
         //undefined ：所有没有赋值变量的默认值，自动赋值。
         //1.变量被声明但未初始化时为undefined
         var a;
@@ -141,16 +154,7 @@
         */
 
 
-        /*
-           1 与 Number(1)有什么区别
-        */
-        var a = new Number(1);
-        console.log(typeof 1); //number
-        console.log(typeof a); //object
-        console.log(1 == a); //true
-        console.log(1 instanceof Number); //false
-        console.log(a instanceof Number); //true
-        console.log(1 === a); //false
+        
 
 
 
