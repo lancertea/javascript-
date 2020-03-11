@@ -15,9 +15,9 @@
      存储在堆（heap）中的对象，也就是说，存储在变量处的值是一个指针（point），指向存储对象的内存处。
     */
 
-    /*
-           1 与 Number(1)有什么区别
-        */
+        /*
+               1 与 Number(1)有什么区别
+            */
         var a = new Number(1);
         console.log(typeof 1); //number
         console.log(typeof a); //object
@@ -26,7 +26,7 @@
         console.log(a instanceof Number); //true
         console.log(1 === a); //false
 
-        
+
 
         //undefined ：所有没有赋值变量的默认值，自动赋值。
         //1.变量被声明但未初始化时为undefined
@@ -51,7 +51,6 @@
         function c() {}
         console.log(c() == undefined); //true
         console.log(c() === undefined); //true
-
 
 
         //null
@@ -154,9 +153,6 @@
         */
 
 
-        
-
-
 
         /*
         valueOf()用于返回指定对象的原始值
@@ -164,11 +160,8 @@
         JavaScript的许多内置对象都重写了该函数，以实现更适合自身的功能需要。因此，不同类型对象的valueOf()方法的返回值和返回值类型均可能不同。
         */
         //undefined、null没有valueOf()方法
-        // Array：返回数组对象本身
-        var arr = ["CodePlayer", true, 12, -5]; //等价于arr=new Array("CodePlayer", true, 12, -5);
-        console.log(arr.valueOf() === arr); // true
-        
-        //三个基本包装类型有两种情况：
+
+        //三个基本包装类型返回其基本类型值：
         // 布尔：返回布尔值true或false
         var bool = true;
         console.log(bool.valueOf() === bool); // true
@@ -193,9 +186,10 @@
         var num1 = new Number(12); //道理同上
         console.log(num1.valueOf() === num1); //false
 
-        // Date：当前时间距1970年1月1日午夜的毫秒数
-        var date = new Date(2013, 7, 18, 23, 11, 59, 230);
-        console.log(date.valueOf()); // 1376838719230
+        //Array、Function、Object返回其本身
+        // Array：返回数组对象本身
+        var arr = ["CodePlayer", true, 12, -5]; //等价于arr=new Array("CodePlayer", true, 12, -5);
+        console.log(arr.valueOf() === arr); // true
 
         // Function：返回函数本身
         function foo() {}
@@ -209,6 +203,13 @@
             age: 18
         };
         console.log(obj.valueOf() === obj); // true
+
+        //RegExp:返回正则表达式字面量的字符串表示
+        console.log(/ab/g.valueOf()); ///ab/g
+
+        // Date：当前时间距1970年1月1日午夜的毫秒数
+        var date = new Date(2013, 7, 18, 23, 11, 59, 230);
+        console.log(date.valueOf()); // 1376838719230
         /*
         参考：https://blog.csdn.net/celi_echo/article/details/100038366
         */
@@ -219,13 +220,13 @@
         toString()用来返回该对象的字符串
         */
         //undefined、null没有toString()方法
-        //Boolean类型：根据原始布尔值或者 booleanObject 对象的值返回字符串 "true" 或 "false"。
+        //Boolean：根据原始布尔值或者 booleanObject 对象的值返回字符串 "true" 或 "false"。
         console.log(true.toString()); //'true'
         var bool = new Boolean(true);
         console.log(bool.toString()); //'true'
         console.log(bool.toString() === bool); //false
 
-        //String类型原值返回
+        //String:原值返回
         console.log('123'.toString()); //'123'stringObject 的原始字符串值。一般不会调用该方法
         var str = new String("hello");
         console.log(str.toString()); //"hello"
@@ -255,15 +256,11 @@
         console.log((+1.2).toString()); //'1.2'
         console.log((-1.2).toString()); //'-1.2'
 
-        //Date类型 把 Date 对象转换为字符串
-        var date = new Date(2013, 7, 18, 23, 11, 59, 230);
-        console.log(date.toString()); // 'Sun Aug 18 2013 23:11:59 GMT+0800 (中国标准时间)'
-
-        // Array类型  把数组转换为由数组中每个值的字符串形式拼接而成的一个以逗号分隔的字符串
+        // Array: 把数组转换为由数组中每个值的字符串形式拼接而成的一个以逗号分隔的字符串
         var arr = ["CodePlayer", true, 12, -5];
         console.log(arr.toString()); // 'CodePlayer,true,12,-5'
 
-        //Function类型：把整个函数转换为字符串（返回函数代码）
+        //Function：把整个函数转换为字符串（返回函数代码）
         function test() {
             alert(1); //test
         }
@@ -272,8 +269,12 @@
              alert(1);//test
         } */
 
-        //RegExp类型:返回正则表达式字面量的字符串表示
+        //RegExp:返回正则表达式字面量的字符串表示
         console.log(/ab/g.toString()); //'/ab/g'
+
+        //Date: 把 Date 对象转换为字符串
+        var date = new Date(2013, 7, 18, 23, 11, 59, 230);
+        console.log(date.toString()); // 'Sun Aug 18 2013 23:11:59 GMT+0800 (中国标准时间)'
 
         //Object类型及自定义对象类型:返回[object Object]
         console.log({}.toString()); //'[object Object]'
@@ -291,9 +292,9 @@
         /*
         参考：https://blog.csdn.net/u011435776/article/details/90230426
         */
-        
-       
-       
+
+
+
         /*
         类型识别
         使用Object.prototype.toString()来进行类型识别，返回代表该对象的[object 数据类型]字符串表示
