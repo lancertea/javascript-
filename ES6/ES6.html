@@ -159,7 +159,7 @@
             [3, 'z']
         ]);
         m.forEach(function (value, key, map) {
-            console.log(key+':'+value);
+            console.log(key + ':' + value);
         });
         //如果对某些参数不感兴趣，由于JavaScript的函数调用不要求参数必须一致，因此可以忽略它们。例如，只需要获得Array的element：
         var a = ['A', 'B', 'C'];
@@ -167,6 +167,30 @@
             console.log(element);
         });
 
+
+        //函数传入多余的参数：rest
+        //rest参数只能写在最后，前面用...标识
+        function foo(a, b, ...rest) {
+            console.log('a = ' + a);
+            console.log('b = ' + b);
+            console.log(rest);
+            console.log(arguments);
+            
+        }
+
+        foo(1, 2, 3, 4, 5);
+        // 结果:
+        // a = 1
+        // b = 2
+        // Array [ 3, 4, 5 ]
+        //Arguments { 0: 1, 1: 2, 2: 3, 3: 4, 4: 5, … } 非数组！！
+
+        foo(1);
+        // 结果:
+        // a = 1
+        // b = undefined
+        // Array []
+        //Arguments { 0: 1, … }
     </script>
 </head>
 
