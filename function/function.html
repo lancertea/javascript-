@@ -115,7 +115,12 @@
 
 
         /*
-        call()，apply()，bind()的用法
+        call()，apply()，bind()的用法：控制this的指向
+        apply()：它接收两个参数，第一个参数就是需要绑定的this变量，第二个参数是Array，表示函数本身的参数
+        call():与apply()类似，区别是apply()把参数打包成Array再传入，call()把参数按顺序传入
+
+
+        对普通函数调用，我们通常把this绑定为null。
         https://www.cnblogs.com/Shd-Study/p/6560808.html
         */
         //例1

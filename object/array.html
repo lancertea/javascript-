@@ -30,30 +30,30 @@
 
 
         //判断一个数据是不是数组
-        var arr=[1,2,3];
-        var obj={};
+        var arr = [1, 2, 3];
+        var obj = {};
         //1.Array.isArray(obj)
         //ECMAScript 5种的函数，当使用ie8的时候就会出现问题
-        console.log(Array.isArray(arr));//true
-        console.log(Array.isArray(obj));//false
+        console.log(Array.isArray(arr)); //true
+        console.log(Array.isArray(obj)); //false
 
         //2.obj instanceof Array
         //当用来检测在不同的window或iframe里构造的数组时会失败。这是因为每一个iframe都有它自己的执行环境，彼此之间并不共享原型链，
         //所以此时的判断一个对象是否为数组就会失败。
-        console.log(arr instanceof Array);//true
-        console.log(obj instanceof Array);//false
+        console.log(arr instanceof Array); //true
+        console.log(obj instanceof Array); //false
 
         //3.Object.prototype.toString.call(obj) == '[object Array]' 
-        console.log(Object.prototype.toString.call(arr) == '[object Array]' );//true
-        
+        console.log(Object.prototype.toString.call(arr) == '[object Array]'); //true
+
         //4.obj.constructor === Array
-        console.log(arr.constructor === Array);//true
+        console.log(arr.constructor === Array); //true
         //5
         function isArr(x) {
             return x.constructor.toString().indexOf("Array") > -1;
         }
-        console.log(isArr(arr));//true
-        
+        console.log(isArr(arr)); //true
+
 
 
         //复制数组的方法
@@ -148,25 +148,54 @@
 
 
         //数组去重的方法
+        //1.Set()
         var arr = [1, 2, 3, 3, 4];
         console.log(...new Set(arr)); //1,2,3,4
         console.log([...new Set(arr)]); //[1,2,3,4]
-        
+
         function dedupe(array) {
             return Array.from(new Set(array));
 
         }
 
-        console.log(dedupe(arr));//[1,2,3,4]
-        
+        console.log(dedupe(arr)); //[1,2,3,4]
+
+        //2.filter()
+        //filter()接收的回调函数，其实可以有多个参数。通常我们仅使用第一个参数，表示Array的某个元素。
+        //回调函数还可以接收另外两个参数，表示元素的位置和数组本身：
+        var arr = ['A', 'B', 'C'];
+        var r = arr.filter(function (element, index, self) {
+            console.log(element); // 依次打印'A', 'B', 'C'
+            console.log(index); // 依次打印0, 1, 2
+            console.log(self); // self就是变量arr
+        });
+        //去除重复元素依靠的是indexOf总是返回第一个元素的位置，后续的重复元素位置与indexOf返回的位置不相等，因此被filter滤掉了。
+        var
+            r,
+            arr = ['apple', 'strawberry', 'banana', 'pear', 'apple', 'orange', 'orange', 'strawberry'];
+        r = arr.filter(function (element, index, self) {
+            return self.indexOf(element) === index;
+        });
+        console.log(r); //['apple', 'strawberry', 'banana', 'pear',  'orange']
+
 
 
         /*
-        数组和布尔
+        过滤数组
         有时我们需要过滤数组中值为 false 的值. 例如(0, undefined, null, false)，可传入一个 Boolean 函数
         */
-        var arr = [1, 0, undefined, null, false];
-        console.log(arr.filter(Boolean)); //[1]
+        var arr = [1, 0, undefined, null, false, ''];
+        console.log(arr.filter(Boolean)); //[1] Boolean()对' '、{}为true,无法过滤
+
+        var arr1 = [1, 0, undefined, null, false, '', ' ', {}];
+        // var r = arr.filter(function (s) {
+        //     return s && s.trim();
+        // });
+
+        console.log(arr1.filter(Number)); //[1]
+
+
+
 
         /*
         concat()方法
