@@ -121,22 +121,22 @@
         //3.Object.keys()  取得对象上所有可枚举的实例属性
         //接收一个对象作为参数，返回一个包含所有可枚举属性的字符串数组
         var p = Object.keys(Obj1);
-        console.log(p);//[]
+        console.log(p); //[]
         var p1 = Object.keys(o4);
-        console.log(p1);//[ "name", "num" ]
+        console.log(p1); //[ "name", "num" ]
         var p2 = Object.keys(Obj1.prototype);
-        console.log(p2);//[ "age", "arr" ]
-       
+        console.log(p2); //[ "age", "arr" ]
+
 
         //4.Object.getOwnPropertyNames():想得到所有实例属性，无论是否可枚举
-        var p3=Object.getOwnPropertyNames(o4);
-        console.log(p3);//[ "name", "num" ]
-        var p4=Object.getOwnPropertyNames(Obj1.prototype);
-        console.log(p4);// [ "constructor", "age", "arr" ]
-        var p5=Object.getOwnPropertyNames(Obj1);
-        console.log(p5);// [ "prototype", "length", "name" ]
+        var p3 = Object.getOwnPropertyNames(o4);
+        console.log(p3); //[ "name", "num" ]
+        var p4 = Object.getOwnPropertyNames(Obj1.prototype);
+        console.log(p4); // [ "constructor", "age", "arr" ]
+        var p5 = Object.getOwnPropertyNames(Obj1);
+        console.log(p5); // [ "prototype", "length", "name" ]
 
-        
+
 
 
 
@@ -228,6 +228,8 @@
 
         function Child1() {
             Parent1.call(this);
+            //相当于增加了 this.name = 'parent';
+            //            this.arr = [1, 2, 3];
             this.type = 'child';
         }
         var c1 = new Child1();
