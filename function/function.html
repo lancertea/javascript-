@@ -6,45 +6,28 @@
     <title>function</title>
     <script>
         /*
-        变量声明和变量提升
-        通常，各类文章和JavaScript相关的书籍都声称：“不管是使用var关键字(在全局上下文)还是不使用var关键字(在任何地方)，都可以声明一个变量”。
-        请记住，这是错误的概念：任何时候，变量只能通过使用var关键字才能声明。
-
-        a=10;
-        这仅仅是给全局对象创建了一个新属性(但它不是变量)。“不是变量”并不是说它不能被改变，而是指它不符合ECMAScript规范中的变量概念，
-        所以它“不是变量”(它之所以能成为全局对象的属性，完全是因为VO(globalContext) === global)。
+        eval()
+        当解析器发现代码中调用eval()方法时，它会将传入的参数当作实际的ECMAScript语句来解析，然后把执行结果插入到原位置。
         */
-        console.log(a); //undefined
-        //a没有报错的原因是a在稍后声明了，但这里输出的是undefined，因为JavaScript引擎自动提升了变量a的声明，但不会提升变量a的赋值。
-        //console.log(b); 报错，'b'没有声明
-        //因为“b”不是一个变量，所以在这个阶段根本就没有“b”，“b”将只在代码执行阶段才会出现(但是在这个例子里，还没有到那就已经出错了)。
+        eval('console.log("hi")'); //'hi'
+        //这行代码的作用等价于下面这行
+        console.log("hi"); //'hi'
 
-        b = 10;
-        var a = 20;
+        //通过eval()执行的代码被认为是包含该次调用的执行环境的一部分，因此被执行的代码具有该执行环境相同的作用域链。
+        var msg = 'hello';
+        eval('console.log(msg)'); //'hello'
 
-        //修改一下：
-        console.log(c); // undefined
+        eval('function sayHi(){console.log("hi");}');
+        sayHi(); //'hi'
 
-        d = 10;
-        console.log(d); // 10, 代码执行阶段创建
+        //在eval()中创建的任何变量或函数都不会被提升，因为在解析代码的时候，它们被包含在一个字符串中；它们只在eval()执行的时候创建
+        //sayBye();// error,sayBye is not defined
+        eval('function sayBye(){console.log("bye");}');
 
-        var c = 20;
-        console.log(c); // 20, 代码执行阶段修改
-
-        //变量相对于简单属性来说，变量有一个特性(attribute)：{DontDelete},这个特性的含义就是不能用delete操作符直接删除变量属性。
-        e = 10;
-        console.log(window.e); //10 
-
-        console.log(delete e); //true
-
-        console.log(window.e); //undefined   另外这里直接输出e,会报错,为什么呢
-
-        var f = 20;
-        console.log(window.f); //20
-
-        console.log(delete f); //false
-
-        console.log(window.f); //20
+        /*
+        避免eval()
+        https://www.cnblogs.com/TomXu/archive/2011/12/28/2286877.html
+        */
 
 
 
@@ -83,8 +66,88 @@
 
 
 
+        /*
+        变量声明和变量提升
+        通常，各类文章和JavaScript相关的书籍都声称：“不管是使用var关键字(在全局上下文)还是不使用var关键字(在任何地方)，都可以声明一个变量”。
+        请记住，这是错误的概念：任何时候，变量只能通过使用var关键字才能声明。
+       
+        a=10;
+        这仅仅是给全局对象创建了一个新属性(但它不是变量)。“不是变量”并不是说它不能被改变，而是指它不符合ECMAScript规范中的变量概念，
+        所以它“不是变量”(它之所以能成为全局对象的属性，完全是因为VO(globalContext) === global)。
+        */
+        console.log(a); //undefined
+        //a没有报错的原因是a在稍后声明了，但这里输出的是undefined，因为JavaScript引擎自动提升了变量a的声明，但不会提升变量a的赋值。
+        //console.log(b); 报错，'b'没有声明
+        //因为“b”不是一个变量，所以在这个阶段根本就没有“b”，“b”将只在代码执行阶段才会出现(但是在这个例子里，还没有到那就已经出错了)。
+        b = 10;
+        var a = 20;
+
+
+        //修改一下：
+        console.log(c); // undefined
+
+        d = 10;
+        console.log(d); // 10, 代码执行阶段创建
+
+        var c = 20;
+        console.log(c); // 20, 代码执行阶段修改
+
+        //变量相对于简单属性来说，变量有一个特性(attribute)：{DontDelete},这个特性的含义就是不能用delete操作符直接删除变量属性。
+        e = 10;
+        console.log(window.e); //10 
+
+        console.log(delete e); //true
+
+        console.log(window.e); //undefined   另外这里直接输出e,会报错,为什么呢
+
+        var f = 20;
+        console.log(window.f); //20
+
+        console.log(delete f); //false
+
+        console.log(window.f); //20
+
+
+
+        //this
+        var foo = {
+            x: 10
+        };
+
+        var bar = {
+            x: 20,
+            test: function () {
+
+                console.log(this === bar); 
+                console.log(this.x); 
+
+                // this = foo; 错误，任何时候不能改变this的值
+
+
+            }
+        };
+
+        bar.test(); // true, 20
+
+        foo.test = bar.test;
+        foo.test(); // false, 10
+
+
+        //不是很理解的例子
+        function f1() {
+            console.log(this);
+        }
+
+        f1(); // window
+        console.log(f1 === f1.prototype.constructor); // true
+
+        // 但是同一个function的不同的调用表达式，this是不同的
+        f1.prototype.constructor(); // Object { … }
+
+
+
         //立即调用的函数表达式
-        
+
 
         //函数参数是对象的情况
         function test(person) {
@@ -232,39 +295,6 @@
         legs : 2
         heads : 1
         */
-
-
-
-        /*
-        eval()
-        当解析器发现代码中调用eval()方法时，它会将传入的参数当作实际的ECMAScript语句来解析，然后把执行结果插入到原位置。
-        */
-        eval('console.log("hi")'); //'hi'
-        //这行代码的作用等价于下面这行
-        console.log("hi"); //'hi'
-
-        //通过eval()执行的代码被认为是包含该次调用的执行环境的一部分，因此被执行的代码具有该执行环境相同的作用域链。
-        var msg = 'hello';
-        eval('console.log(msg)'); //'hello'
-
-        eval('function sayHi(){console.log("hi");}');
-        sayHi(); //'hi'
-
-        //在eval()中创建的任何变量或函数都不会被提升，因为在解析代码的时候，它们被包含在一个字符串中；它们只在eval()执行的时候创建
-        //sayBye();// error,sayBye is not defined
-        eval('function sayBye(){console.log("bye");}');
-
-        /*
-        避免eval()
-        https://www.cnblogs.com/TomXu/archive/2011/12/28/2286877.html
-        */
-
-
-
-       
-      
-
-
     </script>
 
 </head>
