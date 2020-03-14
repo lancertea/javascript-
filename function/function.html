@@ -5,6 +5,59 @@
     <meta charset="utf-8">
     <title>function</title>
     <script>
+
+        /*
+        函数表达式的用处之一：
+        创建封装的闭包从外部上下文中隐藏辅助性数据
+        */
+        var f = {};
+
+        (function initialize() {
+
+            var x = 10;
+
+            f.bar = function () {
+                console.log(x);
+            };
+
+        })();//这里（）实现自调用
+
+        f.bar(); // 10;
+
+        //console.log(x);  error, "x" 未定义
+
+        /*
+        进入上下文时：
+        globalContext.VO === Global = {
+          f:{}
+        };
+
+    
+        执行代码阶段：
+        globalContext.VO === Global = {
+          f:{}
+
+        };
+        initializeContext.AO = {
+         x:10
+        
+        };
+
+        f.barContext.AO = {
+         
+        };
+
+        
+        ' f.bar'上下文的作用域链：
+        f.barContext.Scope = [
+        f.barContext.AO,
+        initializeContext.AO,
+        globalContext.VO
+        ];
+
+        */
+
+
         /*
         eval()
         当解析器发现代码中调用eval()方法时，它会将传入的参数当作实际的ECMAScript语句来解析，然后把执行结果插入到原位置。
@@ -31,9 +84,9 @@
 
 
 
-    
 
-       
+
+
 
         //立即调用的函数表达式
 

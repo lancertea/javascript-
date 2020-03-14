@@ -88,49 +88,44 @@
     console.log(window.f); //20
 
 
-    
+   //with增大作用域链
+    Object.prototype.x = 10;
 
+    var w = 20;
+    var y = 30;
 
-    
+    // 在SpiderMonkey全局对象里
+    // 例如，全局上下文的变量对象是从"Object.prototype"继承到的
+    // 所以我们可以得到“没有声明的全局变量”
+    // 因为可以从原型链中获取
 
-    var foo = {};
+    console.log(x); // 10
 
-    (function initialize() {
+    (function foo() {
 
-        var x = 10;
+        // "foo" 是局部变量
+        var w = 40;
+        var x = 100;
 
-        foo.bar = function () {
-            console.log(x);
-        };
+        // "x" 可以从"Object.prototype"得到，注意值是10哦
+        // 因为{z: 50}是从它那里继承的
+
+        with({
+            z: 50
+        }) {
+            console.log(w, x, y, z); // 40, 10, 30, 50
+        }
+
+        // 在"with"对象从作用域链删除之后
+        // x又可以从foo的上下文中得到了，注意这次值又回到了100哦
+        // "w" 也是局部变量
+        console.log(x, w); // 100, 40
+
+        // 在浏览器里
+        // 我们可以通过如下语句来得到全局的w值
+        console.log(window.w); // 20
 
     })();
-
-    foo.bar(); // 10;
-
-    //console.log(x);  error, "x" 未定义
-
-    /*
-    执行上下文时
-    globalContext.VO === Global = {
-      foo:{}
-    };
-
-    initializeContext.AO = {
-     x:10
-    };
-
-    foo.barContext.AO = {
-     
-    };
-
-    执行代码阶段， ' foo.bar'上下文的作用域链：
-    foo.barContext.Scope = [
-    foo.barContext.AO,
-    initializeContext.AO,
-    globalContext.VO
-    ];
-
-    */
 </script>
 
 </html>
