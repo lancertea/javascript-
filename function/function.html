@@ -95,17 +95,59 @@
         //变量相对于简单属性来说，变量有一个特性(attribute)：{DontDelete},这个特性的含义就是不能用delete操作符直接删除变量属性。
         e = 10;
         console.log(window.e); //10 
-
         console.log(delete e); //true
-
         console.log(window.e); //undefined   另外这里直接输出e,会报错,为什么呢
-
         var f = 20;
         console.log(window.f); //20
-
         console.log(delete f); //false
-
         console.log(window.f); //20
+
+
+        //aa在声明的同时被赋值，所以在进入上下文的时候就有值了，不是undefined
+        var aa = 1;
+        console.log(aa); //1
+        //bb的声明被提升，但赋值不提升，不是undefined（下一句才被赋值）
+        console.log(bb); //undefined
+
+        var bb = 2;
+        //cc不在globalContext.VO中，因为c没有被声明，其实是作为全局的一个属性被定义的，所以在
+        //给cc赋值前（cc= 3;这句）输出其值会报错，因为他没有被声明（定义），自然也不存在变量提升
+        //console.log(cc); error
+        cc = 3;
+        console.log(cc); //3
+
+        function tt(x, y) {
+            var dd = 4;
+            console.log(dd); //4
+
+            console.log(ee); //undefined
+            var ee = 5;
+
+            //console.log(ff); error
+            ff = 6;
+            console.log(ff); //6
+
+            console.log(x); //7
+            console.log(y); //undefined
+
+        }
+        tt(7);
+        /*
+        执行上下文时
+        globalContext.VO === Global = {
+          aa: 1
+          bb: undefined
+          tt: <reference to function>
+        };
+
+        ttContext.AO = {
+         x:7
+         y:undefined
+         dd:4
+         ee: undefined
+        };
+        */
+
 
 
 

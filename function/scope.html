@@ -1,0 +1,58 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+</head>
+
+<body>
+
+
+</body>
+
+<script>
+    var foo = {};
+
+    (function initialize() {
+
+        var x = 10;
+
+        foo.bar = function () {
+            console.log(x);
+        };
+
+    })();
+
+    foo.bar(); // 10;
+
+    //console.log(x);  error, "x" 未定义
+
+    /*
+    执行上下文时
+    globalContext.VO === Global = {
+      foo:{}
+    };
+
+    initializeContext.AO = {
+     x:10
+    };
+
+    foo.barContext.AO = {
+     
+    };
+
+    执行代码阶段， ' foo.bar'上下文的作用域链：
+    foo.barContext.Scope = [
+    foo.barContext.AO,
+    initializeContext.AO,
+    globalContext.VO
+    ];
+
+    */
+</script>
+
+</html>
