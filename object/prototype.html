@@ -35,24 +35,12 @@
 
 
         //创建对象的方法
-        //字面量创建
+        //1.字面量创建
         var o1 = {
             name: 'o1'
         };
 
-        /*
-        构造函数，new时发生了什么
-        var obj  = {}; 
-        obj.__proto__ = Base.prototype;
-        Base.call(obj);  
-
-        1.创建一个新的对象 obj;
-        2.将这个空对象的__proto__成员指向了Base函数对象prototype成员对象
-        3.Base函数对象的this指针替换成obj, 相当于执行了Base.call(obj);
-        4.如果构造函数显示的返回一个对象，那么则这个实例为这个返回的对象。 否则返回这个新创建的对象
-        */
-
-        //构造函数创建
+        //2.构造函数创建
         //Object构造函数
         var o2 = new Object();
         o2.name = 'o2';
@@ -69,9 +57,21 @@
         console.log(o3 instanceof Object); //true
         console.log(o3.constructor === Obj); //true
         console.log(o3.constructor === Object); //false
+        /*
+        构造函数，new时发生了什么
+        var obj  = {}; 
+        obj.__proto__ = Base.prototype;
+        Base.call(obj);  
+
+        1.创建一个新的对象 obj;
+        2.将这个空对象的__proto__成员指向了Base函数对象prototype成员对象
+        3.Base函数对象的this指针替换成obj, 相当于执行了Base.call(obj);
+        4.如果构造函数显示的返回一个对象，那么则这个实例为这个返回的对象。 否则返回这个新创建的对象
+        */
 
 
-        //原型创建
+
+        //3.原型创建
         function Obj1(name, num) {
             this.name = name;
             this.num = num;
@@ -104,6 +104,7 @@
         console.log(o4.constructor === Obj1); //true
         console.log(o4.constructor === Object); //false
 
+        
         //遍历属性：
         //1.for-in 所有属性
         for (var pro in o4) {
@@ -127,7 +128,6 @@
         var p2 = Object.keys(Obj1.prototype);
         console.log(p2); //[ "age", "arr" ]
 
-
         //4.Object.getOwnPropertyNames():想得到所有实例属性，无论是否可枚举
         var p3 = Object.getOwnPropertyNames(o4);
         console.log(p3); //[ "name", "num" ]
@@ -137,12 +137,8 @@
         console.log(p5); // [ "prototype", "length", "name" ]
 
 
-
-
-
-
         /*
-        Object.create(proto[, propertiesObject])
+        4.Object.create(proto[, propertiesObject])
         创建一个新对象，使用现有的对象来提供新创建的对象的__proto__（充当原型）。
         新对象可以使用现有对象的属性，但自己不拥有；
         当其重写现有对象的基本类型值时，自己会拥有修改后的属性值，不会改变现有对象的基本类型值
@@ -169,6 +165,7 @@
         console.log(o5 instanceof Object); //true
         console.log(o5.constructor === P); //false
         console.log(o5.constructor === Object); //true
+
 
 
         //继承
@@ -214,6 +211,7 @@
         console.log(c1 instanceof Parent); //true
         console.log(c1 instanceof Object); //true
 
+
         /*
         借用构造函数法
         在构造函数中 使用Parent.call(this)的方法继承父类属性。
@@ -247,6 +245,7 @@
         console.log(c1 instanceof Parent1); //false
         console.log(c1 instanceof Object); //true
 
+
         /*
         组合继承方式
         组合构造函数中使用call继承和原型链继承。
@@ -278,6 +277,7 @@
         console.log(c1 instanceof Child2); //true
         console.log(c1 instanceof Parent2); //true
         console.log(c1 instanceof Object); //true
+
 
         /*
         组合继承方式--优化1
@@ -316,6 +316,7 @@
         console.log(c1 instanceof Child3); //true
         console.log(c1 instanceof Parent3); //true
         console.log(c1 instanceof Object); //true
+
 
         /*
         组合继承方式--优化2 添加中间元素
@@ -383,6 +384,7 @@
         console.log(c1 instanceof Child5); //true
         console.log(c1 instanceof Parent5); //true
         console.log(c1 instanceof Object); //true
+        
     </script>
 </head>
 
