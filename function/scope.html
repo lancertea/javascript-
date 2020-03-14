@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Scope</title>
 
 </head>
 
@@ -15,6 +15,84 @@
 </body>
 
 <script>
+    //函数上下文中的变量对象
+    function f(x, y, z) {
+
+        // 声明的函数参数数量arguments (x, y, z)
+        console.log(f.length); // 3
+
+        // 真正传进来的参数个数(only x, y)
+        console.log(arguments.length); // 2
+
+        // 参数的callee是函数自身
+        console.log(arguments.callee === f); // true
+
+        // 参数共享
+        console.log(x === arguments[0]); // true
+        console.log(x); // 10
+
+        arguments[0] = 20;
+        console.log(x); // 20
+
+        x = 30;
+        console.log(arguments[0]); // 30
+
+        // 不过，没有传进来的参数z，和参数的第3个索引值是不共享的
+        z = 40;
+        console.log(arguments[2]); // undefined
+
+        arguments[2] = 50;
+        console.log(z); // 40
+
+    }
+
+    f(10, 20);
+
+
+
+    /*
+     变量声明和变量提升
+    通常，各类文章和JavaScript相关的书籍都声称：“不管是使用var关键字(在全局上下文)还是不使用var关键字(在任何地方)，都可以声明一个变量”。
+    请记住，这是错误的概念：任何时候，变量只能通过使用var关键字才能声明。
+          
+     a=10;
+    这仅仅是给全局对象创建了一个新属性(但它不是变量)。“不是变量”并不是说它不能被改变，而是指它不符合ECMAScript规范中的变量概念，
+    所以它“不是变量”(它之所以能成为全局对象的属性，完全是因为VO(globalContext) === global)。
+    */
+    console.log(a); //undefined
+    //a没有报错的原因是a在稍后声明了，但这里输出的是undefined，因为JavaScript引擎自动提升了变量a的声明，但不会提升变量a的赋值。
+
+    //console.log(b); 报错，'b'没有声明
+    //因为“b”不是一个变量，所以在这个阶段根本就没有“b”，“b”将只在代码执行阶段才会出现(但是在这个例子里，还没有到那就已经出错了)。
+    b = 10;
+    var a = 20;
+
+    //修改一下：
+    console.log(c); // undefined
+
+    d = 10;
+    console.log(d); // 10, 代码执行阶段创建
+
+    var c = 20;
+    console.log(c); // 20, 代码执行阶段修改
+
+
+    //变量相对于简单属性来说，变量有一个特性(attribute)：{DontDelete},这个特性的含义就是不能用delete操作符直接删除变量属性。
+    e = 10;
+    console.log(window.e); //10 
+    console.log(delete e); //true
+    console.log(window.e); //undefined   另外这里直接输出e,会报错,为什么呢
+    var f = 20;
+    console.log(window.f); //20
+    console.log(delete f); //false
+    console.log(window.f); //20
+
+
+    
+
+
+    
+
     var foo = {};
 
     (function initialize() {

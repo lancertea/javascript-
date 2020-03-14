@@ -15,6 +15,123 @@
 </body>
 
 <script>
+    //this
+    var foo = {
+        x: 10
+    };
+
+    var bar = {
+        x: 20,
+        test: function () {
+
+            console.log(this === bar);
+            console.log(this.x);
+
+            // this = foo; 错误，任何时候不能改变this的值
+
+
+        }
+    };
+
+    bar.test(); // true, 20
+
+    foo.test = bar.test;
+    foo.test(); // false, 10
+
+
+
+    function f1() {
+        console.log(this);
+    }
+
+    f1(); // window
+
+    /*
+     because
+        var f1Reference = {
+            base: global,
+            propertyName: 'f1'
+        };
+        */
+    console.log(f1 === f1.prototype.constructor); // true
+
+    // 另外一种形式的调用表达式
+
+    f1.prototype.constructor(); // f1.prototype
+
+    /*
+    because
+
+    var f1PrototypeConstructorReference = {
+        base: f1.prototype,
+        propertyName: 'constructor'
+    };
+    */
+
+    //this 相关面试题：
+    //1
+    var name = '222';
+    var a = {
+        name: '111',
+        say: function () {
+            console.log(this.name);
+
+        }
+    }
+    var fun = a.say;
+    fun(); //222
+    a.say(); //111
+
+    var b = {
+        name: '333',
+        say: function (func) {
+            func();
+        }
+    }
+    //是因为b的say函数中是直接调用的func（），虽然是在b内，但是func在执行的时候并没有绑定在某个对象上，相当于是全局状况下调用，所以打印 ”222“
+    b.say(a.say); //222
+    b.say = a.say;
+    b.say(); //333
+
+    //2
+    var name = '123';
+
+    function print() {
+        var name = '456';
+        this.name = '789';
+        console.log(name);
+
+    }
+    print(); //'456'
+    //print()这种调用方式的this是window
+
+    //3
+    var name = 123;
+
+    function print1() {
+        this.name = 234;
+        console.log(name);
+
+    }
+    print1(); //234
+    console.log(new print1()); //Object { name: 234 }
+
+    //4
+    var a = 5;
+
+    function test1() {
+        a = 0;
+        console.log(a);
+        console.log(this.a);
+        var a; //声明会提前
+        console.log(a);
+
+    }
+    test1(); //0 , 5, 0
+    console.log(new test1()); //0 , undefined, 0
+
+
+
     var foo = {};
 
     (function initialize() {
