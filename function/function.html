@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <title>function</title>
     <script>
-
         /*
         函数表达式的用处之一：
         创建封装的闭包从外部上下文中隐藏辅助性数据
@@ -20,7 +19,7 @@
                 console.log(x);
             };
 
-        })();//这里（）实现自调用
+        })(); //这里（）实现自调用
 
         f.bar(); // 10;
 
@@ -56,35 +55,6 @@
         ];
 
         */
-
-
-        /*
-        eval()
-        当解析器发现代码中调用eval()方法时，它会将传入的参数当作实际的ECMAScript语句来解析，然后把执行结果插入到原位置。
-        */
-        eval('console.log("hi")'); //'hi'
-        //这行代码的作用等价于下面这行
-        console.log("hi"); //'hi'
-
-        //通过eval()执行的代码被认为是包含该次调用的执行环境的一部分，因此被执行的代码具有该执行环境相同的作用域链。
-        var msg = 'hello';
-        eval('console.log(msg)'); //'hello'
-
-        eval('function sayHi(){console.log("hi");}');
-        sayHi(); //'hi'
-
-        //在eval()中创建的任何变量或函数都不会被提升，因为在解析代码的时候，它们被包含在一个字符串中；它们只在eval()执行的时候创建
-        //sayBye();// error,sayBye is not defined
-        eval('function sayBye(){console.log("bye");}');
-
-        /*
-        避免eval()
-        https://www.cnblogs.com/TomXu/archive/2011/12/28/2286877.html
-        */
-
-
-
-
 
 
 
