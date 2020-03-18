@@ -19,40 +19,35 @@
              */
         //测试用例
         let a = [3, 1, 6, 2, 5, 8, 4, 7];
-        
-        console.log(heapSort(a));
+        heapSort(a)
+        console.log(a);
 
         //参考代码
-        //初次取序列的一半为增量，以后每次减半，直到增量为1。
         function heapSort(a) {
-            let res = a.slice(0),
-                size = a.length;
             //从最后一个非叶子节点开始，从左至右，从下至上进行调整
-            for (let i = Math.floor(size / 2 - 1); i >= 0; i--) {
-                heap(res, size, i);
+            for (let i = Math.floor(a.length / 2 - 1); i >= 0; i--) {
+                heap(a, a.length, i);
             }
-            for(let i=size-1;i>=0;i--){
-                [res[0],res[i]]=[res[i],res[0]];
-                heap(res,i,0);
+            for (let i = a.length - 1; i > 0; i--) {
+                [a[i], a[0]] = [a[0], a[i]];
+                heap(a, i, 0);
             }
-            return res;
         }
 
-        function heap(a, size, index) {
+        function heap(arr, size, index) {
             let largest = index,
                 left = 2 * index + 1,
                 right = 2 * index + 2;
-            if (left < size && a[left] > a[largest]) {
+            if (arr[left] > arr[largest] && left < size) {
                 largest = left;
             }
-            if (right < size && a[right] > a[largest]) {
+            if (arr[right] > arr[largest] && right < size) {
                 largest = right;
             }
             if (largest != index) {
-                [a[index], a[largest]] = [a[largest], a[index]];
-                heap(a, size, largest);
+                [arr[largest], arr[index]] = [arr[index], arr[largest]];
+                heap(arr, size, largest);
             }
-
         }
     </script>
 </head>
