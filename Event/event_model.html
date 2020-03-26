@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>事件模型</title>
+    <title>事件流</title>
     <style>
         #a {
             width: 400px;
@@ -75,22 +75,40 @@
                 };
         */
 
-        
+
        //事件捕获
         da.addEventListener('click', function () {
-            console.log('a');
+            console.log('捕获a');
 
         }, true);
 
         db.addEventListener('click', function () {
-            console.log('b');
+            console.log('捕获b');
 
         }, true);
 
         dc.addEventListener('click', function () {
-            console.log('c');
+            console.log('捕获c');
 
         }, true);
+
+        da.addEventListener('click', function () {
+            console.log('冒泡a');
+
+        }, false);
+
+        db.addEventListener('click', function () {
+            console.log('冒泡b');
+
+        }, false);
+
+        dc.addEventListener('click', function () {
+            console.log('冒泡c');
+
+        }, false);
+
+
+
     </script>
 
 </body>
