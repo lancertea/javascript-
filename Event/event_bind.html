@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>事件绑定</title>
+  
+</head>
+<!-- 
+    写在这里会报错
+     <script>
+    var b1 = document.getElementById("b");
+    b1.onclick = function () {
+        console.log(111);
+
+    };
+</script> -->
+<body>
+    <button id="b1">单个事件绑定</button>
+    <button id="b2">多个事件绑定</button>
+    <script>
+        var b1 = document.getElementById("b1");
+        b1.onclick = function () {
+            console.log(111);
+
+        };
+
+        var b2 = document.getElementById("b2");
+        /* 
+        addEventListener() 方法为指定元素指定事件处理程序。
+         能够向一个元素添加多个事件处理程序,能够向一个元素添加多个相同类型的事件处理程序，例如两个 "click" 事件。
+         element.addEventListener(event, function, useCapture);
+        第一个参数是事件的类型（比如 "click" 或 "mousedown"）。
+        第二个参数是当事件发生时我们需要调用的函数。
+        第三个参数是布尔值，指定使用事件冒泡还是事件捕获。此参数是可选的，默认冒泡。
+        注意：请勿对事件使用 "on" 前缀；请使用 "click" 代替 "onclick"。
+
+        移除可用：b2.removeEventListener()，这里要注意要正确的移除，函数的引用是同一个
+
+        IE8之前用的是
+         b2.attachEvent('click',function(){
+            console.log(222);
+            
+        })
+        该方法只支持事件冒泡、绑this有问题、事件顺序也有问题
+        */
+        b2.addEventListener('click',function(){
+            console.log(222);
+            
+        },false)
+        b2.addEventListener('click',function(){
+            console.log(333);
+            
+        },false)
+
+        
+
+        
+
+       
+    </script>
+</body>
+
+</html>
