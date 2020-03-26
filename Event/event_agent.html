@@ -19,7 +19,7 @@
     <script>
         var oul = document.getElementById('uli');
         var arr = oul.getElementsByTagName('li');
-        for (var i = 0; i < arr.length; i++) {//因为for循环比点击事件跑得快
+        for (var i = 0; i < arr.length; i++) {//因为for循环在页面加载过程中就处理完了，比点击事件跑得快
             arr[i].onclick = function () {
                 console.log(i);//3
                 console.log(arr[i]); //undefined
