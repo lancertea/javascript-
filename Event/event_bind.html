@@ -4,7 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>事件绑定</title>
-  
+    <style>
+    div{
+        width: 100px;
+        height: 100px;
+        background: green;
+    }
+    </style>
 </head>
 <!-- 
     写在这里会报错
@@ -18,10 +24,19 @@
 <body>
     <button id="b1">单个事件绑定</button>
     <button id="b2">多个事件绑定</button>
+    输入信息<input type="text" id="ipt" value="123">
+    <div id="d">123</div>
     <script>
+
+        /*
+        事件：e
+        事件对象：b1
+        事件处理对象：function
+        */
         var b1 = document.getElementById("b1");
-        b1.onclick = function () {
-            console.log(111);
+        b1.onclick = function (e) {
+            e=e||window.event;
+            console.log(e.type);
 
         };
 
@@ -53,6 +68,43 @@
             
         },false)
 
+        var ipt =document.getElementById('ipt');
+        //keydown指键盘按下去的一瞬间，事件知道他按下了哪个键，但是每次打印的内容都会比我们晚一步
+          ipt.onkeydown=function(e){
+            console.log(e.keyCode);
+            
+        };
+        /*
+        所以同步获取用户的输入，我们用的是onkeyup
+        玩游戏的转向功能我们用的是onkeydown
+        */
+        ipt.onkeyup=function(){
+            console.log(ipt.value);
+          
+        };
+
+        var d1=document.getElementById('d');
+        d1.onmousedown=function(){
+            d1.style.background='yellow';
+        }
+
+        d1.onmouseup=function(){
+            d1.style.background='pink';
+        }
+        
+        d1.onmousemove=function(){
+            d1.style.background='blue';
+        }
+        
+        d1.onmouseover=function(){
+            d1.style.background='red';
+        } 
+
+        d1.onmouseout=function(){
+            d1.style.background='purple';
+        } 
+
+        
         
 
         
