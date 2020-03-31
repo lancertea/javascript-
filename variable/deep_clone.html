@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>深拷贝</title>
+</head>
+
+<body>
+    <script>
+        // 引用类型直接复制存在的问题
+        let a = {
+            num: 1
+        }
+        let b = a
+        a.num = 2
+        console.log(b.num) //2
+
+        //浅拷贝：拷贝第一层的拷贝
+        //方法一：
+        let c = Object.assign({}, a)
+        a.num = 3
+        console.log(c.num) //2
+        //方法二：
+        let d={...a};
+        a.num=4
+        console.log(d.num)//3
+        
+    </script>
+    <script src="./deepClone.js"></script>
+</body>
+
+</html>
