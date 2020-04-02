@@ -30,6 +30,7 @@
             return function () {
                 return self.apply(t, args)
             }
+            //call这里直接返回self.apply(t, args)就可以了
         }
 
         function fn1(a, b, c) {
@@ -43,6 +44,7 @@
         }, 10, 20, 30)
         const res = fn2()
         console.log(res)
+         //call这里输出fn2就可以了
     </script>
 </body>
 
