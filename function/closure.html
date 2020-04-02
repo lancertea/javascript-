@@ -4,14 +4,51 @@
 <head>
     <meta charset="utf-8">
     <title>闭包</title>
-    
+
 </head>
 
 <body>
-    <p>1</p>
-    <p>2</p>
-    <p>3</p>
-    <script src="./closure.js"></script>
+    <script>
+        //函数作为返回值
+
+        function create() {
+            const a = 100
+            return function () {
+                console.log(a)
+            }
+        }
+
+        const fn = create()
+        const a = 200
+        fn() // 100
+
+        // 函数作为参数被传递
+        // function print(fn) {
+        //     const a = 200
+        //     fn()
+        // }
+        // const a = 100
+        // function fn() {
+        //     console.log(a)
+        // }
+        // print(fn) // 100
+
+        // 所有的自由变量的查找，是在函数定义的地方，向上级作用域查找
+        // 不是在执行的地方！！！
+
+
+        //闭包
+        function example() {
+            var count = 0;
+            return function () {
+                return ++count;
+            }
+        }
+
+        var getCount = example();
+        console.log(getCount()); //1
+        console.log(getCount()); //2
+    </script>
 </body>
 
 </html>
