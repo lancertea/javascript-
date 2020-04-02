@@ -1,6 +1,4 @@
-/**
- * 深拷贝
- */
+
 
 const obj1 = {
     age: 20,
@@ -11,10 +9,6 @@ const obj1 = {
     arr: ['a', 'b', 'c']
 }
 
-// 浅拷贝
-// const obj2 = obj1
-// obj2.address.city = 'shanghai'
-// console.log(obj1.address.city)//shanghai
 
 const obj2 = deepClone(obj1)
 obj2.address.city = 'shanghai'
