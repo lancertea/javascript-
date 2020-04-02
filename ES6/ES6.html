@@ -263,6 +263,51 @@
             x: 100,
             y: 200
         });
+
+
+        // 类的继承
+        class Parent {
+            constructor() {
+                this.name = 'parent';
+                this.arr = [1, 2, 3];
+            }
+            pfav = 'TV';
+            static num = 1;
+            hi(){
+                console.log(this.name);
+                
+            }
+
+        }
+        Parent.prototype.old = 40;
+
+        class Child extends Parent {
+            constructor() {
+                super();
+                this.type = 'child'
+            }
+            cfav = 'computer';
+            static num = 2;
+        }
+        Child.prototype.young = 20;
+
+        var c1 = new Child();
+        console.log(c1); //Object { pfav: "TV", name: "parent", arr: (3) […], cfav: "computer", type: "child" }
+        console.log(c1.pfav); //'TV'
+        console.log(c1.cfav); //'computer'
+        c1.arr.push(4);
+        var c2 = new Child();
+        console.log(c2); //Object { pfav: "TV", name: "parent", arr: (3) […], cfav: "computer", type: "child" }
+
+        console.log(c1.constructor); //class Child {}
+        console.log(c1 instanceof Child); //true
+        console.log(c1 instanceof Parent); //true
+        console.log(c1 instanceof Object); //true
+        console.log(c1.hasOwnProperty('name'));
+        console.log(c1.hasOwnProperty('arr'));
+        console.log(c1.hasOwnProperty('pfav'));
+        console.log(c1.hasOwnProperty('type'));
+        console.log(c1.hasOwnProperty('cfav'));
     </script>
 </head>
 
