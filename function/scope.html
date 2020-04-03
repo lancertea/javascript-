@@ -154,16 +154,37 @@
 
     })();
 
-    var a
-    for (let i = 0; i < 10; i++) {
-        a = document.createElement('a')
-        a.innerHTML = i + '<br>'
-        a.addEventListener('click', function (e) {
+    let i, a1
+    // for循环很快执行完了、监听事件相对很慢
+    for (i = 0; i < 10; i++) {
+        a1 = document.createElement('a')
+        a1.innerHTML = i + '<br>'
+        a1.addEventListener('click', function (e) {
             e.preventDefault()
-            alert(i)
+            alert(i) //全是10
         })
-        document.body.appendChild(a)
+        document.body.appendChild(a1)
     }
+
+    let a2
+    for (let i = 0; i < 10; i++) {
+        a2 = document.createElement('a')
+        a2.innerHTML = i + '<br>'
+        a2.addEventListener('click', function (e) {
+            e.preventDefault()
+            alert(i) //0，1，2，3，4，…，9
+        })
+        document.body.appendChild(a2)
+    }
+
+    //for循环还有一个特别之处，就是设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。
+    for (let j = 0; j < 3; j++) {
+        let j = 'abc';
+        console.log(j);
+    }
+    // abc
+    // abc
+    // abc
 </script>
 
 </html>
