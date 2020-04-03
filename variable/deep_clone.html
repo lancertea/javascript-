@@ -9,22 +9,74 @@
 <body>
     <script>
         // 引用类型直接复制存在的问题
-        let a = {
+        var a = {
             num: 1
         }
-        let b = a
+        var b = a
         a.num = 2
         console.log(b.num) //2
+        // 深浅拷贝的概念只存在于引用类型
+        //浅拷贝：只能实现一维对象的复制
 
-        //浅拷贝：拷贝第一层的拷贝
+        //Array自带的浅拷贝方法:slice、concat、Array.from()
+        var c = [1, 2, 3, 4, 5];
+        var ccopy = c.slice();
+        console.log(ccopy); //[1,2,3,4,5]
+        console.log(c === ccopy); //false 返回的是原数组的副本
+
+        var ccopy1 = c.concat();
+        console.log(ccopy1); //[1,2,3,4,5]
+        console.log(c === ccopy1); //false 返回的是原数组的副本
+
+        var ccopy2 = Array.from(c);
+        console.log(ccopy2); //[1,2,3,4,5]
+        console.log(c === ccopy2); //false 返回的是原数组的副本
+
+
+        //Object自带的浅拷贝方法
         //方法一：
-        let c = Object.assign({}, a)
-        a.num = 3
-        console.log(c.num) //2
+        var d = {
+            num: 1
+        }
+        var e = Object.assign({}, d)
+        d.num = 2
+        console.log(e.num) //1
         //方法二：
-        let d={...a};
-        a.num=4
-        console.log(d.num)//3
+        var f = {
+            ...d
+        };
+        d.num = 3
+        console.log(f.num) //2
+
+        //JSON.parse(JSON.stringify(obj)) ，可是实现二维对象的深拷贝：
+        var obj1 = {
+            x: 1,
+            y: {
+                m: 1
+            }
+        };
+        var obj2 = JSON.parse(JSON.stringify(obj1));
+        console.log(obj1) //{x: 1, y: {m: 1}}
+        console.log(obj2) //{x: 1, y: {m: 1}}
+        obj2.y.m = 2; //修改obj2.y.m
+        console.log(obj1) //{x: 1, y: {m: 1}}
+        console.log(obj2) //{x: 2, y: {m: 2}}
+
+        // JSON.parse(JSON.stringify(obj)) 进行深拷贝是有局限性的；
+        //不能深拷贝还有 undefined、function、symbol值的对象。
+        var obj1 = {
+            x: 1,
+            y: undefined,
+            z: function add(z1, z2) {
+                return z1 + z2
+            },
+            a: Symbol("foo")
+        };
+        var obj2 = JSON.parse(JSON.stringify(obj1));
+        console.log(obj1) //{x: 1, y: undefined, z: ƒ, a: Symbol(foo)}
+        console.log(JSON.stringify(obj1)); //{"x":1}
+        console.log(obj2) //{x: 1}
+
         
     </script>
     <script src="./deepClone.js"></script>
