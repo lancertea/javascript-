@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>手写call函数</title>
+
+</head>
+
+<body>
+    <script>
+        // bind()、call()、apply()方法在Function.prototype上
+        Function.prototype.myCall = function (context) {
+            if (typeof this !== 'function') {
+                throw new TypeError('not function')
+            }
+            context = context || window
+            //***************************************************************************************************
+            // 这三步也可以这样理解：
+            // this指的就是调用call 方法的函数
+            // 给当前上下文(call方法的第一个参数)添加一个属性fn，属性值为this，当前上下文就可以调用这个方法了。
+            // 把call方法传入的其他的参数传入到属性fn指代的函数中，直接调用函数
+            // f.myCall(obj)   就是将f方法添加到obj的属性中，f中的this 指向 obj；即 obj.f()
+
+            context.fn = this; //this指向的是当前的函数（Function实例）
+            //[...arguments]将类数组变成数组
+            let arg = [...arguments].slice(1); //获取除了this指向对象以外的参数，空数组slice后返回仍是空数组
+            let result = context.fn(...arg); //隐式绑定，当前函数的this指向context
+            //***************************************************************************************************
+            delete context.fn
+            return result
+        }
+
+        function fn1(a, b, c) {
+            console.log('this', this)
+            console.log(a, b, c)
+            return 'this is fn1'
+        }
+
+        const fn2 = fn1.myCall({
+            x: 100
+        }, 10, 20, 30)
+        console.log(fn2)
+    </script>
+</body>
+
+</html>
