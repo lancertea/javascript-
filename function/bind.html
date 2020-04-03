@@ -9,10 +9,12 @@
 
 <body>
     <script>
-
         // bind()、call()、apply()方法在Function.prototype上
-        // 模拟 bind
+        // 写法1：
         Function.prototype.bind1 = function () {
+            if (typeof this !== 'function') {
+                throw new TypeError('not function')
+            }
             // 将参数拆解为数组
             //arguments对象不是一个 Array 。它类似于Array，但除了length属性和索引元素之外没有任何Array属性。
             //例如，它没有 pop 方法。但是它可以被转换为一个真正的Array：
@@ -30,13 +32,7 @@
             return function () {
                 return self.apply(t, args)
             }
-            //call这里直接返回self.apply(t, args)就可以了
-        }
 
-        function fn1(a, b, c) {
-            console.log('this', this)
-            console.log(a, b, c)
-            return 'this is fn1'
         }
 
         const fn2 = fn1.bind1({
@@ -44,7 +40,6 @@
         }, 10, 20, 30)
         const res = fn2()
         console.log(res)
-         //call这里输出fn2就可以了
     </script>
 </body>
 
