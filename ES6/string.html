@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>模板字符串</title>
+    <script>
+    //ES5
+    let food ='cake',
+        drink='milk',
+        fav='I love '+food+' and '+drink+' ~';
+        console.log(fav);
+        
+    //ES6
+    let fav1=`I love ${food} and ${drink} ~`;
+    console.log(fav1);
+    let fav2=deal`I love ${food} and ${drink} ~`;
+
+    function deal(string,...values){
+        console.log(string);
+        console.log(values);   
+    }
+
+    console.log(fav1.startsWith('I'));
+    console.log(fav1.endsWith('!'));
+    console.log(fav1.includes('love'));
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
