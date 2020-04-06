@@ -12,6 +12,8 @@ console.table([
     callbacks[2](),
 ])
 
+
+// ES6 中作用域
 const callbacks2 = []
 for (let j = 0; j <= 2; j++) {
     callbacks2[j] = function() {

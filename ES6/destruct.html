@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>解构</title>
+    <script>
+    //  数组的解构赋值
+    let [x,y]=[1,2,3];
+    // 如果等号的右边不是数组（或者严格地说，不是可遍历的结构），那么将会报错。
+    // let [z]=1;
+
+    //对象的解构赋值
+    //对象的属性没有次序，变量必须与属性同名，才能取到正确的值。
+    //对象的解构赋值的内部机制，是先找到同名属性，然后再赋给对应的变量。真正被赋值的是后者，而不是前者。
+    let {foo:baz}={foo:'aaa',bar:'bbb'};
+    console.log(baz);//'aaa'
+    
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
