@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>迭代器,生成器</title>
+    <script>
+        //自写
+        // 返回值：{value:xx  done:false|true}
+        // 迭代器
+        function chef(foods) {
+            let i = 0;
+            return {
+                next() {
+                    let done = (i >= foods.length);
+                    let value = !done ? foods[i++] : undefined;
+                    return {
+                        value: value,
+                        done: done
+                    }
+                }
+            }
+        }
+        //  生成器
+        let zz = chef(['ice', 'fish']);
+        console.log(zz.next());
+        console.log(zz.next());
+        console.log(zz.next());
+
+
+        //ES6
+        // 迭代器
+        function* chef1() {
+          yield 'ice';
+          yield 'fish';
+        }
+
+        // function* chef2(foods) {
+        //   for(var i=0;i<foods.length;i++){
+        //       yield foods[i];
+        //   }
+        // }
+        //  生成器
+        let ss=chef1();
+        console.log(ss.next());
+        console.log(ss.next());
+        console.log(ss.next());
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
