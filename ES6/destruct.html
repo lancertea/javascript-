@@ -15,6 +15,74 @@
     //对象的解构赋值的内部机制，是先找到同名属性，然后再赋给对应的变量。真正被赋值的是后者，而不是前者。
     let {foo:baz}={foo:'aaa',bar:'bbb'};
     console.log(baz);//'aaa'
+
+    //解构赋值
+        //可同时对一组变量进行赋值
+        var [x, y, z] = ['hello', 'JavaScript', 'ES6'];
+        console.log(x); //'hello'
+        var [, , z] = ['hello', 'JavaScript', 'ES6']; // 忽略前两个元素，只对z赋值第三个元素
+        console.log(z); //'ES6'
+        //对一个对象进行解构赋值时，同样可以直接对嵌套的对象属性进行赋值，只要保证对应的层次是一致的：
+        var person = {
+            name: '小明',
+            age: 20,
+            gender: 'male',
+            passport: 'G-12345678',
+            school: 'No.4 middle school',
+            address: {
+                city: 'Beijing',
+                street: 'No.1 Road',
+                zipcode: '100001'
+            }
+        };
+        var {
+            name,
+            address: {
+                city,
+                zip
+            }
+        } = person;
+        console.log(name); // '小明'
+        console.log(city); // 'Beijing'
+        console.log(zip); // undefined, 因为属性名是zipcode而不是zip
+        // 注意: address不是变量，而是为了让city和zip获得嵌套的address对象的属性:
+        //console.log(address); // Uncaught ReferenceError: address is not defined
+
+        //使用解构赋值对对象属性进行赋值时，如果对应的属性不存在，变量将被赋值为undefined，这和引用一个不存在的属性获得undefined是一致的
+        //如果要使用的变量名和属性名不一致，可以用下面的语法获取：
+        var person = {
+            name: '小明',
+            age: 20,
+            gender: 'male',
+            passport: 'G-12345678',
+            school: 'No.4 middle school'
+        };
+
+        // 把passport属性赋值给变量id:
+        var {
+            name,
+            passport: id
+        } = person;
+        console.log(name); // '小明'
+        console.log(id); // 'G-12345678'
+        // 注意: passport不是变量，而是为了让变量id获得passport属性:
+        //console.log(passport);  // Uncaught ReferenceError: passport is not defined
+
+        //有些时候，如果变量已经被声明了，再次赋值的时候，正确的写法也会报语法错误：
+        // 声明变量:
+        var x, y;
+        // 解构赋值:
+        //{x, y} = { name: '小明', x: 100, y: 200};
+        // 语法错误: Uncaught SyntaxError: Unexpected token 
+        //这是因为JavaScript引擎把{开头的语句当作了块处理，于是=不再合法。解决方法是用小括号括起来：
+        ({
+            x,
+            y
+        } = {
+            name: '小明',
+            x: 100,
+            y: 200
+        });
     
     </script>
 </head>

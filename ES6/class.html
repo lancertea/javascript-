@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>类</title>
+    <script>
+        //get set
+        class Chef{
+            constructor(food){
+                this.food=food;
+                this.dish=[];
+            }
+
+            get menu(){
+                return this.dish;
+            }
+
+            set menu(dish){
+                this.dish.push(dish);
+            }
+
+            cook(){
+                console.log(this.food);
+            }
+            static tired(){
+             console.log('I am tired');
+                
+            }
+                
+        }
+    let zz =new Chef();
+    console.log(zz.menu='ice');
+    console.log(zz.menu='cream');
+    console.log(zz.menu);
+    Chef.tired();
+    
+    
+    
+    
+
+        // 类的继承
+        class Parent {
+            constructor() {
+                this.name = 'parent';
+                this.arr = [1, 2, 3];
+            }
+            pfav = 'TV';
+            static num = 1;
+            hi() {
+                console.log(this.name);
+
+            }
+
+        }
+        Parent.prototype.old = 40;
+
+        class Child extends Parent {
+            constructor() {
+                super();
+                this.type = 'child'
+            }
+            cfav = 'computer';
+            static num = 2;
+        }
+        Child.prototype.young = 20;
+
+        var c1 = new Child();
+        console.log(c1); //Object { pfav: "TV", name: "parent", arr: (3) […], cfav: "computer", type: "child" }
+        console.log(c1.pfav); //'TV'
+        console.log(c1.cfav); //'computer'
+        c1.arr.push(4);
+        var c2 = new Child();
+        console.log(c2); //Object { pfav: "TV", name: "parent", arr: (3) […], cfav: "computer", type: "child" }
+
+        console.log(c1.constructor); //class Child {}
+        console.log(c1 instanceof Child); //true
+        console.log(c1 instanceof Parent); //true
+        console.log(c1 instanceof Object); //true
+        console.log(c1.hasOwnProperty('name'));
+        console.log(c1.hasOwnProperty('arr'));
+        console.log(c1.hasOwnProperty('pfav'));
+        console.log(c1.hasOwnProperty('type'));
+        console.log(c1.hasOwnProperty('cfav'));
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
