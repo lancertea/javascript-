@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>ES6</title>
+    <title>Set Map</title>
     <script>
         /*
         Map  
@@ -55,14 +55,28 @@
         forEach()：使用回调函数遍历每个成员
         */
 
+
         /*
         Set
-        和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key。
         */
-        var s = new Set([1, 2, 3, 3, '3']);
-        console.log(s); // Set {1, 2, 3, "3"}
-        console.log(s.add(4)); //Set(5) [ 1, 2, 3, "3", 4 ]
-        console.log(s.delete(3)); //true
+        {
+            var s = new Set([1, 2, 3, 3, '3']);
+            console.log(s); // Set {1, 2, 3, "3"}
+            console.log(s.add(4)); //Set(5) [ 1, 2, 3, "3", 4 ]
+            console.log(s.delete(3)); //true
+            console.log(s.size); //4
+            //清空:s.clear()
+
+            // 遍历
+            for (let key of s.keys()) {
+                console.log('keys', key);
+            }
+
+            for (let value of s.values()) {
+                console.log('values', value);
+            }
+            // 可发现Set的键和值是一模一样的，由于key不能重复，所以，在Set中，没有重复的值。
+        }
 
         //去除数组的重复成员
         console.log([...new Set([1, 2, 3, 3])]); //[ 1, 2, 3 ]
@@ -96,6 +110,7 @@
         s.add(c);
         console.log(s); //Set [ {}, {} ]  其实就是Set [ a,b ] 因为 c 和 a 引用的是同一个对象，所以是相等的
 
+
         /*
         属性：
         Set.prototype.constructor：构造函数，默认就是Set函数。
@@ -113,6 +128,96 @@
         forEach()：使用回调函数遍历每个成员
         */
 
+
+        /*
+        WeakSet
+        与Set的区别：
+        1.支持的类型只能是对象
+        2.弱引用：不会检测这个对象有没有在其他地方用过
+        3.没有clear()方法、没有size属性，不能遍历
+        */
+        {
+            let weakList = new WeakSet();
+            let arg = {};
+            weakList.add(arg);
+            //weakList.add(2);
+            console.log(weakList);
+        }
+
+
+        //Set、Map、Array的对比
+        //数据结构横向对比：增、删、改、查
+        {
+            let map = new Map();
+            let set = new Set();
+            let arr = [];
+            // 增
+            map.set('t', 1);
+            let obj = {
+                t: 1
+            };
+            set.add(obj);
+            arr.push({
+                t: 1
+            });
+            console.log(map, set, arr);
+
+            //查
+            let map_f = map.has('t');
+            let set_f = set.has(obj);
+            let arr_f = arr.find(item => item.t);
+            console.log(map_f, set_f, arr_f); //true  true  Object { t: 1 }
+
+            //改
+            // set怎么改
+            set.forEach(item => item.t ? item.t = 2 : '');
+            map.set('t', 2);
+            arr.forEach(item => item.t ? item.t = 2 : '');
+            console.log(map, set, arr);
+
+            //删
+            // set.forEach(item=>item.t?set.delete(item):'');
+            set.delete(obj);
+            map.delete('t');
+            let index = arr.findIndex(item => item.t);
+            arr.splice(index, 1);
+            console.log(map, set, arr);
+        }
+
+
+        //Set、Map、Object的对比
+        //数据结构横向对比：增、删、改、查
+        {
+            let item = {
+                t: 1
+            };
+            let map = new Map();
+            let set = new Set();
+            let obj = {};
+            // 增
+            map.set('t', 1);
+            set.add(item);
+            obj['t'] = 1;
+            console.log(map, set, obj);
+
+            //查
+            let map_f = map.has('t');
+            let set_f = set.has(item);
+            let obj_f = 't' in obj;
+            console.log(map_f, set_f, obj_f); //true  true  true
+
+            //改
+            map.set('t', 2);
+            item.t = 2;
+            obj['t'] = 2;
+            console.log(map, set, obj);
+
+            //删
+            map.delete('t');
+            set.delete(item);
+            delete obj['t']
+            console.log(map, set, obj);
+        }
 
 
         /*

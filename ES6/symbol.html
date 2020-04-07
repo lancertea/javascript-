@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>symbol</title>
+    <script>
+       let a1=Symbol.for('abc');
+       let obj={
+           [a1]:'123',
+           'abc':345,
+           'c':456
+       };
+       console.log(obj);//Object { abc: 345, c: 456, Symbol(abc): "123" }
+
+    //for of  for in 拿不到symbol的属性
+    for(let [key,value] of Object.entries(obj)){
+        console.log('let of',key,value);
+        
+    } 
+    //只能拿到symbol的属性
+    Object.getOwnPropertySymbols(obj).forEach(function(item){
+        console.log(obj[item]);
+        
+    })
+
+    //全拿到
+    Reflect.ownKeys(obj).forEach(function(item){
+        console.log('ownkeys',item,obj[item]);
+        
+    })
+
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
