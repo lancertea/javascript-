@@ -83,6 +83,7 @@
 
         //Boolean类型
         //true、false
+        //Symbol值可以转为布尔值，但是不能转为数值
         /*
         Boolean():将任何类型的值转换为布尔值。
         以下值会被转换为false：
@@ -255,6 +256,13 @@
         console.log((10).toString()); //'10'
         console.log((+1.2).toString()); //'1.2'
         console.log((-1.2).toString()); //'-1.2'
+        
+        //symbol
+        var sym =Symbol('me');
+        console.log(String(sym));//'Symbol(me)'
+        console.log(sym.toString());//'Symbol(me)'
+        
+        
 
         // Array: 把数组转换为由数组中每个值的字符串形式拼接而成的一个以逗号分隔的字符串
         var arr = ["CodePlayer", true, 12, -5];
