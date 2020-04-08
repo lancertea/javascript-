@@ -27,7 +27,7 @@ console.log(obj1.arr[0])
  * 
  */
 function deepClone(obj ={}) {
-    if (typeof obj !== 'object' || obj == null) {
+    if (typeof obj !== 'object' || obj === null) {
         // obj 是 null ，或者不是对象和数组，直接返回
         return obj
     }
