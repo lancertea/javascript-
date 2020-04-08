@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>基本类型（Undefined、Null、Number）及类型转换</title>
     <script>
-    /*
+        /*
      JS变量类型:
 	基本类型（原始值）：字符串(String)、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol（独一无二的值）
      存储在栈（stack）中的简单数据段，也就是说，它们的值直接存储在变量访问的位置。
@@ -14,7 +14,7 @@
            基本包装类型：字符串(String)、数字(Number)、布尔(Boolean)
      存储在堆（heap）中的对象，也就是说，存储在变量处的值是一个指针（point），指向存储对象的内存处。
     */
-
+{
         /*
         1 与 Number(1)有什么区别
         */
@@ -25,9 +25,8 @@
         console.log(1 instanceof Number); //false
         console.log(a instanceof Number); //true
         console.log(1 === a); //false
-
-
-
+}
+{
         //undefined ：所有没有赋值变量的默认值，自动赋值。
         //1.变量被声明但未初始化时为undefined
         var a;
@@ -79,7 +78,7 @@
         console.log(String(undefined)); //'undefined'
         console.log(String(null)); //'null'
 
-
+}
 
         //Boolean类型
         //true、false
@@ -154,7 +153,7 @@
         */
 
 
-
+{
         /*
         valueOf()用于返回指定对象的原始值
         该方法属于Object对象，由于所有的对象都"继承"了Object的对象实例，因此几乎所有的实例对象都可以使用该方法。
@@ -214,9 +213,9 @@
         /*
         参考：https://blog.csdn.net/celi_echo/article/details/100038366
         */
+}
 
-
-
+{
         /*
         toString()用来返回该对象的字符串
         */
@@ -256,13 +255,13 @@
         console.log((10).toString()); //'10'
         console.log((+1.2).toString()); //'1.2'
         console.log((-1.2).toString()); //'-1.2'
-        
+
         //symbol
-        var sym =Symbol('me');
-        console.log(String(sym));//'Symbol(me)'
-        console.log(sym.toString());//'Symbol(me)'
-        
-        
+        var sym = Symbol('me');
+        console.log(String(sym)); //'Symbol(me)'
+        console.log(sym.toString()); //'Symbol(me)'
+
+
 
         // Array: 把数组转换为由数组中每个值的字符串形式拼接而成的一个以逗号分隔的字符串
         var arr = ["CodePlayer", true, 12, -5];
@@ -300,9 +299,9 @@
         /*
         参考：https://blog.csdn.net/u011435776/article/details/90230426
         */
+}
 
-
-
+{
         /*
         类型识别
         使用Object.prototype.toString()来进行类型识别，返回代表该对象的[object 数据类型]字符串表示
@@ -375,8 +374,17 @@
             return template[typeStr];
         }
 
+        function getType1(obj) {
+            if (obj === null)
+                return String(obj);
+            if (typeof obj !== 'object') {
+                return (typeof obj);
+            }
+            return Object.prototype.toString.call(obj).slice(8, -1);
+        }
 
-
+}
+{
         /*
         类型转换方法总结
         */
@@ -395,6 +403,8 @@
         //NaN
         console.log(NaN + 5); //NaN
         console.log(NaN + '5'); //'NaN5'
+}        
+
     </script>
 </head>
 
