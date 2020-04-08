@@ -1,7 +1,10 @@
+//
+
 class jQuery {
     constructor(selector) {
         const result = document.querySelectorAll(selector)
         const length = result.length
+        //遍历
         for (let i = 0; i < length; i++) {
             this[i] = result[i]
         }

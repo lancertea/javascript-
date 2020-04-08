@@ -32,7 +32,7 @@
         
         */
 
-
+{
 
         //创建对象的方法
         //1.字面量创建
@@ -103,7 +103,7 @@
         console.log(o4 instanceof Object); //true
         console.log(o4.constructor === Obj1); //true
         console.log(o4.constructor === Object); //false
-
+    
         
         //遍历属性：
         //1.for-in 所有属性
@@ -165,10 +165,10 @@
         console.log(o5 instanceof Object); //true
         console.log(o5.constructor === P); //false
         console.log(o5.constructor === Object); //true
+    }
 
 
-
-        //继承
+    {    //继承
         /*
         原型链实现继承
         原理：把子类的prototype（原型对象）直接设置为父类的实例
@@ -384,7 +384,7 @@
         console.log(c1 instanceof Child5); //true
         console.log(c1 instanceof Parent5); //true
         console.log(c1 instanceof Object); //true
-        
+    }     
     </script>
 </head>
 
