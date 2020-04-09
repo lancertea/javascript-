@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Regexp</title>
+
+</head>
+
+<body>
+    <script>
+
+      var s='loading'
+       var reg1=/ing/;
+       var reg2= new RegExp('ing');
+       //写法2与写法1的区别是：写法2里面的参数可以是变量
+       console.log(reg1.test(s));
+       console.log(reg2.test(s));
+
+       console.log(reg1.exec(s));
+       console.log(s.match(reg1));
+       
+       
+    </script>
+</body>
+
+</html>
