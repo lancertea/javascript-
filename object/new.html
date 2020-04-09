@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>模拟new的实现</title>
+
+</head>
+
+<body>
+    <script>
+        function myNew() {
+            var obj = {},
+                base = [].shift.call(arguments);
+                // base=[...arguments].shift();  这样是错的，相当于进行了一次浅拷贝
+            obj.__proto__ = base.prototype;
+            var result = base.apply(obj, arguments);
+            return result instanceof Object ? result : obj;
+        }
+
+        function Car(color) {
+            this.color = color;
+        }
+
+        Car.prototype.start = function () {
+            console.log(this.color);
+
+        };
+        var car = myNew(Car, 'black');
+        car.start();
+    </script>
+</body>
+
+</html>
