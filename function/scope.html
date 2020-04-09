@@ -163,9 +163,11 @@
         for (i = 0; i < 10; i++) {
             a1 = document.createElement('a')
             a1.innerHTML = i + '<br>'
+            // a1.index=i;
             a1.addEventListener('click', function (e) {
                 e.preventDefault()
                 alert(i) //全是10
+                // alert(this.index);
             })
             document.body.appendChild(a1)
         }
@@ -192,6 +194,38 @@
     }
 
     {
+        {
+            for (var i = 0; i < 3; i++) {
+                setTimeout(function () {
+                    console.log(i); //3 3 3
+
+                }, 100);
+            }
+
+        } {
+            for (let i = 0; i < 3; i++) {
+                setTimeout(function () {
+                    console.log(i); // 0 1 2
+
+                }, 100);
+            }
+        } {
+            //立即执行函数（闭包）
+            for (var i = 0; i < 3; i++) {
+                // (function(){})();
+                (function (j) {//j为形参
+                    setTimeout(function () {
+                        console.log(j);//0 1 2
+                 }, 100);
+                })(i);//i为实参
+
+            }
+        }
+    }
+
+    {
+
+        //词法作用域：函数在定义（或声明）它们的作用域里执行，而不是在执行（或调用）它们的作用域里运行
 
         var a = 10;
 
@@ -226,7 +260,7 @@
                 }
             )();
         }
-        show(fn);  //10
+        show(fn); //10
 
     }
 </script>

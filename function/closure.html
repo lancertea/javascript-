@@ -38,33 +38,98 @@
 
 
         //闭包
-        function example() {
-            var count = 0;
-            return function () {
-                return ++count;
-            }
-        }
-
-        var getCount = example();
-        console.log(getCount()); //1
-        console.log(getCount()); //2
-
-        // 闭包隐藏数据，只提供 API
-        function createCache() {
-            const data = {} // 闭包中的数据，被隐藏，不被外界访问
-            return {
-                set: function (key, val) {
-                    data[key] = val
-                },
-                get: function (key) {
-                    return data[key]
+        {
+            function example() {
+                var count = 0;
+                return function () {
+                    return ++count;
                 }
             }
+
+            var getCount = example();
+            console.log(getCount()); //1
+            console.log(getCount()); //2
+
+            // 闭包隐藏数据，只提供 API
+            function createCache() {
+                const data = {} // 闭包中的数据，被隐藏，不被外界访问
+                return {
+                    set: function (key, val) {
+                        data[key] = val
+                    },
+                    get: function (key) {
+                        return data[key]
+                    }
+                }
+            }
+
+            const c = createCache()
+            c.set('a', 100)
+            console.log(c.get('a')) //100
+        }
+        //私有变量
+        {
+            var Person = function (_name, _age) {
+                this.name = _name;
+                var age = _age;
+                this.getName = function () {
+                    return this.name;
+                };
+                this.setName = function (_name) {
+                    this.name = _name;
+                };
+                this.getAge = function () {
+                    return age;
+                };
+                this.setAge = function (_age) {
+                    age = _age;
+                };
+            }
+
+            var p1 = new Person('zz', 12);
+            console.log(p1.getName()); //'zz'
+            console.log(p1.getAge()); //12
+
+            p1.name = 'ss';
+            p1.age = 7;
+            console.log(p1.getName()); //'ss'
+            console.log(p1.getAge()); //12
+
+
+        }
+        //定时器传参
+        {
+            function foo(param) {
+                return function () {
+                    console.log(param);
+
+                };
+            }
+            var bar = foo(111);
+            setTimeout(bar, 100);
         }
 
-        const c = createCache()
-        c.set('a', 100)
-        console.log(c.get('a'))//100
+        //网站访问计数、广告点击地址
+        //如果设置成对象，以对象属性方式访问，很容易被外面改
+        {
+            
+            var tracker = (function () {
+                var accessCounter = 0;
+                return {
+                    increaseAccessCounter: function () {
+                        accessCounter++;
+                    },
+                    getAccessCounter(){
+                        return accessCounter;
+                    }
+                };
+            })();
+           tracker.increaseAccessCounter();
+           tracker.increaseAccessCounter();
+           console.log(tracker.getAccessCounter());
+           
+
+        }
     </script>
 </body>
 
