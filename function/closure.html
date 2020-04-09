@@ -115,18 +115,36 @@
             
             var tracker = (function () {
                 var accessCounter = 0;
+                var adAccess=[];
+                // 模块化  module.exports={}  用这句替换return
                 return {
                     increaseAccessCounter: function () {
                         accessCounter++;
                     },
                     getAccessCounter(){
                         return accessCounter;
+                    },
+                    storeAccessPage:function(page){
+                       adAccess.push(page); 
+                    },
+                    checkAccessPage:function(){
+                        return adAccess;
                     }
                 };
             })();
            tracker.increaseAccessCounter();
            tracker.increaseAccessCounter();
            console.log(tracker.getAccessCounter());
+
+           var page1="http://xxx.com/yyy.html";
+           var page2="http://xxx.com/zzz.html";
+
+           tracker.storeAccessPage(page1);
+           tracker.storeAccessPage(page2);
+
+           console.log(tracker.checkAccessPage());
+           
+
            
 
         }
