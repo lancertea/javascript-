@@ -15,176 +15,220 @@
 </body>
 
 <script>
-    /*
-    eval()
-    当解析器发现代码中调用eval()方法时，它会将传入的参数当作实际的ECMAScript语句来解析，然后把执行结果插入到原位置。
-    */
-    eval('console.log("hi")'); //'hi'
-    //这行代码的作用等价于下面这行
-    console.log("hi"); //'hi'
+    {
+        /*
+        eval()
+        当解析器发现代码中调用eval()方法时，它会将传入的参数当作实际的ECMAScript语句来解析，然后把执行结果插入到原位置。
+        */
+        eval('console.log("hi")'); //'hi'
+        //这行代码的作用等价于下面这行
+        console.log("hi"); //'hi'
 
-    //通过eval()执行的代码被认为是包含该次调用的执行环境的一部分，因此被执行的代码具有该执行环境相同的作用域链。
-    var msg = 'hello';
-    eval('console.log(msg)'); //'hello'
+        //通过eval()执行的代码被认为是包含该次调用的执行环境的一部分，因此被执行的代码具有该执行环境相同的作用域链。
+        var msg = 'hello';
+        eval('console.log(msg)'); //'hello'
 
-    eval('function sayHi(){console.log("hi");}');
-    sayHi(); //'hi'
+        eval('function sayHi(){console.log("hi");}');
+        sayHi(); //'hi'
 
-    //在eval()中创建的任何变量或函数都不会被提升，因为在解析代码的时候，它们被包含在一个字符串中；它们只在eval()执行的时候创建
-    //sayBye();// error,sayBye is not defined
-    eval('function sayBye(){console.log("bye");}');
+        //在eval()中创建的任何变量或函数都不会被提升，因为在解析代码的时候，它们被包含在一个字符串中；它们只在eval()执行的时候创建
+        //sayBye();// error,sayBye is not defined
+        eval('function sayBye(){console.log("bye");}');
 
-    /*
-    避免eval()
-    https://www.cnblogs.com/TomXu/archive/2011/12/28/2286877.html
-    */
-
-
-
-    //函数上下文中的变量对象
-    function f(x, y, z) {
-
-        // 声明的函数参数数量arguments (x, y, z)
-        console.log(f.length); // 3
-
-        // 真正传进来的参数个数(only x, y)
-        console.log(arguments.length); // 2
-
-        // 参数的callee是函数自身
-        console.log(arguments.callee === f); // true
-
-        // 参数共享
-        console.log(x === arguments[0]); // true
-        console.log(x); // 10
-
-        arguments[0] = 20;
-        console.log(x); // 20
-
-        x = 30;
-        console.log(arguments[0]); // 30
-
-        // 不过，没有传进来的参数z，和参数的第3个索引值是不共享的
-        z = 40;
-        console.log(arguments[2]); // undefined
-
-        arguments[2] = 50;
-        console.log(z); // 40
-
+        /*
+        避免eval()
+        https://www.cnblogs.com/TomXu/archive/2011/12/28/2286877.html
+        */
     }
 
-    f(10, 20);
+    {
+        //函数上下文中的变量对象
+        function f(x, y, z) {
 
+            // 声明的函数参数数量arguments (x, y, z)
+            console.log(f.length); // 3
 
+            // 真正传进来的参数个数(only x, y)
+            console.log(arguments.length); // 2
 
-    /*
-     变量声明和变量提升
-    通常，各类文章和JavaScript相关的书籍都声称：“不管是使用var关键字(在全局上下文)还是不使用var关键字(在任何地方)，都可以声明一个变量”。
-    请记住，这是错误的概念：任何时候，变量只能通过使用var关键字才能声明。
-          
-     a=10;
-    这仅仅是给全局对象创建了一个新属性(但它不是变量)。“不是变量”并不是说它不能被改变，而是指它不符合ECMAScript规范中的变量概念，
-    所以它“不是变量”(它之所以能成为全局对象的属性，完全是因为VO(globalContext) === global)。
-    */
-    console.log(a); //undefined
-    //a没有报错的原因是a在稍后声明了，但这里输出的是undefined，因为JavaScript引擎自动提升了变量a的声明，但不会提升变量a的赋值。
+            // 参数的callee是函数自身
+            console.log(arguments.callee === f); // true
 
-    //console.log(b); 报错，'b'没有声明
-    //因为“b”不是一个变量，所以在这个阶段根本就没有“b”，“b”将只在代码执行阶段才会出现(但是在这个例子里，还没有到那就已经出错了)。
-    b = 10;
-    var a = 20;
+            // 参数共享
+            console.log(x === arguments[0]); // true
+            console.log(x); // 10
 
-    //修改一下：
-    console.log(c); // undefined
+            arguments[0] = 20;
+            console.log(x); // 20
 
-    d = 10;
-    console.log(d); // 10, 代码执行阶段创建
+            x = 30;
+            console.log(arguments[0]); // 30
 
-    var c = 20;
-    console.log(c); // 20, 代码执行阶段修改
+            // 不过，没有传进来的参数z，和参数的第3个索引值是不共享的
+            z = 40;
+            console.log(arguments[2]); // undefined
 
+            arguments[2] = 50;
+            console.log(z); // 40
 
-    //变量相对于简单属性来说，变量有一个特性(attribute)：{DontDelete},这个特性的含义就是不能用delete操作符直接删除变量属性。
-    e = 10;
-    console.log(window.e); //10 
-    console.log(delete e); //true
-    console.log(window.e); //undefined   另外这里直接输出e,会报错,为什么呢
-    var f = 20;
-    console.log(window.f); //20
-    console.log(delete f); //false
-    console.log(window.f); //20
-
-
-
-    //with增大作用域链
-    Object.prototype.x = 10;
-
-    var w = 20;
-    var y = 30;
-
-    // 在SpiderMonkey全局对象里
-    // 例如，全局上下文的变量对象是从"Object.prototype"继承到的
-    // 所以我们可以得到“没有声明的全局变量”
-    // 因为可以从原型链中获取
-
-    console.log(x); // 10
-
-    (function foo() {
-
-        // "foo" 是局部变量
-        var w = 40;
-        var x = 100;
-
-        // "x" 可以从"Object.prototype"得到，注意值是10哦
-        // 因为{z: 50}是从它那里继承的
-
-        with({
-            z: 50
-        }) {
-            console.log(w, x, y, z); // 40, 10, 30, 50
         }
 
-        // 在"with"对象从作用域链删除之后
-        // x又可以从foo的上下文中得到了，注意这次值又回到了100哦
-        // "w" 也是局部变量
-        console.log(x, w); // 100, 40
-
-        // 在浏览器里
-        // 我们可以通过如下语句来得到全局的w值
-        console.log(window.w); // 20
-
-    })();
-
-    let i, a1
-    // for循环很快执行完了、监听事件相对很慢
-    for (i = 0; i < 10; i++) {
-        a1 = document.createElement('a')
-        a1.innerHTML = i + '<br>'
-        a1.addEventListener('click', function (e) {
-            e.preventDefault()
-            alert(i) //全是10
-        })
-        document.body.appendChild(a1)
+        f(10, 20);
     }
 
-    let a2
-    for (let i = 0; i < 10; i++) {
-        a2 = document.createElement('a')
-        a2.innerHTML = i + '<br>'
-        a2.addEventListener('click', function (e) {
-            e.preventDefault()
-            alert(i) //0，1，2，3，4，…，9
-        })
-        document.body.appendChild(a2)
+    {
+        /*
+         变量声明和变量提升
+        通常，各类文章和JavaScript相关的书籍都声称：“不管是使用var关键字(在全局上下文)还是不使用var关键字(在任何地方)，都可以声明一个变量”。
+        请记住，这是错误的概念：任何时候，变量只能通过使用var关键字才能声明。
+              
+         a=10;
+        这仅仅是给全局对象创建了一个新属性(但它不是变量)。“不是变量”并不是说它不能被改变，而是指它不符合ECMAScript规范中的变量概念，
+        所以它“不是变量”(它之所以能成为全局对象的属性，完全是因为VO(globalContext) === global)。
+        */
+        console.log(a); //undefined
+        //a没有报错的原因是a在稍后声明了，但这里输出的是undefined，因为JavaScript引擎自动提升了变量a的声明，但不会提升变量a的赋值。
+
+        //console.log(b); 报错，'b'没有声明
+        //因为“b”不是一个变量，所以在这个阶段根本就没有“b”，“b”将只在代码执行阶段才会出现(但是在这个例子里，还没有到那就已经出错了)。
+        b = 10;
+        var a = 20;
+
+        //修改一下：
+        console.log(c); // undefined
+
+        d = 10;
+        console.log(d); // 10, 代码执行阶段创建
+
+        var c = 20;
+        console.log(c); // 20, 代码执行阶段修改
+
+
+        //变量相对于简单属性来说，变量有一个特性(attribute)：{DontDelete},这个特性的含义就是不能用delete操作符直接删除变量属性。
+        e = 10;
+        console.log(window.e); //10 
+        console.log(delete e); //true
+        console.log(window.e); //undefined   另外这里直接输出e,会报错,为什么呢
+        var f = 20;
+        console.log(window.f); //20
+        console.log(delete f); //false
+        console.log(window.f); //20
     }
 
-    //for循环还有一个特别之处，就是设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。
-    for (let j = 0; j < 3; j++) {
-        let j = 'abc';
-        console.log(j);
+    {
+        //with增大作用域链
+        Object.prototype.x = 10;
+
+        var w = 20;
+        var y = 30;
+
+        // 在SpiderMonkey全局对象里
+        // 例如，全局上下文的变量对象是从"Object.prototype"继承到的
+        // 所以我们可以得到“没有声明的全局变量”
+        // 因为可以从原型链中获取
+
+        console.log(x); // 10
+
+        (function foo() {
+
+            // "foo" 是局部变量
+            var w = 40;
+            var x = 100;
+
+            // "x" 可以从"Object.prototype"得到，注意值是10哦
+            // 因为{z: 50}是从它那里继承的
+
+            with({
+                z: 50
+            }) {
+                console.log(w, x, y, z); // 40, 10, 30, 50
+            }
+
+            // 在"with"对象从作用域链删除之后
+            // x又可以从foo的上下文中得到了，注意这次值又回到了100哦
+            // "w" 也是局部变量
+            console.log(x, w); // 100, 40
+
+            // 在浏览器里
+            // 我们可以通过如下语句来得到全局的w值
+            console.log(window.w); // 20
+
+        })();
     }
-    // abc
-    // abc
-    // abc
+
+    //相关题目：
+    {
+        let i, a1
+        // for循环很快执行完了、监听事件相对很慢
+        for (i = 0; i < 10; i++) {
+            a1 = document.createElement('a')
+            a1.innerHTML = i + '<br>'
+            a1.addEventListener('click', function (e) {
+                e.preventDefault()
+                alert(i) //全是10
+            })
+            document.body.appendChild(a1)
+        }
+
+        let a2
+        for (let i = 0; i < 10; i++) {
+            a2 = document.createElement('a')
+            a2.innerHTML = i + '<br>'
+            a2.addEventListener('click', function (e) {
+                e.preventDefault()
+                alert(i) //0，1，2，3，4，…，9
+            })
+            document.body.appendChild(a2)
+        }
+
+        //for循环还有一个特别之处，就是设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。
+        for (let j = 0; j < 3; j++) {
+            let j = 'abc';
+            console.log(j);
+        }
+        // abc
+        // abc
+        // abc
+    }
+
+    {
+
+        var a = 10;
+
+        function fn() {
+            var b = 20;
+
+            function bar() {
+                console.log(a + b); //30
+
+            }
+            return bar;
+        }
+        var x = fn(),
+            b = 200;
+        x();
+
+    }
+
+    {
+        var x = 10;
+
+        function fn() {
+            console.log(x);
+
+        }
+
+        function show(f) {
+            var x = 20;
+            (
+                function () {
+                    f();
+                }
+            )();
+        }
+        show(fn);  //10
+
+    }
 </script>
 
 </html>
