@@ -69,7 +69,31 @@
         4.如果构造函数显示的返回一个对象，那么则这个实例为这个返回的对象。 否则返回这个新创建的对象
         */
 
+        //构造函数和普通函数的区别
 
+        {
+         function P(num){
+             this.num=num;
+         }
+         var p=new P('zz');
+         console.log(p.constructor);//function P(num)
+         
+         function P1(num){
+            this.num=num;
+         }
+         var p1=P1('ss');//p1为undefined
+         //console.log(p1.constructor);
+         console.log(P1===P1.prototype.constructor);//true
+
+         function P2(num){
+          return {num:num};
+         }
+         var p2=P2('yy');
+         console.log(p2.constructor);//function Object()
+         console.log(P2===P2.prototype.constructor);//true
+         
+
+        }
 
         //3.原型创建
         function Obj1(name, num) {
