@@ -163,47 +163,92 @@
         var q = {
             name: 'qq',
             show: function () {
-               setTimeout(function(){
-                   console.log(this);//window
-                   
-               },1000);
-            }
-        };  
-        q.show();
+                setTimeout(function () {
+                    console.log(this); //window
 
-         //this在箭头函数里没有指向，所以他得去外面找
-        var q1= {
-            name: 'qq',
-            show: function () {
-                console.log(this);//q1
-               setTimeout(()=>{
-                   console.log(this);//q1
-                   
-               },1000);
+                }, 1000);
             }
         };
-        q1.show();  
+        q.show();
+
+        //this在箭头函数里没有指向，所以他得去外面找
+        var q1 = {
+            name: 'qq',
+            show: function () {
+                console.log(this); //q1
+                setTimeout(() => {
+                    console.log(this); //q1
+
+                }, 1000);
+            }
+        };
+        q1.show();
     }
 
     {
-      function foo(a,b){
-          console.log(this);
-          console.log(a);
-          console.log(b);
+        function foo(a, b) {
+            console.log(this);
+            console.log(a);
+            console.log(b);
         }
 
-    var xc={
-        name:'xiecheng',
-        age:33
-    };
+        var xc = {
+            name: 'xiecheng',
+            age: 33
+        };
 
-    foo.call(xc,2,3);
-    foo.apply(xc,[2,3]);
-    //foo.bind(xc)(2,3);
-    foo.bind(xc,2,3)();
+        foo.call(xc, 2, 3);
+        foo.apply(xc, [2, 3]);
+        //foo.bind(xc)(2,3);
+        foo.bind(xc, 2, 3)();
+
+        //这三个函数常用场景：
+        //call:将类数组变成数组：
+        function convertArgs() {
+            console.log(arguments); //类数组
+            console.log(Array.isArray(arguments));
+            var args = Array.prototype.slice.call(arguments);
+            console.log(args);
+            console.log(Array.isArray(args)); //true
+
+
+        }
+        convertArgs(1, 2, 3, 4);
+
+        //apply:求数组的最小值
+        console.log(Math.min(1,2,3,4));//1
+        console.log(Math.min([1,2,3,4]));//NaN
+        console.log(Math.min.apply(null,[1,2,3,4]));//1
+       
+
+        //bind:借用方法
+        var obj1={
+            data:[1,2,3],
+            printF:function(){
+                if(this.data.length){
+                    return this.data[0];
+                }
+            }
+        };
+        console.log(obj1.printF());
+        
+        var obj2={
+            data:[4,5,6],
+            printS:function(){
+                if(this.data.length>1){
+                    return this.data[1];
+                }
+            }
+        };
+        console.log(obj2.printS());
+        var getS=obj2.printS.bind(obj1);
+        console.log(getS());
+        
+        
+        
+
 
     }
-    
 </script>
 
 </html>
