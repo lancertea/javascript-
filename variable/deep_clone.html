@@ -48,7 +48,7 @@
         d.num = 3
         console.log(f.num) //2
 
-
+        //浅拷贝：
         // let obj2={};
         // for(let key in obj){
         //     if(!obj.hasOwnProperty(key))break;
@@ -71,7 +71,7 @@
         console.log(obj2) //{x: 2, y: {m: 2}}
 
         // JSON.parse(JSON.stringify(obj)) 进行深拷贝是有局限性的；
-        //不能深拷贝还有 undefined、function、symbol值的对象。
+        //不能深拷贝还有 undefined、function、Regexp、Datesymbol值的对象。
         var obj1 = {
             x: 1,
             y: undefined,

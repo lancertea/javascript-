@@ -1,5 +1,3 @@
-
-
 const obj1 = {
     age: 20,
     name: 'xxx',
@@ -26,20 +24,28 @@ console.log(obj1.arr[0])
  *3.使用for-in遍历对象，因为for-in会遍历原型链上的属性，所以需要判断属性是否在原型链上，不是原型链才拷贝
  * 
  */
-function deepClone(obj ={}) {
+function deepClone(obj = {}) {
     if (typeof obj !== 'object' || obj === null) {
         // obj 是 null ，或者不是对象和数组，直接返回
         return obj
     }
-
-    // 初始化返回结果
-    let result
-
-    if (obj instanceof Array) {
-        result = []
-    } else {
-        result = {}
+    if (obj instanceof RegExp) {
+        return new RegExp(obj);
     }
+    if (obj instanceof Date) {
+        return new Date(obj);
+    }
+
+    // // 初始化返回结果
+    // let result
+
+    // if (obj instanceof Array) {
+    //     result = []
+    // } else {
+    //     result = {}
+    // }
+    //不直接创建空对象目的：克隆的结果和之前保持相同的所属类
+    let result = new Object.constructor;
 
     for (let key in obj) {
         // 保证 key 不是原型的属性
