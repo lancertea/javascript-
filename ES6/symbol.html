@@ -5,32 +5,56 @@
     <meta charset="utf-8">
     <title>symbol</title>
     <script>
-       let a1=Symbol.for('abc');
-       let obj={
-           [a1]:'123',
-           'abc':345,
-           'c':456
-       };
-       console.log(obj);//Object { abc: 345, c: 456, Symbol(abc): "123" }
+        let a1 = Symbol.for('abc');
+        let obj = {
+            [a1]: '123',
+            'abc': 345,
+            'c': 456
+        };
+        console.log(obj); //Object { abc: 345, c: 456, Symbol(abc): "123" }
 
-    //for of  for in 拿不到symbol的属性
-    for(let [key,value] of Object.entries(obj)){
-        console.log('let of',key,value);
-        
-    } 
-    //只能拿到symbol的属性
-    Object.getOwnPropertySymbols(obj).forEach(function(item){
-        console.log(obj[item]);
-        
-    })
+        //for of  for in 拿不到symbol的属性
+        for (let [key, value] of Object.entries(obj)) {
+            console.log('let of', key, value);
 
-    //全拿到
-    Reflect.ownKeys(obj).forEach(function(item){
-        console.log('ownkeys',item,obj[item]);
-        
-    })
+        }
+        //只能拿到symbol的属性
+        Object.getOwnPropertySymbols(obj).forEach(function (item) {
+            console.log(obj[item]);
+
+        })
+
+        //全拿到
+        Reflect.ownKeys(obj).forEach(function (item) {
+            console.log('ownkeys', item, obj[item]);
+
+        })
 
 
+        {
+            let a = {},
+                b = '0',
+                c = 0;
+            a[b] = '今天';
+            a[c] = '明天';
+            console.log(a[b]); //'明天'
+
+        } {
+            let a = {},
+                b = Symbol('1'),
+                c = Symbol('1');
+            a[b] = '今天';
+            a[c] = '明天';
+            console.log(a[b]); //'今天'  
+        }
+        {
+            let a = {},
+                b ={n:'1'},
+                c = {m:'2'};
+            a[b] = '今天';
+            a[c] = '明天';
+            console.log(a[b]); //'明天'   
+        }
     </script>
 </head>
 
