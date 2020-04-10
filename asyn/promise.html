@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>promise</title>
+
+</head>
+
+<body>
+    <button id="btn">模拟获取数据</button>
+    <p id="res"></p>
+    <script>
+        {
+            //如何使用
+            let p = new Promise(function (resolve, reject) {
+                //这里写异步代码：加载图片、ajax请求
+                setTimeout(function () {
+                    //在resolve被调用之前，会有一堆代码
+                    console.log('执行异步代码1');
+                    resolve();
+                })
+            })
+            //promise是一种异步的编程解决方案，把异步代码放到promise里面去
+            //promise有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）
+            //Promise构造函数接受一个函数作为参数，该函数的两个参数分别是resolve和reject。
+            //resolve:异步代码执行成功后的回调函数
+            //reject:异步代码执行失败后的回调函数
+        } {
+
+
+            function AsyncFn() {
+                let p = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        //模拟加图片
+                        console.log('模拟图片加载成功');
+                        resolve();
+                    }, 1000)
+                })
+                return p;
+                //这个函数执行后返回一个promise对象
+
+            }
+            //then第一个参数是一个函数块，这个函数块被传给了promise里面的resolve()
+            AsyncFn().then(() => {
+                //图片加载成功后的业务逻辑
+                console.log('图片已经被添加到body中了');
+
+            })
+            //这样的好处是将异步代码和回调函数分离了
+
+
+        }
+
+        {
+            function AsyncFn1() {
+                let p = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        //模拟加图片
+                        console.log('1--模拟图片加载成功');
+                        resolve();
+                    }, 1000)
+                })
+                return p;
+                //这个函数执行后返回一个promise对象
+
+            }
+
+            function AsyncFn2() {
+                let p = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        //模拟加图片
+                        console.log('2--模拟请求商品信息成功');
+                        resolve();
+                    }, 3000)
+                })
+                return p;
+                //这个函数执行后返回一个promise对象
+
+            }
+
+            function AsyncFn3() {
+                let p = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        //模拟加图片
+                        console.log('3--模拟查询用户信息成功');
+                        resolve();
+                    }, 2000)
+                })
+                return p;
+                //这个函数执行后返回一个promise对象
+
+            }
+
+            // AsyncFn1()
+            // AsyncFn2()
+            // AsyncFn3()
+
+            //要求按顺序执行
+            AsyncFn1().then(() => {
+                console.log('图片添加到body中了');
+                return AsyncFn2();
+            }).then(() => {
+                console.log('循环把商品添加到了商品列表中');
+                return AsyncFn3();
+
+            }).then(() => {
+                console.log('用户可以购买商品了');
+
+            })
+
+        }
+        //模拟获取数据
+        {
+            let oBtn = document.getElementById('btn');
+            let oRes = document.getElementById('res');
+            oBtn.onclick = () => {
+               
+                AsyncGetData().then((data)=>{
+                   oRes.innerHTML=data;
+                    
+                },(data)=>{
+                    oRes.innerHTML='<span style="color:red">'+data+'</span>';
+                });
+            }
+
+
+            function AsyncGetData() {
+                let num = Math.random() * 20;
+                let p = new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            if (num > 10) {
+                                resolve('这是一些数据');
+                            } else {
+                                reject('执行失败');
+                            }
+                        })
+                    })
+                    return p;
+                        
+                }
+            }
+     
+                
+    </script>
+</body>
+
+</html>
