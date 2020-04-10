@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>promise_catch</title>
+
+</head>
+
+<body>
+    <button id="btn">模拟获取数据</button>
+    <p id="res"></p>
+    <script>
+        //模拟获取数据
+        // {
+        //     let oBtn = document.getElementById('btn');
+        //     let oRes = document.getElementById('res');
+        //     oBtn.onclick = () => {
+
+        //         AsyncGetData().then((data) => {
+        //             oRes.innerHTML = data;
+        //             xxx //执行到了这里会报错，如果下面还有代码不会再执行
+        //             console.log(1);
+                    
+        //         }, (data) => {
+        //             console.log(2); 
+        //             oRes.innerHTML = '<span style="color:red">' + data + '</span>';
+        //         });
+        //     }
+
+
+        //     function AsyncGetData() {
+        //         let num = Math.random() * 20;
+        //         let p = new Promise((resolve, reject) => {
+        //             setTimeout(() => {
+        //                 if (num > 10) {
+        //                     resolve('获取数据成功');
+        //                 } else {
+        //                     reject('获取数据失败');
+        //                 }
+        //             })
+        //         })
+        //         return p;
+
+        //     }
+        // }
+
+        {
+            let oBtn = document.getElementById('btn');
+            let oRes = document.getElementById('res');
+            oBtn.onclick = () => {
+
+                AsyncGetData().then((data) => {
+                    oRes.innerHTML = data;
+                    xxx 
+                    console.log(1);
+                    
+                }).catch((data2) => {
+                    console.log(2); 
+                    console.log(data2);                    
+                    oRes.innerHTML = '<span style="color:red">' + data2 + '</span>';
+                });
+            }
+
+
+            function AsyncGetData() {
+                let num = Math.random() * 20;
+                let p = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        if (num > 10) {
+                            resolve('获取数据成功');
+                        } else {
+                            reject('获取数据失败');
+                        }
+                    })
+                })
+                return p;
+
+            }
+        }
+    </script>
+</body>
+
+</html>
