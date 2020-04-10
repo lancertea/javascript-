@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>promise_all</title>
+    
+</head>
+
+<body>
+    <button id="btn">获取图片</button>
+    <script>
+let oBtn=document.getElementById('btn');
+
+function loadImg(src) {
+    const p = new Promise(
+        (resolve, reject) => {
+            const img = document.createElement('img')
+            // let img=new Image();
+            img.src = src
+            img.onload = () => {
+                resolve(img)
+            }
+            img.onerror = () => {
+                const err = new Error(`图片加载失败 ${src}`)
+                reject(err)
+            }
+
+        }
+    )
+    return p
+}
+
+let arr = [
+    'http://img1.imgtn.bdimg.com/it/u=3044494920,2934017033&fm=26&gp=0.jpg',
+    'http://bos.pgzs.com/rbpiczy/Wallpaper/2013/5/7/0afeab8c217144718bedbd0ea76535db-2.jpg',
+    'http://img5.imgtn.bdimg.com/it/u=3006726477,1115289650&fm=26&gp=0.jpg',
+    'http://img5.imgtn.bdimg.com/it/u=2134729523,2869252912&fm=26&gp=0.jpg']
+
+
+// for (let i = 0; i < arr.length; i++)   
+oBtn.onclick=()=>{
+    Promise.all([loadImg(arr[0]),loadImg(arr[1]),loadImg(arr[2]),loadImg(arr[3])]).then((result)=>{
+        //console.log(result);
+        //数组中的promise实例返回的值会放到这个result中，组成一个新的数组
+        //有一个错就都不能加载
+     for(let i=0;i<result.length;i++){
+         document.body.appendChild(result[i]);
+     }
+    }).catch((err)=>{
+        console.log(err);
+        
+    })
+
+}
+    </script>
+</body>
+
+</html>

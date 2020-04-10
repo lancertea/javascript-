@@ -1,3 +1,5 @@
+let oBtn=document.getElementById('btn');
+
 function loadImg(src) {
     const p = new Promise(
         (resolve, reject) => {
@@ -49,13 +51,18 @@ let arr = [
 
 
 // for (let i = 0; i < arr.length; i++)   
-for(let i in arr)
-{
-    loadImg(arr[i]).then(img => {
-        img.title="图片"+i;
-        document.body.appendChild(img);
-    },err=>{
-        console.log(err);
-        
-    })
+oBtn.onclick=()=>{
+    for(let i in arr)
+    {
+        loadImg(arr[i]).then(img => {
+            img.title="图片"+i;
+            document.body.appendChild(img);
+        },err=>{
+            console.log(err);
+            
+        })
+    }
+
+
+
 }
