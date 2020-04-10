@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>promise_race</title>
+
+</head>
+
+<body>
+
+    <button id="btn">获取图片</button>
+    <script>
+        let oBtn = document.getElementById('btn');
+
+        function loadImg(src) {
+            const p = new Promise(
+                (resolve, reject) => {
+                    const img = document.createElement('img')
+                    // let img=new Image();
+                    img.src = src
+                    img.onload = () => {
+                        resolve(img)
+                    }
+                    img.onerror = () => {
+                        const err = new Error(`图片加载失败 ${src}`)
+                        reject(err)
+                    }
+
+                }
+            )
+            return p
+        }
+
+        let arr = [
+            'http://img1.imgtn.bdimg.com/it/u=3044494920,2934017033&fm=26&gp=0.jpg',
+            'http://bos.pgzs.com/rbpiczy/Wallpaper/2013/5/7/0afeab8c217144718bedbd0ea76535db-2.jpg',
+            'http://img5.imgtn.bdimg.com/it/u=3006726477,1115289650&fm=26&gp=0.jpg',
+            'http://img5.imgtn.bdimg.com/it/u=2134729523,2869252912&fm=26&gp=0.jpg'
+        ]
+
+        //图片超时应用
+        function AsynTimeout(){
+            return new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    reject('图片超时');
+                },1000)
+            })
+        }
+
+
+        // for (let i = 0; i < arr.length; i++)   
+        // oBtn.onclick = () => {
+        //     // Promise.race([p1,p2,p3...]) 数组中的元素谁用时最少就以谁为准，返回用时最少的
+        //     Promise.race([loadImg(arr[0]), loadImg(arr[1]), loadImg(arr[2]), loadImg(arr[3])]).then((result) => {
+        //         console.log(result);
+        //     })
+
+        // }
+        oBtn.onclick = () => {
+            Promise.race([loadImg(arr[0]), AsynTimeout()]).then((result) => {
+                console.log(result);
+            }).catch((err)=>{
+                console.log(err);
+                
+            })
+
+        }
+
+    </script>
+</body>
+
+</html>
