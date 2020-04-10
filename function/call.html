@@ -10,7 +10,7 @@
 <body>
     <script>
         // bind()、call()、apply()方法在Function.prototype上
-        Function.prototype.myCall = function (context) {
+        Function.prototype.myCall = function (context) { //context指向第一个参数，即this指向的对象
             if (typeof this !== 'function') {
                 throw new TypeError('not function')
             }
