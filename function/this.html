@@ -184,7 +184,47 @@
         };
         q1.show();
     }
+    {
+      var length=10;
+      function fn(){
+          console.log(this.length);
+          
+      }
 
+      var obj={
+          length:5,
+          method:function(){
+              fn();//10
+              fn.call(this);//5
+          }
+      };
+
+      obj.method();
+
+
+    }
+    {
+        //如何让this关键词指向obj
+        var obj={
+            data:[1,2,3],
+            print:function(){
+                //方法一：that
+                // var that=this;
+                // this.data.forEach(function(){
+                //     console.log(this); //window
+                //     // console.log(that);//obj
+                    
+                //方法二：bind  
+                // }.bind(this));
+
+                //方法三：箭头函数
+                 this.data.forEach(()=>{
+                    console.log(this);        
+                });
+            }
+        };
+        obj.print();
+    }
     {
         function foo(a, b) {
             console.log(this);
