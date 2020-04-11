@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>通用的事件绑定函数</title>
+    <style>
+        div {
+            border: 1px solid #ccc;
+            margin: 10px 0;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="btn1">一个按钮</button>
+    <div id="div3">
+        <a href="#">a1</a><br>
+        <a href="#">a2</a><br>
+        <a href="#">a3</a><br>
+        <a href="#">a4</a><br>
+        <button>加载更多...</button>
+    </div>
+
+    <script>
+       
+        function bindEvent(elem, type, selector, fn) {
+            if (fn == null) {
+                fn = selector
+                selector = null
+            }
+            elem.addEventListener(type, event => {
+                const target = event.target
+                if (selector) {
+                    // 代理绑定
+                    if (target.matches(selector)) {
+                        fn.call(target, event)
+                    }
+                } else {
+                    // 普通绑定
+                    fn.call(target, event)
+                }
+            })
+        }
+
+        // 普通绑定
+        const btn1 = document.getElementById('btn1')
+        bindEvent(btn1, 'click', function (event) {
+            // console.log(event.target) // 获取触发的元素
+            event.preventDefault() // 阻止默认行为
+            alert(this.innerHTML)
+        })
+
+        // 代理绑定
+        const div3 = document.getElementById('div3')
+        bindEvent(div3, 'click', 'a', function (event) {
+            event.preventDefault()
+            alert(this.innerHTML)
+        })
+
+       
+    </script>
+</body>
+
+</html>
