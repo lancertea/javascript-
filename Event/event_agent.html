@@ -32,14 +32,17 @@
         }
         */
 
-
+     //这种方式好处有两个：
+     //1.不用为上万个子元素绑定事件
+     //2.对后插入的子元素也有用
         oul.onclick=function(e){
             e=e||window.event;
             var target=e.srcElement||e.target;
             console.log(target.innerHTML);
             
         };
-
+//e.target
+//e.currentTarget
 
     </script>
 
