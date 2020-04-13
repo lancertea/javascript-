@@ -380,6 +380,7 @@
             if (typeof obj !== 'object') {
                 return (typeof obj);
             }
+             //    return obj.toString(); //'1,2,3'
             return Object.prototype.toString.call(obj).slice(8, -1);
         }
 

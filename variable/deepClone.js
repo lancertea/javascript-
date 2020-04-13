@@ -1,18 +1,38 @@
-const obj1 = {
+{
+function Cat(color, size) {
+    this.color = color;
+    this.size = size;
+
+}
+
+class Child {
+    constructor(num,gender) {
+        this.num = num;
+        this.gender = gender;
+    }
+
+}
+let c1 = new Cat('black', 'big');
+let joe=new Child(111,'male');
+
+let obj = {
     age: 20,
     name: 'xxx',
+    a: Symbol("foo"),
+    reg: /\d+/,
     address: {
         city: 'beijing'
     },
-    arr: ['a', 'b', 'c']
-}
-
-
-const obj2 = deepClone(obj1)
-obj2.address.city = 'shanghai'
-obj2.arr[0] = 'a1'
-console.log(obj1.address.city)
-console.log(obj1.arr[0])
+    arr: ['a', 'b', 'c'],
+    c1,
+    joe
+};
+let cloneObj = deepClone(obj);
+console.log(cloneObj);
+cloneObj.address.city = 'shanghai'
+cloneObj.arr[0] = 'a1'
+console.log(obj.address.city)
+console.log(obj.arr[0])
 
 
 /**
@@ -36,14 +56,6 @@ function deepClone(obj = {}) {
         return new Date(obj);
     }
 
-    // // 初始化返回结果
-    // let result
-
-    // if (obj instanceof Array) {
-    //     result = []
-    // } else {
-    //     result = {}
-    // }
     //不直接创建空对象目的：克隆的结果和之前保持相同的所属类
     let result = new Object.constructor;
 
@@ -56,5 +68,35 @@ function deepClone(obj = {}) {
     }
 
     // 返回结果
-    return result
+    return result;
+}
+
+//目前更推荐一点
+//这种方式不能识别自定义类
+function deepclone(obj = {}) {
+    if (typeof obj !== 'object' || obj === null) {
+        return obj;
+    }
+    if (obj instanceof RegExp) {
+        return new RegExp(obj);
+    }
+    if (obj instanceof Date) {
+        return new Date(obj);
+    }
+    let res;
+    if (obj instanceof Array) {
+        res = [];
+    } else {
+        res = {};
+    }
+
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            res[key] = deepclone(obj[key]);
+        }
+
+
+    }
+    return res;
+}
 }
