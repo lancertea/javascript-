@@ -105,6 +105,7 @@
 
         }
         print(); //'456'
+        console.log(name);//'789'
         //print()这种调用方式的this是window
     } {
         //3
@@ -163,6 +164,7 @@
         var q = {
             name: 'qq',
             show: function () {
+                console.log(this);//object q
                 setTimeout(function () {
                     console.log(this); //window
 
@@ -247,6 +249,7 @@
         function convertArgs() {
             console.log(arguments); //类数组
             console.log(Array.isArray(arguments));
+            // base = [].shift.call(arguments);
             var args = Array.prototype.slice.call(arguments);
             console.log(args);
             console.log(Array.isArray(args)); //true
