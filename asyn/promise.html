@@ -115,12 +115,12 @@
             let oBtn = document.getElementById('btn');
             let oRes = document.getElementById('res');
             oBtn.onclick = () => {
-               
-                AsyncGetData().then((data)=>{
-                   oRes.innerHTML=data;
-                    
-                },(data)=>{
-                    oRes.innerHTML='<span style="color:red">'+data+'</span>';
+
+                AsyncGetData().then((data) => {
+                    oRes.innerHTML = data;
+
+                }, (data) => {
+                    oRes.innerHTML = '<span style="color:red">' + data + '</span>';
                 });
             }
 
@@ -128,20 +128,40 @@
             function AsyncGetData() {
                 let num = Math.random() * 20;
                 let p = new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            if (num > 10) {
-                                resolve('这是一些数据');
-                            } else {
-                                reject('执行失败');
-                            }
-                        })
+                    setTimeout(() => {
+                        if (num > 10) {
+                            resolve('这是一些数据');
+                        } else {
+                            reject('执行失败');
+                        }
                     })
-                    return p;
-                        
-                }
+                })
+                return p;
+
             }
-     
-                
+        }
+
+        {
+        //nodejs和浏览器的区别
+        //浏览器：timer1  promise1  timer2  promise2
+        //node10:timer1  timer2  promise1  promise2
+        //node11:timer1  promise1  timer2  promise2
+
+            setTimeout(() => {
+                console.log('timer1');
+                Promise.resolve().then(function () {
+                    console.log('promise1');
+                });
+            }, 0);
+            setTimeout(() => {
+                console.log('timer2');
+                Promise.resolve().then(function () {
+                    console.log('promise2');
+                });
+            }, 0);
+
+
+        }
     </script>
 </body>
 
