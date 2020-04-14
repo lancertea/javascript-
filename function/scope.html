@@ -296,7 +296,7 @@
     //     new Foo().getName();//3
     //     new new Foo().getName();//3
     // }
-
+{
     //小结 
     function Foo() {
         //如果执行Foo()，相当于重写了全局方法
@@ -331,6 +331,48 @@
         console.log(6);
 
     }
+}
+// {
+//     function Foo(){
+//         this.getName=function(){
+//             console.log(3);
+//             return{
+//                 getName:getName
+//             }
+            
+//         };
+//         getName=function(){
+//             console.log(1);
+            
+//         };
+//         return this;
+//     }
+
+//     Foo.getName=function(){
+//         console.log(2);
+        
+//     };
+//     Foo.prototype.getName=function(){
+//         console.log(6);
+//     };
+//     var getName=function(){
+//         console.log(4);
+        
+//     };
+//     function getName(){
+//         console.log(5);
+        
+//     }
+//     Foo.getName();
+//     getName();
+//     console.log(Foo());
+//     Foo().getName();
+//     getName();
+//     new Foo.getName();
+//     new Foo().getName();
+//     new Foo().getName().getName();
+//     new new Foo().getName();
+// } 
 </script>
 
 </html>
