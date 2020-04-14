@@ -263,7 +263,7 @@
         show(fn); //10
 
     }
- //经典面试题
+    //经典面试题
     // {
     //     function Foo() {
     //         getName = function () {
@@ -289,7 +289,7 @@
     //     }
 
     //     Foo.getName();//2
-    //     getName();//4 (报错)
+    //     getName();//4 =
     //     Foo().getName();//1
     //     getName();//1
     //     new Foo.getName();//2
@@ -297,7 +297,40 @@
     //     new new Foo().getName();//3
     // }
 
-   
+    //小结 
+    function Foo() {
+        //如果执行Foo()，相当于重写了全局方法
+        getName = function () {
+            console.log(2);
+
+        }
+        //实例方法
+        this.getName = function () {
+            console.log(3);
+
+        }
+    }
+    //Foo对象自己的属性，实例不继承
+    Foo.getName = function () {
+        console.log(4);
+
+    }
+    //Foo的原型对象的属性，实例可用
+    Foo.prototype.getName = function () {
+        console.log(5);
+
+    }
+    //var声明的变量也会提升，但是只提升声明，不提升赋值（执行到这里才赋值），另外这里var声明的变量
+    //和下面的函数同名，下面的函数会覆盖其声明
+    var getName = function () {
+        console.log(1);
+
+    }
+    //函数声明会被提声到最前面
+    function getName() {
+        console.log(6);
+
+    }
 </script>
 
 </html>
