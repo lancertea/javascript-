@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>throttle</title>
+   
+</head>
+
+<body>
+    <script>
+    
+
+    function throttle(fn,delay){
+          var startTime=0;
+          return function(){
+              var nowTime=Date.now();
+              if(nowTime-startTime>=delay){
+                  fn();
+                  startTime=nowTime;
+              }
+          }
+    }
+
+    function handle(){
+        console.log(Math.random());
+        
+    }
+
+    document.addEventListener('mousemove',throttle(handle,1000));
+        
+    </script>
+</body>
+
+</html>
