@@ -47,7 +47,7 @@
          element.addEventListener(event, function, useCapture);
         第一个参数是事件的类型（比如 "click" 或 "mousedown"）。
         第二个参数是当事件发生时我们需要调用的函数。
-        第三个参数是布尔值，指定使用事件冒泡还是事件捕获。此参数是可选的，默认冒泡。
+        第三个参数是布尔值，指定使用事件冒泡还是事件捕获。此参数是可选的，默认false(冒泡)。
         注意：请勿对事件使用 "on" 前缀；请使用 "click" 代替 "onclick"。
 
         移除可用：b2.removeEventListener()，这里要注意要正确的移除，函数的引用是同一个
@@ -57,7 +57,7 @@
             console.log(222);
             
         })
-        该方法只支持事件冒泡、绑this有问题、事件顺序也有问题
+        该方法只支持事件冒泡、绑this有问题（this指向的是window，不是事件源）、事件执行顺序跟代码写的顺序是相反的
         */
         b2.addEventListener('click',function(){
             console.log(222);
