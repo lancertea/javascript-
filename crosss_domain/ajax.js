@@ -1,18 +1,18 @@
-const xhr =new XMLHttpRequest();
-xhr.open('GET','/data/test.json',true)//false 表示异步
-xhr.onreadystatechange=function(){  //类似于onload
-if(xhr.readyState===4){
-    if(xhr.status===200){
-       console.log(JSON.parse(xhr.responseText));
-       
-    }else if(xhr.status===404){
-        console.log('404 not found');
-        
-    }
-}
+// const xhr =new XMLHttpRequest();
+// xhr.open('GET','/data/test.json',true)//false 表示异步
+// xhr.onreadystatechange=function(){  //类似于onload
+// if(xhr.readyState===4){
+//     if(xhr.status===200){
+//        console.log(JSON.parse(xhr.responseText));
 
-}
-xhr.send(null); //发送数据
+//     }else if(xhr.status===404){
+//         console.log('404 not found');
+
+//     }
+// }
+
+// }
+// xhr.send(null); //发送数据
 
 //POST请求
 // const postData={
@@ -23,27 +23,27 @@ xhr.send(null); //发送数据
 
 
 
-// function ajax(url) {
-//     const p = new Promise((resolve, reject) => {
-//         const xhr = new XMLHttpRequest()
-//         xhr.open('GET', url, true)
-//         xhr.onreadystatechange = function () {
-//             if (xhr.readyState === 4) {
-//                 if (xhr.status === 200) {
-//                     resolve(
-//                         JSON.parse(xhr.responseText)
-//                     )
-//                 } else if (xhr.status === 404 || xhr.status === 500) {
-//                     reject(new Error('404 not found'))
-//                 }
-//             }
-//         }
-//         xhr.send(null)
-//     })
-//     return p
-// }
+function ajax(url) {
+    const p = new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', url, true)
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    resolve(
+                        JSON.parse(xhr.responseText)
+                    )
+                } else if (xhr.status === 404 || xhr.status === 500) {
+                    reject(new Error('404 not found'))
+                }
+            }
+        }
+        xhr.send(null)
+    })
+    return p
+}
 
-// const url = '/data/test.json'
-// ajax(url)
-// .then(res => console.log(res))
-// .catch(err => console.error(err))
+const url = '/data/test.json'
+ajax(url)
+    .then(res => console.log(res))
+    .catch(err => console.error(err))
