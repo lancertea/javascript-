@@ -32,10 +32,12 @@
                 fn = selector
                 selector = null
             }
-            elem.addEventListener(type, event => {
+            
+            elem.addEventListener(type, event=>{
                 const target = event.target
                 if (selector) {
                     // 代理绑定
+                    //用matches来判断是否是触发元素
                     if (target.matches(selector)) {
                         fn.call(target, event)
                     }
@@ -48,16 +50,17 @@
 
         // 普通绑定
         const btn1 = document.getElementById('btn1')
-        bindEvent(btn1, 'click', function (event) {
+        //这里不能用箭头函数，箭头函数的this指向父级
+        bindEvent(btn1, 'click',function(event) {
             // console.log(event.target) // 获取触发的元素
-            event.preventDefault() // 阻止默认行为
+            event.preventDefault() // 阻止默认行为 比如如果这里的元素是a,默认跳转，我们不让它跳转
             alert(this.innerHTML)
         })
 
         // 代理绑定
         const div3 = document.getElementById('div3')
-        bindEvent(div3, 'click', 'a', function (event) {
-            event.preventDefault()
+        bindEvent(div3, 'click', 'a',function(event) {
+            event.preventDefault();
             alert(this.innerHTML)
         })
 
