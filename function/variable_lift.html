@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>变量提升</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <script>
+        //变量提升
+        //变量的提升是以变量作用域来决定的，即全局作用域中声明的变量会提升至全局最顶层，
+        //函数内声明的变量只会提升至该函数作用域最顶层。
+
+        // var 关键字变量提升
+        // console.log(a);//undefined
+        // var a=0;
+
+        //let 关键字“暂时性死区”
+        //let 定义变量是有一个“特殊声明”的过程，JS 预解析的时候，先将定义的 let ,const “特殊声明”提前，
+        //类似“举手”，JS 引擎规定了同一个作用域，同一个变量只能被一次“举手”。
+        //它也不是报错 x not defined，而是 Cannot access。
+        //实际上代码中赋值的x变量还没读取（在读取变量的时候才可能抛变量未定义的错误）。
+        // var x = 0;
+
+        // function a() {
+
+        //     console.log(x); //can't access lexical declaration `x' before initialization
+        //     let x = 1;
+        // }
+        // a();
+
+
+
+        //函数提升
+        //函数表达式不会声明提升
+
+        // console.log(a); // function a 
+        // var a = function () {}
+
+        // console.log(a); // function a
+        // function a() {}
+
+        //块级作用域
+        //如果是变量提升，是不存在块级作用域的，但是函数提升是存在的
+        //函数 function a(){} 在经过预解析之后，将函数声明提到函数级作用域最前面(这里是全局)，
+        //然后将函数定义提升到块级作用域最前面。
+        // console.log(a); // undefined
+        // if (true) {
+        //     console.log(a); // function a
+        //     function a() {}
+        // }
+
+        var a = 0;
+        if (true) {
+            console.log(a, window.a); // 函数提升，是块级作用域，输出 function a 和 0
+            a = 1; // 取作用域最近的块级作用域的 function a ,且被重置为 1了，本质又是一个 变量的赋值。
+            console.log(a, window.a); // a 是指向块级作用域的 a, 输出 1 和 0 
+            function a() {} // 函数的声明，将执行函数的变量的定义同步到函数级的作用域。
+            console.log(a, window.a); // 输出 1 和 1
+            a = 21; // 仍然是函数定义块级作用域的 a ,重置为 21
+            console.log(a, window.a); // 输出为函数提升的块级作用域的 a, 输出 21，1
+            console.log("里面", a);
+        }
+        console.log("外部", a);
+    </script>
+</body>
+
+</html>
