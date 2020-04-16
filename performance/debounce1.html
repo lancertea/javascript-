@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>debounce</title>
+    <style>
+        body {
+            height: 3000px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id="inp1">
+
+    <script>
+        //优化前
+        //  const input1=document.getElementById('inp1')
+        //  input1.addEventListener('keyup',function(){
+        //      console.log(input1.value)
+
+        //  }) 
+
+
+        // const input1 = document.getElementById('inp1')
+        // let timer = null
+        // input1.addEventListener('keyup', function () {
+        //     if (timer) {
+        //         clearTimeout(timer)
+        //     }
+        //     timer = setTimeout(() => {
+        //         console.log(input1.value)
+
+        //         timer = null
+        //     }, 500)
+        // })
+
+
+        const input1 = document.getElementById('inp1')
+        input1.addEventListener('keyup', debounce(()=>{
+            console.log(input1.value)
+            
+        }, 500))
+        //对函数进行封装
+        function debounce(fn, delay) {
+            let timer = null
+            return function () {
+                if (timer) {
+                    clearTimeout(timer)
+                }
+                timer = setTimeout(()=>{
+                    //fn()
+                    fn.apply(this,arguments)
+                    timer=null
+                }, delay)
+
+            }
+        }
+
+        function handele() {
+            console.log();
+
+        }
+    </script>
+</body>
+
+</html>
