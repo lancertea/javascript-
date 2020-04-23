@@ -84,7 +84,7 @@
         改变原数组：
         copyWithin()  ES6
         在数组内部，将一段元素序列拷贝到另一段元素序列上，覆盖原有的值
-        fill()
+        array.fill(value, start, end)    ES6
         将数组中指定区间的所有元素的值，都替换成某个固定的值。
         push()
         在数组的末尾增加一个或多个元素，并返回数组的新长度。
@@ -223,7 +223,32 @@
         arr:可选。当前元素属于的数组对象
         thisValue:可选。对象作为该执行回调时使用，传递给函数，用作 "this" 的值。
                    如果省略了 thisValue ，"this" 的值为 "undefined"
+        
+
+
+        基于该数组可实现多个表达式的&&判断:
+        eg: 判断各变量相等
         */
+        {
+        var a=[3,3,3,3];
+        //错误示范
+        // if(a[0]===a[1]===a[2]===a[3])
+        // return true
+        //if判断返回false
+
+        //繁琐做法
+        if((a[0]===a[1])&&(a[0]===a[2])&&(a[0]===a[3]))
+        console.log(true);//true
+        
+        //利用数组的遍历方法
+        var target=a[0];
+        if(a.every((item)=>{
+            return item===target;
+        }))
+        console.log(true);//true
+        }
+
+
 
 
         //数组去重的方法
