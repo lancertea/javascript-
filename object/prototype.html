@@ -408,7 +408,36 @@
         console.log(c1 instanceof Child5); //true
         console.log(c1 instanceof Parent5); //true
         console.log(c1 instanceof Object); //true
-    }     
+    } 
+
+
+    {
+     var a=[1,2,3,4,5]
+     console.log(a.__proto__);//Array[]
+     console.log(a.prototype);//undefined
+     var b=new Array(a);
+     console.log(b.__proto__);//Array[]
+     console.log(b.prototype);//undefined     
+     console.log(a==b); //falae
+     
+     Array.prototype.zsy='zsy'
+     Array.prototype.mySum=function(){
+        console.log('我是原型方法');
+        
+     }
+    console.log(a.zsy);//'zsy'
+    a.mySum();//'我是原型方法'
+    
+     var c=function(){}
+     console.log(c.__proto__);//function ()
+     console.log(c.prototype);//Object { … }
+     
+     
+       
+
+
+
+    }    
     </script>
 </head>
 
