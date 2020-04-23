@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>关于数组的问题</title>
+    <title>数组</title>
     <script>
         //数组是动态变化的
         //JavaScript的Array可以包含任意数据类型，并通过索引来访问修改每个元素。
@@ -79,6 +79,8 @@
 
         /*
         Array对象常用方法总结
+        (目录，实用例子见下面)
+
         改变原数组：
         copyWithin()
         在数组内部，将一段元素序列拷贝到另一段元素序列上，覆盖原有的值
@@ -99,6 +101,8 @@
         splice()
         在任意的位置给数组添加或删除任意个元素。
 
+
+
         不改变原数组，只会返回一个新的数组或返回一个其它的期望值：
         join()
         连接所有数组元素组成一个字符串。
@@ -118,6 +122,8 @@
         返回一个由所有数组元素组合而成的字符串。遮蔽了原型链上的 Object.prototype.toString() 方法。
         toLocaleString()
         返回一个由所有数组元素组合而成的本地化后的字符串。遮蔽了原型链上的 Object.prototype.toLocaleString() 方法。
+
+
 
         迭代方法
         在下面的众多遍历方法中，有很多方法都需要指定一个回调函数作为参数。在每一个数组元素都分别执行完回调函数之前，数组的length属性会被缓存在某个地方，
@@ -144,8 +150,62 @@
         返回一个数组迭代器对象，该迭代器会包含所有数组元素的键。
         entries()
         返回一个数组迭代器对象，该迭代器会包含所有数组元素的键值对。
+
+
+        归并方法
         */
 
+
+
+        /*
+                copyWithin()方法
+                用于从数组的指定位置拷贝元素到数组的另一个指定位置
+                改变原数组
+                array.copyWithin(target, start, end)
+                target: 必需。复制到指定目标索引位置
+                start : 可选。元素复制的起始位置
+                end:    可选。停止复制的索引位置 (不包括这一位，默认为 array.length)。如果为负值，表示倒数（也不包括那一位）
+                */
+        {
+            var a = [1, 2, 3, 4, 5];
+            console.log(a.copyWithin(0, 2)); //[ 3, 4, 5, 4, 5 ]
+            console.log(a); //[ 3, 4, 5, 4, 5 ] 改变原数组
+            var acopy = [1, 2, 3, 4, 5];
+            console.log(acopy.copyWithin(2, 0, 2)); //[1,2,1,2,5]
+            var acopy1 = [1, 2, 3, 4, 5];
+            console.log(acopy1.copyWithin(1, 0, -2)); //[1,1,2,3,5]
+        }
+
+        /*
+        concat()方法
+        用于连接两个或多个数组
+        不改变原数组、返回被连接数组的副本（可实现浅拷贝）
+
+        可实现数组一层扁平化，多层怎么实现（后面补充）
+        */
+        {
+            //浅拷贝 
+            var a = [1, 2, 3, 4, 5];
+            var b = a.concat();
+            console.log(a == b); //false
+
+
+            var colors = ["red", "green", "blue"];
+            var colors1 = colors.concat("yellow", ["black", "brown"]);
+            var colors2 = colors.concat("yellow", ["black", "brown", ["white", "grey"]]);
+
+            console.log(colors); //["red", "green", "blue"]       
+            console.log(colors1); //["red", "green", "blue", "yellow", "black", "brown" ]
+            console.log(colors2); //["red", "green", "blue", "yellow", "black", "brown",["white","grey"]]
+
+            // 传递两个参数m，n，返回长度为m，所有元素都为n的数组，要求不能用循环。
+            // 利用函数的递归和 concat() 方法可以实现
+            console.log(fn(3,6));
+            function fn(m, n) {
+                return m ? fn(m - 1, n).concat(n) : [];
+            }
+
+        }
 
 
         //数组去重的方法
@@ -188,7 +248,9 @@
         var arr = [1, 0, undefined, null, false, ''];
         console.log(arr.filter(Boolean)); //[1] Boolean()对' '、{}为true,无法过滤
 
-        var arr1 = [1, 0, undefined, null, false, '', ' ', {},[]];
+        var arr1 = [1, 0, undefined, null, false, '', ' ', {},
+            []
+        ];
         // var r = arr.filter(function (s) {
         //     return s && s.trim();
         // });
@@ -198,35 +260,9 @@
 
 
 
-        /*
-        concat()方法
-        用于连接两个或多个数组
-        不改变原数组、返回被连接数组的副本
-        */
-        var colors = ["red", "green", "blue"];
-        var colors1 = colors.concat("yellow", ["black", "brown"]);
-        var colors2 = colors.concat("yellow", ["black", "brown", ["white", "grey"]]);
 
-        console.log(colors); //["red", "green", "blue"]       
-        console.log(colors1); //["red", "green", "blue", "yellow", "black", "brown" ]
-        console.log(colors2); //["red", "green", "blue", "yellow", "black", "brown",["white","grey"]]
 
-        /*
-        copyWithin()方法
-        用于从数组的指定位置拷贝元素到数组的另一个指定位置
-        改变原数组
-        array.copyWithin(target, start, end)
-        target: 必需。复制到指定目标索引位置
-        start : 可选。元素复制的起始位置
-        end:    可选。停止复制的索引位置 (默认为 array.length)。如果为负值，表示倒数
-        */
-        var a = [1, 2, 3, 4, 5];
-        console.log(a.copyWithin(0, 2)); //[ 3, 4, 5, 4, 5 ]
-        console.log(a); //[ 3, 4, 5, 4, 5 ] 改变原数组
-        var acopy = [1, 2, 3, 4, 5];
-        console.log(acopy.copyWithin(2, 0, 2)); //[1,2,1,2,5]
-        var acopy1 = [1, 2, 3, 4, 5];
-        console.log(acopy1.copyWithin(1, 0, -2)); //[1,1,2,3,5]
+
 
         /*
         splice()方法
@@ -350,7 +386,6 @@
         console.log(a); //[2, 3, 4]
         console.log(a.splice(1, 1)); //[3]
         console.log(a); //[2,4]
-        
     </script>
 </head>
 
