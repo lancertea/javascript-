@@ -170,6 +170,47 @@
 
 
         }
+
+        //作用域
+        {
+            var a = 10;
+
+            function fn() {
+                var b = 20;
+
+                function bar() {
+                    console.log(a + b);
+
+                }
+                return bar;
+            }
+            var x = fn(),
+                b = 200;
+            x();
+
+            var x = 10;
+
+
+        }
+
+        {
+            var x = 10;
+
+            function fn() {
+                console.log(x);
+
+            }
+
+            function show(f) {
+                var x = 20;
+                (
+                    function () {
+                        f();
+                    }
+                )();
+            }
+            show(fn); 
+        }
     </script>
 </body>
 
