@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>各种考题复习</title>
+
+</head>
+
+<body>
+    <script>
+
+        var a = 0;
+        if (true) {
+            console.log(a, window.a); 
+            a = 1; 
+            console.log(a, window.a); 
+            function a() {} 
+            console.log(a, window.a); 
+            a = 21; 
+            console.log(a, window.a); 
+            console.log("里面", a);
+        }
+        console.log("外部", a);
+
+
+    </script>
+</body>
+
+</html>
