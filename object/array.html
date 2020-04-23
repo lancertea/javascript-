@@ -82,44 +82,63 @@
         (目录，实用例子见下面)
 
         改变原数组：
-        copyWithin()  ES6
+        array.copyWithin(target, start, end) ES6
         在数组内部，将一段元素序列拷贝到另一段元素序列上，覆盖原有的值
+
         array.fill(value, start, end)    ES6
         将数组中指定区间的所有元素的值，都替换成某个固定的值。
-        push()
+
+        array.push(item1, item2, ..., itemX)
         在数组的末尾增加一个或多个元素，并返回数组的新长度。
-        pop()
-        删除数组的最后一个元素，并返回这个元素。
-        shift()
+
+        array.pop()
+        删除数组的最后一个元素，并返回删除的这个元素。
+
+        array.shift()
         删除数组的第一个元素，并返回这个元素。
-        unshift()
+
+        array.unshift(item1,item2, ..., itemX)
         在数组的开头增加一个或多个元素，并返回数组的新长度。
-        reverse()
+
+        array.reverse()
         颠倒数组中元素的排列顺序，即原先的第一个变为最后一个，原先的最后一个变为第一个。
-        sort()
+
+        array.sort(sortfunction)
         对数组元素进行排序，并返回当前数组。
-        splice()
+
+        array.splice(index,howmany,item1,.....,itemX)
         在任意的位置给数组添加或删除任意个元素。
 
 
 
         不改变原数组，只会返回一个新的数组或返回一个其它的期望值：
-        join()
-        连接所有数组元素组成一个字符串。
-        slice()
+        array.join(separator)
+        join() 方法用于把数组中的所有元素转换一个字符串。元素是通过指定的分隔符进行分隔的。默认为逗号
+
+        array.slice(start, end)
         抽取当前数组中的一段元素组合成一个新数组。
-        concat()
+        1 指最后一个元素，-2 指倒数第二个元素
+
+        array.concat(array2,array3,...,arrayX)
         返回一个由当前数组和其它若干个数组或者若干个非数组值组合而成的新数组。
-        includes()
+
+        arr.includes(searchElement)  ES6
+        arr.includes(searchElement, fromIndex)
+        fromIndex如果为负值，则按升序从 array.length + fromIndex 的索引开始搜索。默认为 0。
         判断当前数组是否包含某指定的值，如果是返回 true，否则返回 false。
-        indexOf()
+
+        array.indexOf(item,start)
         返回数组中第一个与指定值相等的元素的索引，如果找不到这样的元素，则返回 -1。
-        lastIndexOf()
+
+        array.lastIndexOf(item,start)
         返回数组中最后一个（从右边数第一个）与指定值相等的元素的索引，如果找不到这样的元素，则返回 -1。
+
         toSource()
         返回一个表示当前数组字面量的字符串。遮蔽了原型链上的 Object.prototype.toSource() 方法。
+
         toString()
         返回一个由所有数组元素组合而成的字符串。遮蔽了原型链上的 Object.prototype.toString() 方法。
+
         toLocaleString()
         返回一个由所有数组元素组合而成的本地化后的字符串。遮蔽了原型链上的 Object.prototype.toLocaleString() 方法。
 
@@ -130,29 +149,51 @@
         所以，如果你在回调函数中为当前数组添加了新的元素，那么那些新添加的元素是不会被遍历到的。此外，如果在回调函数中对当前数组进行了其它修改，
         比如改变某个元素的值或者删掉某个元素，那么随后的遍历操作可能会受到未预期的影响。总之，不要尝试在遍历过程中对原数组进行任何修改，
         虽然规范对这样的操作进行了详细的定义，但为了可读性和可维护性，请不要这样做。
-        forEach()
-        为数组中的每个元素执行一次回调函数。
-        map()
+        
+        array.forEach(function(currentValue, index, arr), thisValue)
+        为数组中的每个元素执行一次回调函数。默认返回undefined
+
+        array.map(function(currentValue,index,arr), thisValue)
         返回一个由回调函数的返回值组成的新数组。
-        reduce()
-        从左到右为每个数组元素执行一次回调函数，并把上次回调函数的返回值放在一个暂存器中传给下次回调函数，并返回最后一次回调函数的返回值。
-        filter()
+
+        array.filter(function(currentValue,index,arr), thisValue)
         将所有在过滤函数中返回 true 的数组元素放进一个新数组中并返回。
-        every()
+
+        array.every(function(currentValue,index,arr), thisValue)  &&
         如果数组中的每个元素都满足测试函数，则返回 true，否则返回 false。
-        some()
+
+        array.some(function(currentValue,index,arr),thisValue)  ||
         如果数组中至少有一个元素满足测试函数，则返回 true，否则返回 false。
-        find()
+
+        array.find(function(currentValue, index, arr),thisValue)  ES6
         找到第一个满足测试函数的元素并返回那个元素的值，如果找不到，则返回 undefined。
-        findIndex()
+
+        array.findIndex(function(currentValue, index, arr), thisValue)  ES6
         找到第一个满足测试函数的元素并返回那个元素的索引，如果找不到，则返回 -1。
-        keys()
+
+        array.keys()  ES6
         返回一个数组迭代器对象，该迭代器会包含所有数组元素的键。
-        entries()   ES6
+
+        array.entries()   ES6
         返回一个数组的迭代对象，该对象会包含所有数组元素的键值对。
 
 
-        归并方法
+        归并方法：
+        array.reduce(function(total, currentValue, currentIndex, arr), initialValue)
+        将数组元素计算为一个值（从左到右）
+
+        array.reduceRight(function(total, currentValue, currentIndex, arr), initialValue)
+        将数组元素计算为一个值（从右到左）。
+
+
+
+        其他方法：
+        Array.from(object, mapFunction, thisValue)   ES6
+        from() 方法用于通过拥有 length 属性的对象或可迭代的对象来返回一个数组。
+
+        Array.isArray(obj)
+        isArray() 方法用于判断一个对象是否为数组。如果对象是数组返回 true，否则返回 false
+
         */
 
 
@@ -175,6 +216,40 @@
             var acopy1 = [1, 2, 3, 4, 5];
             console.log(acopy1.copyWithin(1, 0, -2)); //[1,1,2,3,5]
         }
+
+
+        /*
+        join() 
+        常见引用：反转字符串
+        */
+        {
+            var str = 'hello';
+            var res = str.split('').reverse().join('');
+            console.log(res); //'olleh'
+
+        }
+
+        /*
+               splice()方法
+               splice() 方法用于添加或删除数组中的元素。
+               这种方法会改变原始数组。
+               */
+        {
+            var colors = ["red", "green", "blue"];
+            var removed = colors.splice(0, 1); //移除第一项
+            console.log(colors); // [green", "blue" ]
+            console.log(removed); // [ "red"]
+
+            removed = colors.splice(1, 0, "yellow", "orange"); //在索引为1的位置插入两项
+            console.log(colors); //[ "green", "yellow", "orange", "blue" ]
+            console.log(removed); //[]
+
+            removed = colors.splice(1, 1, "red", "purple"); //i在索引为1的位置删除一项，插入两项
+            console.log(colors); //[ "green", "red", "purple", "orange", "blue" ]
+            console.log(removed); //[ "yellow" ]
+        }
+
+
 
         /*
         concat()方法
@@ -230,39 +305,25 @@
         eg: 判断各变量相等
         */
         {
-        var a=[3,3,3,3];
-        //错误示范
-        // if(a[0]===a[1]===a[2]===a[3])
-        // return true
-        //if判断返回false
+            var a = [3, 3, 3, 3];
+            //错误示范
+            // if(a[0]===a[1]===a[2]===a[3])
+            // return true
+            //if判断返回false
 
-        //繁琐做法
-        if((a[0]===a[1])&&(a[0]===a[2])&&(a[0]===a[3]))
-        console.log(true);//true
-        
-        //利用数组的遍历方法
-        var target=a[0];
-        if(a.every((item)=>{
-            return item===target;
-        }))
-        console.log(true);//true
+            //繁琐做法
+            if ((a[0] === a[1]) && (a[0] === a[2]) && (a[0] === a[3]))
+                console.log(true); //true
+
+            //利用数组的遍历方法
+            var target = a[0];
+            if (a.every((item) => {
+                    return item === target;
+                }))
+                console.log(true); //true
         }
 
 
-
-
-        //数组去重的方法
-        //1.Set()
-        var arr = [1, 2, 3, 3, 4];
-        console.log(...new Set(arr)); //1,2,3,4
-        console.log([...new Set(arr)]); //[1,2,3,4]
-
-        function dedupe(array) {
-            return Array.from(new Set(array));
-
-        }
-
-        console.log(dedupe(arr)); //[1,2,3,4]
 
         //filter()
         //filter()接收的回调函数，其实可以有多个参数。通常我们仅使用第一个参数，表示Array的某个元素。
@@ -300,32 +361,34 @@
 
         console.log(arr1.filter(Number)); //[1]  Number([])===0  Number({})===NaN
 
-
-
-
-
-
-
-
         /*
-        splice()方法
-        splice() 方法用于添加或删除数组中的元素。
-        这种方法会改变原始数组。
+        array.reduce(function(total, currentValue, currentIndex, arr), initialValue)
+        function(total,currentValue, index,arr)  必需。用于执行每个数组元素的函数。
+        total:必需。初始值, 或者计算结束后的返回值。
+        currentValue:必需。当前元素
+        index:可选。当前元素的索引
+        arr:可选。当前元素所属的数组对象。
+        initialValue:可选。传递给函数的初始值
         */
-        var colors = ["red", "green", "blue"];
-        var removed = colors.splice(0, 1); //移除第一项
-        console.log(colors); // [green", "blue" ]
-        console.log(removed); // [ "red"]
+        {
+            var numbers = [15.5, 2.3, 1.1, 4.7];
+            var sum=numbers.reduce((total,num)=>{
+                return total+ Math.round(num);
+            },0);
+            console.log(sum);//24
 
-        removed = colors.splice(1, 0, "yellow", "orange"); //在索引为1的位置插入两项
-        console.log(colors); //[ "green", "yellow", "orange", "blue" ]
-        console.log(removed); //[]
+        }
 
-        removed = colors.splice(1, 1, "red", "purple"); //i在索引为1的位置删除一项，插入两项
-        console.log(colors); //[ "green", "red", "purple", "orange", "blue" ]
-        console.log(removed); //[ "yellow" ]
+        {
+            //from()
+            //将类数组变成数组，比如Set、arguments
+            //Array.from(new Set(array))
 
-
+            var arr = Array.from([1, 2, 3], x => x * 10);
+            // arr[0] == 10;
+            // arr[1] == 20;
+            // arr[2] == 30;
+        }
 
         /*
         delete操作符
@@ -429,6 +492,26 @@
         console.log(a); //[2, 3, 4]
         console.log(a.splice(1, 1)); //[3]
         console.log(a); //[2,4]
+
+
+
+        //数组去重的方法
+        //1.Set()
+        var arr = [1, 2, 3, 3, 4];
+        console.log(...new Set(arr)); //1,2,3,4
+        console.log([...new Set(arr)]); //[1,2,3,4]
+
+        function dedupe(array) {
+            return Array.from(new Set(array));
+
+        }
+
+        console.log(dedupe(arr)); //[1,2,3,4]
+
+        //2.filter()
+
+
+        
     </script>
 </head>
 
