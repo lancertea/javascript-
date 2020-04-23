@@ -82,7 +82,7 @@
         (目录，实用例子见下面)
 
         改变原数组：
-        copyWithin()
+        copyWithin()  ES6
         在数组内部，将一段元素序列拷贝到另一段元素序列上，覆盖原有的值
         fill()
         将数组中指定区间的所有元素的值，都替换成某个固定的值。
@@ -148,8 +148,8 @@
         找到第一个满足测试函数的元素并返回那个元素的索引，如果找不到，则返回 -1。
         keys()
         返回一个数组迭代器对象，该迭代器会包含所有数组元素的键。
-        entries()
-        返回一个数组迭代器对象，该迭代器会包含所有数组元素的键值对。
+        entries()   ES6
+        返回一个数组的迭代对象，该对象会包含所有数组元素的键值对。
 
 
         归并方法
@@ -158,14 +158,14 @@
 
 
         /*
-                copyWithin()方法
-                用于从数组的指定位置拷贝元素到数组的另一个指定位置
-                改变原数组
-                array.copyWithin(target, start, end)
-                target: 必需。复制到指定目标索引位置
-                start : 可选。元素复制的起始位置
-                end:    可选。停止复制的索引位置 (不包括这一位，默认为 array.length)。如果为负值，表示倒数（也不包括那一位）
-                */
+        copyWithin()方法
+        用于从数组的指定位置拷贝元素到数组的另一个指定位置
+        改变原数组
+        array.copyWithin(target, start, end)
+        target: 必需。复制到指定目标索引位置
+        start : 可选。元素复制的起始位置
+        end:    可选。停止复制的索引位置 (不包括这一位，默认为 array.length)。如果为负值，表示倒数（也不包括那一位）
+        */
         {
             var a = [1, 2, 3, 4, 5];
             console.log(a.copyWithin(0, 2)); //[ 3, 4, 5, 4, 5 ]
@@ -200,12 +200,30 @@
 
             // 传递两个参数m，n，返回长度为m，所有元素都为n的数组，要求不能用循环。
             // 利用函数的递归和 concat() 方法可以实现
-            console.log(fn(3,6));
+            console.log(fn(3, 6));
+
             function fn(m, n) {
                 return m ? fn(m - 1, n).concat(n) : [];
             }
 
         }
+
+
+        /*
+        every() 方法使用指定函数检测数组中的所有元素：
+        如果数组中检测到有一个元素不满足，则整个表达式返回 false ，且剩余的元素不会再进行检测。
+        如果所有元素都满足条件，则返回 true。
+        注意： every() 不会对空数组进行检测。
+        注意： every() 不会改变原始数组。
+        
+        array.every(function(currentValue,index,arr), thisValue)
+        function(currentValue,index,arr)
+        currentValue:必须。当前元素的值
+        index:可选。当前元素的索引值
+        arr:可选。当前元素属于的数组对象
+        thisValue:可选。对象作为该执行回调时使用，传递给函数，用作 "this" 的值。
+                   如果省略了 thisValue ，"this" 的值为 "undefined"
+        */
 
 
         //数组去重的方法
@@ -221,7 +239,7 @@
 
         console.log(dedupe(arr)); //[1,2,3,4]
 
-        //2.filter()
+        //filter()
         //filter()接收的回调函数，其实可以有多个参数。通常我们仅使用第一个参数，表示Array的某个元素。
         //回调函数还可以接收另外两个参数，表示元素的位置和数组本身：
         var arr = ['A', 'B', 'C'];
