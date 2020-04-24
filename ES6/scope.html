@@ -24,7 +24,7 @@
 
 
     // 作用域
-    //ES5:只有两种作用域： 全局变量与函数内的局部变量
+    //ES5:只有两种作用域： 全局与函数内的局部作用域
     {
         { //变量i是var命令声明的，在全局范围内都有效，所以全局只有一个变量i。
             for (var i = 0; i < 3; i++) {
@@ -75,17 +75,38 @@
         }
     }
 
+    //全局变量和全局属性不是一回事
+    {
+        var num=123;
+        num1=345;
+        //全局变量不能被delete删除
+        console.log(delete num);//false
+        console.log(num);//123
+        //全局属性可以被delete删除
+        console.log(delete num1);//true
+        //console.log(num1);//ReferenceError: num1 is not defined
+
+       a(); 
+       console.log(abc);//1  执行才有
+       
+        function a(){
+          abc=1;
+        }
+        //a();//ReferenceError: abc is not defined
+       
+    }
+
     //暂时性死区
     //暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，
     //只有等到声明变量的那一行代码出现，才可以获取和使用该变量。
     //报错不是未定义，在读取变量的时候才可能抛变量未定义的错误
-    var tmp = 123;
-    var x = 2;
+    // var tmp = 123;
+    // var x = 2;
 
-    if (true) {
-        tmp = 'abc'; //can't access lexical declaration `x' before initialization
-        let tmp;
-    }
+    // if (true) {
+    //     tmp = 'abc'; //can't access lexical declaration `x' before initialization
+    //     let tmp;
+    // }
 
     //关于变量提升可参看function->variable_lift
 
