@@ -23,70 +23,71 @@
     // PI = 4
 
 
-    // ES5 中作用域
-    const callbacks = []
-    for (var i = 0; i <= 2; i++) {
-        callbacks[i] = function () {
-            return i * 2
-        }
-    }
-
-    console.table([
-        callbacks[0](),
-        callbacks[1](),
-        callbacks[2](),
-    ])
-
-    for (var i = 1; i <= 3; i++) {
-        setTimeout((function (a) {
-            console.log(a);
-        })(i), 0);
-    };
-
-
-
-    // ES6 中作用域
-    const callbacks2 = []
-    for (let j = 0; j <= 2; j++) {
-        callbacks2[j] = function () {
-            return j * 2
-        }
-    }
-
-    console.table([
-        callbacks2[0](),
-        callbacks2[1](),
-        callbacks2[2](),
-    ])
-
-    ;
-    ((function () {
-        const foo = function () {
-            return 1
-        }
-        console.log("foo()===1", foo() === 1);
-        ((function () {
-            const foo = function () {
-                return 2
-            }
-            console.log("foo()===2", foo() === 2)
-        })())
-    })())
-
+    // 作用域
+    //ES5:只有两种作用域： 全局变量与函数内的局部变量
     {
-        function foo() {
-            return 1
-        }
+        { //变量i是var命令声明的，在全局范围内都有效，所以全局只有一个变量i。
+            for (var i = 0; i < 3; i++) {
+                setTimeout(function () {
+                    console.log(i); //3 3 3
 
-        console.log("foo()===1", foo() === 1); {
-            function foo() {
-                return 2
+                }, 100);
             }
 
-            console.log("foo()===2", foo() === 2)
         }
-        console.log("foo()===1", foo() === 1)
+        //ES6:块级作用域
+        {
+            for (let i = 0; i < 3; i++) {
+                setTimeout(function () {
+                    console.log(i); // 0 1 2
+
+                }, 100);
+            }
+        }
+
+        {//注意这里，只有异步才会出现这种情况
+            for (var i = 0; i < 3; i++) {
+                console.log(i); //0,1,2
+
+            }
+
+            for (let i = 0; i < 3; i++) {
+                console.log(i); //0,1,2
+
+            }
+
+
+
+
+        }
+
+        {
+            //立即执行函数（闭包）
+            for (var i = 0; i < 3; i++) {
+                // (function(){})();
+                (function (j) { //j为形参
+                    setTimeout(function () {
+                        console.log(j); //0 1 2
+                    }, 100);
+                })(i); //i为实参
+
+            }
+        }
     }
+
+    //暂时性死区
+    //暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，
+    //只有等到声明变量的那一行代码出现，才可以获取和使用该变量。
+    //报错不是未定义，在读取变量的时候才可能抛变量未定义的错误
+    var tmp = 123;
+    var x = 2;
+
+    if (true) {
+        tmp = 'abc'; //can't access lexical declaration `x' before initialization
+        let tmp;
+    }
+
+    //关于变量提升可参看function->variable_lift
 </script>
 
 <body>
