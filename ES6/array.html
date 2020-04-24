@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>数组遍历</title>
+</head>
+
+<body>
+    <script>
+        //数组遍历的方法
+        //ES5
+        // for 循环
+        const arr = [1, 2, 3, 4, 5]
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] === 2) {
+                continue
+            }
+            //console.log(arr[i])
+        }
+
+
+        // forEach
+        //不支持continue、break，会报错，它会遍历所有元素
+        arr.forEach(function (item) {
+            if (item === 2) {
+                // continue
+            }
+            // console.log(item)
+        })
+
+
+        //every
+        //不支持continue、break,但是可以实现相同功能
+        //如果运行函数没有返回值，默认返回undefined（false），是不会接着执行的
+        //只有前一项在运行函数时返回true，才会接着遍历
+        arr.every(function (item) {
+            if (item === 2) {
+
+            } else {
+                // console.log(item)
+            }
+            return true
+        })
+
+
+        // for in  
+        //虽然能遍历数组，但是有瑕疵(将数组视为对象)，因为他是用来遍历对象的
+        //for in 支持continue、break
+        // arr.a = 8
+        for (let index in arr) {
+            if (index * 1 === 2) { //要特别注意，for in 遍历数组时，index是字符串！！！
+                continue
+            }
+            // console.log(index, arr[index])
+        }
+
+        //ES6
+        // for of
+        //可遍历任意可遍历对象
+        for (let item of arr) {
+            // console.log(item)
+        }
+
+        //小栗子
+        const Price = {
+            A: [1.5, 2.3, 4.5],
+            B: [3, 4, 5],
+            C: [0.5, 0.8, 1.2]
+        }
+
+        for (let key in Price) {
+            // console.log(key, Price[key])
+        }
+    </script>
+
+</body>
+
+</html>
