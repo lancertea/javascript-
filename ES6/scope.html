@@ -45,7 +45,7 @@
             }
         }
 
-        {//注意这里，只有异步才会出现这种情况
+        { //注意这里，只有异步才会出现这种情况
             for (var i = 0; i < 3; i++) {
                 console.log(i); //0,1,2
 
@@ -88,6 +88,21 @@
     }
 
     //关于变量提升可参看function->variable_lift
+
+
+    //一些练习题
+    {
+        var tmp = new Date();
+
+        function f() {
+            console.log(tmp);
+            if (false) {
+                var tmp = 'hello world';
+            }
+        }
+
+        f(); // undefined
+    }
 </script>
 
 <body>
