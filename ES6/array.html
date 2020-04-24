@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>数组遍历</title>
+    <title>数组</title>
 </head>
 
 <body>
@@ -71,6 +71,80 @@
 
         for (let key in Price) {
             // console.log(key, Price[key])
+        }
+
+
+        //将伪数组转换为数组
+        /*
+        伪数组：表现形式上像数组，可通过数组索引取值，但是不能用数组的API
+        1.按索引方式传输数据的，2.具备一个length属性
+        比如Set、arguments、DOM中的NodeList
+        */
+        {
+
+            //ES5
+            // let args = [].slice.call(arguments) // collection
+            // let imgs = [].slice.call(document.querySelectorAll('img')) // NodeList
+            // console.log(args)
+
+            //ES6
+            // Array.prototype.from
+            // let args = Array.from(arguments)
+            // let imgs = Array.from(document.querySelectorAll('img'))
+
+            // Array.from(arrayLike,mapFn,thisArg)
+
+            //用途举例：
+            //初始化数组
+            //不推荐的做法：
+            // let array = Array(5)
+            // for (let i = 0, len = array.length; i < len; i++) {
+            //   array[i] = 1
+            // }
+            // console.log(array)
+
+            //为什么不能用forEach
+
+            // let array = Array.from({ length: 5 }, function () { return 1 })
+            // console.log(array)
+            // {0:'a',1:'b',length:2}
+
+            // Array.prototype.fill
+            // let array = Array(5).fill(1)
+            // console.log(array) //[1,1,1,1,1]
+        } {
+            //如何创建一个新数组
+            //ES5
+            // let array = Array(5)
+            // let array = []
+
+            //ES6
+            // Array.prototype.of
+            // let array = Array.of(1,2,3,4)
+            // console.log(array) //[1,2,3,4]
+
+            // Array.prototype.fill
+            // let array = Array(5).fill(1)
+            // console.log(array)
+
+            // Array.fill(value,start,end)
+            let array = [1, 2, 3, 4, 5]
+            // console.log(array.fill(8, 2, 4))
+
+            // let find = array.filter(function (item) {
+            //   return item % 2 === 0
+            // })
+            // console.log(find)
+            // Array.prototype.find
+            let find = array.findIndex(function (item) {
+                return item % 2 === 0
+            })
+            console.log(find)
+            // Array.prototype.findIndex
+        }
+        {
+        //如何查找一个元素
+        
         }
     </script>
 
