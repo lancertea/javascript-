@@ -83,29 +83,61 @@
         //用get set定义的属性在顶级作用域，可以访问class外的变量
         let _age = 4
         class Animal {
-          constructor (type) {
-            this.type = type
-          }
-          get age () {
-            return _age
-          }
-          set age (val) {
-            if (val < 7 && val > 4) {
-              _age = val
+            constructor(type) {
+                this.type = type
             }
-          }
-          eat () {
-            console.log('i am eat food')
-          }
+            get age() {
+                return _age
+            }
+            set age(val) {
+                if (val < 7 && val > 4) {
+                    _age = val
+                }
+            }
+            eat() {
+                console.log('i am eat food')
+            }
         }
         let dog = new Animal('dog')
-        console.log(dog.age)//4
+        console.log(dog.age) //4
         dog.age = 8
-        console.log(dog.age)//4
-        console.log(dog._age)//undefined
+        console.log(dog.age) //4
+        console.log(dog._age) //undefined
 
+        //操作方法
+        //方法如果依赖于对象的某些属性，就定义为实例对象方法
+        //类的方法拿不到当前的实例对象
+        //ES5
+        // let Animal = function (type) {
+        //   this.type = type
+        // }
+        //实例（原型）方法
+        // Animal.prototype.eat = function () {
+        //   Animal.walk()
+        //   console.log('i am eat food hello')
+        // }
+        //静态方法(类的方法，实例不能用)
+        // Animal.walk = function () {
+        //   console.log('i am walking')
+        // }
+        // let dog = new Animal('dog')
+        // dog.eat()
 
-
+        //ES6
+        // class Animal {
+        //   constructor (type) {
+        //     this.type = type
+        //   }
+        //   eat () {
+        //     Animal.walk()
+        //     console.log('i am eat food')
+        //   }
+        //   static walk () {
+        //     console.log('i am walking')
+        //   }
+        // }
+        // let dog = new Animal('dog')
+        // dog.eat()
 
 
         // 类的继承
