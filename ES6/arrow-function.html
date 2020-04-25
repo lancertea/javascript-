@@ -49,6 +49,17 @@
         }
         console.log(new factory().c.b());
     }
+
+    //this的指向
+    let test = {
+        name: 'test',
+        say: () => {
+            console.log(this.name, this)//window
+        }
+    }
+    //ES5中，谁调用该函数，this就指向谁
+    //ES6中，在定义函数时，this指向谁就是谁
+    test.say()
 </script>
 
 <body>
