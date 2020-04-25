@@ -131,21 +131,27 @@
             let array = [1, 2, 3, 4, 5]
             // console.log(array.fill(8, 2, 4))
 
+
+            //如何查找一个元素
+             //ES5
             // let find = array.filter(function (item) {
             //   return item % 2 === 0
             // })
             // console.log(find)
+
+            // ES6
             // Array.prototype.find
-            let find = array.findIndex(function (item) {
+            let find = array.find(function (item) {
                 return item % 2 === 0
             })
-            console.log(find)
+            console.log(find)//2
             // Array.prototype.findIndex
+            let findI = array.findIndex(function (item) {
+                return item % 2 === 0
+            })
+            console.log(findI)//1
         }
-        {
-        //如何查找一个元素
-        
-        }
+    
     </script>
 
 </body>
