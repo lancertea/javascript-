@@ -24,6 +24,17 @@
         // console.log(100)
         // alert(200)
         // console.log(300)
+
+        //循环间隔1s打印数组
+        let arr = [1, 2, 3, 4, 5];
+        var i = 0; //在外面定义一个变量作为判断的标准
+        var timer = setInterval(function () {
+            console.log(arr[i]);
+            i++;
+            if (i > arr.length - 1) { //因为i++的原因，所以当i的值大于数组的长度-1的时候，清除定时器
+                clearInterval(timer);
+            }
+        }, 1000);
     </script>
 </body>
 
