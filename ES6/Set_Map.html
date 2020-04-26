@@ -6,6 +6,121 @@
     <title>Set Map</title>
     <script>
         /*
+        Set
+        */
+        { //Set 实例的属性和方法
+            var s = new Set([1, 2, 3, 3, '3']);
+            //===
+            console.log(s); // Set(4) [ 1, 2, 3, "3" ]
+            console.log(s.add(4)); //Set(5) [ 1, 2, 3, "3", 4 ]
+            //Set内部  NaN===NaN
+            console.log(s.add(NaN)); //Set(6) [ 1, 2, 3, "3", 4, NaN ]
+            console.log(s.add(NaN)); //Set(6) [ 1, 2, 3, "3", 4, NaN ]
+            console.log(s.delete(3)); //true
+            console.log(s.size); //5
+            console.log(s.has(2)); //true
+            //清空:s.clear()
+
+            /*向 Set 加入值的时候，不会发生类型转换，所以5和"5"是两个不同的值。Set 内部判断两个值是否不同，使用的算法叫做“Same-value-zero equality”，
+        它类似于精确相等运算符（===），主要的区别是向 Set 加入值时认为NaN等于自身，而精确相等运算符认为NaN不等于自身。*/
+            var s = new Set();
+            var a = NaN,
+                b = NaN;
+            s.add(a);
+            s.add(b);
+            console.log(s); //Set [ NaN ]
+
+            //两边都是对象，只要不是同一对象的不同引用，都视为不同值
+            var s = new Set();
+            var a = {},
+                b = {},
+                c = a;
+            s.add(a);
+            s.add(b);
+            console.log(s); //Set [ {}, {} ]  其实就是Set [ a,b ] 
+            s.add(c);
+            console.log(s); //Set [ {}, {} ]  其实就是Set [ a,b ] 因为 c 和 a 引用的是同一个对象，所以是相等的
+
+            // 遍历
+            //s.keys() s.values()  s.entries() s.forEach()
+            for (let key of s.keys()) {
+                console.log('keys', key);
+            }
+            for (let value of s.values()) {
+                console.log('values', value);
+            }
+            // 可发现Set的键和值是一模一样的，由于key不能重复，所以，在Set中，没有重复的值。
+        }
+
+        //应用：
+        //去除数组的重复成员
+        console.log([...new Set([1, 2, 3, 3])]); //[ 1, 2, 3 ]
+        //Array.from方法可以将 Set 结构转为数组。这也提供了去除数组成员的一种方法
+        function dedupe(array) {
+            return Array.from(new Set(array));
+        }
+        console.log(dedupe([1, 1, 2, 3])); // [1, 2, 3]
+
+        //去除字符串里面的重复字符
+        console.log([...new Set('ababbc')].join('')); //'abc'
+
+        //实现并集（Union）、交集（Intersect）和差集（Difference）
+        {
+            let a = new Set([1, 2, 3]);
+            let b = new Set([4, 3, 2]);
+
+            // 并集
+            let union = new Set([...a, ...b]);
+            // Set {1, 2, 3, 4}
+
+            // 交集
+            let intersect = new Set([...a].filter(x => b.has(x)));
+            // set {2, 3}
+
+            // 差集
+            let difference = new Set([...a].filter(x => !b.has(x)));
+            // Set {1}
+
+
+
+        }
+
+        /*
+        属性：
+        Set.prototype.constructor：构造函数，默认就是Set函数。
+        Set.prototype.size：返回Set实例的成员总数。
+        操作方法：
+        add(value)：添加某个值，返回 Set 结构本身。 
+        delete(value)：删除某个值，返回一个布尔值，表示删除是否成功。
+        has(value)：返回一个布尔值，表示该值是否为Set的成员。
+        clear()：清除所有成员，没有返回值。
+        遍历方法:
+        Set的遍历顺序就是插入顺序。这个特性有时非常有用，比如使用 Set 保存一个回调函数列表，调用时就能保证按照添加顺序调用。
+        keys()：返回键名的遍历器
+        values()：返回键值的遍历器
+        entries()：返回键值对的遍历器
+        forEach()：使用回调函数遍历每个成员
+        */
+
+        /*
+        WeakSet
+        与Set的区别：
+        1.支持的类型只能是对象
+        2.弱引用：不会检测这个对象有没有在其他地方用过
+        3.没有clear()方法、没有size属性，不能遍历
+        */
+        {
+            let weakList = new WeakSet();
+            let arg = {};
+            weakList.add(arg);
+            //weakList.add(2);
+            console.log(weakList);
+        }
+
+
+
+        
+        /*
         Map  
         https://es6.ruanyifeng.com/#docs/set-map#Set
         JavaScript的默认对象表示方式{}可以视为其他语言中的Map或Dictionary的数据结构，即一组键值对。
@@ -30,7 +145,8 @@
         m.set(a, 2);
         console.log(m); //Map(3) { Bob → 59, {} → 1, {} → 2 }
         console.log(m.get(c)); //2
-        // console.log(m.keys(), m.values(), m.entries())
+
+        // m.keys(), m.values(), m.entries()
         // m.forEach((value, key) => {
         //   console.log(value, key)
         // })
@@ -42,7 +158,7 @@
         // }
         // m.set(o, 4)
         // console.log(m.get(o))
-        
+
         /*
         由上可知，Map 的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键。这就解决了同名属性碰撞（clash）的问题，
         我们扩展别人的库的时候，如果使用对象作为键名，就不用担心自己的属性与原作者的属性同名。
@@ -68,103 +184,6 @@
         entries()：返回键值对的遍历器
         forEach()：使用回调函数遍历每个成员
         */
-
-
-
-
-
-        /*
-        Set
-        */
-        {
-            var s = new Set([1, 2, 3, 3, '3']);
-            console.log(s); // Set {1, 2, 3, "3"}
-            console.log(s.add(4)); //Set(5) [ 1, 2, 3, "3", 4 ]
-            console.log(s.delete(3)); //true
-            console.log(s.size); //4
-            console.log(s.has(2)); //true
-            //清空:s.clear()
-
-            // 遍历
-            //console.log(s.keys()) 
-            // console.log(s.values())
-            // console.log(s.entries())
-            for (let key of s.keys()) {
-                console.log('keys', key);
-            }
-
-            for (let value of s.values()) {
-                console.log('values', value);
-            }
-            // 可发现Set的键和值是一模一样的，由于key不能重复，所以，在Set中，没有重复的值。
-        }
-
-        //去除数组的重复成员
-        console.log([...new Set([1, 2, 3, 3])]); //[ 1, 2, 3 ]
-        //Array.from方法可以将 Set 结构转为数组。这也提供了去除数组成员的一种方法
-        function dedupe(array) {
-            return Array.from(new Set(array));
-        }
-        console.log(dedupe([1, 1, 2, 3])); // [1, 2, 3]
-
-
-        //去除字符串里面的重复字符
-        console.log([...new Set('ababbc')].join('')); //'abc'
-
-        /*向 Set 加入值的时候，不会发生类型转换，所以5和"5"是两个不同的值。Set 内部判断两个值是否不同，使用的算法叫做“Same-value-zero equality”，
-        它类似于精确相等运算符（===），主要的区别是向 Set 加入值时认为NaN等于自身，而精确相等运算符认为NaN不等于自身。*/
-        var s = new Set();
-        var a = NaN,
-            b = NaN;
-        s.add(a);
-        s.add(b);
-        console.log(s); //Set [ NaN ]
-
-        //两边都是对象，只要不是同一对象的不同引用，都视为不同值
-        var s = new Set();
-        var a = {},
-            b = {},
-            c = a;
-        s.add(a);
-        s.add(b);
-        console.log(s); //Set [ {}, {} ]  其实就是Set [ a,b ] 
-        s.add(c);
-        console.log(s); //Set [ {}, {} ]  其实就是Set [ a,b ] 因为 c 和 a 引用的是同一个对象，所以是相等的
-
-
-        /*
-        属性：
-        Set.prototype.constructor：构造函数，默认就是Set函数。
-        Set.prototype.size：返回Set实例的成员总数。
-        操作方法：
-        add(value)：添加某个值，返回 Set 结构本身。 
-        delete(value)：删除某个值，返回一个布尔值，表示删除是否成功。
-        has(value)：返回一个布尔值，表示该值是否为Set的成员。
-        clear()：清除所有成员，没有返回值。
-        遍历方法:
-        Set的遍历顺序就是插入顺序。这个特性有时非常有用，比如使用 Set 保存一个回调函数列表，调用时就能保证按照添加顺序调用。
-        keys()：返回键名的遍历器
-        values()：返回键值的遍历器
-        entries()：返回键值对的遍历器
-        forEach()：使用回调函数遍历每个成员
-        */
-
-
-        /*
-        WeakSet
-        与Set的区别：
-        1.支持的类型只能是对象
-        2.弱引用：不会检测这个对象有没有在其他地方用过
-        3.没有clear()方法、没有size属性，不能遍历
-        */
-        {
-            let weakList = new WeakSet();
-            let arg = {};
-            weakList.add(arg);
-            //weakList.add(2);
-            console.log(weakList);
-        }
-
 
         //Set、Map、Array的对比
         //数据结构横向对比：增、删、改、查
