@@ -8,147 +8,148 @@
 
 <body>
     <script>
-{
-        //数组遍历的方法
-        //ES5
-        // for 循环
-        const arr = [1, 2, 3, 4, 5]
-        for (let i = 0; i < arr.length; i++) {
-            if (arr[i] === 2) {
-                continue
+        {
+            //数组遍历的方法
+            //ES5
+            // for 循环
+            const arr = [1, 2, 3, 4, 5]
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] === 2) {
+                    continue
+                }
+                //console.log(arr[i])
             }
-            //console.log(arr[i])
-        }
 
-        // forEach
-        // array.forEach(function(currentValue, index, arr), thisValue)
-        // 为数组中的每个元素执行一次回调函数。默认返回undefined
-        //不支持continue、break，会报错，它会遍历所有元素
-        arr.forEach(function (item) {
-            if (item === 2) {
-                // continue
+            // forEach
+            // array.forEach(function(currentValue, index, arr), thisValue)
+            // 为数组中的每个元素执行一次回调函数。默认返回undefined
+            //不支持continue、break，会报错，它会遍历所有元素
+            arr.forEach(function (item) {
+                if (item === 2) {
+                    // continue
+                }
+                // console.log(item)
+            })
+
+
+            //every
+            //array.every(function(currentValue,index,arr), thisValue)  &&
+            //如果数组中的每个元素都满足测试函数，则返回 true，否则返回 false。
+            //不支持continue、break,但是可以实现相同功能
+            //如果运行函数没有返回值，默认返回undefined（false），是不会接着执行的
+            //只有前一项在运行函数时返回true，才会接着遍历
+            arr.every(function (item) {
+                if (item === 2) {
+
+                } else {
+                    // console.log(item)
+                }
+                return true
+            })
+
+
+            // for in  
+            //虽然能遍历数组，但是有瑕疵(将数组视为对象)，因为他是用来遍历对象的
+            //for in 支持continue、break
+            // arr.a = 8
+            for (let index in arr) { //注意这里index是索引
+                if (index * 1 === 2) { //要特别注意，for in 遍历数组时，index是字符串！！！
+                    continue
+                }
+                // console.log(index, arr[index])
             }
-            // console.log(item)
-        })
 
-
-        //every
-        //array.every(function(currentValue,index,arr), thisValue)  &&
-        //如果数组中的每个元素都满足测试函数，则返回 true，否则返回 false。
-        //不支持continue、break,但是可以实现相同功能
-        //如果运行函数没有返回值，默认返回undefined（false），是不会接着执行的
-        //只有前一项在运行函数时返回true，才会接着遍历
-        arr.every(function (item) {
-            if (item === 2) {
-
-            } else {
+            //ES6
+            // for of
+            //可遍历任意可遍历对象
+            for (let item of arr) { //注意这里item是值本身
                 // console.log(item)
             }
-            return true
-        })
 
-
-        // for in  
-        //虽然能遍历数组，但是有瑕疵(将数组视为对象)，因为他是用来遍历对象的
-        //for in 支持continue、break
-        // arr.a = 8
-        for (let index in arr) { //注意这里index是索引
-            if (index * 1 === 2) { //要特别注意，for in 遍历数组时，index是字符串！！！
-                continue
+            //小栗子
+            //怎么做？
+            const Price = {
+                A: [1.5, 2.3, 4.5],
+                B: [3, 4, 5],
+                C: [0.5, 0.8, 1.2]
             }
-            // console.log(index, arr[index])
         }
 
-        //ES6
-        // for of
-        //可遍历任意可遍历对象
-        for (let item of arr) { //注意这里item是值本身
-            // console.log(item)
+        {
+            //将伪数组转换为数组
+            /*
+            伪数组：表现形式上像数组，可通过数组索引取值，但是不能用数组的API
+            1.按索引方式传输数据的，2.具备一个length属性
+            {0:'a',1:'b',length:2}
+            比如Set、arguments、DOM中的NodeList
+            */
+
+            //ES5
+            //这两种方法不适用于Set
+            function convertArr() {
+                // let b=Array.prototype.slice.call(arguments); 
+                let b = [].slice.call(arguments);
+                console.log(b);
+
+            }
+            convertArr(1, 2, 3, 4, 5);
+            // let imgs = [].slice.call(document.querySelectorAll('img')) // NodeList
+            // console.log(imgs)
+
+            //ES6
+            //这两种方法均适用
+            // Array.prototype.from
+            // let args = Array.from(arguments)
+            // let imgs = Array.from(document.querySelectorAll('img'))
+            let a = new Set([1, 2, 3, 4, 5, 6, 7, 7]);
+            console.log(Array.from(a));
+
+            //扩展符
+            // let args =[...arguments]
+            console.log([...a]);
         }
 
-        //小栗子
-        //怎么做？
-        const Price = {
-            A: [1.5, 2.3, 4.5],
-            B: [3, 4, 5],
-            C: [0.5, 0.8, 1.2]
+        {
+
+            //初始化一个全为某个值的数组
+            //不推荐的做法：
+            // let array = Array(5)
+            // for (let i = 0, len = array.length; i < len; i++) {
+            //   array[i] = 1
+            // }
+            // console.log(array)
+
+            //为什么不能用forEach,every这些
+
+            //ES6
+            // Array.from(arrayLike,mapFn,thisArg)
+            // let array = Array.from({ length: 5 }, function () { return 1 })
+            // console.log(array)
+
+            // Array.prototype.fill
+            // let array = Array(5).fill(1)
+            // console.log(array) //[1,1,1,1,1]
+        } {
+            //如何创建一个新数组
+            //ES5
+            // let array = Array(5)
+            // let array = []
+
+            //ES6
+            // Array.prototype.of
+            // let array = Array.of(1,2,3,4)
+            // console.log(array) //[1,2,3,4]
+
+            // Array.prototype.fill
+            // Array.fill(value,start,end)
+            // let array = [1, 2, 3, 4, 5]
+            // console.log(array.fill(8, 2, 4))
         }
-}
 
-{
-        //将伪数组转换为数组
-        /*
-        伪数组：表现形式上像数组，可通过数组索引取值，但是不能用数组的API
-        1.按索引方式传输数据的，2.具备一个length属性
-        {0:'a',1:'b',length:2}
-        比如Set、arguments、DOM中的NodeList
-        */
-
-        //ES5
-        //这两种方法不适用于Set
-        function convertArr(){
-            // let b=Array.prototype.slice.call(arguments); 
-            let b=[].slice.call(arguments);
-            console.log(b);
-                
-        }
-        convertArr(1,2,3,4,5);
-        // let imgs = [].slice.call(document.querySelectorAll('img')) // NodeList
-        // console.log(imgs)
-
-        //ES6
-        //这两种方法均适用
-        // Array.prototype.from
-        // let args = Array.from(arguments)
-        // let imgs = Array.from(document.querySelectorAll('img'))
-        let a=new Set([1,2,3,4,5,6,7,7]);
-        console.log(Array.from(a));
-        
-        //扩展符
-        // let args =[...arguments]
-        console.log([...a]);
-}
-
-{
-
-        //初始化一个全为某个值的数组
-        //不推荐的做法：
-        // let array = Array(5)
-        // for (let i = 0, len = array.length; i < len; i++) {
-        //   array[i] = 1
-        // }
-        // console.log(array)
-
-        //为什么不能用forEach,every这些
-        
-        //ES6
-        // Array.from(arrayLike,mapFn,thisArg)
-        // let array = Array.from({ length: 5 }, function () { return 1 })
-        // console.log(array)
-
-        // Array.prototype.fill
-        // let array = Array(5).fill(1)
-        // console.log(array) //[1,1,1,1,1]
-}        
-{
-        //如何创建一个新数组
-        //ES5
-        // let array = Array(5)
-        // let array = []
-
-        //ES6
-        // Array.prototype.of
-        // let array = Array.of(1,2,3,4)
-        // console.log(array) //[1,2,3,4]
-
-        // Array.prototype.fill
-        // Array.fill(value,start,end)
-        // let array = [1, 2, 3, 4, 5]
-        // console.log(array.fill(8, 2, 4))
-}
-{
+        {
             //如何查找一个元素
             //ES5
+            //返回所有满足条件的
             // let find = array.filter(function (item) {
             //   return item % 2 === 0
             // })
@@ -156,31 +157,28 @@
 
             // ES6
             // Array.prototype.find
+            //返回满足条件的第一个值
             let find = array.find(function (item) {
                 return item % 2 === 0
             })
             console.log(find) //2
             // Array.prototype.findIndex
+            //返回满足条件的第一个值的索引
             let findI = array.findIndex(function (item) {
                 return item % 2 === 0
             })
             console.log(findI) //1
-}
-
-        //数组去重的方法
-        //1.Set()
-        var arr = [1, 2, 3, 3, 4];
-        console.log(...new Set(arr)); //1,2,3,4
-        console.log([...new Set(arr)]); //[1,2,3,4]
-
-        function dedupe(array) {
-            return Array.from(new Set(array));
-
         }
 
-        console.log(dedupe(arr)); //[1,2,3,4]
+        {
+            //数组去重的方法
+            //1.Set()
+            var arr = [1, 2, 3, 3, 4];
+            console.log(...new Set(arr)); //1,2,3,4
+            console.log([...new Set(arr)]); //[1,2,3,4]
 
-        //2.filter()
+            //2.filter()
+        }
     </script>
 
 </body>
