@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>并、交、差集的实现</title>
+</head>
+
+<body>
+    <script>
+        let a1 = [1, 2, 3, 4];
+        let a2 = [2, 3, 4, 5];
+        let a3 = [3, 4, 5, 6];
+        console.log(union(a1, a2, a3));
+        console.log(intersect(a1, a2, a3));
+        console.log(difference(a1, a2, a3));
+
+
+        //并集
+        function union(...arr) {
+            if (arr.length === 0) {
+                return 0;
+            }
+            if (arr.length === 1) {
+                return arr[0];
+            }
+            return [...new Set(arr.reduce((res, arg) => {
+                return res.concat(arg);
+            }))]
+        }
+
+
+        //交集
+        //rest参数就是一个真正的数组
+        //reduce()
+        //如果不传第二参数 initialValue，那么相当于函数从数组第二个值开始，并且将第一个值最为第一次执行的返回值
+        function intersect(...arr) {
+            if (arr.length === 0) {
+                return 0;
+            }
+            if (arr.length === 1) {
+                return arr[0];
+            }
+            return [...new Set(arr.reduce((res, arg) => {
+                return res.filter(item => arg.includes(item))
+            }))]
+        }
+
+        //差集
+        // function difference(...arr) {
+        //     if (arr.length === 0) {
+        //         return 0;
+        //     }
+        //     if (arr.length === 1) {
+        //         return arr[0];
+        //     }
+        //     return [...new Set(arr.reduce((res, arg) => {
+        //         return res.filter(item => !arg.includes(item))
+        //     }))]
+        // }
+    </script>
+</body>
+
+</html>
