@@ -18,9 +18,10 @@
             }
             //console.log(arr[i])
         }
-
-
+         
         // forEach
+        // array.forEach(function(currentValue, index, arr), thisValue)
+        // 为数组中的每个元素执行一次回调函数。默认返回undefined
         //不支持continue、break，会报错，它会遍历所有元素
         arr.forEach(function (item) {
             if (item === 2) {
@@ -31,6 +32,8 @@
 
 
         //every
+        //array.every(function(currentValue,index,arr), thisValue)  &&
+        //如果数组中的每个元素都满足测试函数，则返回 true，否则返回 false。
         //不支持continue、break,但是可以实现相同功能
         //如果运行函数没有返回值，默认返回undefined（false），是不会接着执行的
         //只有前一项在运行函数时返回true，才会接着遍历
@@ -48,7 +51,7 @@
         //虽然能遍历数组，但是有瑕疵(将数组视为对象)，因为他是用来遍历对象的
         //for in 支持continue、break
         // arr.a = 8
-        for (let index in arr) {
+        for (let index in arr) {//注意这里index是索引
             if (index * 1 === 2) { //要特别注意，for in 遍历数组时，index是字符串！！！
                 continue
             }
@@ -58,20 +61,18 @@
         //ES6
         // for of
         //可遍历任意可遍历对象
-        for (let item of arr) {
+        for (let item of arr) {//注意这里item是值本身
             // console.log(item)
         }
 
         //小栗子
+        //怎么做？
         const Price = {
             A: [1.5, 2.3, 4.5],
             B: [3, 4, 5],
             C: [0.5, 0.8, 1.2]
         }
 
-        for (let key in Price) {
-            // console.log(key, Price[key])
-        }
 
 
         //将伪数组转换为数组
