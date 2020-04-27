@@ -36,10 +36,11 @@
         console.log(flat(arr1));
 
         //用reduce简化
-        //为啥箭头后面不能加花括号
         function flatten(arr) {
-            return arr.reduce((target, current) => 
-                Array.isArray(current) ? target.concat(flatten(current)) : target.concat(current)
+            return arr.reduce((target, current) => {
+              return  Array.isArray(current) ? target.concat(flatten(current)) : target.concat(current)
+            }
+        // Array.isArray(current) ? target.concat(flatten(current)) : target.concat(current)
             , [])
         }
         console.log(flatten(arr));
