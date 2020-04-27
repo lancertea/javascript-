@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>自实现数组扁平化</title>
+</head>
+
+<body>
+    <script>
+        let arr = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, [8, [9]]],
+            [10]
+        ];
+        let arr1 = [1, [2, 3, [4]],
+            [5, 6], 7, 8
+        ];
+        console.log(arr.length); //4 以最外层数组的个数算的
+        console.log(arr1.length); //5 数字自成一个数组
+
+        //递归实现
+        function flat(arr) {
+            let res = [];
+            for (let i = 0; i < arr.length; i++) {
+                if (Array.isArray(arr[i])) {
+                    res = res.concat(flat(arr[i]));
+                } else {
+                    res.push(arr[i]);
+                }
+            }
+            return res;
+        }
+        console.log(flat(arr));
+        console.log(flat(arr1));
+
+        //用reduce简化
+        //为啥箭头后面不能加花括号
+        function flatten(arr) {
+            return arr.reduce((target, current) => 
+                Array.isArray(current) ? target.concat(flatten(current)) : target.concat(current)
+            , [])
+        }
+        console.log(flatten(arr));
+
+       //根据指定深度扁平
+       function flattenByDeep(arr,deep=1){
+           return arr.reduce((target,current)=>
+           Array.isArray(current)&&deep>1?
+           target.concat(flattenByDeep(current,deep-1)):target.concat(current),[])
+       }
+       console.log(flattenByDeep(arr,2));
+       
+    </script>
+</body>
+
+</html>
