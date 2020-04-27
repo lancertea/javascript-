@@ -198,38 +198,18 @@
 
         */
 
-
-
-        /*
-        copyWithin()方法
-        用于从数组的指定位置拷贝元素到数组的另一个指定位置
-        改变原数组
-        array.copyWithin(target, start, end)
-        target: 必需。复制到指定目标索引位置
-        start : 可选。元素复制的起始位置
-        end:    可选。停止复制的索引位置 (不包括这一位，默认为 array.length)。如果为负值，表示倒数（也不包括那一位）
-        */
-        {
-            var a = [1, 2, 3, 4, 5];
-            console.log(a.copyWithin(0, 2)); //[ 3, 4, 5, 4, 5 ]
-            console.log(a); //[ 3, 4, 5, 4, 5 ] 改变原数组
-            var acopy = [1, 2, 3, 4, 5];
-            console.log(acopy.copyWithin(2, 0, 2)); //[1,2,1,2,5]
-            var acopy1 = [1, 2, 3, 4, 5];
-            console.log(acopy1.copyWithin(1, 0, -2)); //[1,1,2,3,5]
+        //自实现reverse功能
+        let arr = [1, 2, 3, 4, 5];
+        let i = 0,
+            j = arr.length - 1;
+        while (i <= j) {
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+            i++;
+            j--;
         }
+        console.log(arr);
 
-
-        /*
-        join() 
-        常见引用：反转字符串
-        */
-        {
-            var str = 'hello';
-            var res = str.split('').reverse().join('');
-            console.log(res); //'olleh'
-
-        }
+      
 
         /*
         splice()方法
@@ -251,7 +231,35 @@
             console.log(removed); //[ "yellow" ]
         }
 
+        /*
+        copyWithin()方法
+        用于从数组的指定位置拷贝元素到数组的另一个指定位置
+        改变原数组
+        array.copyWithin(target, start, end)
+        target: 必需。复制到指定目标索引位置
+        start : 可选。元素复制的起始位置
+        end:    可选。停止复制的索引位置 (不包括这一位，默认为 array.length)。如果为负值，表示倒数（也不包括那一位）
+        */
+        {
+            var a = [1, 2, 3, 4, 5];
+            console.log(a.copyWithin(0, 2)); //[ 3, 4, 5, 4, 5 ]
+            console.log(a); //[ 3, 4, 5, 4, 5 ] 改变原数组
+            var acopy = [1, 2, 3, 4, 5];
+            console.log(acopy.copyWithin(2, 0, 2)); //[1,2,1,2,5]
+            var acopy1 = [1, 2, 3, 4, 5];
+            console.log(acopy1.copyWithin(1, 0, -2)); //[1,1,2,3,5]
+        }
 
+        /*
+        join() 
+        常见引用：反转字符串
+        */
+        {
+            var str = 'hello';
+            var res = str.split('').reverse().join('');
+            console.log(res); //'olleh'
+
+        }
 
         /*
         concat()方法
