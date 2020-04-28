@@ -21,7 +21,7 @@
         // P.prototype.prr = [1, 2, 3];
 
 
-        // C.prototype = new P();
+        // C.prototype = new P('zz', ['z1', 'z2']);
 
         // function C(age, carr) {
         //     this.age = age;
@@ -35,17 +35,18 @@
         // C.prototype.cact = 'game';
         // C.prototype.crr = [7, 8, 9];
 
-        // let c1 = new C('zz', ['z1', 'z2'], 18, ['z3', 'z4']);
+        // let c1 = new C( 18, ['z3', 'z4']);
         // console.log(c1);
         /*
-age: "zz"
-​carr: Array [ "z1", "z2" ]
+子类构造函数的属性作为实例属性，每个实例都有一份        
+age: 18
+​carr: Array [ "z3", "z4" ]
 ​cstr: Array [ "a", "b", "c" ]
 <prototype>: 
 ​​         cact: "game"
 ​         crr: Array [ 7, 8, 9 ]
-​​         name: undefined
-​​         parr: undefined
+​​         name: 'zz'
+​​         parr: Array [ "z1", "z2" ]
 ​​         pstr: Array [ "A", "B", "C" ]
 ​​         <prototype>:
 ​​​                   constructor: function P(name, parr)
@@ -62,6 +63,12 @@ age: "zz"
         // console.log(c1.pstr); //Array [ "A", "B" ]
         // c2.prr.pop();
         // console.log(c1.prr); //Array [ 1, 2 ]
+        // console.log(c2.name);//'zz'
+        // c2.name='c2';
+        // console.log(c1.name);//'zz'
+        // c2.parr.pop();
+        // console.log(c1.parr);//Array [ "z1" ]
+
 
         // for (let key in c1) {
         //     console.log(key);
@@ -76,14 +83,14 @@ age: "zz"
 
         // }
         // console.log(Object.keys(C)); //Array [ "cnum" ]
-        // // console.log(Object.getOWnPropertyNames(C));
+        // console.log(Object.getOwnPropertyNames(C));
 
         // for (let key in P) {
         //     console.log(key); //pnum
 
         // }
         // console.log(Object.keys(P)); //Array [ "pnum" ]
-        // // console.log(Object.getOWnPropertyNames(P));
+        // console.log(Object.getOwnPropertyNames(P));
 
 
 
@@ -100,7 +107,7 @@ age: "zz"
         // P.prototype.prr = [1, 2, 3];
 
         // function C(age, carr) {
-        //     P.call(this);
+        //     P.call(this,'zz', ['z1', 'z2']);
         //     this.age = age;
         //     this.carr = carr;
         //     this.cstr = ['a', 'b', 'c']
@@ -112,21 +119,22 @@ age: "zz"
         // C.prototype.cact = 'game';
         // C.prototype.crr = [7, 8, 9];
 
-        // let c1 = new C('zz', ['z1', 'z2'], 18, ['z3', 'z4']);
+        // let c1 = new C(18, ['z3', 'z4']);
         // console.log(c1);
         /*
-        age: "zz"
-        ​carr: Array [ "z1", "z2" ]
+子类、父类构造函数的属性作为实例属性，每个实例都有一份       
+        age: 18
+        ​carr: Array ['z3', 'z4']
         ​cstr: Array [ "a", "b", "c" ]
         ​
-        name: undefined
-        ​parr: undefined
+        name: 'zz'
+        ​parr: Array ['z1', 'z2']
         ​pstr: Array [ "A", "B", "C" ]
         ​
         <prototype>: 
         ​​        cact: "game"
         ​​        constructor: function C(age, carr)
-        ​​        crr: Array(3) [ 7, 8, 9 ]
+        ​​        crr: Array [ 7, 8, 9 ]
         ​​        <prototype>: Object { … }
         */
         // let c2 = new C(18, ['z3', 'z4']);
@@ -138,6 +146,11 @@ age: "zz"
         // console.log(c1.pstr); //Array [ "A", "B", "C"]
         // // c2.prr.pop();
         // // console.log(c1.prr); 
+        // console.log(c2.name);//'zz'
+        // c2.name='c2';
+        // console.log(c1.name);//'zz'
+        // c2.parr.pop();
+        // console.log(c1.parr);//Array ['z1', 'z2']
 
         // for (let key in c1) {
         //     console.log(key);
@@ -152,14 +165,14 @@ age: "zz"
 
         // }
         // console.log(Object.keys(C)); //Array [ "cnum" ]
-        // // console.log(Object.getOWnPropertyNames(C));
+        // console.log(Object.getOwnPropertyNames(C));
 
         // for (let key in P) {
         //     console.log(key); //pnum
 
         // }
         // console.log(Object.keys(P)); //Array [ "pnum" ]
-        // // console.log(Object.getOWnPropertyNames(P));
+        // console.log(Object.getOwnPropertyNames(P));
 
         //组合继承优化版
         // function P(name, parr) {
@@ -168,44 +181,66 @@ age: "zz"
         //     this.pstr = ['A', 'B', 'C'];
         //     pp = 'pp';
         //     ppp: 'ppp';
+        //     this.sayHip=function(){
+        //         console.log('hi~ '+this.name);
+
+        //     }
         // }
         // P.pnum = 1;
         // P.prototype.pact = 'eat';
         // P.prototype.prr = [1, 2, 3];
+        // P.prototype.sayByep=function(){
+        //         console.log('bye~ '+this.name);
+
+        //     }
 
         // C.prototype = Object.create(P.prototype);
+        // C.prototype.constructor = C;
 
-        // function C(name,parr,age, carr) {
-        //     P.call(this);
+        // function C(age, carr) {
+        //     P.call(this, 'zz', ['z1', 'z2']);
         //     this.age = age;
         //     this.carr = carr;
-        //     this.cstr = ['a', 'b', 'c']
+        //     this.cstr = ['a', 'b', 'c'];
+        //     this.sayHic=function(){
+        //         console.log('hi~ ');
+
+        //     }
         //     cc = 'cc';
         //     ccc: 'ccc';
 
         // }
-        // C.cnum = 1;
+        // C.cnum = 2;
         // C.prototype.cact = 'game';
         // C.prototype.crr = [7, 8, 9];
+        // C.prototype.sayByec=function(){
+        //         console.log('bye~ ');
 
-        // let c1 = new C('zz', ['z1', 'z2'], 18, ['z3', 'z4']);
+        //     }
+        // let c1 = new C(18, ['z3', 'z4']);
         // console.log(c1);
         /*
         age: 18
         ​carr: Array [ "z3", "z4" ]
         ​cstr: Array [ "a", "b", "c" ]
         ​
-        name: undefined
-        ​parr: undefined
+        name: 'zz'
+        ​parr: Array [ "z1", "z2" ]
         ​pstr: Array [ "A", "B", "C" ]
-        ​
+
+        sayHic: function sayHic()
+        ​sayHip: function sayHip()
+
         <prototype>: 
         ​​      cact: "game"
+              constructor: function C(age, carr)
         ​​      crr: Array [ 7, 8, 9 ]
+              sayByec: function sayByec()
         ​​      <prototype>: 
         ​​​             constructor: function P(name, parr)
         ​​​             pact: "eat"
         ​​​             prr: Array [ 1, 2, 3 ]
+                     sayByep: function sayByep()
         ​​​             <prototype>: Object { … }
         */
         // let c2 = new C(18, ['z3', 'z4']);
@@ -217,40 +252,67 @@ age: "zz"
         // console.log(c1.pstr); //Array [ "A", "B", "C"]
         // c2.prr.pop();
         // console.log(c1.prr); //Array [ 1, 2 ]
+        // console.log(c2.name); //'zz'
+        // c2.name = 'c2';
+        // console.log(c1.name); //'zz'
+        // c2.parr.pop();
+        // console.log(c1.parr); //Array ['z1', 'z2']
 
         // for (let key in c1) {
         //     console.log(key);
-        //     //age carr cstr name parr pstr cact crr pact prr
+        //     //age carr cstr name parr pstr cact crr pact prr constructor sayHip sayHic sayByec sayByep
 
         // }
-        // console.log(Object.keys(c1)); // Array[ "name", "parr", "pstr", "age", "carr", "cstr" ]
-        // console.log(Object.getOwnPropertyNames(c1)); // Array[ "name", "parr", "pstr", "age", "carr", "cstr" ]
+        // console.log(Object.keys(c1)); // Array(8) [ "name", "parr", "pstr", "sayHip", "age", "carr", "cstr", "sayHic" ]
+        // console.log(Object.getOwnPropertyNames(c1)); // Array(8) [ "name", "parr", "pstr", "sayHip", "age", "carr", "cstr", "sayHic" ]
 
         // for (let key in C) {
         //     console.log(key); //cnum
 
         // }
         // console.log(Object.keys(C)); //Array [ "cnum" ]
-        // // console.log(Object.getOWnPropertyNames(C));
+        // console.log(Object.keys(C.prototype)); //Array(4) [ "constructor", "cact", "crr", "sayByec" ]
+        // console.log(Object.getOwnPropertyNames(C));//Array(4) [ "prototype", "cnum", "length", "name" ]
+        // console.log(Object.getOwnPropertyNames(C.prototype));//Array(4) [ "constructor", "cact", "crr", "sayByec" ]
 
         // for (let key in P) {
         //     console.log(key); //pnum
 
         // }
         // console.log(Object.keys(P)); //Array [ "pnum" ]
-        // // console.log(Object.getOWnPropertyNames(P));
+        // console.log(Object.keys(P.prototype)); //Array(3) [ "pact", "prr", "sayByep" ]
+        // console.log(Object.getOwnPropertyNames(P));//Array(4) [ "pnum", "prototype", "length", "name" ]
+        // console.log(Object.getOwnPropertyNames(P.prototype));//Array(4) [ "constructor", "pact", "prr", "sayByep" ]
 
         class P {
+            //实例属性除了定义在constructor()方法里面的this上面，也可以定义在类的最顶层。
             constructor(name, parr) {
+                //实例属性
                 this.name = name;
                 this.parr = parr;
                 this.pstr = ['A', 'B', 'C'];
+                //实例方法
+                this.sayHip = function () {
+                    console.log('hi~ ' + this.name);
+                }
             }
-
+            //实例属性
             pp = 'pp';
+            //静态属性
+            static pact = 'eat';
+            //原型方法
+            sayByep() {
+                console.log('bye~ ' + this.name);
+            }
+            //静态方法
+            static numberp() {
+                console.log(P.pnum);
+
+            }
         }
+        //静态方法
         P.pnum = 1;
-        P.prototype.pact = 'eat';
+        //原型属性
         P.prototype.prr = [1, 2, 3];
 
 
@@ -260,11 +322,21 @@ age: "zz"
                 this.age = age;
                 this.carr = carr;
                 this.cstr = ['a', 'b', 'c']
+                this.sayHic = function () {
+                    console.log('hi~ ');
+                }
             }
             cc = 'cc';
+            static cact = 'game';
+            sayByec() {
+                console.log('bye~ ');
+            }
+            static numberc() {
+                console.log(C.cnum);
+
+            }
         }
-        C.cnum = 1;
-        C.prototype.cact = 'game';
+        C.cnum = 2;
         C.prototype.crr = [7, 8, 9];
 
         let c1 = new C('zz', ['z1', 'z2'], 18, ['z3', 'z4']);
@@ -278,18 +350,20 @@ age: "zz"
         ​parr: Array [ "z1", "z2" ]
         ​pp: "pp"
         ​pstr: Array(3) [ "A", "B", "C" ]
+        ​sayHic: function sayHic()
+        ​sayHip: function sayHip()
         ​
         <prototype>: 
-        ​​        cact: "game"
         ​​        constructor: class C { constructor(name, parr, age, carr) }
         ​​        crr: Array(3) [ 7, 8, 9 ]
-        ​​              <prototype>: 
+        ​​        sayByec: function sayByec()
+        ​​               <prototype>: 
         ​​​                      constructor: class P { constructor(name, parr) }
-        ​​​                      pact: "eat"
         ​​​                      prr: Array(3) [ 1, 2, 3 ]
+        ​​​                      sayByep: function sayByep()
         ​​​                      <prototype>: Object { … }
         */
-        let c2 = new C('zz', ['z1', 'z2'], 18, ['z3', 'z4']);
+        let c2 = new C('c2', ['z11', 'z22'], 20, ['z33', 'z44']);
         c2.cstr.pop();
         console.log(c1.cstr); //Array[ "a", "b", "c" ]
         c2.crr.pop();
@@ -298,32 +372,38 @@ age: "zz"
         console.log(c1.pstr); //Array [ "A", "B", "C"]
         c2.prr.pop();
         console.log(c1.prr); //Array [ 1, 2 ]
-        c2.cc='c2';
-        console.log(c1.cc);//'cc'
-        c2.pp='p2';
-        console.log(c2.pp);//'p2'
+        //父类的静态方法可以被子类继承
+        console.log(C.pnum);//1
+        C.numberp();//1
         
         for (let key in c1) {
             console.log(key);
-            //pp name parr pstr cc age carr cstr cact crr pact prr
+            //pp name parr pstr sayHip cc age carr cstr sayHic crr prr 没有两个原型上的方法
 
         }
-        console.log(Object.keys(c1)); // Array [ "pp", "name", "parr", "pstr", "cc", "age", "carr", "cstr" ]
-        console.log(Object.getOwnPropertyNames(c1)); //Array [ "pp", "name", "parr", "pstr", "cc", "age", "carr", "cstr" ]
+        console.log(Object.keys(c1)); // Array(10) [ "pp", "name", "parr", "pstr", "sayHip", "cc", "age", "carr", "cstr", "sayHic" ]
+
+        console.log(Object.getOwnPropertyNames(
+        c1)); //Array(10) [ "pp", "name", "parr", "pstr", "sayHip", "cc", "age", "carr", "cstr", "sayHic" ]
+
 
         for (let key in C) {
-            console.log(key); //cnum
+            console.log(key); //cact cnum pact pnum
 
         }
-        console.log(Object.keys(C)); //Array [ "cnum" ]
-        // console.log(Object.getOWnPropertyNames(C));
+        console.log(Object.keys(C)); //Array [ "cact", "cnum" ]
+        console.log(Object.getOwnPropertyNames(C));//Array(6) [ "prototype", "numberc", "cact", "cnum", "length", "name" ]
+        console.log(Object.keys(C.prototype));//Array [ "crr" ]
+        console.log(Object.getOwnPropertyNames(C.prototype));//Array(3) [ "constructor", "sayByec", "crr" ]
 
         for (let key in P) {
-            console.log(key); //pnum
+            console.log(key); //pact pnum
 
         }
-        console.log(Object.keys(P)); //Array [ "pnum" ]
-        // console.log(Object.getOWnPropertyNames(P));
+        console.log(Object.keys(P)); //Array [ "pact", "pnum" ]
+        console.log(Object.getOwnPropertyNames(P));//Array(6) [ "prototype", "numberp", "pact", "pnum", "length", "name" ]
+        console.log(Object.keys(P.prototype));//Array [ "prr" ]
+        console.log(Object.getOwnPropertyNames(P.prototype));//Array(3) [ "constructor", "sayByep", "prr" ]
     </script>
 </body>
 
