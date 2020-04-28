@@ -128,7 +128,36 @@
         console.log(o4.constructor === Obj1); //true
         console.log(o4.constructor === Object); //false
     
-        
+        /*
+        4.Object.create(proto[, propertiesObject])
+        创建一个新对象，使用现有的对象来提供新创建的对象的__proto__（充当原型）。
+        新对象可以使用现有对象的属性，但自己不拥有；
+        当其重写现有对象的基本类型值时，自己会拥有修改后的属性值，不会改变现有对象的基本类型值
+        当其重写现有对象的引用类型值时，自己不会拥有修改后的属性值，会改变现有对象的基本类型值
+        */
+        var P = {
+            name: 'o5',
+            arr: [1, 2, 3]
+        };
+        var o5 = Object.create(P);
+
+        console.log(o5); //Object {  }
+        console.log(o5.name); //'o5'
+        o5.name = 'oo';
+        o5.arr.push(4);
+        console.log(o5.name); //'oo'
+        console.log(o5.arr); //[1,2,3,4]
+        console.log(o5); //Object { name: "oo" }
+        console.log(P); //Object { name: "o5", arr: [1,2,3,4] }
+
+        // console.log(P.prototype.isPrototypeOf(o5));  P.prototype is undefined
+        console.log(Object.getPrototypeOf(o5) === P); //true
+        //console.log(o5 instanceof P); P不是构造函数，会报错
+        console.log(o5 instanceof Object); //true
+        console.log(o5.constructor === P); //false
+        console.log(o5.constructor === Object); //true
+
+
         //遍历属性：
         //1.for-in 所有属性
         for (var pro in o4) {
@@ -160,35 +189,6 @@
         var p5 = Object.getOwnPropertyNames(Obj1);
         console.log(p5); // [ "prototype", "length", "name" ]
 
-
-        /*
-        4.Object.create(proto[, propertiesObject])
-        创建一个新对象，使用现有的对象来提供新创建的对象的__proto__（充当原型）。
-        新对象可以使用现有对象的属性，但自己不拥有；
-        当其重写现有对象的基本类型值时，自己会拥有修改后的属性值，不会改变现有对象的基本类型值
-        当其重写现有对象的引用类型值时，自己不会拥有修改后的属性值，会改变现有对象的基本类型值
-        */
-        var P = {
-            name: 'o5',
-            arr: [1, 2, 3]
-        };
-        var o5 = Object.create(P);
-
-        console.log(o5); //Object {  }
-        console.log(o5.name); //'o5'
-        o5.name = 'oo';
-        o5.arr.push(4);
-        console.log(o5.name); //'oo'
-        console.log(o5.arr); //[1,2,3,4]
-        console.log(o5); //Object { name: "oo" }
-        console.log(P); //Object { name: "o5", arr: [1,2,3,4] }
-
-        // console.log(P.prototype.isPrototypeOf(o5));  P.prototype is undefined
-        console.log(Object.getPrototypeOf(o5) === P); //true
-        //console.log(o5 instanceof P); P不是构造函数，会报错
-        console.log(o5 instanceof Object); //true
-        console.log(o5.constructor === P); //false
-        console.log(o5.constructor === Object); //true
     }
 
 
