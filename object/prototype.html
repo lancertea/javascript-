@@ -99,6 +99,7 @@
         function Obj1(name, num) {
             this.name = name;
             this.num = num;
+            //这样写的属性算什么
             gender: 'woman';
 
         }
@@ -127,6 +128,47 @@
         console.log(o4 instanceof Object); //true
         console.log(o4.constructor === Obj1); //true
         console.log(o4.constructor === Object); //false
+        
+        //Obj1:
+        //实例属性：'name','num'
+        //原型属性：'age','arr'
+
+        //o4:
+        //实例属性：'name','num'
+        //原型属性：'age','arr'
+        
+        //遍历属性：
+        //1.for-in 所有属性
+        //该方法依次访问一个对象及其原型链中所有可枚举的属性。
+        for (var pro in o4) {
+            console.log(pro); //'name','num','age','arr'
+
+        }
+
+        //同时使用 hasOwnProperty()+in，可确定该属性到底是存在于对象中，还是原型中
+        for (var pro in o4) {
+            if (o4.hasOwnProperty(pro)) {
+                console.log(pro); //'name','num'
+            }
+        }
+
+        //2.Object.keys()  取得对象上所有可枚举的实例属性
+        //该方法返回对象自身包含（不包括原型中）的所有可枚举属性的名称的数组。
+        var p = Object.keys(Obj1);
+        console.log(p); //[]
+        var p1 = Object.keys(o4);
+        console.log(p1); //[ "name", "num" ]
+        var p2 = Object.keys(Obj1.prototype);
+        console.log(p2); //[ "age", "arr" ]
+
+        //3.Object.getOwnPropertyNames():
+        //该方法返回对象自身包含（不包括原型中）的所有属性(无论是否可枚举)的名称的数组。
+        var p3 = Object.getOwnPropertyNames(o4);
+        console.log(p3); //[ "name", "num" ]
+        var p4 = Object.getOwnPropertyNames(Obj1.prototype);
+        console.log(p4); // [ "constructor", "age", "arr" ]
+        var p5 = Object.getOwnPropertyNames(Obj1);
+        console.log(p5); // [ "prototype", "length", "name" ]
     
         /*
         4.Object.create(proto[, propertiesObject])
@@ -158,36 +200,7 @@
         console.log(o5.constructor === Object); //true
 
 
-        //遍历属性：
-        //1.for-in 所有属性
-        for (var pro in o4) {
-            console.log(pro); //'name','num','age','arr'
-
-        }
-
-        //2.同时使用 hasOwnProperty()+in，可确定该属性到底是存在于对象中，还是原型中
-        for (var pro in o4) {
-            if (o4.hasOwnProperty(pro)) {
-                console.log(pro); //'name','num'
-            }
-        }
-
-        //3.Object.keys()  取得对象上所有可枚举的实例属性
-        //接收一个对象作为参数，返回一个包含所有可枚举属性的字符串数组
-        var p = Object.keys(Obj1);
-        console.log(p); //[]
-        var p1 = Object.keys(o4);
-        console.log(p1); //[ "name", "num" ]
-        var p2 = Object.keys(Obj1.prototype);
-        console.log(p2); //[ "age", "arr" ]
-
-        //4.Object.getOwnPropertyNames():想得到所有实例属性，无论是否可枚举
-        var p3 = Object.getOwnPropertyNames(o4);
-        console.log(p3); //[ "name", "num" ]
-        var p4 = Object.getOwnPropertyNames(Obj1.prototype);
-        console.log(p4); // [ "constructor", "age", "arr" ]
-        var p5 = Object.getOwnPropertyNames(Obj1);
-        console.log(p5); // [ "prototype", "length", "name" ]
+        
 
     }
 
