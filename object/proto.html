@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>原型链细究</title>
+</head>
+
+<body>
+    <script>
+        //原型链继承方式
+        // function P(name, parr) {
+        //     this.name = name;
+        //     this.parr = parr;
+        //     this.pstr = ['A', 'B', 'C'];
+        //     pp = 'pp';
+        //     ppp: 'ppp';
+        // }
+        // P.pnum = 1;
+        // P.prototype.pact = 'eat';
+        // P.prototype.prr = [1, 2, 3];
+
+
+        // C.prototype = new P();
+
+        // function C(age, carr) {
+        //     this.age = age;
+        //     this.carr = carr;
+        //     this.cstr = ['a', 'b', 'c']
+        //     cc = 'cc';
+        //     ccc: 'ccc';
+
+        // }
+        // C.cnum = 1;
+        // C.prototype.cact = 'game';
+        // C.prototype.crr = [7, 8, 9];
+
+        // let c1 = new C('zz', ['z1', 'z2'], 18, ['z3', 'z4']);
+        // console.log(c1);
+        /*
+age: "zz"
+​carr: Array [ "z1", "z2" ]
+​cstr: Array [ "a", "b", "c" ]
+<prototype>: 
+​​         cact: "game"
+​         crr: Array [ 7, 8, 9 ]
+​​         name: undefined
+​​         parr: undefined
+​​         pstr: Array [ "A", "B", "C" ]
+​​         <prototype>:
+​​​                   constructor: function P(name, parr)
+​​​                   pact: "eat"
+​​​                   prr: Array(3) [ 1, 2, 3 ]
+​                   <prototype>: Object { … }
+ */
+        // let c2 = new C(18, ['z3', 'z4']);
+        // c2.cstr.pop();
+        // console.log(c1.cstr); //Array[ "a", "b", "c" ]
+        // c2.crr.pop();
+        // console.log(c1.crr); //Array [ 7, 8 ]
+        // c2.pstr.pop();
+        // console.log(c1.pstr); //Array [ "A", "B" ]
+        // c2.prr.pop();
+        // console.log(c1.prr); //Array [ 1, 2 ]
+
+        // for (let key in c1) {
+        //     console.log(key);
+        //     //age carr cstr name parr pstr cact crr pact prr(实例+原型)
+
+        // }
+        // console.log(Object.keys(c1)); //Array [ "age", "carr", "cstr" ]
+        // console.log(Object.getOwnPropertyNames(c1)); //Array [ "age", "carr", "cstr" ]
+
+        // for (let key in C) {
+        //     console.log(key); //cnum
+
+        // }
+        // console.log(Object.keys(C)); //Array [ "cnum" ]
+        // // console.log(Object.getOWnPropertyNames(C));
+
+        // for (let key in P) {
+        //     console.log(key); //pnum
+
+        // }
+        // console.log(Object.keys(P)); //Array [ "pnum" ]
+        // // console.log(Object.getOWnPropertyNames(P));
+
+
+
+        //借用构造函数
+        // function P(name, parr) {
+        //     this.name = name;
+        //     this.parr = parr;
+        //     this.pstr = ['A', 'B', 'C'];
+        //     pp = 'pp';
+        //     ppp: 'ppp';
+        // }
+        // P.pnum = 1;
+        // P.prototype.pact = 'eat';
+        // P.prototype.prr = [1, 2, 3];
+
+        // function C(age, carr) {
+        //     P.call(this);
+        //     this.age = age;
+        //     this.carr = carr;
+        //     this.cstr = ['a', 'b', 'c']
+        //     cc = 'cc';
+        //     ccc: 'ccc';
+
+        // }
+        // C.cnum = 1;
+        // C.prototype.cact = 'game';
+        // C.prototype.crr = [7, 8, 9];
+
+        // let c1 = new C('zz', ['z1', 'z2'], 18, ['z3', 'z4']);
+        // console.log(c1);
+        /*
+        age: "zz"
+        ​carr: Array [ "z1", "z2" ]
+        ​cstr: Array [ "a", "b", "c" ]
+        ​
+        name: undefined
+        ​parr: undefined
+        ​pstr: Array [ "A", "B", "C" ]
+        ​
+        <prototype>: 
+        ​​        cact: "game"
+        ​​        constructor: function C(age, carr)
+        ​​        crr: Array(3) [ 7, 8, 9 ]
+        ​​        <prototype>: Object { … }
+        */
+        // let c2 = new C(18, ['z3', 'z4']);
+        // c2.cstr.pop();
+        // console.log(c1.cstr); //Array[ "a", "b", "c" ]
+        // c2.crr.pop();
+        // console.log(c1.crr); //Array [ 7, 8 ] 原型上的引用类型还是会受影响
+        // c2.pstr.pop();
+        // console.log(c1.pstr); //Array [ "A", "B", "C"]
+        // // c2.prr.pop();
+        // // console.log(c1.prr); 
+
+        // for (let key in c1) {
+        //     console.log(key);
+        //     //age carr cstr name parr pstr cact crr （父类原型上的方法继承不到）
+
+        // }
+        // console.log(Object.keys(c1)); // Array[ "name", "parr", "pstr", "age", "carr", "cstr" ]
+        // console.log(Object.getOwnPropertyNames(c1)); // Array[ "name", "parr", "pstr", "age", "carr", "cstr" ]
+
+        // for (let key in C) {
+        //     console.log(key); //cnum
+
+        // }
+        // console.log(Object.keys(C)); //Array [ "cnum" ]
+        // // console.log(Object.getOWnPropertyNames(C));
+
+        // for (let key in P) {
+        //     console.log(key); //pnum
+
+        // }
+        // console.log(Object.keys(P)); //Array [ "pnum" ]
+        // // console.log(Object.getOWnPropertyNames(P));
+
+        //组合继承优化版
+        // function P(name, parr) {
+        //     this.name = name;
+        //     this.parr = parr;
+        //     this.pstr = ['A', 'B', 'C'];
+        //     pp = 'pp';
+        //     ppp: 'ppp';
+        // }
+        // P.pnum = 1;
+        // P.prototype.pact = 'eat';
+        // P.prototype.prr = [1, 2, 3];
+
+        // C.prototype = Object.create(P.prototype);
+
+        // function C(name,parr,age, carr) {
+        //     P.call(this);
+        //     this.age = age;
+        //     this.carr = carr;
+        //     this.cstr = ['a', 'b', 'c']
+        //     cc = 'cc';
+        //     ccc: 'ccc';
+
+        // }
+        // C.cnum = 1;
+        // C.prototype.cact = 'game';
+        // C.prototype.crr = [7, 8, 9];
+
+        // let c1 = new C('zz', ['z1', 'z2'], 18, ['z3', 'z4']);
+        // console.log(c1);
+        /*
+        age: 18
+        ​carr: Array [ "z3", "z4" ]
+        ​cstr: Array [ "a", "b", "c" ]
+        ​
+        name: undefined
+        ​parr: undefined
+        ​pstr: Array [ "A", "B", "C" ]
+        ​
+        <prototype>: 
+        ​​      cact: "game"
+        ​​      crr: Array [ 7, 8, 9 ]
+        ​​      <prototype>: 
+        ​​​             constructor: function P(name, parr)
+        ​​​             pact: "eat"
+        ​​​             prr: Array [ 1, 2, 3 ]
+        ​​​             <prototype>: Object { … }
+        */
+        // let c2 = new C(18, ['z3', 'z4']);
+        // c2.cstr.pop();
+        // console.log(c1.cstr); //Array[ "a", "b", "c" ]
+        // c2.crr.pop();
+        // console.log(c1.crr); //Array [ 7, 8 ] 原型上的引用类型还是会受影响
+        // c2.pstr.pop();
+        // console.log(c1.pstr); //Array [ "A", "B", "C"]
+        // c2.prr.pop();
+        // console.log(c1.prr); //Array [ 1, 2 ]
+
+        // for (let key in c1) {
+        //     console.log(key);
+        //     //age carr cstr name parr pstr cact crr pact prr
+
+        // }
+        // console.log(Object.keys(c1)); // Array[ "name", "parr", "pstr", "age", "carr", "cstr" ]
+        // console.log(Object.getOwnPropertyNames(c1)); // Array[ "name", "parr", "pstr", "age", "carr", "cstr" ]
+
+        // for (let key in C) {
+        //     console.log(key); //cnum
+
+        // }
+        // console.log(Object.keys(C)); //Array [ "cnum" ]
+        // // console.log(Object.getOWnPropertyNames(C));
+
+        // for (let key in P) {
+        //     console.log(key); //pnum
+
+        // }
+        // console.log(Object.keys(P)); //Array [ "pnum" ]
+        // // console.log(Object.getOWnPropertyNames(P));
+
+        class P {
+            constructor(name, parr) {
+                this.name = name;
+                this.parr = parr;
+                this.pstr = ['A', 'B', 'C'];
+            }
+
+            pp = 'pp';
+        }
+        P.pnum = 1;
+        P.prototype.pact = 'eat';
+        P.prototype.prr = [1, 2, 3];
+
+
+        class C extends P {
+            constructor(name, parr, age, carr) {
+                super(name, parr);
+                this.age = age;
+                this.carr = carr;
+                this.cstr = ['a', 'b', 'c']
+            }
+            cc = 'cc';
+        }
+        C.cnum = 1;
+        C.prototype.cact = 'game';
+        C.prototype.crr = [7, 8, 9];
+
+        let c1 = new C('zz', ['z1', 'z2'], 18, ['z3', 'z4']);
+        console.log(c1);
+        /*
+        age: 18
+        ​carr: Array [ "z3", "z4" ]
+        ​cc: "cc"
+        ​cstr: Array(3) [ "a", "b", "c" ]
+        ​name: "zz"
+        ​parr: Array [ "z1", "z2" ]
+        ​pp: "pp"
+        ​pstr: Array(3) [ "A", "B", "C" ]
+        ​
+        <prototype>: 
+        ​​        cact: "game"
+        ​​        constructor: class C { constructor(name, parr, age, carr) }
+        ​​        crr: Array(3) [ 7, 8, 9 ]
+        ​​              <prototype>: 
+        ​​​                      constructor: class P { constructor(name, parr) }
+        ​​​                      pact: "eat"
+        ​​​                      prr: Array(3) [ 1, 2, 3 ]
+        ​​​                      <prototype>: Object { … }
+        */
+        let c2 = new C('zz', ['z1', 'z2'], 18, ['z3', 'z4']);
+        c2.cstr.pop();
+        console.log(c1.cstr); //Array[ "a", "b", "c" ]
+        c2.crr.pop();
+        console.log(c1.crr); //Array [ 7, 8 ] 原型上的引用类型还是会受影响
+        c2.pstr.pop();
+        console.log(c1.pstr); //Array [ "A", "B", "C"]
+        c2.prr.pop();
+        console.log(c1.prr); //Array [ 1, 2 ]
+        c2.cc='c2';
+        console.log(c1.cc);//'cc'
+        c2.pp='p2';
+        console.log(c2.pp);//'p2'
+        
+        for (let key in c1) {
+            console.log(key);
+            //pp name parr pstr cc age carr cstr cact crr pact prr
+
+        }
+        console.log(Object.keys(c1)); // Array [ "pp", "name", "parr", "pstr", "cc", "age", "carr", "cstr" ]
+        console.log(Object.getOwnPropertyNames(c1)); //Array [ "pp", "name", "parr", "pstr", "cc", "age", "carr", "cstr" ]
+
+        for (let key in C) {
+            console.log(key); //cnum
+
+        }
+        console.log(Object.keys(C)); //Array [ "cnum" ]
+        // console.log(Object.getOWnPropertyNames(C));
+
+        for (let key in P) {
+            console.log(key); //pnum
+
+        }
+        console.log(Object.keys(P)); //Array [ "pnum" ]
+        // console.log(Object.getOWnPropertyNames(P));
+    </script>
+</body>
+
+</html>
