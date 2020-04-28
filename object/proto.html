@@ -175,6 +175,12 @@ age: 18
         // console.log(Object.getOwnPropertyNames(P));
 
         //组合继承优化版
+/*
+ES5:
+this.xxx 声明实例属性和方法  每个实例各一份
+一般在构造函数外：类.prototype.xxx 声明原型属性和方法  所有实例共享
+构造函数外：类.xxx  声明静态属性和方法  实例不能用，只有类可以用
+*/
         // function P(name, parr) {
         //     this.name = name;
         //     this.parr = parr;
@@ -260,19 +266,20 @@ age: 18
 
         // for (let key in c1) {
         //     console.log(key);
-        //     //age carr cstr name parr pstr cact crr pact prr constructor sayHip sayHic sayByec sayByep
+        //     //age carr cstr sayHic name parr pstr sayHip   实例属性+方法(8)
+        //     //cact crr pact prr constructor sayByec sayByep  原型属性+方法(7)
 
         // }
         // console.log(Object.keys(c1)); // Array(8) [ "name", "parr", "pstr", "sayHip", "age", "carr", "cstr", "sayHic" ]
         // console.log(Object.getOwnPropertyNames(c1)); // Array(8) [ "name", "parr", "pstr", "sayHip", "age", "carr", "cstr", "sayHic" ]
 
         // for (let key in C) {
-        //     console.log(key); //cnum
+        //     console.log(key); //cnum 静态方法
 
         // }
         // console.log(Object.keys(C)); //Array [ "cnum" ]
-        // console.log(Object.keys(C.prototype)); //Array(4) [ "constructor", "cact", "crr", "sayByec" ]
         // console.log(Object.getOwnPropertyNames(C));//Array(4) [ "prototype", "cnum", "length", "name" ]
+        // console.log(Object.keys(C.prototype)); //Array(4) [ "constructor", "cact", "crr", "sayByec" ]
         // console.log(Object.getOwnPropertyNames(C.prototype));//Array(4) [ "constructor", "cact", "crr", "sayByec" ]
 
         // for (let key in P) {
@@ -280,10 +287,17 @@ age: 18
 
         // }
         // console.log(Object.keys(P)); //Array [ "pnum" ]
-        // console.log(Object.keys(P.prototype)); //Array(3) [ "pact", "prr", "sayByep" ]
         // console.log(Object.getOwnPropertyNames(P));//Array(4) [ "pnum", "prototype", "length", "name" ]
+        // console.log(Object.keys(P.prototype)); //Array(3) [ "pact", "prr", "sayByep" ]
         // console.log(Object.getOwnPropertyNames(P.prototype));//Array(4) [ "constructor", "pact", "prr", "sayByep" ]
 
+
+/*
+ES6:
+constructor内的this.xxx 声明实例属性和方法  或者直接在类内部以xxx方式声明属性   每个实例各一份 
+一般在构造函数外：类.prototype.xxx 声明原型属性  直接在类内部以xxx(){}声明原型方法  所有实例共享
+构造函数外：类.xxx  声明静态属性和方法  或者在类内部以static xxx声明静态属性和方法 ，实例不能用，只有类可以用
+*/
         class P {
             //实例属性除了定义在constructor()方法里面的this上面，也可以定义在类的最顶层。
             constructor(name, parr) {
@@ -378,16 +392,26 @@ age: 18
         
         for (let key in c1) {
             console.log(key);
-            //pp name parr pstr sayHip cc age carr cstr sayHic crr prr 没有两个原型上的方法
+            //pp name parr pstr sayHip cc age carr cstr sayHic (10)实例属性+方法
+            //crr prr  原型属性 没有原型方法(类定义在prototype上的方法是不可枚举的)
 
         }
         console.log(Object.keys(c1)); // Array(10) [ "pp", "name", "parr", "pstr", "sayHip", "cc", "age", "carr", "cstr", "sayHic" ]
 
         console.log(Object.getOwnPropertyNames(
         c1)); //Array(10) [ "pp", "name", "parr", "pstr", "sayHip", "cc", "age", "carr", "cstr", "sayHic" ]
+        
+        for (let key in P) {
+            console.log(key); //pact pnum  静态属性 没有静态方法(类的内部所有定义的方法，都是不可枚举的)
 
+        }
+        console.log(Object.keys(P)); //Array [ "pact", "pnum" ]
+        console.log(Object.getOwnPropertyNames(P));//Array(6) [ "prototype", "numberp", "pact", "pnum", "length", "name" ]
+        console.log(Object.keys(P.prototype));//Array [ "prr" ]
+        console.log(Object.getOwnPropertyNames(P.prototype));//Array(3) [ "constructor", "sayByep", "prr" ]
 
         for (let key in C) {
+            //父类的静态方法可以被子类继承
             console.log(key); //cact cnum pact pnum
 
         }
@@ -396,14 +420,7 @@ age: 18
         console.log(Object.keys(C.prototype));//Array [ "crr" ]
         console.log(Object.getOwnPropertyNames(C.prototype));//Array(3) [ "constructor", "sayByec", "crr" ]
 
-        for (let key in P) {
-            console.log(key); //pact pnum
-
-        }
-        console.log(Object.keys(P)); //Array [ "pact", "pnum" ]
-        console.log(Object.getOwnPropertyNames(P));//Array(6) [ "prototype", "numberp", "pact", "pnum", "length", "name" ]
-        console.log(Object.keys(P.prototype));//Array [ "prr" ]
-        console.log(Object.getOwnPropertyNames(P.prototype));//Array(3) [ "constructor", "sayByep", "prr" ]
+        
     </script>
 </body>
 
