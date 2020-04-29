@@ -142,10 +142,21 @@
         }
 
         {
-        //nodejs和浏览器的区别
-        //浏览器：timer1  promise1  timer2  promise2
-        //node10:timer1  timer2  promise1  promise2
-        //node11:timer1  promise1  timer2  promise2
+            /*then函数
+            promise对象上原型的方法
+            promise.then(onFulfilled,onRejected)，参数是两个函数(前一个是必选，后一个是可选)
+            当then无参数或者参数不是函数会忽略(里面是对象或者表达式)，返回promise对象
+
+            */
+
+
+        }
+
+        {
+            //nodejs和浏览器的区别
+            //浏览器：timer1  promise1  timer2  promise2
+            //node10:timer1  timer2  promise1  promise2
+            //node11:timer1  promise1  timer2  promise2
 
             setTimeout(() => {
                 console.log('timer1');
