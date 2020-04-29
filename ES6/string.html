@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>模板字符串</title>
     <script>
-        //ES5
+        //ES5  字符串拼接
         let food = 'cake',
             drink = 'milk',
             fav = 'I love ' + food + ' and ' + drink + ' ~';
@@ -24,6 +24,44 @@
         console.log(fav1.startsWith('I')); //true
         console.log(fav1.endsWith('!')); //false
         console.log(fav1.includes('love')); //true
+        
+        //ES5
+        // const retailPrice = 20
+        // const wholeSalePrice = 16
+        // const type = 'retail'
+        // let showTxt = ''
+        // if (type === 'retail') {
+        //     showTxt = '您此次的购买单价是：' + retailPrice
+        // } else {
+        //     showTxt = '您此次的购买的批发价是：' + wholeSalePrice
+        // }
+        // console.log(showTxt)
+
+        function Price(strings, type) {
+            let s1 = strings[0]
+            const retailPrice = 20
+            const wholeSalePrice = 16
+            let showTxt
+            if (type === 'retail') {
+                showTxt = '购买单价是：' + retailPrice
+            } else {
+                showTxt = '购买的批发价是：' + wholeSalePrice
+            }
+            return `${s1}${showTxt}`
+        }
+
+        let showTxt = Price `您此次的${'retail'}`
+        console.log(showTxt)
+
+        //ES5
+        let s1='我是第一行'+'\n'+'我是第二行';
+        console.log(s1);
+
+        //ES6
+        let s2 = `我是第一行
+我是第二行`
+
+        console.log(s2)
 
 
         //百度一面
@@ -35,14 +73,15 @@
                 date: '2020/4/12',
                 address: '科技园'
             }
-            let str='${name}同学你好，你的面试时间为${date},面试地点为${address},请准时参加';
+            let str = '${name}同学你好，你的面试时间为${date},面试地点为${address},请准时参加';
 
 
             function templateFunc(str, data) {
-                let reg=/\$\{(\w+)\}/g;
-                let arr=[]; 
-                while(arr=reg.exec(str)){
-                str = str.replace(arr[0],data[arr[1]]);}
+                let reg = /\$\{(\w+)\}/g;
+                let arr = [];
+                while (arr = reg.exec(str)) {
+                    str = str.replace(arr[0], data[arr[1]]);
+                }
                 return str;
             }
             console.log(templateFunc(str, data));
