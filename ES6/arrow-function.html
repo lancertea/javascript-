@@ -6,8 +6,6 @@
     <title>箭头函数</title>
 </head>
 <script>
-    /* eslint-disable */
-
     {
         // ES3,ES5
         var evens = [1, 2, 3, 4, 5];
@@ -17,6 +15,9 @@
         console.log(evens, odds);
     }; {
         // ES6
+        //当函数只有一个参数的时候，小括号可以省略
+        //当函数体只返回一个表达式的时候，花括号可以省略，如果是返回一个对象
+        //或者函数体内有多句，花括号不能省略
         let evens = [1, 2, 3, 4, 5];
         let odds = evens.map(v => v + 1);
         console.log(evens, odds);
