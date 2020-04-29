@@ -43,6 +43,7 @@
 
             // 遍历
             //s.keys() s.values()  s.entries() s.forEach()
+            //注意这里和对象属性遍历方法的区别 Object.keys(obj)
             for (let key of s.keys()) {
                 console.log('keys', key);
             }
@@ -50,6 +51,11 @@
                 console.log('values', value);
             }
             // 可发现Set的键和值是一模一样的，由于key不能重复，所以，在Set中，没有重复的值。
+            //s.entries()返回的是一个一个数组
+            for(let item of s.entries()){
+                console.log(item);//Array [ {}, {} ]  Array [ {}, {} ]
+                
+            }
         }
 
         //应用：
@@ -71,14 +77,20 @@
 
             // 并集
             let union = new Set([...a, ...b]);
+            console.log(union);
+            
             // Set {1, 2, 3, 4}
 
             // 交集
             let intersect = new Set([...a].filter(x => b.has(x)));
+            console.log(intersect);
+            
             // set {2, 3}
 
             // 差集
             let difference = new Set([...a].filter(x => !b.has(x)));
+            console.log(difference);
+            
             // Set {1}
 
 
