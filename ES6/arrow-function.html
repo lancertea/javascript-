@@ -34,7 +34,7 @@
             }
         }
 
-        console.log(new factory().c.b());
+        console.log(new factory().c.b());//'a+'
     };
 
     {
@@ -48,19 +48,42 @@
                 }
             }
         }
-        console.log(new factory().c.b());
+        console.log(new factory().c.b());//'a'
     }
 
-    //this的指向
+    //this的指向:箭头函数没有自己的this，它内部的this，并不是调用的时候指向的对象，而是定义的时候指向的对象
+    var name='a';
     let test = {
         name: 'test',
         say: () => {
-            console.log(this.name, this)//window
+            console.log(this.name, this)//a window
         }
     }
-    //ES5中，谁调用该函数，this就指向谁
-    //ES6中，在定义函数时，this指向谁就是谁
-    test.say()
+    test.say();
+
+    //箭头函数不能用于构造函数，意味着不能用new关键字去调用
+    // let F=()=>{};
+    // let f1=new F();
+
+    //箭头函数内部没有arguments
+    function fn(){
+        console.log(arguments);
+        
+    }
+    fn(1,2,3);//Arguments { 0: 1, 1: 2, 2: 3, … }
+    
+    // let f2=()=>{
+    //     console.log(arguments);
+        
+    // }
+    // f2(1,2,3);//not defined
+
+    //解决方法
+    let f3=(...rest)=>{
+        console.log(rest);
+        
+    }
+    f3(1,2,3);//Array(3) [ 1, 2, 3 ]
 </script>
 
 <body>
