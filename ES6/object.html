@@ -38,6 +38,7 @@
         obj1.b(); //zss
 
         //判断两个值是不是一个东西
+        //修复NaN不等于自己的问题
         console.log(NaN===NaN);//false
         console.log(+0===-0);//true       
         console.log(Object.is(NaN,NaN));//true
