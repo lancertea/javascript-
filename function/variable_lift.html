@@ -120,6 +120,26 @@
             }
             fn();
 
+//形参会变量提升，并赋值，不能用let重新声明
+/* function sum(a) {
+	console.log(a);
+	let a = 100; //=>Uncaught SyntaxError: Identifier 'a' has already been declared
+	console.log(a);
+}
+sum(200);
+
+function sum(a) {
+	console.log(a);
+	var a = 100; 
+	console.log(a);
+}
+sum(200); //200  100
+
+
+*/
+
+
+ //关于条件判断的           
 /*
  * 全局作用域
  *   1.变量提升  
@@ -150,6 +170,8 @@
 // 	}
 // }
 // fn(); //=>"哈哈哈"
+
+
 
         
     </script>
