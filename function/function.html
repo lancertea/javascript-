@@ -209,6 +209,45 @@
         legs : 2
         heads : 1
         */
+
+
+        /*
+         * 全局作用域
+         *   1.变量提升 
+         *   2.代码执行
+         */
+        f = function () {
+            return true;
+        } //=>window.f=...
+        g = function () {
+            return false;
+        }
+        ~ function () {
+            /*
+             * 函数执行会形成一个私有作用域
+             *   1.变量提升  function g;
+             *   2.代码执行
+             */
+            if (g() && [] == ![]) { //=>Uncaught TypeError: g is not a function
+                f = function () {
+                    return false;
+                }
+
+                function g() {
+                    return true;
+                }
+            }
+        }();
+        console.log(f());
+        console.log(g());
+
+        //=> 自执行函数：前面加的（）或者！、-、~、+只有一个目的，让语法符合而已
+        //=> 自执行函数本身不进行变量提升（没名字）
+        // (function(n){})(10);
+        // ~function(n){}(10);
+        // -function(n){}(10);
+        // !function(n){}(10);
+        // +function(n){}(10);
     </script>
 
 </head>
