@@ -263,6 +263,24 @@
         show(fn); //10
 
     }
+
+    {
+        var i = 5;
+
+        function fn(i) {
+            return function (n) {
+                console.log(n + (++i));
+            }
+        }
+        var f = fn(1);
+        f(2); //=>4
+        fn(3)(4); //=>8
+        fn(5)(6); //=>12
+        f(7); //=>10
+        console.log(i); //=>5
+
+
+    }
     //经典面试题
     // {
     //     function Foo() {
@@ -331,10 +349,10 @@
             console.log(6);
 
         }
-        var name='aaa'
-        var a={
-            name='zzz', //将全局名字重写为zzz
-            name:'sss'  //对象有个属性为name
+        var name = 'aaa'
+        var a = {
+            name = 'zzz', //将全局名字重写为zzz
+            name: 'sss' //对象有个属性为name
             //this.name='yyy'  报错
             //var name='sss'  报错
 
