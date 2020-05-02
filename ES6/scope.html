@@ -74,23 +74,23 @@
 
     //全局变量和全局属性不是一回事
     {
-        var num=123;
-        num1=345;
+        var num = 123;
+        num1 = 345;
         //全局变量不能被delete删除
-        console.log(delete num);//false
-        console.log(num);//123
+        console.log(delete num); //false
+        console.log(num); //123
         //全局属性可以被delete删除
-        console.log(delete num1);//true
+        console.log(delete num1); //true
         //console.log(num1);//ReferenceError: num1 is not defined
 
-       a(); 
-       console.log(abc);//1  执行才有
-       
-        function a(){
-          abc=1;
+        a();
+        console.log(abc); //1  执行才有
+
+        function a() {
+            abc = 1;
         }
         //a();//ReferenceError: abc is not defined
-       
+
     }
 
     //暂时性死区
@@ -120,6 +120,30 @@
         }
 
         f(); // undefined
+    }
+
+    {
+        var foo = 1;
+
+        function bar() {
+            if (!foo) {
+                var foo = 10;
+            }
+            console.log(foo);
+        }
+        bar();
+    }
+
+    {
+        let foo = 1;
+
+        function bar() {
+            if (!foo) {
+                let foo = 10;
+            }
+            console.log(foo);
+        }
+        bar();
     }
 </script>
 
