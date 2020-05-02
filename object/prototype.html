@@ -70,6 +70,27 @@
         */
 
         //构造函数和普通函数的区别
+        /* function CreatePerson(name, age) {
+	      this.name = name;
+	      this.age = age;
+        } */
+// CreatePerson('张三', 25);//=>this:window  普通函数执行
+// let person1 = new CreatePerson('和冉', 18);
+/*
+ * new CreatePerson()执行和普通函数执行的联系
+ *   1.new这种执行方式叫做“构造函数执行模式”，此时的CreatePerson不仅仅是一个函数名，被称为“类”，
+ * 而返回的结果（赋值给person1的）是一个对象，我们称之为“实例”，而函数体中出现的this都是这个实例
+ */
+/* function CreatePerson(name, age) {
+	// this=>person1
+	this.name = name;
+	this.age = age;
+	// return 100; //=>返回的还是实例
+	// return {
+	// 	xxx: 'xxx'
+	// }; //=>如果手动RETURN的是一个基本值，对返回的实例无影响，如果手动RETURN的是一个引用类型的值，会把默认返回的实例给替换掉（所以在构造函数模式执行下，我们一般都不要手动写RETURN，防止把返回的实例给替换）
+}
+let person1 = new CreatePerson('和冉', 18); */
 
         {
          function P(num){
