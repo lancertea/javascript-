@@ -32,442 +32,458 @@
         
         */
 
-{
+        {
 
-        //创建对象的方法
-        //1.字面量创建
-        var o1 = {
-            name: 'o1'
-        };
+            //创建对象的方法
+            //1.字面量创建
+            var o1 = {
+                name: 'o1'
+            };
 
-        //2.构造函数创建
-        //Object构造函数
-        var o2 = new Object();
-        o2.name = 'o2';
-        //自定义构造函数
-        function Obj(name) {
-            this.name = name;
-        }
-        var o3 = new Obj('o3');
-        console.log(o3); //{ name: "o3" }
+            //2.构造函数创建
+            //Object构造函数
+            var o2 = new Object();
+            o2.name = 'o2';
+            //自定义构造函数
+            function Obj(name) {
+                this.name = name;
+            }
+            var o3 = new Obj('o3');
+            console.log(o3); //{ name: "o3" }
 
-        console.log(Obj.prototype.isPrototypeOf(o3)); //true 
-        console.log(Object.getPrototypeOf(o3) === Obj.prototype); //true
-        console.log(o3 instanceof Obj); //true
-        console.log(o3 instanceof Object); //true
-        console.log(o3.constructor === Obj); //true
-        console.log(o3.constructor === Object); //false
-        /*
-        构造函数，new时发生了什么
-        var obj  = {}; 
-        obj.__proto__ = Base.prototype;
-        Base.call(obj);  
+            console.log(Obj.prototype.isPrototypeOf(o3)); //true 
+            console.log(Object.getPrototypeOf(o3) === Obj.prototype); //true
+            console.log(o3 instanceof Obj); //true
+            console.log(o3 instanceof Object); //true
+            console.log(o3.constructor === Obj); //true
+            console.log(o3.constructor === Object); //false
+            /*
+            构造函数，new时发生了什么
+            var obj  = {}; 
+            obj.__proto__ = Base.prototype;
+            Base.call(obj);  
 
-        1.创建一个新的对象 obj;
-        2.将这个空对象的__proto__成员指向了Base函数对象prototype成员对象
-        3.Base函数对象的this指针替换成obj, 相当于执行了Base.call(obj);
-        4.如果构造函数显示的返回一个对象，那么则这个实例为这个返回的对象。 否则返回这个新创建的对象
-        */
+            1.创建一个新的对象 obj;
+            2.将这个空对象的__proto__成员指向了Base函数对象prototype成员对象
+            3.Base函数对象的this指针替换成obj, 相当于执行了Base.call(obj);
+            4.如果构造函数显示的返回一个对象，那么则这个实例为这个返回的对象。 否则返回这个新创建的对象
+            */
 
-        //构造函数和普通函数的区别
-        /* function CreatePerson(name, age) {
+            //构造函数和普通函数的区别
+            /* function CreatePerson(name, age) {
 	      this.name = name;
 	      this.age = age;
         } */
-// CreatePerson('张三', 25);//=>this:window  普通函数执行
-// let person1 = new CreatePerson('和冉', 18);
-/*
- * new CreatePerson()执行和普通函数执行的联系
- *   1.new这种执行方式叫做“构造函数执行模式”，此时的CreatePerson不仅仅是一个函数名，被称为“类”，
- * 而返回的结果（赋值给person1的）是一个对象，我们称之为“实例”，而函数体中出现的this都是这个实例
- */
-/* function CreatePerson(name, age) {
-	// this=>person1
-	this.name = name;
-	this.age = age;
-	// return 100; //=>返回的还是实例
-	// return {
-	// 	xxx: 'xxx'
-	// }; //=>如果手动RETURN的是一个基本值，对返回的实例无影响，如果手动RETURN的是一个引用类型的值，会把默认返回的实例给替换掉（所以在构造函数模式执行下，我们一般都不要手动写RETURN，防止把返回的实例给替换）
-}
-let person1 = new CreatePerson('和冉', 18); */
+            // CreatePerson('张三', 25);//=>this:window  普通函数执行
+            // let person1 = new CreatePerson('和冉', 18);
+            /*
+             * new CreatePerson()执行和普通函数执行的联系
+             *   1.new这种执行方式叫做“构造函数执行模式”，此时的CreatePerson不仅仅是一个函数名，被称为“类”，
+             * 而返回的结果（赋值给person1的）是一个对象，我们称之为“实例”，而函数体中出现的this都是这个实例
+             */
+            /* function CreatePerson(name, age) {
+            	// this=>person1
+            	this.name = name;
+            	this.age = age;
+            	// return 100; //=>返回的还是实例
+            	// return {
+            	// 	xxx: 'xxx'
+            	// }; //=>如果手动RETURN的是一个基本值，对返回的实例无影响，如果手动RETURN的是一个引用类型的值，会把默认返回的实例给替换掉（所以在构造函数模式执行下，我们一般都不要手动写RETURN，防止把返回的实例给替换）
+            }
+            let person1 = new CreatePerson('和冉', 18); */
+
+            {
+                function P(num) {
+                    this.num = num;
+                }
+                var p = new P('zz');
+                console.log(p.constructor); //function P(num)
+
+                function P1(num) {
+                    this.num = num;
+                }
+                var p1 = P1('ss'); //p1为undefined
+                //console.log(p1.constructor);
+                console.log(P1 === P1.prototype.constructor); //true
+
+                function P2(num) {
+                    return {
+                        num: num
+                    };
+                }
+                var p2 = P2('yy');
+                console.log(p2.constructor); //function Object()
+                console.log(P2 === P2.prototype.constructor); //true
+
+
+            }
+
+            //3.原型创建
+            function Obj1(name, num) {
+                this.name = name;
+                this.num = num;
+                //这样写的属性算什么
+                gender: 'woman';
+
+            }
+            Obj1.prototype.age = 18;
+            Obj1.prototype.arr = [1, 2, 3];
+
+            var o4 = new Obj1('o4', [1, 2]);
+            console.log(o4); //Object { name: "o4",num:[1,2] }
+            console.log(o4.gender); //undefined
+            o4.num.push(3);
+            //重写原型的引用类型值时，自己不会添加相应属性，会改变原型的基本类型值
+            o4.arr.push(4);
+            //重写原型对象的基本类型值时，在实例中添加了一个与原型的属性同名的属性，该属性会屏蔽原型中的那个属性，不会改变原型的基本类型值
+            o4.age = 20;
+            console.log(o4); //Object { name: "o4",num:[1,2,3], age: 20 }
+            console.log(Obj1.prototype); //Object { age: 18, arr: [1,2,3,4],constructor: function Obj1(name)}
+            //使用delete操作符可以删除实例属性，从而能重新访问原型中的属性
+            delete o4.age;
+            console.log(o4.age); //18
+            console.log(o4.hasOwnProperty('name')); //true
+            console.log(o4.hasOwnProperty('arr')); //false
+
+            console.log(Obj1.prototype.isPrototypeOf(o4)); //true
+            console.log(Object.getPrototypeOf(o4) === Obj1.prototype); //true
+            console.log(o4 instanceof Obj1); //true
+            console.log(o4 instanceof Object); //true
+            console.log(o4.constructor === Obj1); //true
+            console.log(o4.constructor === Object); //false
+
+            //Obj1:
+            //实例属性：'name','num'
+            //原型属性：'age','arr'
+
+            //o4:
+            //实例属性：'name','num'
+            //原型属性：'age','arr'
+
+            //遍历属性：
+            //1.for-in 所有属性
+            //该方法依次访问一个对象及其原型链中所有可枚举的属性。
+            for (var pro in o4) {
+                console.log(pro); //'name','num','age','arr'
+
+            }
+
+            //同时使用 hasOwnProperty()+in，可确定该属性到底是存在于对象中，还是原型中
+            for (var pro in o4) {
+                if (o4.hasOwnProperty(pro)) {
+                    console.log(pro); //'name','num'
+                }
+            }
+
+            //2.Object.keys()  取得对象上所有可枚举的实例属性
+            //该方法返回对象自身包含（不包括原型中）的所有可枚举属性的名称的数组。
+            var p = Object.keys(Obj1);
+            console.log(p); //[]
+            var p1 = Object.keys(o4);
+            console.log(p1); //[ "name", "num" ]
+            var p2 = Object.keys(Obj1.prototype);
+            console.log(p2); //[ "age", "arr" ]
+
+            //3.Object.getOwnPropertyNames():
+            //该方法返回对象自身包含（不包括原型中）的所有属性(无论是否可枚举)的名称的数组。
+            var p3 = Object.getOwnPropertyNames(o4);
+            console.log(p3); //[ "name", "num" ]
+            var p4 = Object.getOwnPropertyNames(Obj1.prototype);
+            console.log(p4); // [ "constructor", "age", "arr" ]
+            var p5 = Object.getOwnPropertyNames(Obj1);
+            console.log(p5); // [ "prototype", "length", "name" ]
+
+            /*
+            4.Object.create(proto[, propertiesObject])
+            创建一个新对象，使用现有的对象来提供新创建的对象的__proto__（充当原型）。
+            新对象可以使用现有对象的属性，但自己不拥有；
+            当其重写现有对象的基本类型值时，自己会拥有修改后的属性值，不会改变现有对象的基本类型值
+            当其重写现有对象的引用类型值时，自己不会拥有修改后的属性值，会改变现有对象的基本类型值
+            */
+            var P = {
+                name: 'o5',
+                arr: [1, 2, 3]
+            };
+            var o5 = Object.create(P);
+
+            console.log(o5); //Object {  }
+            console.log(o5.name); //'o5'
+            o5.name = 'oo';
+            o5.arr.push(4);
+            console.log(o5.name); //'oo'
+            console.log(o5.arr); //[1,2,3,4]
+            console.log(o5); //Object { name: "oo" }
+            console.log(P); //Object { name: "o5", arr: [1,2,3,4] }
+
+            // console.log(P.prototype.isPrototypeOf(o5));  P.prototype is undefined
+            console.log(Object.getPrototypeOf(o5) === P); //true
+            //console.log(o5 instanceof P); P不是构造函数，会报错
+            console.log(o5 instanceof Object); //true
+            console.log(o5.constructor === P); //false
+            console.log(o5.constructor === Object); //true
+        }
+
+
+        { //继承
+            /*
+            原型链实现继承
+            原理：把子类的prototype（原型对象）直接设置为父类的实例
+            缺点：因为子类只进行一次原型更改，所以子类的所有实例保存的是同一个父类的值。
+            当子类对象上进行值修改时，如果是修改的原始类型的值，那么会在实例上新建这样一个值；
+            但如果是引用类型的话，他就会去修改子类上唯一一个父类实例里面的这个引用类型，这会影响所有子类实例
+
+            */
+            function Parent() {
+                this.name = 'parent';
+                this.arr = [1, 2, 3];
+            }
+            Parent.prototype.pfav = 'TV';
+
+            function Child() {
+                this.type = 'child';
+            }
+            Child.prototype = new Parent();
+            Child.prototype.cfav = 'computer';
+
+            var c1 = new Child();
+            var c2 = new Child();
+            //可访问到父类所有（包括原型）属性和方法
+            console.log(c1); //Object { type: "child" }
+            console.log(c1.name); //'parent'
+            console.log(c1.pfav); //'TV'
+            console.log(c1.cfav); //'computer'
+            //重写基本类型时，就“拥有”了该属性
+            c1.name = 'child';
+            c1.pfav = 'mobile';
+            c1.cfav = 'ipad'
+            //重写引用类型时，会改变父类
+            c1.arr.push(4);
+            console.log(c1); //Object { type: "child", name: "child", pfav: "mobile", cfav: "ipad" }
+            console.log(c2); //Object { type: "child" }
+            console.log(c2.arr); //[ 1, 2, 3, 4 ]
+
+            console.log(c1.constructor); //function Parent()
+            console.log(c1 instanceof Child); //true
+            console.log(c1 instanceof Parent); //true
+            console.log(c1 instanceof Object); //true
+
+
+            /*
+            借用构造函数法
+            在构造函数中 使用Parent.call(this)的方法继承父类属性。
+            原理： 将子类的this使用父类的构造函数跑一遍
+            缺点： Parent原型链上的属性和方法并不会被子类继承
+            */
+            function Parent1() {
+                this.name = 'parent';
+                this.arr = [1, 2, 3];
+            }
+            Parent1.prototype.pfav = 'TV';
+
+            function Child1() {
+                Parent1.call(this);
+                //相当于增加了 this.name = 'parent';
+                //            this.arr = [1, 2, 3];
+                this.type = 'child';
+            }
+            var c1 = new Child1();
+            var c2 = new Child1();
+            c1.name = 'child';
+            c1.arr.push(4);
+            //可看出为每个实例都创建了一个副本，互不影响
+            console.log(c1); //Object { name: "child", arr: [1,2,3,4], type: "child" }
+            //只复制了父类的属性和方法，无法访问父类的原型属性和方法
+            console.log(c1.pfav); //undefined
+            console.log(c2.arr); //[ 1, 2, 3 ]
+            console.log(c2); //Object { name: "parent", arr: [1,2,3], type: "child" }
+            console.log(c1.constructor); //function Child1()
+            console.log(c1 instanceof Child1); //true
+            console.log(c1 instanceof Parent1); //false
+            console.log(c1 instanceof Object); //true
+
+
+            /*
+            组合继承方式
+            组合构造函数中使用call继承和原型链继承。
+            原理： 子类构造函数中使用Parent.call(this);的方式可以继承写在父类构造函数中this上绑定的各属性和方法； 使用Child.prototype = new Parent()的方式可以继承挂在在父类原型上的各属性和方法
+            缺点： 父类构造函数在子类构造函数中执行了一次，在子类绑定原型时又执行了一次
+            */
+            function Parent2() {
+                this.name = 'parent'
+                this.arr = [1, 2, 3]
+            }
+            Parent2.prototype.pfav = 'TV';
+
+            function Child2() {
+                Parent2.call(this); //第二次调用Parent2()
+                this.type = 'child'
+            }
+
+            Child2.prototype = new Parent2(); //第一次调用Parent2()
+            Child2.prototype.cfav = 'computer';
+            var c1 = new Child2();
+            console.log(c1); //Object { name: "parent", arr: [1,2,3], type: "child" }
+            console.log(c1.pfav); //'TV'
+            console.log(c1.cfav); //'computer'
+            c1.arr.push(4);
+            var c2 = new Child2();
+            console.log(c2); //Object { name: "parent", arr: [1,2,3], type: "child" }
+
+            console.log(c1.constructor); //function Parent2()
+            console.log(c1 instanceof Child2); //true
+            console.log(c1 instanceof Parent2); //true
+            console.log(c1 instanceof Object); //true
+
+
+            /*
+            组合继承方式--优化1
+            组合构造函数中使用call继承和原型链继承。
+            原理： 由于Parent3对象中，不变的属性都可以直接写入Parent3.prototype。
+            所以，我们也可以让Child3()跳过 Parent3()，直接继承Parent3.prototype。
+
+            缺点：因为原型上有一个属性为constructor，此时直接使用父类的prototype的话那么会导致实例的constructor为Parent3，
+            即不能区分这个实例对象是Child3的实例还是父类的实例对象。
+                 子类不可直接在prototype上添加属性和方法，因为会影响父类的原型
+            注意：这个时候instanseof是可以判断出实例为Child3的实例的，因为instanceof的原理是沿着对象的__proto__判断是否有一个原型是等于该构造函数的原型的。
+            这里把Child3的原型直接设置为了父类的原型，那么: 实例.proto === Child3.prototype === Parent3.prototype
+            */
+            function Parent3() {
+                this.name = 'parent'
+                this.arr = [1, 2, 3]
+            }
+            Parent3.prototype.pfav = 'TV';
+
+            function Child3() {
+                Parent3.call(this);
+                this.type = 'child'
+            }
+
+            Child3.prototype = Parent3.prototype;
+            Child3.prototype.cfav = 'computer';
+            var c1 = new Child3();
+            console.log(c1); //Object { name: "parent", arr: [1,2,3], type: "child" }
+            console.log(c1.pfav); //'TV'
+            console.log(c1.cfav); //'computer'
+            c1.arr.push(4);
+            var c2 = new Child3();
+            console.log(c2); //Object { name: "parent", arr: [1,2,3], type: "child" }
+
+            console.log(c1.constructor); //function Parent3()
+            console.log(c1 instanceof Child3); //true
+            console.log(c1 instanceof Parent3); //true
+            console.log(c1 instanceof Object); //true
+
+
+            /*
+            组合继承方式--优化2 添加中间元素
+            
+            */
+            function Parent4() {
+                this.name = 'parent'
+                this.arr = [1, 2, 3]
+            }
+            Parent4.prototype.pfav = 'TV';
+
+            function Child4() {
+                Parent4.call(this);
+                this.type = 'child'
+            }
+
+            Child4.prototype = Object.create(Parent4.prototype);
+            Child4.prototype.constructor = Child4;
+            Child4.prototype.cfav = 'computer';
+            var c1 = new Child4();
+            console.log(c1); //Object { name: "parent", arr: [1,2,3], type: "child" }
+            console.log(c1.pfav); //'TV'
+            console.log(c1.cfav); //'computer'
+            c1.arr.push(4);
+            var c2 = new Child4();
+            console.log(c2); //Object { name: "parent", arr: [1,2,3], type: "child" }
+
+            console.log(c1.constructor); //function Child4()
+            console.log(c1 instanceof Child4); //true
+            console.log(c1 instanceof Parent4); //true
+            console.log(c1 instanceof Object); //true
+
+
+            /*封装一个原生的继承方法*/
+            function Parent5() {
+                this.name = 'parent'
+                this.arr = [1, 2, 3]
+            }
+            Parent5.prototype.pfav = 'TV';
+
+            function Child5() {
+                Parent5.call(this);
+                this.type = 'child'
+            }
+
+            function extendsClass(Parent, Child) {
+                function F() {};
+                F.prototype = Parent.prototype;
+                Child.prototype = new F();
+                Child.prototype.constructor = Child;
+                return Child;
+            }
+
+            Child5 = extendsClass(Parent5, Child5);
+            Child5.prototype.cfav = 'computer';
+            var c1 = new Child5();
+            console.log(c1); //Object { name: "parent", arr: [1,2,3], type: "child" }
+            console.log(c1.pfav); //'TV'
+            console.log(c1.cfav); //'computer'
+            c1.arr.push(4);
+            var c2 = new Child5();
+            console.log(c2); //Object { name: "parent", arr: [1,2,3], type: "child" }
+
+            console.log(c1.constructor); //function Child5()
+            console.log(c1 instanceof Child5); //true
+            console.log(c1 instanceof Parent5); //true
+            console.log(c1 instanceof Object); //true
+        }
+
 
         {
-         function P(num){
-             this.num=num;
-         }
-         var p=new P('zz');
-         console.log(p.constructor);//function P(num)
-         
-         function P1(num){
-            this.num=num;
-         }
-         var p1=P1('ss');//p1为undefined
-         //console.log(p1.constructor);
-         console.log(P1===P1.prototype.constructor);//true
+            var a = [1, 2, 3, 4, 5]
+            console.log(a.__proto__); //Array[]
+            console.log(a.prototype); //undefined
+            var b = new Array(a);
+            console.log(b.__proto__); //Array[]
+            console.log(b.prototype); //undefined     
+            console.log(a == b); //falae
 
-         function P2(num){
-          return {num:num};
-         }
-         var p2=P2('yy');
-         console.log(p2.constructor);//function Object()
-         console.log(P2===P2.prototype.constructor);//true
-         
+            Array.prototype.zsy = 'zsy'
+            Array.prototype.mySum = function () {
+                console.log('我是原型方法');
 
-        }
-
-        //3.原型创建
-        function Obj1(name, num) {
-            this.name = name;
-            this.num = num;
-            //这样写的属性算什么
-            gender: 'woman';
-
-        }
-        Obj1.prototype.age = 18;
-        Obj1.prototype.arr = [1, 2, 3];
-
-        var o4 = new Obj1('o4', [1, 2]);
-        console.log(o4); //Object { name: "o4",num:[1,2] }
-        console.log(o4.gender); //undefined
-        o4.num.push(3);
-        //重写原型的引用类型值时，自己不会添加相应属性，会改变原型的基本类型值
-        o4.arr.push(4);
-        //重写原型对象的基本类型值时，在实例中添加了一个与原型的属性同名的属性，该属性会屏蔽原型中的那个属性，不会改变原型的基本类型值
-        o4.age = 20;
-        console.log(o4); //Object { name: "o4",num:[1,2,3], age: 20 }
-        console.log(Obj1.prototype); //Object { age: 18, arr: [1,2,3,4],constructor: function Obj1(name)}
-        //使用delete操作符可以删除实例属性，从而能重新访问原型中的属性
-        delete o4.age;
-        console.log(o4.age); //18
-        console.log(o4.hasOwnProperty('name')); //true
-        console.log(o4.hasOwnProperty('arr')); //false
-
-        console.log(Obj1.prototype.isPrototypeOf(o4)); //true
-        console.log(Object.getPrototypeOf(o4) === Obj1.prototype); //true
-        console.log(o4 instanceof Obj1); //true
-        console.log(o4 instanceof Object); //true
-        console.log(o4.constructor === Obj1); //true
-        console.log(o4.constructor === Object); //false
-        
-        //Obj1:
-        //实例属性：'name','num'
-        //原型属性：'age','arr'
-
-        //o4:
-        //实例属性：'name','num'
-        //原型属性：'age','arr'
-        
-        //遍历属性：
-        //1.for-in 所有属性
-        //该方法依次访问一个对象及其原型链中所有可枚举的属性。
-        for (var pro in o4) {
-            console.log(pro); //'name','num','age','arr'
-
-        }
-
-        //同时使用 hasOwnProperty()+in，可确定该属性到底是存在于对象中，还是原型中
-        for (var pro in o4) {
-            if (o4.hasOwnProperty(pro)) {
-                console.log(pro); //'name','num'
             }
+            console.log(a.zsy); //'zsy'
+            a.mySum(); //'我是原型方法'
+
+            var c = function () {}
+            console.log(c.__proto__); //function ()
+            console.log(c.prototype); //Object { … }
         }
 
-        //2.Object.keys()  取得对象上所有可枚举的实例属性
-        //该方法返回对象自身包含（不包括原型中）的所有可枚举属性的名称的数组。
-        var p = Object.keys(Obj1);
-        console.log(p); //[]
-        var p1 = Object.keys(o4);
-        console.log(p1); //[ "name", "num" ]
-        var p2 = Object.keys(Obj1.prototype);
-        console.log(p2); //[ "age", "arr" ]
+        {
+            function C1(name) {
+                if (name) {
+                    this.name = name;
+                }
+            }
 
-        //3.Object.getOwnPropertyNames():
-        //该方法返回对象自身包含（不包括原型中）的所有属性(无论是否可枚举)的名称的数组。
-        var p3 = Object.getOwnPropertyNames(o4);
-        console.log(p3); //[ "name", "num" ]
-        var p4 = Object.getOwnPropertyNames(Obj1.prototype);
-        console.log(p4); // [ "constructor", "age", "arr" ]
-        var p5 = Object.getOwnPropertyNames(Obj1);
-        console.log(p5); // [ "prototype", "length", "name" ]
-    
-        /*
-        4.Object.create(proto[, propertiesObject])
-        创建一个新对象，使用现有的对象来提供新创建的对象的__proto__（充当原型）。
-        新对象可以使用现有对象的属性，但自己不拥有；
-        当其重写现有对象的基本类型值时，自己会拥有修改后的属性值，不会改变现有对象的基本类型值
-        当其重写现有对象的引用类型值时，自己不会拥有修改后的属性值，会改变现有对象的基本类型值
-        */
-        var P = {
-            name: 'o5',
-            arr: [1, 2, 3]
-        };
-        var o5 = Object.create(P);
+            function C2(name) {
+                this.name = name;
+            }
 
-        console.log(o5); //Object {  }
-        console.log(o5.name); //'o5'
-        o5.name = 'oo';
-        o5.arr.push(4);
-        console.log(o5.name); //'oo'
-        console.log(o5.arr); //[1,2,3,4]
-        console.log(o5); //Object { name: "oo" }
-        console.log(P); //Object { name: "o5", arr: [1,2,3,4] }
-
-        // console.log(P.prototype.isPrototypeOf(o5));  P.prototype is undefined
-        console.log(Object.getPrototypeOf(o5) === P); //true
-        //console.log(o5 instanceof P); P不是构造函数，会报错
-        console.log(o5 instanceof Object); //true
-        console.log(o5.constructor === P); //false
-        console.log(o5.constructor === Object); //true
-    }
-
-
-    {    //继承
-        /*
-        原型链实现继承
-        原理：把子类的prototype（原型对象）直接设置为父类的实例
-        缺点：因为子类只进行一次原型更改，所以子类的所有实例保存的是同一个父类的值。
-        当子类对象上进行值修改时，如果是修改的原始类型的值，那么会在实例上新建这样一个值；
-        但如果是引用类型的话，他就会去修改子类上唯一一个父类实例里面的这个引用类型，这会影响所有子类实例
-
-        */
-        function Parent() {
-            this.name = 'parent';
-            this.arr = [1, 2, 3];
+            function C3(name) {
+                this.name = name || 'join';
+            }
+            C1.prototype.name = 'Tom';
+            C2.prototype.name = 'Tom';
+            C3.prototype.name = 'Tom';
+            alert((new C1().name) + (new C2().name) + (new C3().name));
         }
-        Parent.prototype.pfav = 'TV';
-
-        function Child() {
-            this.type = 'child';
-        }
-        Child.prototype = new Parent();
-        Child.prototype.cfav = 'computer';
-
-        var c1 = new Child();
-        var c2 = new Child();
-        //可访问到父类所有（包括原型）属性和方法
-        console.log(c1); //Object { type: "child" }
-        console.log(c1.name); //'parent'
-        console.log(c1.pfav); //'TV'
-        console.log(c1.cfav); //'computer'
-        //重写基本类型时，就“拥有”了该属性
-        c1.name = 'child';
-        c1.pfav = 'mobile';
-        c1.cfav = 'ipad'
-        //重写引用类型时，会改变父类
-        c1.arr.push(4);
-        console.log(c1); //Object { type: "child", name: "child", pfav: "mobile", cfav: "ipad" }
-        console.log(c2); //Object { type: "child" }
-        console.log(c2.arr); //[ 1, 2, 3, 4 ]
-
-        console.log(c1.constructor); //function Parent()
-        console.log(c1 instanceof Child); //true
-        console.log(c1 instanceof Parent); //true
-        console.log(c1 instanceof Object); //true
-
-
-        /*
-        借用构造函数法
-        在构造函数中 使用Parent.call(this)的方法继承父类属性。
-        原理： 将子类的this使用父类的构造函数跑一遍
-        缺点： Parent原型链上的属性和方法并不会被子类继承
-        */
-        function Parent1() {
-            this.name = 'parent';
-            this.arr = [1, 2, 3];
-        }
-        Parent1.prototype.pfav = 'TV';
-
-        function Child1() {
-            Parent1.call(this);
-            //相当于增加了 this.name = 'parent';
-            //            this.arr = [1, 2, 3];
-            this.type = 'child';
-        }
-        var c1 = new Child1();
-        var c2 = new Child1();
-        c1.name = 'child';
-        c1.arr.push(4);
-        //可看出为每个实例都创建了一个副本，互不影响
-        console.log(c1); //Object { name: "child", arr: [1,2,3,4], type: "child" }
-        //只复制了父类的属性和方法，无法访问父类的原型属性和方法
-        console.log(c1.pfav); //undefined
-        console.log(c2.arr); //[ 1, 2, 3 ]
-        console.log(c2); //Object { name: "parent", arr: [1,2,3], type: "child" }
-        console.log(c1.constructor); //function Child1()
-        console.log(c1 instanceof Child1); //true
-        console.log(c1 instanceof Parent1); //false
-        console.log(c1 instanceof Object); //true
-
-
-        /*
-        组合继承方式
-        组合构造函数中使用call继承和原型链继承。
-        原理： 子类构造函数中使用Parent.call(this);的方式可以继承写在父类构造函数中this上绑定的各属性和方法； 使用Child.prototype = new Parent()的方式可以继承挂在在父类原型上的各属性和方法
-        缺点： 父类构造函数在子类构造函数中执行了一次，在子类绑定原型时又执行了一次
-        */
-        function Parent2() {
-            this.name = 'parent'
-            this.arr = [1, 2, 3]
-        }
-        Parent2.prototype.pfav = 'TV';
-
-        function Child2() {
-            Parent2.call(this); //第二次调用Parent2()
-            this.type = 'child'
-        }
-
-        Child2.prototype = new Parent2(); //第一次调用Parent2()
-        Child2.prototype.cfav = 'computer';
-        var c1 = new Child2();
-        console.log(c1); //Object { name: "parent", arr: [1,2,3], type: "child" }
-        console.log(c1.pfav); //'TV'
-        console.log(c1.cfav); //'computer'
-        c1.arr.push(4);
-        var c2 = new Child2();
-        console.log(c2); //Object { name: "parent", arr: [1,2,3], type: "child" }
-
-        console.log(c1.constructor); //function Parent2()
-        console.log(c1 instanceof Child2); //true
-        console.log(c1 instanceof Parent2); //true
-        console.log(c1 instanceof Object); //true
-
-
-        /*
-        组合继承方式--优化1
-        组合构造函数中使用call继承和原型链继承。
-        原理： 由于Parent3对象中，不变的属性都可以直接写入Parent3.prototype。
-        所以，我们也可以让Child3()跳过 Parent3()，直接继承Parent3.prototype。
-
-        缺点：因为原型上有一个属性为constructor，此时直接使用父类的prototype的话那么会导致实例的constructor为Parent3，
-        即不能区分这个实例对象是Child3的实例还是父类的实例对象。
-             子类不可直接在prototype上添加属性和方法，因为会影响父类的原型
-        注意：这个时候instanseof是可以判断出实例为Child3的实例的，因为instanceof的原理是沿着对象的__proto__判断是否有一个原型是等于该构造函数的原型的。
-        这里把Child3的原型直接设置为了父类的原型，那么: 实例.proto === Child3.prototype === Parent3.prototype
-        */
-        function Parent3() {
-            this.name = 'parent'
-            this.arr = [1, 2, 3]
-        }
-        Parent3.prototype.pfav = 'TV';
-
-        function Child3() {
-            Parent3.call(this);
-            this.type = 'child'
-        }
-
-        Child3.prototype = Parent3.prototype;
-        Child3.prototype.cfav = 'computer';
-        var c1 = new Child3();
-        console.log(c1); //Object { name: "parent", arr: [1,2,3], type: "child" }
-        console.log(c1.pfav); //'TV'
-        console.log(c1.cfav); //'computer'
-        c1.arr.push(4);
-        var c2 = new Child3();
-        console.log(c2); //Object { name: "parent", arr: [1,2,3], type: "child" }
-
-        console.log(c1.constructor); //function Parent3()
-        console.log(c1 instanceof Child3); //true
-        console.log(c1 instanceof Parent3); //true
-        console.log(c1 instanceof Object); //true
-
-
-        /*
-        组合继承方式--优化2 添加中间元素
-        
-        */
-        function Parent4() {
-            this.name = 'parent'
-            this.arr = [1, 2, 3]
-        }
-        Parent4.prototype.pfav = 'TV';
-
-        function Child4() {
-            Parent4.call(this);
-            this.type = 'child'
-        }
-
-        Child4.prototype = Object.create(Parent4.prototype);
-        Child4.prototype.constructor = Child4;
-        Child4.prototype.cfav = 'computer';
-        var c1 = new Child4();
-        console.log(c1); //Object { name: "parent", arr: [1,2,3], type: "child" }
-        console.log(c1.pfav); //'TV'
-        console.log(c1.cfav); //'computer'
-        c1.arr.push(4);
-        var c2 = new Child4();
-        console.log(c2); //Object { name: "parent", arr: [1,2,3], type: "child" }
-
-        console.log(c1.constructor); //function Child4()
-        console.log(c1 instanceof Child4); //true
-        console.log(c1 instanceof Parent4); //true
-        console.log(c1 instanceof Object); //true
-
-
-        /*封装一个原生的继承方法*/
-        function Parent5() {
-            this.name = 'parent'
-            this.arr = [1, 2, 3]
-        }
-        Parent5.prototype.pfav = 'TV';
-
-        function Child5() {
-            Parent5.call(this);
-            this.type = 'child'
-        }
-
-        function extendsClass(Parent, Child) {
-            function F() {};
-            F.prototype = Parent.prototype;
-            Child.prototype = new F();
-            Child.prototype.constructor = Child;
-            return Child;
-        }
-
-        Child5 = extendsClass(Parent5, Child5);
-        Child5.prototype.cfav = 'computer';
-        var c1 = new Child5();
-        console.log(c1); //Object { name: "parent", arr: [1,2,3], type: "child" }
-        console.log(c1.pfav); //'TV'
-        console.log(c1.cfav); //'computer'
-        c1.arr.push(4);
-        var c2 = new Child5();
-        console.log(c2); //Object { name: "parent", arr: [1,2,3], type: "child" }
-
-        console.log(c1.constructor); //function Child5()
-        console.log(c1 instanceof Child5); //true
-        console.log(c1 instanceof Parent5); //true
-        console.log(c1 instanceof Object); //true
-    } 
-
-
-    {
-     var a=[1,2,3,4,5]
-     console.log(a.__proto__);//Array[]
-     console.log(a.prototype);//undefined
-     var b=new Array(a);
-     console.log(b.__proto__);//Array[]
-     console.log(b.prototype);//undefined     
-     console.log(a==b); //falae
-     
-     Array.prototype.zsy='zsy'
-     Array.prototype.mySum=function(){
-        console.log('我是原型方法');
-        
-     }
-    console.log(a.zsy);//'zsy'
-    a.mySum();//'我是原型方法'
-    
-     var c=function(){}
-     console.log(c.__proto__);//function ()
-     console.log(c.prototype);//Object { … }
-     
-     
-       
-
-
-
-    }    
     </script>
 </head>
 
