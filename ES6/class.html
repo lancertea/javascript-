@@ -139,6 +139,52 @@
         // let dog = new Animal('dog')
         // dog.eat()
 
+//传统ES3/ES5中创建类的方法
+{
+function Fn(){
+    this.x=100;
+};
+Fn.prototype.getX=function(){
+    console.log(this.x);
+};
+var f1 = new Fn();
+f1.getX();
+//也可以把它当做普通函数执行
+Fn();
+//还可以把Fn当做普通的对象设置键值对
+Fn.queryX=function(){};
+Fn.queryX();
+}
+
+//=>ES6中类的创建
+{
+class Fn{
+    //等价于之间的构造函数体
+    constructor(n,m){
+        this.x=100;
+    }
+    //给实例设置的私有属性
+    y=200
+
+    //直接写的方法就是加在原型上的 === Fn.prototype.getX...
+    getX(){
+        console.log(this.x);
+    }
+    
+    //前面设置static的：把当前Fn当做普通对象设置的键值对
+    static queryX(){}
+    static z=300
+}
+//也可以在外面单独这样写
+Fn.prototype.y=200;
+Fn.z=300;
+
+let f = new Fn(10,20);
+f.getX();
+Fn.queryX();
+
+//Fn();//=>Uncaught TypeError: Class constructor Fn cannot be invoked without 'new'  =>class创建的类只能new执行，不能当做普通函数执行
+}
 
         // 类的继承
         class Parent {
