@@ -54,6 +54,16 @@ let box = document.getElementById('box');
 box.offsetWidth
 box.offsetHeight
 
+offsetParent：获取它的父参照物（不一定是父元素）
+父参照物和它的父元素没有必然的联系，父参照物查找：
+同一个平面中，最外层元素是所有后代元素的父参照物，
+而基于position:relative/absolute/fixed可以让元素脱离文档流（一个新的平面），从而改变元素的父参照物
+
+document.body.offsetParent === null
+
+offsetTop：距离其父参照物的上偏移
+offsetLeft：距离其父参照物的左偏移（当前元素的外边框到父参照物的里边框）
+
 
 **scroll**
 在没有内容溢出的情况下，获取的结果和client是一样的
@@ -83,6 +93,8 @@ max=整个的高度scrollHeight - 一屏幕高度clientHeight
 整个页面：
 回到顶部：document.documentElement.scrollTop=0
 回到底部：document.documentElement.scrollTop=document.documentElement.scrollHeight-document.documentElement.clientHeight
+
+
 
 */
       
