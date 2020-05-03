@@ -9,6 +9,35 @@
 
 <body>
     <script>
+/*
+call方法
+
+语法：函数.call([context],[params1],....)
+
+函数基于原型链找到Function.prototype.call这个方法，并且把它执行，在call方法执行的时候完成了一些功能
+ - 让当前函数执行
+ - 把函数中的THIS指向改为第一个传递给CALL的实参
+ - 把传递给CALL其余的实参，当做参数信息传递给当前函数
+ 如果执行CALL一个实参都没有传递，非严格模式下是让函数中的THIS指向window，严格模式下指向的是undefined
+*/
+
+window.name = 'WINDOW';
+let obj = {name: 'OBJ'};
+function fn(n,m) {
+	console.log(this.name);
+    console.log(this);
+    
+}
+fn(10,20); //=>this:window  严格下是undefined
+fn.call(obj); //=>this:obj  n/m=undefined
+fn.call(obj,10,20); //=>this:obj  n=10 m=20
+fn.call(10,20); //=>this:10  n=20  m=undefined
+
+fn.call(); //=>this:window  严格下是undefined
+fn.call(null); 
+//=>this:window  严格下是null（第一个参数传递的是null/undefined/不传，非严格模式下this指向window，
+//严格模式下传递的是谁this就是谁，不传this是undefined）
+
         // bind()、call()、apply()方法在Function.prototype上
         Function.prototype.myCall = function (context) { //context指向第一个参数，即this指向的对象
             if (typeof this !== 'function') {
@@ -41,6 +70,12 @@
             x: 100
         }, 10, 20, 30)
         console.log(fn2)
+
+        //我们自实现的和原生call差别很大，原生call是c++写的，支持this是基本类型，我们的call的this只能是
+        //引用类型或者不传,null,undefined
+        // const fn3=fn1.myCall(1,[1,2,3]);
+        // console.log(fn3);
+        
     </script>
 </body>
 
