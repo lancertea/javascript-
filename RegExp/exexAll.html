@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>正则的捕获</title>
+</head>
+
+
+<body>
+    
+
+    <script>
+//=>需求：编写一个方法execAll，执行一次可以把所有匹配的结果捕获到（前提正则一定要设置全局修饰符g）
+~ function () {
+    function execAll(str = "") {
+        //=>str:要匹配的字符串
+        //=>this:RegExp的实例（当前操作的正则）
+        //=>进来后的第一件事，是验证当前正则是否设置了G，不设置则不能在进行循环捕获了，否则会导致死循环
+        if (!this.global) return this.exec(str);
+        //=>ARY存储最后所有捕获的信息  RES存储每一次捕获的内容（数组）
+        let ary = [],
+            res = this.exec(str);
+        while (res) {
+            //=>把每一次捕获的内容RES[0]存放到数组中
+            ary.push(res[0]);
+            //=>只要捕获的内容不为NULL，则继续捕获下去
+            res = this.exec(str);
+        }
+        return ary.length === 0 ? null : ary;
+    }
+    RegExp.prototype.execAll = execAll;
+}();
+
+let reg = /\d+/g;
+console.log(reg.execAll("去年2019@2020今年@未来2021"));
+//=>字符串中的MATCH方法，可以在执行一次的情况下，捕获到所有匹配的数据（前提：正则也得设置G才可以）
+console.log("去年2019@2020今年@未来2021".match(reg));
+
+
+    </script>
+</body>
+
+</html>
