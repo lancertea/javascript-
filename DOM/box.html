@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>盒子模型属性</title>
+</head>
+
+<body>
+    
+
+    <script>
+/*
+**JS盒子模型属性**
+
+基于一些属性和方法，让我们能够获取到当前元素的样式信息，例如：clientWidth 、offsetWidth等
+
+ - client
+   - width / height
+   - top / left
+ - offset
+   - width / height
+   - top / left
+   - parent
+ - scroll
+   - width / height
+   - top / left
+
+  方法：window.getComputedStyle([ELEMENT],[伪类]) / [ELEMENT].currentStyle
+
+**client**
+let box = document.getElementById('box');
+
+获取盒子可视区域的宽高（内容宽度+左右padding）
+1.内容溢出与否对他无影响
+2.获取的结果是没有单位的（其余的盒模型属性也是）
+3.获取的结果是整数，它会自己进行四舍五入（其余的盒模型属性也是）
+box.clientWidth
+box.clientHeight
+
+获取当前页面一屏幕（可视化）区域的宽高
+let winW = document.documentElement.clientWidth || document.body.clientWidth;
+let winH = document.documentElement.clientHeight || document.body.clientHeight;
+
+获取盒子左边框和上边框的大小
+box.clientLeft
+box.clientTop
+
+
+
+*/
+      
+    </script>
+</body>
+
+</html>
