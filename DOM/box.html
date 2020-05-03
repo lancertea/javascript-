@@ -42,11 +42,47 @@ box.clientHeight
 let winW = document.documentElement.clientWidth || document.body.clientWidth;
 let winH = document.documentElement.clientHeight || document.body.clientHeight;
 
-获取盒子左边框和上边框的大小
+获取盒子左边框和上边框的大小(没有右下)
 box.clientLeft
 box.clientTop
 
 
+**offset**
+let box = document.getElementById('box');
+
+在client的基础上加上border == 盒子本身的宽高
+box.offsetWidth
+box.offsetHeight
+
+
+**scroll**
+在没有内容溢出的情况下，获取的结果和client是一样的
+在有内容溢出的情况下，获取的结果约等于真实内容的宽高（上/左PADDING + 真实内容的高度/宽度）
+1.不同浏览器获取的结果不尽相同
+2.设置overflow属性值对最后的结果也会产生一定的影响
+box.scrollWidth
+box.scrollHeight
+
+//获取整个页面真实的高度
+document.documentElement.scrollHeight || document.body.scrollHeight
+
+box.scrollTop  竖向滚动条卷去的高度
+box.scrollLeft  横向滚动条卷去的宽度
+
+1.边界值
+min=0
+max=整个的高度scrollHeight - 一屏幕高度clientHeight
+2.13个盒子模型属性，只有这两个是“可读写”的属性（既可以获取也可以设置对应的值），
+其余的都是“只读”属性（不能设置值，只能获取）
+
+常用：
+盒子：
+回到顶部：box.scrollTop=0
+回到底部：box.scrollTop=box.scrollHeight-box.clientHeight
+
+整个页面：
+回到顶部：box.scrollTop=0
+回到底部：box.scrollTop=box.scrollHeight-box.clientHeight
 
 */
       
