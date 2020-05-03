@@ -75,6 +75,27 @@ fn.call(null);
         //引用类型或者不传,null,undefined
         // const fn3=fn1.myCall(1,[1,2,3]);
         // console.log(fn3);
+
+        //阿里经典面试题
+        function fn1() {
+            console.log(1);
+        }
+
+        function fn2() {
+            console.log(2);
+        }
+        fn1.call(fn2);
+        //先执行最后一个call
+        fn1.call.call(fn2);
+        //Function.prototype是匿名空函数
+        Function.prototype.call(fn1);
+        Function.prototype.call.call(fn1);
+/*
+总结规律：
+一个call是让左边函数执行(this是传递的参数)
+多个call是让最后传参的函数执行(this是windos/undefined)
+*/
+
         
     </script>
 </body>
