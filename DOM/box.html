@@ -26,8 +26,6 @@
    - width / height
    - top / left
 
-  方法：window.getComputedStyle([ELEMENT],[伪类]) / [ELEMENT].currentStyle
-
 **client**
 let box = document.getElementById('box');
 
@@ -95,7 +93,27 @@ max=整个的高度scrollHeight - 一屏幕高度clientHeight
 回到底部：document.documentElement.scrollTop=document.documentElement.scrollHeight-document.documentElement.clientHeight
 
 
+**获取样式的方法**
+window.getComputedStyle([ELEMENT],[伪类]) / [ELEMENT].currentStyle
 
+getComputedStyle
+获取当前元素所有经过浏览器计算过的样式
+ - 只要元素在页面中呈现出来，那么所有的样式都是经过浏览器计算的
+ - 哪怕你没有设置和见过的样式也都计算了
+ - 不管你写或者不写，也不轮写在哪，样式都在这，可以直接获取
+
+ 
+
+第一个参数是操作的元素  第二个参数是元素的伪类:after/:before
+获取的结果是CSSStyleDeclaration这个类的实例（对象），包含了当前元素所有的样式信息
+let styleObj = window.getComputedStyle([element],null);
+styleObj["backgroundColor"]
+styleObj.display
+
+currentStyle
+IE6~8
+在IE6~8浏览器中不兼容，需要基于currentStyle来获取
+styleObj = [element].currentStyle;
 */
       
     </script>
