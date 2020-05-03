@@ -15,13 +15,68 @@
         console.log(evens, odds);
     }; {
         // ES6
-        //当函数只有一个参数的时候，小括号可以省略
-        //当函数体只返回一个表达式的时候，花括号可以省略，如果是返回一个对象
-        //或者函数体内有多句，花括号不能省略
         let evens = [1, 2, 3, 4, 5];
         let odds = evens.map(v => v + 1);
         console.log(evens, odds);
-    } {
+    }
+    /*
+    箭头函数的创建都是函数表达式方式（变量=函数），这种模式下，不存在变量提升，函数只能在创建完成后被执行
+    （也就是创建的代码之后执行）
+
+    const fn=([形参])=>{
+      //函数体	（return）  
+    };
+    fn([实参]);
+
+    形参只有一个，小括号可以不加
+    const fn=n=>{};
+
+    函数体中只有一句话，并且是return xxx的，可以省略大括号和return等
+    const fn=n=>n*10;
+
+    function fn(n){
+        return function(m){
+            return m+(++n);
+        }
+    }
+    const fn=n=>m=>m+(++n);
+    */
+    {
+        //箭头函数内部没有arguments
+        function fn() {
+            console.log(arguments);
+
+        }
+        fn(1, 2, 3); //Arguments { 0: 1, 1: 2, 2: 3, … }
+
+        // let f2=()=>{
+        //     console.log(arguments);
+
+        // }
+        // f2(1,2,3);//not defined
+
+        //解决方法：扩展运算符
+        let f3 = (...rest) => {
+            console.log(rest);
+
+        }
+        f3(1, 2, 3); //Array(3) [ 1, 2, 3 ]
+    }
+    //箭头函数中没有自己的this，它里面用到的this，都是自己所处上下文中的this（真实项目中，一但涉及THIS问题，箭头函数慎用）
+    window.name = "WINDOW";
+    let fn = n => {
+        console.log(this.name);
+    };
+    let obj = {
+        name: 'OBJ',
+        fn: fn
+    };
+    // FN所处的执行上下文中的THIS是WINDOW
+    fn(10); //=>this:window
+    fn.call(obj, 10); //=>this:window 不是我们预期的OBJ
+    //document.body.onclick = fn; //=>this:window 不是我们预期的BODY
+    obj.fn(10); //=>this:window
+    {
         // ES3,ES5
         var factory = function () {
             this.a = 'a';
@@ -34,8 +89,8 @@
             }
         }
 
-        console.log(new factory().c.b());//'a+'
-    };
+        console.log(new factory().c.b()); //'a+'
+    }
 
     {
         var factory = function () {
@@ -48,42 +103,46 @@
                 }
             }
         }
-        console.log(new factory().c.b());//'a'
+        console.log(new factory().c.b()); //'a'
     }
 
-    //this的指向:箭头函数没有自己的this，它内部的this，并不是调用的时候指向的对象，而是定义的时候指向的对象
-    var name='a';
-    let test = {
-        name: 'test',
-        say: () => {
-            console.log(this.name, this)//a window
+    {
+        var name = 'a';
+        let test = {
+            name: 'test',
+            say: () => {
+                console.log(this.name, this) //a window
+            }
         }
-    }
-    test.say();
+        test.say();
+    } {
+        let obj = {
+            name: 'OBJ',
+            fn: function () {
+                //=>this:obj
+                //=>原本期望的需求是：1S后把OBJ中的NAME改为'珠峰'
+                setTimeout(() => {
+                    console.log(this); //=>OBJ
+                    this.name = '珠峰';
+                }, 1000);
 
+                /* setTimeout(function () {
+                	console.log(this);//=>WINODOW
+                	this.name = '珠峰';
+                }, 1000); */
+
+                /* let _this = this;//=>把需要的THIS提前用变量存储起来
+                setTimeout(function () {
+                	_this.name = '珠峰'; //=>需要使用的时候拿出来用即可
+                }, 1000); */
+            }
+        };
+        obj.fn();
+
+    }
     //箭头函数不能用于构造函数，意味着不能用new关键字去调用
     // let F=()=>{};
     // let f1=new F();
-
-    //箭头函数内部没有arguments
-    function fn(){
-        console.log(arguments);
-        
-    }
-    fn(1,2,3);//Arguments { 0: 1, 1: 2, 2: 3, … }
-    
-    // let f2=()=>{
-    //     console.log(arguments);
-        
-    // }
-    // f2(1,2,3);//not defined
-
-    //解决方法
-    let f3=(...rest)=>{
-        console.log(rest);
-        
-    }
-    f3(1,2,3);//Array(3) [ 1, 2, 3 ]
 </script>
 
 <body>
