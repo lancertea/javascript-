@@ -58,19 +58,35 @@
        */
 
         // 验证一个字符串中那个字母出现的次数最多，多少次？
-        let str = "zhufengpeixunzhoulaoshi";
-        str = str.split('').sort((a, b) => a.localeCompare(b)).join('');
-        let arr = str.match(/([a-zA-Z])\1*/g).sort((a, b) => b.length - a.length);
-        let max = arr[0].length,
-            res = [arr[0][0]];
-        for (let i = 1; i < arr.length; i++) {
-            if (arr[i].length === max) {
-                res.push(arr[i][0])
-            } else {
-                break;
+        {
+            let str = "zhufengpeixunzhoulaoshi";
+            str = str.split('').sort((a, b) => a.localeCompare(b)).join('');
+            let arr = str.match(/([a-zA-Z])\1*/g).sort((a, b) => b.length - a.length);
+            let max = arr[0].length,
+                res = [arr[0][0]];
+            for (let i = 1; i < arr.length; i++) {
+                if (arr[i].length === max) {
+                    res.push(arr[i][0])
+                } else {
+                    break;
+                }
             }
+            console.log(res, max);
         }
-        console.log(res, max);
+        //时间字符串格式化
+        {
+            String.prototype.formatTime = function (templete = "{0}年{1}月{2}日 {3}时{4}分{5}秒") {
+                let timeAry = this.match(/\d+/g);
+                return templete.replace(/\{(\d+)\}/g, (...[, $1]) => {
+                    let time = timeAry[$1] || "00";
+                    return time.length < 2 ? "0" + time : time;
+                });
+            }
+            let time = "2019-8-13 16:51:3";
+            console.log(time.formatTime());
+            time = "2019/8/13";
+            console.log(time.formatTime());
+        }
     </script>
 </body>
 
