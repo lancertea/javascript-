@@ -60,14 +60,37 @@
                 return str;
             }
             console.log(templateFunc(str, data));
+        
+        let str1=str.replace(/\$\{(\w+)\}/g,(...arg)=>{
+            let [context,$1]=arg;
+            context=data[$1];
+            return context;
+        })
+        console.log(str1);
+            
         }
 
-        //=>分组的第三个作用：“分组引用”
-        let str = "book"; //=>"good"、"look"、"moon"、"foot"...
-        let reg = /^[a-zA-Z]([a-zA-Z])\1[a-zA-Z]$/; //=>分组引用就是通过“\数字”让其代表和对应分组出现一模一样的内容
-        console.log(reg.test("book")); //=>true
-        console.log(reg.test("deep")); //=>true
-        console.log(reg.test("some")); //=>false
+        {
+            //=>分组的第三个作用：“分组引用”
+            let str = "book"; //=>"good"、"look"、"moon"、"foot"...
+            let reg = /^[a-zA-Z]([a-zA-Z])\1[a-zA-Z]$/; //=>分组引用就是通过“\数字”让其代表和对应分组出现一模一样的内容
+            console.log(reg.test("book")); //=>true
+            console.log(reg.test("deep")); //=>true
+            console.log(reg.test("some")); //=>false
+        }
+
+        {
+            //单词首字母大写
+            let str = "good good study，day day up！";
+            let reg = /\b([a-zA-Z])[a-zA-Z]*\b/g;
+            str = str.replace(reg, (...arg) => {
+                let [context, $1] = arg;
+                $1 = $1.toUpperCase();
+                context = context.slice(1);
+                return $1 + context;
+            })
+            console.log(str);
+        }
     </script>
 </body>
 
