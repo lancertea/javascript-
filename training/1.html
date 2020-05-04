@@ -33,9 +33,23 @@
         }();
         console.log((5).add(3).minus(2));
 
-        //实现一个字符串匹配算法，从字符串 S 中，查找是否存在字符串 T，若存在返回所在位置，
-        //不存在返回-1！（如果不能基于indexOf/includes等内置的方法，你会如何处理呢？）
-        
+
+        {
+
+            //实现一个字符串匹配算法，从字符串 S 中，查找是否存在字符串 T，若存在返回所在位置，
+            //不存在返回-1！（如果不能基于indexOf/includes等内置的方法，你会如何处理呢？）
+            String.prototype.myIndexOf = function (T) {
+                //=>THIS:S
+                let reg = new RegExp(T),
+                    res = reg.exec(this);
+                return res === null ? -1 : res.index;
+            }
+
+            let S = "zhufengpeixun",
+                T = "pei";
+            console.log(S.myIndexOf(T));
+
+        }
     </script>
 </body>
 
