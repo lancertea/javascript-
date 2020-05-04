@@ -9,20 +9,19 @@
 
 <body>
     <script>
+        var s = 'loading'
+        var reg1 = /ing/; //  /\d+/
+        var reg2 = new RegExp('ing'); //  "\\d+"
+        //写法2与写法1的区别是：写法2里面的参数可以是变量
+        //另外写法2里面的参数是一个字符串，所以需要转义
+        console.log(reg1.test(s));
+        console.log(reg2.test(s));
 
-      var s='loading'
-       var reg1=/ing/; //  /\d+/
-       var reg2= new RegExp('ing'); //  "\\d+"
-       //写法2与写法1的区别是：写法2里面的参数可以是变量
-       //另外写法2里面的参数是一个字符串，所以需要转义
-       console.log(reg1.test(s));
-       console.log(reg2.test(s));
-       
-       //注意两个方法的区别
-       console.log(reg1.exec(s));//Array [ "ing" ]
-       console.log(s.match(reg1));//Array [ "ing" ]
+        //注意两个方法的区别
+        console.log(reg1.exec(s)); //Array [ "ing" ]
+        console.log(s.match(reg1)); //Array [ "ing" ]
 
-       /*
+        /*
        常用方法总结：
        RegExpObject.exec(string)
        如果 exec() 找到了匹配的文本，则返回一个结果数组。否则，返回 null。
@@ -58,7 +57,20 @@
        用于检测一个字符串是否匹配某个模式.如果字符串 string 中含有与 RegExpObject 匹配的文本，则返回 true，否则返回 false。
        */
 
- 
+        // 验证一个字符串中那个字母出现的次数最多，多少次？
+        let str = "zhufengpeixunzhoulaoshi";
+        str = str.split('').sort((a, b) => a.localeCompare(b)).join('');
+        let arr = str.match(/([a-zA-Z])\1*/g).sort((a, b) => b.length - a.length);
+        let max = arr[0].length,
+            res = [arr[0][0]];
+        for (let i = 1; i < arr.length; i++) {
+            if (arr[i].length === max) {
+                res.push(arr[i][0])
+            } else {
+                break;
+            }
+        }
+        console.log(res, max);
     </script>
 </body>
 
