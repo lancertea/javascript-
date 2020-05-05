@@ -1,0 +1,80 @@
+<!-- 声明文档类型，告知浏览器的解析器以什么文档规范解析文档 -->
+<!DOCTYPE html>
+<html>
+
+<head>
+<!-- 编码方式 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+<!-- DNS预获取 -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- 遇到link/img/audio/video标签，浏览器新分配一个线程加载资源，主线程会继续向下渲染   异步加载-->
+    <link href="">
+    <title>ceshi</title>
+<!-- 遇到script标签或者@import是同步加载的，主线程先去加载并执行JS代码，完成后再继续向下渲染，所以最好把script标签
+放到最下面-->
+    <script></script>
+    <style>
+		.box {
+			margin: 20px auto;
+			width: 100px;
+			height: 100px;
+			background: red;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="box">
+
+	</div>
+
+	<script>
+		/* for (let i = 0; i < 10; i++) {
+			let span = document.createElement('span');
+			span.innerHTML = i;
+			box.appendChild(span);
+		} */
+		/* let str = ``;
+		for (let i = 0; i < 10; i++) {
+			str += `<span>${i}</span>`;
+		}
+		box.innerHTML = str; */
+		//=>文档碎片：存储文档的容器
+		/* let frg = document.createDocumentFragment();
+		for (let i = 0; i < 10; i++) {
+			let span = document.createElement('span');
+			span.innerHTML = i;
+			frg.appendChild(span);
+		}
+		box.appendChild(frg);
+		frg = null; */
+	</script>
+
+
+	<script>
+		/* 批量设置样式 */
+		// box.className = 'box';
+		// box.style.cssText = "margin: 20px auto;width: 100px;height: 100px;background: red;";
+	</script>
+
+	<script>
+		/* DOM操作的读写分离 */
+		//=>现代版浏览器都有“渲染队列”机制：发现某一行要修改元素的样式，不立即渲染，而是看看下一行，如果下一行也会改变样式，则把修改样式的操作放到“渲染队列中”...一直到不在是修改样式的操作后，整体渲染一次，引发一次回流
+		//=>offsetTop、offsetLeft、offsetWidth、offsetHeight、clientTop、clientLeft、clientWidth、clientHeightscrollTop、scrollLeft、scrollWidth、scrollHeight、getComputedStyle、currentStyle....会刷新渲染队列  
+
+		// box.style.width = '100px';
+		// box.style.height = '100px';
+		// box.style.background = 'red';
+		// box.style.margin = '20px auto';
+
+		// box.style.width = '100px';
+		// box.style.height = '100px';
+		// box.style.background = 'red';
+		// box.style.margin = '20px auto';
+		// console.log(box.offsetWidth);
+		// console.log(box.offsetHeight);
+	</script>
+</body>
+
+</html>
