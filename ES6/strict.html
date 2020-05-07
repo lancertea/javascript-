@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>严格模式</title>
+    <style>
+
+    </style>
+</head>
+
+
+<body>
+    <script>
+       
+        
+
+        //arguments对象属性不与对应的形参变量同步更新
+        // var a = 4;
+        // function b(x, y, a) {
+        //     /*
+        //      * 形参赋值
+        //      *   x=1
+        //      *   y=2
+        //      *   a=3 
+        //      * 在JS非严格模式下，ARGUMENTS和形参存在映射关系（一个改都会跟着变）
+        //      */
+        //     // console.log(arguments); //=>{0:1,1:2,2:3,length:3...}
+        //     console.log(a); //=>3
+        //     arguments[2] = 10; //=>把传递的第三个实参值改为10，所以形参a也跟着改为10
+        //     console.log(a); //=>10
+        // }
+        // a = b(1, 2, 3); //=>a=b执行的返回结果（只看RETURN）  =>a=undefined
+        // console.log(a); //=>undefined
+
+        // 开启JS语法的严格模式（ ES6或者平时开发， 我们一般都基于严格模式）
+        // 严格JS模式下ARGUMENTS和形参的映射机制就切断了
+        //     "use strict";
+
+        // function b(x, y, a) {
+        //     arguments[2] = 10; //=>{2:10...}
+        //     console.log(a); //=>3
+        // }
+        // b(1, 2, 3);
+
+        //严格模式下，以下情况会报错
+        //给一个未声明的变量赋值(变量必须先声明再使用)
+        // function f(x) {
+        //     "use strict";
+        //     var a = 12;
+        //     b = a + x * 35; // error!
+        // }
+        // f();
+        
+
+        //不能用delete删除一个变量名(或属性名)
+        // var a = 1;
+        // b = 2;
+        // delete a;
+        // console.log(a); //1
+        // delete b;
+        // console.log(b); //ReferenceError: b is not defined
+
+        // 'use strict'
+        // var a = 1;
+        // b = 2;
+        // delete a;
+        // console.log(a); //SyntaxError: applying the 'delete' operator to an unqualified name is deprecated
+        // delete b;
+        // console.log(b); 
+    </script>
+</body>
+
+</html>
