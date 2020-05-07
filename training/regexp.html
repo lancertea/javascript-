@@ -22,10 +22,34 @@
                 return res === null ? -1 : res.index;
             }
 
-            let S = "zhufengpeixun",
-                T = "pei";
+            let S = 'hello,my love',
+                T = 'love';
             console.log(S.myIndexOf(T));
 
+        }
+
+        {
+            //一个url后面好多key:value，如localhost?key=val&key2=val2&key3=val3，
+            //封装一个函数 getParam(‘key’) 通过key获得相应等号后面的值
+            //var url="locallhost?key1=val1&key2=val2&key3=val3";
+            //console.log(url.getParam("key3")); //=>'val3'
+            String.prototype.getParam = function (key) {
+                let obj = {},
+                    _this = this,
+                    start = _this.indexOf('?');
+                if (start === -1) {
+                    return;
+                }
+                let str = _this.slice(start + 1);
+                str.split('&').forEach(item => {
+                    let [key, value] = item.split('=');
+                    obj[key] = value;
+                });
+                return obj[key];
+            }
+
+            var url = "locallhost?key1=val1&key2=val2&key3=val3";
+            console.log(url.getParam("key3"));
         }
     </script>
 </body>
