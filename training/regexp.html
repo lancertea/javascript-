@@ -118,6 +118,24 @@
             console.log(str);
 
         }
+        {
+         // 验证一个字符串中那个字母出现的次数最多，多少次？
+        {
+            let str = "zhufengpeixunzhoulaoshi";
+            str = str.split('').sort((a, b) => a.localeCompare(b)).join('');
+            let arr = str.match(/([a-zA-Z])\1*/g).sort((a, b) => b.length - a.length);
+            let max = arr[0].length,
+                res = [arr[0][0]];
+            for (let i = 1; i < arr.length; i++) {
+                if (arr[i].length === max) {
+                    res.push(arr[i][0])
+                } else {
+                    break;
+                }
+            }
+            console.log(res, max);
+        }
+        }
     </script>
 </body>
 
