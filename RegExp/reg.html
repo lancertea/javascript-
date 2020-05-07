@@ -57,6 +57,15 @@
        用于检测一个字符串是否匹配某个模式.如果字符串 string 中含有与 RegExpObject 匹配的文本，则返回 true，否则返回 false。
        */
 
+       {
+            //=>分组的第三个作用：“分组引用”
+            let str = "book"; //=>"good"、"look"、"moon"、"foot"...
+            let reg = /^[a-zA-Z]([a-zA-Z])\1[a-zA-Z]$/; //=>分组引用就是通过“\数字”让其代表和对应分组出现一模一样的内容
+            console.log(reg.test("book")); //=>true
+            console.log(reg.test("deep")); //=>true
+            console.log(reg.test("some")); //=>false
+        }
+
         // 验证一个字符串中那个字母出现的次数最多，多少次？
         {
             let str = "zhufengpeixunzhoulaoshi";

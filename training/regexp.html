@@ -51,6 +51,73 @@
             var url = "locallhost?key1=val1&key2=val2&key3=val3";
             console.log(url.getParam("key3"));
         }
+
+        {
+            //编写一个方法execAll，执行一次可以把所有匹配的结果捕获到（前提正则一定要设置全局修饰符g）
+            RegExp.prototype.execAll = function (str) {
+                if (!this.global) {
+                    return this.exec(str);
+                }
+                let res = [],
+                    restr;
+                while (restr = reg.exec(str)) {
+                    res.push(restr[0]);
+                }
+                return res.length ? res : null;
+
+            }
+
+            let reg = /\d+/g;
+            console.log(reg.execAll("去年2019@2020今年@未来2021"));
+            //=>字符串中的MATCH方法，可以在执行一次的情况下，捕获到所有匹配的数据（前提：正则也得设置G才可以）
+            console.log("去年2019@2020今年@未来2021".match(reg));
+        }
+
+        //百度一面
+        //实现ES6模板字符串的功能
+        //参考https://www.cnblogs.com/axu1997/p/12633582.html
+        {
+            let data = {
+                name: 'zsy',
+                date: '2020/4/12',
+                address: '科技园'
+            }
+            let str = '${name}同学你好，你的面试时间为${date},面试地点为${address},请准时参加';
+            //arr=str.match(/\$\{(\w+)\}/g)
+            //Array(3) [ "${name}", "${date}", "${address}" ]
+
+            function templateFunc(str, data) {
+                let reg = /\$\{(\w+)\}/g;
+                let arr = [];
+                while (arr = reg.exec(str)) {
+                    str = str.replace(arr[0], data[arr[1]]);
+                }
+                return str;
+            }
+            console.log(templateFunc(str, data));
+
+            let str1 = str.replace(/\$\{(\w+)\}/g, (...arg) => {
+                let [context, $1] = arg;
+                context = data[$1];
+                return context;
+            })
+            console.log(str1);
+
+        }
+
+        {
+            //单词首字母大写
+            let str = "good good study，day day up！";
+            let reg = /\b([a-zA-Z])[a-zA-Z]*\b/g;
+            str = str.replace(reg, (...arg) => {
+                let [context, $1] = arg;
+                $1 = $1.toUpperCase();
+                context = context.slice(1);
+                return $1 + context;
+            })
+            console.log(str);
+
+        }
     </script>
 </body>
 
