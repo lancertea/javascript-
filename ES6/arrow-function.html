@@ -115,25 +115,27 @@
             }
         }
         test.say();
-    } {
+    }
+    //箭头函数的妙用
+    {
         let obj = {
             name: 'OBJ',
             fn: function () {
                 //=>this:obj
-                //=>原本期望的需求是：1S后把OBJ中的NAME改为'珠峰'
+                //=>原本期望的需求是：1S后把OBJ中的NAME改为'zz'
                 setTimeout(() => {
                     console.log(this); //=>OBJ
-                    this.name = '珠峰';
+                    this.name = 'zz';
                 }, 1000);
 
                 /* setTimeout(function () {
                 	console.log(this);//=>WINODOW
-                	this.name = '珠峰';
+                	this.name = 'zz';
                 }, 1000); */
 
                 /* let _this = this;//=>把需要的THIS提前用变量存储起来
                 setTimeout(function () {
-                	_this.name = '珠峰'; //=>需要使用的时候拿出来用即可
+                	_this.name = 'zz'; //=>需要使用的时候拿出来用即可
                 }, 1000); */
             }
         };
@@ -143,6 +145,10 @@
     //箭头函数不能用于构造函数，意味着不能用new关键字去调用
     // let F=()=>{};
     // let f1=new F();
+
+    //用箭头函数实现数组排序
+    let a = [3, 1, 6, 2, 5, 8, 4, 7];
+   
 </script>
 
 <body>
