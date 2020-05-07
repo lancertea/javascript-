@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>数组相关练习题</title>
+</head>
+
+
+<body>
+    <script>
+        //数组去重的方法
+        {   
+            var arr = [1, 2, 3, 3, 4, 2, 5, 3, 7, 6];
+            //保留一个重复数字
+            //1
+            var res = arr.filter((item, index, self) =>
+                self.indexOf(item) === index
+            )
+            console.log(res);
+
+            //2
+            console.log([...new Set(arr)]);
+
+            //3
+            var unique=(arr)=>{
+                var obj={};
+                return arr.filter(item=>obj.hasOwnProperty(item)?false:obj[item]=true);
+            }
+            console.log(unique(arr));
+
+            //4
+            var uniques=function(arr){
+                arr.sort((a,b)=>a-b);
+                let res=[arr[0]],
+                   pre=0;
+                for(let i=1;i<arr.length;i++){
+                if(arr[pre]!==arr[i]){
+                  res.push(arr[i])
+                }
+                pre=i;
+                }
+                return res;
+            }
+            console.log(uniques(arr));
+            
+            
+            
+            //消除所有重复的数字
+            //1
+            var res1=arr.filter(item=>
+            arr.indexOf(item)===arr.lastIndexOf(item)
+            )
+            console.log(res1);
+
+        }
+    </script>
+</body>
+
+</html>

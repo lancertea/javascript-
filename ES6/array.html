@@ -173,28 +173,6 @@
             console.log(findI) //1
         }
 
-        {
-            //数组去重的方法
-            //ES5
-            //filter()
-            var arr = [1, 2, 3, 3, 4];
-            //去重
-            var res=arr.filter((item,index,self)=>{
-                return self.indexOf(item)===index;
-            })
-            console.log(res);//[1, 2, 3, 4]
-            //去除重复的数字
-            var res1=arr.filter((item)=>{
-                return arr.indexOf(item)===arr.lastIndexOf(item);
-            })
-            console.log(res1);//[1, 2, 4]
-            
-            
-            //ES6
-            //Set()
-            console.log(...new Set(arr)); //1,2,3,4
-            console.log([...new Set(arr)]); //[1,2,3,4]
-        }
     </script>
 
 </body>
