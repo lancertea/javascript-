@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>原型链相关练习题</title>
+    <style>
+
+    </style>
+</head>
+
+
+<body>
+    <script>
+        ~ function () {
+            function check(num) {
+                return Number(num) !== NaN;
+            }
+
+            Number.prototype.plus = function (num) {
+                if (check(num)&&check(this)) {
+                    return this + num;
+                }
+            }
+
+            Number.prototype.minus = function (num) {
+                if (check(num)&&check(this)) {
+                    return this - num;
+                }
+            }
+        }();
+
+        let n = 10;
+        let m = n.plus(10).minus(5);
+        console.log(m); //=>15
+    </script>
+</body>
+
+</html>
