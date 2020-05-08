@@ -8,19 +8,45 @@
 
 <body>
     <script>
-        let arr = [
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, [8, [9]]],
+        var arr = [
+            [8, 5, 7],
+            [4, 3, 6],
+            [4, [1, [9]]],
             [10]
         ];
-        let arr1 = [1, [2, 3, [4]],
+        var arr1 = [1, , [2, 3, [4]],
             [5, 6], 7, 8
         ];
         console.log(arr.length); //4 以最外层数组的个数算的
-        console.log(arr1.length); //5 数字自成一个数组
+        console.log(arr1.length); //6 数字自成一个数组
 
-        //递归实现
+        //解法一：Array.prototype.flat() 默认深度为1，不知道几级可以直接写Infinity
+        var res = arr.flat(Infinity);
+        res = [...new Set(res)].sort((a, b) => a - b);
+        console.log(res);
+
+        //它还会默认把空去掉
+        console.log(arr1.flat(Infinity));
+
+        //解法二：把数组变成字符串
+        res = arr.toString().split(',').map(item => Number(item));
+        console.log(res);
+
+        res = JSON.stringify(arr).replace(/(\[|\])/g, "").split(',').map(item => Number(item));
+        console.log(res);
+
+        //解法三：Array.prototype.some()
+        while (arr.some(item => Array.isArray(item))) {
+            arr = [].concat(...arr);
+        }
+        // [8, 5, 7, 4, 3, 6, 4, [1, [9]], 10]
+        // [8, 5, 7, 4, 3, 6, 4, 1, [9], 10]
+        // [8, 5, 7, 4, 3, 6, 4, 1, 9, 10]
+        console.log(arr);
+
+
+
+        //解法四：递归实现
         function flat(arr) {
             let res = [];
             for (let i = 0; i < arr.length; i++) {
@@ -38,21 +64,22 @@
         //用reduce简化
         function flatten(arr) {
             return arr.reduce((target, current) => {
-              return  Array.isArray(current) ? target.concat(flatten(current)) : target.concat(current)
-            }
-        // Array.isArray(current) ? target.concat(flatten(current)) : target.concat(current)
-            , [])
+                    return Array.isArray(current) ? target.concat(flatten(current)) : target.concat(current)
+                }
+                // Array.isArray(current) ? target.concat(flatten(current)) : target.concat(current)
+                , [])
         }
         console.log(flatten(arr));
 
-       //根据指定深度扁平
-       function flattenByDeep(arr,deep=1){
-           return arr.reduce((target,current)=>
-           Array.isArray(current)&&deep>1?
-           target.concat(flattenByDeep(current,deep-1)):target.concat(current),[])
-       }
-       console.log(flattenByDeep(arr,2));
-       
+        //根据指定深度扁平
+        function flattenByDeep(arr, deep = 1) {
+            return arr.reduce((target, current) =>
+                Array.isArray(current) && deep > 1 ?
+                target.concat(flattenByDeep(current, deep - 1)) : target.concat(current), [])
+        }
+        console.log(flattenByDeep(arr, 2));
+
+        
     </script>
 </body>
 
