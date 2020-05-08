@@ -17,7 +17,7 @@
 	}
 
 	/* 
-	 * queryURLParams：获取URL地址问号和面的参数信息（可能也包含HASH值）
+	 * queryURLParams：获取URL地址问号后面的参数信息（可能也包含HASH值）
 	 *   @params
 	 *   @return
 	 *     [object]把所有问号参数信息以键值对的方式存储起来并且返回
