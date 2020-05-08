@@ -8,76 +8,37 @@
 
 
 <body>
-    <div id="btnBox">
-        <input type="button" value="button_1" />
-        <input type="button" value="button_2" />
-        <input type="button" value="button_3" />
-        <input type="button" value="button_4" />
-        <input type="button" value="button_5" />
-    </div>
+   
 
     <script>
-        //以下代码的功能是要实现为5个input按钮循环绑定click点击事件，绑定完成后点击1、2、3、4、5五个按钮
-        //分别会alert输出0、1、2、3、4五个字符。（腾讯）
-        // var Bt=document.getElementById('btnBox'),
-        //     btns=document.getElementsByTagName('input'),
-        //     l=btns.length;//缓存
-        // for(var i=0;i<l;i++){
-        // btns[i].onclick=function(){
-        //     alert(i);//5 5 5 5 5
-        // }
-        // }
+       {
+            var a = 0;
+            if (true) {
+                console.log(a, window.a);
+                a = 1;
+                console.log(a, window.a);
 
-        //自定义属性
-        // var btns = document.getElementsByTagName('input'),
-        //     l = btns.length; //缓存
-        // for (var i = 0; i < l; i++) {
-        //     var item = btns[i];
-        //     item.index = i;
-        //     item.onclick = function () {
-        //         alert(this.index); //0 1 2 3 4 
-        //     }
-        // }
-
-       //闭包
-        // var  btns = document.getElementsByTagName('input'),
-        //     l = btns.length; //缓存
-        //   for(var i=0;i<l;i++){
-        //     (function(j){
-        //         btns[j].onclick=function(){
-        //          alert(j);  //0 1 2 3 4
-        //      }
-
-        //     })(i);           
-        //   }
-
-        //let 块级作用域
-        // var btns=document.getElementsByTagName('input'),
-        // l=btns.length;
-        // for(let i=0;i<l;i++){
-        //     btns[i].onclick=function(){
-        //         alert(i); //0 1 2 3 4
-        //     }
-        // }
-
-        //forEach  伪数组转换为数组
-        var btns=document.getElementsByTagName('input');
-        [].forEach.call(btns,(item,index)=>{
-            item.onclick=function(){
-                alert(index); //0 1 2 3 4
+                function a() {}
+                console.log(a, window.a);
+                a = 21;
+                console.log(a, window.a);
+                console.log("里面", a);
             }
-        });
-         
-        //事件代理
-        // var Bt = document.getElementById('btnBox');
-        // Bt.onclick=function(e){
-        //  console.log((e.target.value.slice(-1))-1); //0 1 2 3 4
-        //  }
-        //e.target.innerHTML.slice(-1)
+            console.log("外部", a);
+        }
 
-        // var Bt = document.getElementById('btnBox');
-        // console.log(Bt.childNodes);
-        // console.log(Bt.children);
+        {
+            var tmp = new Date();
+
+            function f() {
+                console.log(tmp);
+                if (false) {
+                    var tmp = 'hello world';
+                }
+            }
+
+            f(); 
+        }
         
     </script>
 </body>
