@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>操作符相关练习题</title>
+
+</head>
+
+
+<body>
+
+    <script>
+        //对象转数字：先转换为字符串，再转换为数字
+        //[12]=>Number([12].toString())=>Number('12')=>12
+        //[1,2]=>Number([1,2].toString())=>Number('1,2')=>NaN
+        {
+            //如何输出1
+            // var a = ? 
+            // if (a == 1 && a == 2 && a == 3) {
+            //     console.log(1);
+            // }
+
+            var a={
+                n:0,
+                toString:function(){
+                return ++this.n;
+                }
+            };
+             if (a == 1 && a == 2 && a == 3) {
+                console.log(1);
+            }
+
+            var a=[1,2,3];
+            a.toString=a.shift;
+            if (a == 1 && a == 2 && a == 3) {
+                console.log('ok');
+            }
+
+            var n=0;
+            Object.defineProperty(window,'b',{
+                get:function(){
+                    return ++n;
+                }
+            });
+            if (b == 1 && b == 2 && b == 3) {
+                console.log('byebye');
+            }
+        }
+    </script>
+</body>
+
+</html>
