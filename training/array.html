@@ -59,30 +59,59 @@
             var ary1 = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2'];
             var ary2 = ['A', 'B', 'C', 'D'];
             //=>合并后的数组为：['A1', 'A2', 'A', 'B1', 'B2', 'B', 'C1', 'C2', 'C', 'D1', 'D2', 'D']
-            ary2=ary2.map(item=>item+'3');
-            var arr=ary1.concat(ary2).sort((a,b)=>a.localeCompare(b)).map(item=>{
-                return item.replace('3','');
+            ary2 = ary2.map(item => item + '3');
+            var arr = ary1.concat(ary2).sort((a, b) => a.localeCompare(b)).map(item => {
+                return item.replace('3', '');
             });
             console.log(arr);
-            
-             ary1 = ['D1', 'D2', 'A1', 'A2', 'C1', 'C2', 'B1', 'B2'];
-             ary2 = ['B', 'A', 'D', 'C'];
-             //=>合并后的数组为：['D1', 'D2','D', 'A1', 'A2','A', 'C1', 'C2','C' ,'B1', 'B2','B']
-             let n=0;
-             for(let i=0;i<ary2.length;i++){
-                 let item2=ary2[i];
-             for(let j=0;j<ary1.length;j++){
-                 let item1=ary1[j];
-                if(item1.includes(item2)){
-                 n=j;
+
+            ary1 = ['D1', 'D2', 'A1', 'A2', 'C1', 'C2', 'B1', 'B2'];
+            ary2 = ['B', 'A', 'D', 'C'];
+            //=>合并后的数组为：['D1', 'D2','D', 'A1', 'A2','A', 'C1', 'C2','C' ,'B1', 'B2','B']
+            let n = 0;
+            for (let i = 0; i < ary2.length; i++) {
+                let item2 = ary2[i];
+                for (let j = 0; j < ary1.length; j++) {
+                    let item1 = ary1[j];
+                    if (item1.includes(item2)) {
+                        n = j;
+                    }
                 }
-             }
-             ary1.splice(n+1,0,item2);
-             }
-             console.log(ary1);
-             
+                ary1.splice(n + 1, 0, item2);
+            }
+            console.log(ary1);
+
         }
-    </script>
+/* 
+旋转数组
+给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数
+输入: [1, 2, 3, 4, 5, 6, 7] 和 k = 3
+输出: [5, 6, 7, 1, 2, 3, 4]
+解释:
+向右旋转 1 步: [7, 1, 2, 3, 4, 5, 6]
+向右旋转 2 步: [6, 7, 1, 2, 3, 4, 5]
+向右旋转 3 步: [5, 6, 7, 1, 2, 3, 4]
+​
+输入: [-1, -100, 3, 99] 和 k = 2
+输出: [3, 99, -1, -100]
+解释: 
+向右旋转 1 步: [99, -1, -100, 3]
+向右旋转 2 步: [3, 99, -1, -100] 
+*/
+ {
+function rotate(arr,k){
+if(k<=0||k===arr.length)
+return arr;
+if(k>arr.length)
+k=k%arr.length;
+return arr.slice(-k).concat(arr.slice(0,arr.length-k));
+}
+
+let arr = [1, 2, 3, 4, 5, 6, 7];
+console.log(rotate(arr,3));
+ }
+ 
+ </script>
 </body>
 
 </html>
