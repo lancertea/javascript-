@@ -12,7 +12,6 @@
 
     <script>
         {
-
             //实现一个字符串匹配算法，从字符串 S 中，查找是否存在字符串 T，若存在返回所在位置，
             //不存在返回-1！（如果不能基于indexOf/includes等内置的方法，你会如何处理呢？）
             String.prototype.myIndexOf = function (T) {
@@ -25,7 +24,6 @@
             let S = 'hello,my love',
                 T = 'love';
             console.log(S.myIndexOf(T));
-
         }
 
         {
@@ -109,7 +107,6 @@
                 return context;
             })
             console.log(str1);
-
         }
 
         {
@@ -123,7 +120,6 @@
                 return $1 + context;
             })
             console.log(str);
-
         }
 
         {
@@ -175,6 +171,14 @@
                 return item.toUpperCase() === item ? item.toLowerCase() : item.toUpperCase();
             })
             console.log(str);
+        }
+
+        {
+          //密码
+          // 编写一条正则，用来验证此规则：一个6~16位的字符串，必须同时包含有大小写字母和数字
+
+
+
         }
     </script>
 </body>
