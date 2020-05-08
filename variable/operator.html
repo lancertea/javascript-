@@ -243,7 +243,10 @@
         console.log(5 == NaN); //false 
         console.log(NaN == NaN); //false
         console.log(NaN != NaN); //true
-
+        
+        //对象转数字：先转换为字符串，再转换为数字
+        //[12]=>Number([12].toString())=>Number('12')=>12
+        //[1,2]=>Number([1,2].toString())=>Number('1,2')=>NaN
 
 
         /*
