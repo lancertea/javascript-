@@ -68,32 +68,6 @@
     };
     */
 
-
-
-    {
-        var num = 10;
-        var obj = {
-            num: 20
-        };
-        obj.fn = (function (num) {
-            this.num = num * 3;
-            num++;
-            return function (n) {
-                this.num += n;
-                num++;
-                console.log(num);
-            }
-        })(obj.num);
-        var fn = obj.fn;
-        fn(5);
-        obj.fn(10);
-        console.log(num, obj.num);
-
-
-    }
-
-    
-
      {
         //如何让this关键词指向obj
         var obj = {
@@ -115,7 +89,10 @@
             }
         };
         obj.print();
-    } {
+    } 
+    
+    //call apply bind
+    {
         function foo(a, b) {
             console.log(this);
             console.log(a);
@@ -174,11 +151,6 @@
         console.log(obj2.printS());
         var getS = obj2.printS.bind(obj1);
         console.log(getS());
-
-
-
-
-
     }
 </script>
 
