@@ -12,31 +12,43 @@
 
 <body>
     <script>
-
         //柯理化函数
-    {
-    /*
-        function fn(x, y) {
-            return function (z) {
-                return x + y + z;
-            }
+        {
+            /*
+                function fn(x, y) {
+                    return function (z) {
+                        return x + y + z;
+                    }
+                }
+            */
+            let fn = (x, y) => z => x + y + z;
+            let res = fn(1, 2)(3);
+            console.log(res); //=>6  1+2+3
         }
-    */
-        let fn = (x, y) => z => x + y + z;
-        let res = fn(1, 2)(3);
-        console.log(res); //=>6  1+2+3
-    }
 
-    //匿名函数
-    {
-        var b = 10;
-        (function b() {
-            b = 20;
-            console.log(b); //=>函数
-        })();
-        console.log(b); //=>10 
-    }
-       
+        {
+            /* 请实现一个 add 函数，满足以下功能 */
+            // add(1); //1
+            // add(1)(2); //3
+            // add(1)(2)(3); //6
+            // add(1)(2)(3)(4); //10
+            // add(1)(2, 3); //6
+            // add(1, 2)(3); //6
+            // add(1, 2, 3); //6
+
+
+
+        }
+
+        //匿名函数
+        {
+            var b = 10;
+            (function b() {
+                b = 20;
+                console.log(b); //=>函数
+            })();
+            console.log(b); //=>10 
+        }
     </script>
 </body>
 
