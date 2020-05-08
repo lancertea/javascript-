@@ -108,27 +108,16 @@
         }
 
 
-        //如何把一个字符串的大小写取反（大写变小写小写变大写），例如 ’AbC' 变成 'aBc'
-        //A-Z (65-90)
-        {
-            let str = '123aCedBBB';
-            str = str.replace(/[a-zA-Z]/g, item => {
-                return item.toUpperCase() === item ? item.toLowerCase() : item.toUpperCase();
-            })
-            console.log(str);
-
-        }
-
         //在输入框中如何判断输入的是一个正确的网址，例如：用户输入一个字符串，验证是否符合URL网址的格式 2-7
         {
-            let str = "https://www.zhufengpeixun.com.cn";
+            let str = "https://www.baidududu.com.cn";
             let reg = /^(?:(http|https|ftp):\/\/)?((?:[\w-]+\.)+[a-z0-9]+)((?:\/[^/?#]*)+)?(\?[^#]+)?(#.+)?$/i;
             console.log(reg.exec(str));
             //=>URL格式
             //1.协议://  http/https/ftp
             //2.域名
-            // www.zhufengpeixun.cn
-            // zhufengpeixun.cn
+            // www.baidududu.cn
+            // baidududu.cn
             // kbs.sports.qq.com
             // kbs.sports.qq.com.cn
             //3.请求路径
