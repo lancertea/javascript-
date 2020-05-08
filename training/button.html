@@ -39,7 +39,7 @@
         //     }
         // }
 
-       //闭包
+        //闭包
         // var  btns = document.getElementsByTagName('input'),
         //     l = btns.length; //缓存
         //   for(var i=0;i<l;i++){
@@ -51,6 +51,18 @@
         //     })(i);           
         //   }
 
+        /* for (var i = 0; i < 10; i++) {
+	setTimeout((i => () => console.log(i))(i), 1000);
+       } */
+
+       //=>可以基于bind的预先处理机制：在循环的时候就把每次执行函数需要输出的结果，预先传给函数即可
+      /* var fn = function (i) {
+	     console.log(i);
+      };
+      for (var i = 0; i < 10; i++) {
+	     setTimeout(fn.bind(null, i), 1000);
+    } */
+
         //let 块级作用域
         // var btns=document.getElementsByTagName('input'),
         // l=btns.length;
@@ -61,13 +73,13 @@
         // }
 
         //forEach  伪数组转换为数组
-        var btns=document.getElementsByTagName('input');
-        [].forEach.call(btns,(item,index)=>{
-            item.onclick=function(){
+        var btns = document.getElementsByTagName('input');
+        [].forEach.call(btns, (item, index) => {
+            item.onclick = function () {
                 alert(index); //0 1 2 3 4
             }
         });
-         
+
         //事件代理
         // var Bt = document.getElementById('btnBox');
         // Bt.onclick=function(e){
@@ -78,7 +90,6 @@
         // var Bt = document.getElementById('btnBox');
         // console.log(Bt.childNodes);
         // console.log(Bt.children);
-        
     </script>
 </body>
 
