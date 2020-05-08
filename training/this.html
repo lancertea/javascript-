@@ -9,7 +9,7 @@
 
 <body>
     <script>
-       {
+        {
             var name = '222';
             var a = {
                 name: '111',
@@ -29,11 +29,124 @@
                 }
             }
 
-            b.say(a.say);//回调函数
+            b.say(a.say); //回调函数
             b.say = a.say;
             b.say();
         }
 
+        //普通函数和构造函数
+        {
+            var name = '123';
+
+            function print() {
+                var name = '456';
+                this.name = '789';
+                console.log(name);
+
+            }
+            print();
+            console.log(name);
+        }
+
+        {
+            var name = 123;
+
+            function print1() {
+                this.name = 234;
+                console.log(name);
+
+            }
+            print1();
+            console.log(new print1());
+        }
+
+        {
+            var a = 5;
+
+            function test1() {
+                a = 0;
+                console.log(a);
+                console.log(this.a);
+                var a;
+                console.log(a);
+
+            }
+            test1();
+            console.log(new test1());
+        }
+
+        {
+            var q = {
+                name: 'qq',
+                show: function () {
+                    return this;
+                }
+            };
+
+            var q1 = {
+                name: 'qq1',
+                show: function () {
+                    return q.show()
+                }
+            };
+            console.log(q1.show());
+            var q2 = {
+                name: 'qq2',
+                show: function () {
+                    var st = q.show;
+                    return st()
+                }
+            };
+            console.log(q2.show());
+        }
+       
+        //普通函数和箭头函数 同步异步执行顺序
+        {
+            var q = {
+                name: 'qq',
+                show: function () {
+                    console.log(this);
+                    setTimeout(function () {
+                        console.log(this);
+
+                    }, 1000);
+                }
+            };
+            q.show();
+
+
+            var q1 = {
+                name: 'qq1',
+                show: function () {
+                    console.log(this);
+                    setTimeout(() => {
+                        console.log(this);
+
+                    }, 1000);
+                }
+            };
+            q1.show();
+        }
+
+        
+        {
+            var length = 10;
+
+            function fn() {
+                console.log(this.length);
+
+            }
+
+            var obj = {
+                length: 5,
+                method: function () {
+                    fn();
+                    fn.call(this);
+                }
+            };
+
+            obj.method();
+        }
     </script>
 </body>
 
