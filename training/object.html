@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>对象相关练习题</title>
+
+</head>
+
+
+<body>
+
+    <script>
+{
+// Array.prototype.push=function(val){
+//     this[this.length++]=val;
+//     return this.length;
+// }
+     let obj={
+        2:3,
+        3:4,
+        length:2,
+        push:Array.prototype.push
+     }
+    obj.push(1);//this:obj  obj[obj.length++]=1=>obj[2]=1 obj.length=3
+    obj.push(2);
+    console.log(obj);
+}    
+
+    </script>
+</body>
+
+</html>
