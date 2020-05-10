@@ -33,8 +33,8 @@ function ajax(url) {
                     resolve(
                         JSON.parse(xhr.responseText)
                     )
-                } else if (xhr.status === 404 || xhr.status === 500) {
-                    reject(new Error('404 not found'))
+                } else {
+                    reject(new Error(xhr.statusText))
                 }
             }
         }
