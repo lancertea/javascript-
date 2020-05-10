@@ -31,10 +31,10 @@ xhr.onreadystatechange=function(){
 }
 
 //4.发送请求
-//SEND中放的是请求主体的内容
+//send中放的是请求主体的内容
 xhr.send(null);
 
-=>AJAX任务（发送一个请求给服务器，从服务器获取到对应的内容）从SEND后开始，到XHR.READYSTATE===4的时候算任务结束
+=>AJAX任务（发送一个请求给服务器，从服务器获取到对应的内容）从send后开始，到xhr.readyState===4的时候算任务结束
 
 AJAX的状态码
 > xhr.readyState 获取状态码
@@ -44,7 +44,18 @@ AJAX的状态码
 - LOADING 3 : 等待服务器返回响应内容
 - DONE 4 : 响应主体信息已经返回给客户端
 
+ajax请求方法
+xhr.abort() 手动中断请求
+xhr.getAllResponseHeaders()
+xhr.getResponseHeader()
+xhr.open()
+xhr.send()
+xhr.setRequestHeader()
 
+ontimeout 超时
+response/responseText/responseType/responseURL/responseXML
+status/statusText
+withCredentials
  -->
     </body>
 </html>
