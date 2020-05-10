@@ -43,7 +43,7 @@
 		// xhr.withCredentials = true; //=>在跨域请求中是否允许携带证书（携带COOKIE）
 		xhr.open('GET', 'json/data.json');
 		//=>设置请求头信息
-		// xhr.setRequestHeader('AAA', encodeURIComponent('珠峰培训'));
+		// xhr.setRequestHeader('AAA', encodeURIComponent('元气森林'));
 		// Uncaught TypeError: Failed to execute 'setRequestHeader' on 'XMLHttpRequest': Value is not a valid ByteString. 设置的请求头信息值不能是中文
 		xhr.onreadystatechange = function () {
 			if (!/^(2|3)\d{2}$/.test(xhr.status)) return;
