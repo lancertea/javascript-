@@ -51,7 +51,7 @@
             };
         }
 
-        console.log(compose1(fn3,fn1,fn2,fn1)(5));
+        console.log(compose1(fn3,fn1,fn2,fn1)(5));//=>16
         
          function compose1(...funcs) {
         	if (funcs.length === 0) {
