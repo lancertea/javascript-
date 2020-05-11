@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>手写promise</title>
+</head>
+
+<body>
+    <script>
+        class MyPromise {
+            constructor(executor) {
+                //每个Promise实例都有一个状态和结果属性
+                this.status = 'pending';
+                this.value = undefined;
+
+                //用来存储基于then指定的成功或者失败的方法
+                this.resolveArr = [];
+                this.rejectArr = [];
+
+                //定义resolve/reject方法用来改变promise实例的状态和结果
+                let change = (status, value) => {
+                    //状态一旦改变过，再改变则无效
+                    if (this.status !== 'pending') {
+                        return;
+                    }
+                    this.status = status;
+                    this.value = value;
+                    // 改变完成状态后，把基于then指定的对应方法执行
+
+                    let fnArr = status === 'fulfilled' ? this.resolveArr : this.rejectArr;
+                    fnArr.forEach(item => {
+                        if (typeof item !== 'function')
+                            return;
+                        item(this.value);
+                    })
+                };
+
+                //为了保证执行resolve/reject的时候，已经通过then把需要执行的方法弄好了，需要判断处理:
+                //没有方法的时候，我们让改变状态的操作延迟进行
+                let resolve = result => {
+                    if (this.resolveArr.length > 0) {
+                        change('fulfilled', result);
+                        return;
+                    }
+                    let delayTimer = setTimeout(_ => {
+                        change('fulfilled', reason);
+                        clearTimeout(delayTimer);
+                    }, 0);
+                };
+
+                let reject = reason => {
+                    if (this.rejectArr.length > 0) {
+                        change('rejected', reason);
+                        return;
+                    }
+                    let delayTimer = setTimeout(_ => {
+                        change('rejected', reason);
+                        clearTimeout(delayTimer);
+                    }, 0);
+
+                };
+
+                //每一次new Promise都会立即执行executor函数
+                try {
+                    executor(resolve, reject);
+                } catch (err) {
+                    reject(err, message);
+                }
+
+            }
+            //MyPromise.prototype.then
+            then(resolveFn, rejectFn) {
+                //每一次执行then都会返回一个新的promise实例
+               
+                return new MyPromise((resolve, reject) => {
+                 //只要执行新实例的executor函数中的resolve/reject就能知道新的实例是成功还是失败的
+                    this.resolveArr.push(resolveFn);
+                    this.rejectArr.push(rejectFn);
+
+                });
+            }
+        }
+
+        new MyPromise((resolve, reject) => {
+            // setTimeout(_=>{
+            //     resolve(100);
+            // },1000);
+            reject('error');
+        }).then(result => {
+            console.log(result);
+
+        }, reason => {
+            console.log(reason);
+
+        });
+
+        // new MyPromise((resolve, reject) => {
+        //     setTimeout(_ => {
+        //         // resolve(100);
+        //         reject('ERROR');
+        //     }, 1000);
+        // }).catch(reason => {
+        //     // return Promise.reject(reason);
+        // }).then(result => {
+        //     return result;
+        // }).then(result => {
+
+        // });
+
+        // MyPromise.all([...]).then();
+    </script>
+</body>
+
+</html>
