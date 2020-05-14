@@ -9,74 +9,113 @@
 
 <body>
     <script>
-        { //请写出输出内容
-            async function async1() {
-                console.log('async1 start');
-                await async2();
-                console.log('async1 end');
-            }
-            async function async2() {
-                console.log('async2');
+        // { //请写出输出内容
+        //     async function async1() {
+        //         console.log('async1 start');
+        //         await async2();
+        //         console.log('async1 end');
+        //     }
+        //     async function async2() {
+        //         console.log('async2');
+        //     }
+
+        //     console.log('script start');
+
+        //     setTimeout(function () {
+        //         console.log('setTimeout');
+        //     }, 0)
+
+        //     async1();
+
+        //     new Promise(function (resolve) {
+        //         console.log('promise1');
+        //         resolve();
+        //     }).then(function () {
+        //         console.log('promise2');
+        //     });
+        //     console.log('script end');
+        //     /*
+        //     script start
+        //     async1 start
+        //     async2
+        //     promise1
+        //     script end
+        //     async1 end
+        //     promise2
+        //     setTimeout
+        //     */
+        // }
+
+        // {
+        //     console.log(1);
+        //     setTimeout(_ => {
+        //         console.log(2);
+        //     }, 1000);
+        //     async function fn() {
+        //         console.log(3);
+        //         setTimeout(_ => {
+        //             console.log(4);
+        //         }, 20);
+        //         return Promise.reject();
+        //     }
+        //     async function run() {
+        //         console.log(5);
+        //         await fn();
+        //         console.log(6);
+        //     }
+        //     run();
+        //     // 需要执行150MS左右
+        //     for (let i = 0; i < 90000000; i++) {}
+        //     setTimeout(_ => {
+        //         console.log(7);
+        //         new Promise(resolve => {
+        //             console.log(8);
+        //             resolve();
+        //         }).then(_ => {
+        //             console.log(9);
+        //         });
+        //     }, 0);
+        //     console.log(10);
+        // }
+
+        
+            console.log('script start')
+
+            async function asy1() {
+                await asy2();
+                console.log('async1 end')
             }
 
-            console.log('script start');
+            async function asy2() {
+                console.log('async2')
+            }
+
+            asy1();
 
             setTimeout(function () {
-                console.log('setTimeout');
+                console.log('setTimeout')
             }, 0)
 
-            async1();
-
             new Promise(function (resolve) {
-                console.log('promise1');
+                console.log('promise1')
                 resolve();
             }).then(function () {
-                console.log('promise2');
-            });
-            console.log('script end');
-            /*
-            script start
-            async1 start
-            async2
-            promise1
-            script end
-            async1 end
-            promise2
-            setTimeout
-            */
-        }
+                console.log('promise2')
+            }).then(function () {
+                console.log('promise3')
+            })
 
-        {
-            console.log(1);
-            setTimeout(_ => {
-                console.log(2);
-            }, 1000);
-            async function fn() {
-                console.log(3);
-                setTimeout(_ => {
-                    console.log(4);
-                }, 20);
-                return Promise.reject();
-            }
-            async function run() {
-                console.log(5);
-                await fn();
-                console.log(6);
-            }
-            run();
-            // 需要执行150MS左右
-            for (let i = 0; i < 90000000; i++) {}
-            setTimeout(_ => {
-                console.log(7);
-                new Promise(resolve => {
-                    console.log(8);
-                    resolve();
-                }).then(_ => {
-                    console.log(9);
-                });
-            }, 0);
-            console.log(10);
-        }
+            console.log('script end')
+
+
+            requestAnimationFrame(function () {
+                console.log('requestAnimationFrame')
+            })
+
+            requestIdleCallback(function () {
+                console.log('requestIdleCallback')
+            })
+        
     </script>
 </body>
 
