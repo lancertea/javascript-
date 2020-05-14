@@ -18,15 +18,14 @@
              */
         //测试用例
         let a = [3, 1, 6, 2, 5, 8, 4, 7];
-        select(a);
+        insert(a);
         console.log(a);
 
         //参考代码
-        function select(arr) {
+        function insert(arr) {
             //选择次数
-            for (let i = 0; i < arr.length - 1; i++) {
-                let minIndex = i;
-                for (let j = i + 1; j < arr.length; j++) {
+            for (let i = 1; i < arr.length; i++) {
+                for (let j = i-1; j>=0&&a[j]>a[j+1]; j) {
                     minIndex = arr[j] < arr[minIndex] ? j : minIndex;
                 }
                 if(minIndex!=i)
