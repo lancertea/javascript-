@@ -16,14 +16,14 @@
         <li>cc<a href="/">删除</a></li>
     </ul>
     <script>
-let list=document.getElementsByClassName('list');
-list.onclick=function(e){
-    e=e||window.event;
-    e.preventDefault();
-    let target=e.target||e.srcElement; 
-    console.log(target.innerHTML);
-     
-}
+        var list = document.querySelector('.list');
+        list.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (event.target.tagName === 'A') {
+                var li = event.target.parentNode;
+                list.removeChild(li);
+            }
+        })
     </script>
 </body>
 
