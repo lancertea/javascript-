@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>实现点击删除链接后，删除当前点击所在的li项</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <ul class=”list”>
+        <li>aa<a href="/">删除</a></li>
+        <li>bb<a href="/">删除</a></li>
+        <li>cc<a href="/">删除</a></li>
+    </ul>
+    <script>
+let list=document.getElementsByClassName('list');
+list.onclick=function(e){
+    e=e||window.event;
+    e.preventDefault();
+    let target=e.target||e.srcElement; 
+    console.log(target.innerHTML);
+     
+}
+    </script>
+</body>
+
+</html>
