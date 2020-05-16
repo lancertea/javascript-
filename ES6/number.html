@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Number的扩展</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <script>
+        //Number.isFinite()
+        console.log(Number.isFinite(15));//true
+        console.log(Number.isFinite(NaN));//false
+        console.log(Number.isFinite(Infinity));//false
+
+        //如果参数类型不是数值，Number.isFinite一律返回false。
+        console.log(Number.isFinite('foo'));//false
+        //ES5 isFinite() 先调用Number()将非数值的值转为数值，再进行判断
+        console.log(isFinite('15'));//true
+        //ES6 只对数值有效
+        console.log(Number.isFinite('15'));//false
+        console.log(Number.isFinite(true));//false
+        
+        //Number.isNaN()
+        console.log(Number.isNaN(NaN));//true
+        console.log(Number.isNaN(15));//false
+        console.log(Number.isNaN('15'));//false
+        console.log(Number.isNaN(true));//false
+        console.log(Number.isNaN('true'/0));//true
+
+        //ES5 isNaN() 先调用Number()将非数值的值转为数值，再进行判断
+        console.log(isNaN(NaN));//true
+        console.log(isNaN('NaN'));//true
+        //ES6 只对NaN返回true,非NaN一律返回false
+        console.log(Number.isNaN(NaN));//true
+        console.log(Number.isNaN('NaN'));//false
+
+        /*
+        // ES5的写法
+        parseInt('12.34') // 12
+        parseFloat('123.45#') // 123.45
+
+        // ES6的写法
+        Number.parseInt('12.34') // 12
+        Number.parseFloat('123.45#') // 123.45
+
+        这样做的目的，是逐步减少全局性方法，使得语言逐步模块化。
+        */
+        
+       
+        
+        
+    </script>
+</body>
+
+</html>
