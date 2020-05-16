@@ -5,14 +5,17 @@
     <meta charset="utf-8">
     <title>解构赋值</title>
     <script>
-        //  数组的解构赋值  本质：模式匹配
+        //解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象。
+        //由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错。
 
+
+        //  数组的解构赋值  本质：模式匹配
         var [x, y] = [1, 2, 3];
         // 如果等号的右边不是数组（或者严格地说，不是可遍历的结构），那么将会报错。
         // var [z]=1;
         var [head, ...tail] = [1, 2, 3, 4]; // 1   [2, 3, 4]
         var [x, y, ...z] = ['a']; //'a'  undefined  []
-        var [foo]=[];//undefined
+        var [foo] = []; //undefined
 
         // 只要某种数据结构具有 Iterator 接口，都可以采用数组形式的解构赋值
         // var arr = ['a', 'b', 'c', 'd']
@@ -141,10 +144,17 @@
         console.log(x,y,z)
 
         3.函数传参
+        //参数是一组有次序的值
         function fn1([x,y,z]){
            console.log(x,y,z)
         }
-        fn1([1,2,3])
+        fn1([1,2,3]);
+
+        //参数是一组无次序的值
+        function fn1({x,y,z}){
+           console.log(x,y,z)
+        }
+        fn1({z:3,y:2,x:1});
 
         4.关于json数据的提取
         let jsonData={
@@ -155,6 +165,17 @@
         }
         let {name,age,id,status}=jsonData;
         console.log(name,age,id,status);
+
+        5.遍历Map结构
+        const map = new Map();
+        map.set('first', 'hello');
+        map.set('second', 'world');
+
+        for (let [key, value] of map) {
+        console.log(key + " is " + value);
+        }
+        // first is hello
+        // second is world
         */
     </script>
 </head>
