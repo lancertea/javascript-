@@ -74,6 +74,19 @@
         };
         Object.assign(t3,origin);
         console.log(t3); //{ a: 1, b: 2 }
+
+        {
+        const x=1;
+        x.y=2;
+        const a='a';
+        a.b='b';
+        console.log(x,a);//1 a
+        console.log(x.y,a.b);//undefined  undefined
+        console.log(x+x.y,a+a.b);//NaN  aundefined
+        
+        
+        
+        }
         
         
         
