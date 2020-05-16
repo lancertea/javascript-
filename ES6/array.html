@@ -184,6 +184,21 @@
             })
             console.log(findI) //1
         }
+
+        {
+        //ES5
+        // array.indexOf(item,start)
+        //返回数组中第一个与指定值相等的元素的索引，如果找不到这样的元素，则返回 -1。 
+        //内部使用严格相等运算符（===）进行判断，这会导致对NaN的误判
+        console.log([NaN].indexOf(NaN));//-1
+
+        //ES6
+        //arr.includes(searchElement, fromIndex)
+        //fromIndex如果为负值，则按升序从 array.length + fromIndex 的索引开始搜索。默认为 0。
+        //判断当前数组是否包含某指定的值，如果是返回 true，否则返回 false。
+        console.log([NaN].includes(NaN));//-1
+
+        }
     </script>
 
 </body>
