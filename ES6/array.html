@@ -135,7 +135,7 @@
             // let array = Array(5) //表示规定这个数组的长度为5
             // let arr=Array(1,4) //有两个元素的数组
             // let array = []
-            
+
 
             //ES6
             // Array.prototype.of
@@ -146,6 +146,18 @@
             // Array.fill(value,start,end)
             // let array = [1, 2, 3, 4, 5]
             // console.log(array.fill(8, 2, 4))
+
+            let arr = new Array(3).fill({
+                name: "Mike"
+            });
+            arr[0].name = "Ben";
+            console.log(arr); // [{name: "Ben"}, {name: "Ben"}, {name: "Ben"}]
+
+            let arr1 = new Array(3).fill([]);
+            arr1[0].push(5);
+            console.log(arr1);// [[5], [5], [5]]
+            
+
         }
 
         {
@@ -172,7 +184,6 @@
             })
             console.log(findI) //1
         }
-
     </script>
 
 </body>
