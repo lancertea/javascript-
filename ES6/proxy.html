@@ -2,95 +2,147 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>代理</title>
+  <meta charset="UTF-8">
+  <title>代理</title>
 </head>
 <script>
- /* eslint-disable */
-{
-  // ES3,ES5 数据保护
-  var Person = function() {
-    var data = {
-      name: 'es3',
-      sex: 'male',
+  {
+    // ES3,ES5 数据保护
+    var Person = function () {
+      var data = {
+        name: 'es3',
+        sex: 'male',
+        age: 15
+      }
+      this.get = function (key) {
+        return data[key]
+      }
+      this.set = function (key, value) {
+        if (key !== 'sex') {
+          data[key] = value
+        }
+      }
+    }
+
+    // 声明一个实例
+    var person = new Person();
+    // 读取
+    console.table({
+      name: person.get('name'),
+      sex: person.get('sex'),
+      age: person.get('age')
+    });
+    // 修改
+    person.set('name', 'es3-cname');
+    console.table({
+      name: person.get('name'),
+      sex: person.get('sex'),
+      age: person.get('age')
+    });
+    person.set('sex', 'female');
+    console.table({
+      name: person.get('name'),
+      sex: person.get('sex'),
+      age: person.get('age')
+    });
+  } {
+    // ES5
+    var Person = {
+      name: 'es5',
       age: 15
+    };
+
+    Object.defineProperty(Person, 'sex', {
+      writable: false,
+      value: 'male'
+    });
+
+    console.table({
+      name: Person.name,
+      age: Person.age,
+      sex: Person.sex
+    });
+    Person.name = 'es5-cname';
+    console.table({
+      name: Person.name,
+      age: Person.age,
+      sex: Person.sex
+    });
+    try {
+      Person.sex = 'female';
+      console.table({
+        name: Person.name,
+        age: Person.age,
+        sex: Person.sex
+      });
+    } catch (e) {
+      console.log(e);
     }
-    this.get = function(key) {
-      return data[key]
-    }
-    this.set = function(key, value) {
-      if (key !== 'sex') {
-        data[key] = value
+  } {
+    // ES6
+    let Person = {
+      name: 'es6',
+      sex: 'male',
+      age: 15,
+      _s: 12
+    };
+
+    let person = new Proxy(Person, {
+      get(target, key) {
+        return target[key]
+      },
+      set(target, key, value) {
+        if (key !== 'sex') {
+          target[key] = value;
+        }
+      },
+      // 拦截key in object操作
+      has(target, key) {
+        if (key === 'name') {
+          return target[key]
+        } else {
+          return false;
+        }
+      },
+      
+      //拦截delete
+      deleteProperty(target, key) {
+        if (key.indexOf('_') > -1) {
+          delete target[key];
+          return true;
+        } else {
+          return target[key]
+        }
+      },
+      
+      // Object.keys Object.getOwnPropertySymbols Object.getOWnPropertyNames
+      ownKeys(target){
+      return Object.keys(target).filter(item=>item!='sex')
       }
+    });
+
+    console.table({
+      name: person.name,
+      sex: person.sex,
+      age: person.age
+    });
+    console.log('has', 'name' in person, 'sex' in person);
+    // delete person.name;
+    // console.log('delete',person);
+    // delete person._s;
+    // console.log('delete',person);
+    console.log('ownKeys',Object.keys(person));
+    
+
+    try {
+      person.sex = 'female';
+    } catch (e) {
+      console.log(e);
+    } finally {
+
     }
-  }
-
-  // 声明一个实例
-  var person = new Person();
-  // 读取
-  console.table({name: person.get('name'), sex: person.get('sex'), age: person.get('age')});
-  // 修改
-  person.set('name', 'es3-cname');
-  console.table({name: person.get('name'), sex: person.get('sex'), age: person.get('age')});
-  person.set('sex', 'female');
-  console.table({name: person.get('name'), sex: person.get('sex'), age: person.get('age')});
-} {
-  // ES5
-  var Person = {
-    name: 'es5',
-    age: 15
-  };
-
-  Object.defineProperty(Person, 'sex', {
-    writable: false,
-    value: 'male'
-  });
-
-  console.table({name: Person.name, age: Person.age, sex: Person.sex});
-  Person.name = 'es5-cname';
-  console.table({name: Person.name, age: Person.age, sex: Person.sex});
-  try {
-    Person.sex = 'female';
-    console.table({name: Person.name, age: Person.age, sex: Person.sex});
-  } catch (e) {
-    console.log(e);
-  }
-} {
-  // ES6
-  let Person = {
-    name: 'es6',
-    sex: 'male',
-    age: 15
-  };
-
-  let person = new Proxy(Person, {
-    get(target, key) {
-      return target[key]
-    },
-    set(target,key,value){
-      if(key!=='sex'){
-        target[key]=value;
-      }
-    }
-  });
-
-  console.table({
-    name:person.name,
-    sex:person.sex,
-    age:person.age
-  });
-
-  try {
-    person.sex='female';
-  } catch (e) {
-    console.log(e);
-  } finally {
 
   }
-
-}
-
-
 </script>
 
 <body>
