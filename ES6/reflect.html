@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>reflect</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <script>
+      let Person = {
+      name: 'es6',
+      sex: 'male',
+      age: 15,
+      _s: 12
+    };
+    
+    console.log('reflect get',Reflect.get(Person,'name'));
+    Reflect.set(Person,'name','reflect');
+    console.log(Person);
+    console.log('has',Reflect.has(Person,'name'));;
+    
+    
+    </script>
+</body>
+
+</html>
