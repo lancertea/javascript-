@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>修饰器</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <script>
+    /*
+    decorator是一个函数，用来修改类的行为
+    需要安装插件：'plugins':["transform-decorators-legacy"]
+
+    */ 
+    // {
+    /*
+    target:修改的类本身
+    name：修改的属性
+    descriptor:修改的属性的描述对象
+    */
+    // let readonly=function(target,name,descriptor){
+    //     descriptor.wirtable=false;
+    //     return descriptor;
+    // };
+
+    // class Test{
+    //     @readonly
+    //     time(){
+    //     return '2020-05-17'
+    //     }
+    // }
+    
+    // let test=new Test();
+
+    // test.time=function(){
+    //     console.log('reset time');
+        
+    // };
+
+    // console.log(test.time());
+
+    // }
+
+    </script>
+</body>
+
+</html>
