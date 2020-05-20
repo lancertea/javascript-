@@ -310,14 +310,14 @@
         /*
         Boolean([])->true ![]->false,![]被强制转换成布尔型false
         []为对象，[].valueOf()->[](NaN),所以调用了[].toString()->'' 
-        现在相当于比较false==''，均转换为Number类型，即 0==0，返回true
+        现在相当于比较''==false，均转换为Number类型，即 0==0，返回true
        */
         console.log({} == {}); //false 不是同对象引用
         console.log({} == !{}); //false
        /*
        Boolean({})->true !{}->false,!{}被强制转换成布尔型false
        {}.valueOf()->{}(NaN),所以调用了{}.toString()->'[object Object]'
-       现在相当于比较false=='[object Object]'，均转换为Number类型，即 0==NaN，返回false
+       现在相当于比较'[object Object]'==false，均转换为Number类型，即 NaN==0，返回false
        */
     </script>
 </head>
