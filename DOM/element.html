@@ -7,10 +7,16 @@
 </head>
 
 <body>
-    
+    <div id='out' class="outer">
+        <button id="bt" class="btn">按钮1</button>
+        <button class="btn">按钮2</button>
+        <button class="btn">按钮3</button>
+        <button class="btn">按钮4</button>
+        <button class="btn">按钮5</button>
+    </div>
 
     <script>
-/*DOM：document object model 文档对象模型，提供系列的属性和方法，让我们能在JS中操作页面中的元素
+        /*DOM：document object model 文档对象模型，提供系列的属性和方法，让我们能在JS中操作页面中的元素
 
 **获取元素的属性和方法**
 方法：
@@ -74,7 +80,19 @@ console.log([element].getAttribute('xxx'));
 console.log([element].style.xxx); 
 获取的是当前元素写在行内上的样式,如果有这个样式，但是没有写在行内上，则获取不到
 */
-      
+
+var out=document.getElementById('out');
+console.log(out);//<div id="out" class="outer"> 一个HTML元素
+var outer=document.getElementsByClassName('outer');
+console.log(outer);//HTMLCollection { 0: div#out.outer, length: 1, … }  一个HTML元素集合
+/*
+通过类[0]取单个元素，才能为该数组绑定事件 document.getElementsByClassName('outer')[0]
+*/
+var btnarr=document.getElementsByClassName("btn");
+console.log(btnarr);//HTMLCollection { 0: button#bt.btn, 1: button.btn, 2: button.btn, 3: button.btn, 4: button.btn, length: 5, … }
+
+
+
     </script>
 </body>
 
