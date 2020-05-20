@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>类型判断函数</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+
+    <script>
+        //当前这个函数没法判断自定义对象类型
+
+        class fox {
+            constructor(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+        }
+
+        let f1=new fox('zz',3);
+        console.log(getType(f1));
+        console.log(f1.constructor);//fox
+
+        let obj={}
+        console.log(obj.constructor);
+        
+        
+        
+
+        function getType(obj) {
+            if (obj === null) {
+                return String(obj);
+            }
+            if (typeof obj !== 'object') {
+                return (typeof obj);
+            }
+
+            return Object.prototype.toString.call(obj).slice(8, -1);
+
+        }
+    </script>
+</body>
+
+</html>
