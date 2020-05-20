@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>同步异步</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+
+    <script>
+    //字节一面：每隔3s打印520,打印5次
+        var count = 0;
+        var timer = setInterval(() => {
+            if (count < 5) {
+                console.log('520');
+                count++;
+            } else {
+                clearInterval(timer);
+            }
+
+
+        }, 3000)
+
+
+        //循环间隔1s打印数组
+        //  let count=0,
+        //  a=[1,2,3,4,5],
+        //  timer=setInterval(()=>{
+        //     if(count<a.length){
+        //         console.log(a[count]);
+        //         count++;
+        //     }else{
+        //     clearInterval(timer);
+        //     }              
+        //  },1000);
+
+        //字节二面
+        //奇数次打印1，偶数次打印2，不能使用全局变量
+        function f(){
+        var x=true;
+        return function(){
+        console.log(x?1:2);
+        x=!x;
+        }
+        }
+
+        var a=f();
+        a();
+        a();
+        a();
+        a();
+    </script>
+</body>
+
+</html>
