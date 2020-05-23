@@ -5,9 +5,14 @@
 <head>
 <!-- 编码方式 -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+<!-- 兼容性配置 IE走最高级的Edge去渲染，如果是chrome浏览器就chrome渲染-->
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<!-- 浏览器走双核浏览器，优先用webkit浏览器渲染这个页面 -->
+	<meta name="renderer" content="webkit">
 <!-- DNS预获取 -->
-    <meta http-equiv="x-dns-prefetch-control" content="on">
+	<meta http-equiv="x-dns-prefetch-control" content="on">
+	<link rel="dns-prefetch" href="//">
 <!-- 遇到link/img/audio/video标签，浏览器新分配一个线程加载资源，主线程会继续向下渲染   异步加载-->
     <link href="">
     <title>ceshi</title>
