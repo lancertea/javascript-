@@ -258,67 +258,6 @@
         所以可以在判断对象中某个属性是否有值时用==null，其他地方都使用===
         */
 
-
-        /*
-        易错点
-        */
-        //加性操作符：如果只有一个操作数是字符串，则将另一个操作数转换为字符串，然后再将两个字符串拼接起来
-        console.log(1 + "1"); //'11'
-        //乘性操作符：如果有一个操作数不是数值，则在后台调用 Number()将其转换为数值
-        console.log(2 * "2"); //4
-        //Javascript中所有对象基本都是先调用valueOf方法，如果结果是NaN(不是数字)，再调用toString方法。
-        //所以两个数组对象的toString方法相加，值为："1,22,1"
-        console.log([1, 2] + [2, 1]); //"1,22,1"
-
-        //console.log("a"++"b"); 'aNaN'
-        //后边的“+”将作为一元操作符，如果操作数是字符串，将调用Number()方法将该操作数转为数值，如果操作数无法转为数值，则为NaN。
-
-        console.log('8' + 3 + 5); //'835'
-        console.log(3 + 5 + '8'); //'88'
-
-        //eg
-        console.log(Number([])); //0
-        console.log(Boolean([])); //true
-        console.log([].valueOf()); //[]
-        console.log([].toString()); //''
-        //[].valueOf()->[](NaN),所以调用了[].toString()->''  ''+3->'3'
-        console.log(3 + []); //'3'
-
-        console.log([20].valueOf()); //Array [ 20 ]  
-        console.log(Number([20])); //20
-        console.log([20].toString()); //'20'
-        console.log(Boolean([20])); //true
-        //[20].valueOf()->[20](NaN),所以调用了[20].toString()->'20'  3+'20'->'320'
-        console.log(3 + [20]); //'320'
-
-        console.log(Number(function () {})); //NaN
-        console.log(Boolean(function () {})); //true
-        console.log((function () {}).valueOf()); //function(){}
-        console.log((function () {}).toString()); //'function(){}'
-        console.log((function () {}) + 3); //'function(){}3'
-
-        console.log(Number({})); //NaN
-        console.log(Boolean({})); //true
-        console.log({}.valueOf()); //{}
-        console.log({}.toString()); //'[object Object]'
-        //{}.valueOf()->{}(NaN),所以调用了{}.toString()->'[object Object]'
-        console.log(3 + {}); //'3[object Object]'
-
-
-        console.log([] == []); //false 不是同对象引用
-        console.log([] == ![]); //true 
-        /*
-        Boolean([])->true ![]->false,![]被强制转换成布尔型false
-        []为对象，[].valueOf()->[](NaN),所以调用了[].toString()->'' 
-        现在相当于比较''==false，均转换为Number类型，即 0==0，返回true
-       */
-        console.log({} == {}); //false 不是同对象引用
-        console.log({} == !{}); //false
-       /*
-       Boolean({})->true !{}->false,!{}被强制转换成布尔型false
-       {}.valueOf()->{}(NaN),所以调用了{}.toString()->'[object Object]'
-       现在相当于比较'[object Object]'==false，均转换为Number类型，即 NaN==0，返回false
-       */
     </script>
 </head>
 
