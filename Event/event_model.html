@@ -79,7 +79,23 @@
         */
 
 
-       //事件捕获
+        //事件捕获
+        window.addEventListener('click', function () {
+            console.log('window 捕获');
+        }, true);
+
+        document.addEventListener('click', function () {
+            console.log('document 捕获');
+        }, true);
+
+        document.documentElement.addEventListener('click', function () {
+            console.log('HTML 捕获');
+
+        }, true);
+        document.body.addEventListener('click', function () {
+            console.log('body 捕获');
+
+        }, true);
         da.addEventListener('click', function () {
             console.log('捕获a');
 
@@ -95,6 +111,23 @@
 
         }, true);
 
+        window.addEventListener('click', function () {
+            console.log('window 冒泡');
+        });
+
+        document.addEventListener('click', function () {
+            console.log('document 冒泡');
+        });
+
+        document.documentElement.addEventListener('click', function () {
+            console.log('HTML 冒泡');
+
+        });
+        document.body.addEventListener('click', function () {
+            console.log('body 冒泡');
+
+        });
+
         da.addEventListener('click', function () {
             console.log('冒泡a');
 
@@ -109,9 +142,6 @@
             console.log('冒泡c');
 
         }, false);
-
-
-
     </script>
 
 </body>
