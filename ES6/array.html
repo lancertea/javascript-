@@ -107,6 +107,13 @@
             //扩展符
             // let args =[...arguments]
             console.log([...a]);
+
+            /*
+            两方法对比：
+            扩展运算符背后调用的是遍历器接口（Symbol.iterator），如果一个对象没有部署这个接口，就无法转换。
+            Array.from方法还支持类似数组的对象。所谓类似数组的对象，本质特征只有一点，即必须有length属性。
+            因此，任何有length属性的对象，都可以通过Array.from方法转为数组，而此时扩展运算符就无法转换。
+            */
         }
 
         {
@@ -119,8 +126,6 @@
             // }
             // console.log(array)
 
-            //为什么不能用forEach,every这些
-
             //ES6
             // Array.from(arrayLike,mapFn,thisArg)
             // let array = Array.from({ length: 5 }, function () { return 1 })
@@ -129,7 +134,9 @@
             // Array.prototype.fill
             // let array = Array(5).fill(1)
             // console.log(array) //[1,1,1,1,1]
-        } {
+        } 
+        
+        {
             //如何创建一个新数组
             //ES5
             // let array = Array(5) //表示规定这个数组的长度为5
@@ -197,6 +204,39 @@
         //fromIndex如果为负值，则按升序从 array.length + fromIndex 的索引开始搜索。默认为 0。
         //判断当前数组是否包含某指定的值，如果是返回 true，否则返回 false。
         console.log([NaN].includes(NaN));//-1
+
+        }
+
+        {
+        /*
+        扩展预算符
+        1.将伪数组变为数组
+        [...document.querySelectorAll('div')]
+        // [<div>, <div>, <div>]
+
+        2.替代apply方法
+        // ES5 的写法
+        function f(x, y, z) {
+          ...
+        }
+        var args = [0, 1, 2];
+        f.apply(null, args);
+
+        // ES6的写法
+        f(...args);
+
+        3.可用扩展运算符在一个数组里插入多个元素
+        // ES5的写法
+        var arr1 = [0, 1, 2];
+        var arr2 = [3, 4, 5];
+        Array.prototype.push.apply(arr1, arr2);
+
+        // ES6 的写法
+        arr1.push(...arr2);
+        */
+        
+
+
 
         }
     </script>
