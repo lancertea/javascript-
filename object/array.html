@@ -7,7 +7,8 @@
     <script>
         //数组是动态变化的
         //JavaScript的Array可以包含任意数据类型，并通过索引来访问修改每个元素。
-        var a = [1, 2, 3.14, 'Hello', null, true];
+        {
+        let a = [1, 2, 3.14, 'Hello', null, true];
         a[1] = 99;
         console.log(a); //[1, 99, 3.14, 'Hello', null, true]
         //Array的大小是动态调整的
@@ -18,20 +19,20 @@
 
         //避免 使用new Array()
         //arr与arr1都创建了空数组
-        var arr = new Array(); // 差
-        var arr1 = []; // 优
+        let arr = new Array(); // 差
+        let arr1 = []; // 优
         //arr2与arr3创建了内容相同的数组
-        var arr2 = new Array(40, 100, 1, 5, 25, 10); // 差
-        var arr3 = [40, 100, 1, 5, 25, 10]; // 优
+        let arr2 = new Array(40, 100, 1, 5, 25, 10); // 差
+        let arr3 = [40, 100, 1, 5, 25, 10]; // 优
         //new 关键词只会使代码复杂化。它还会产生某些不可预期的结果
         console.log(new Array(1, 2)); //[ 1, 2 ]
         console.log(new Array(2)); //创建包含 2个未定义元素的数组
+        }
 
-
-
+        {
         //判断一个数据是不是数组
-        var arr = [1, 2, 3];
-        var obj = {};
+        let arr = [1, 2, 3];
+        let obj = {};
         //1.Array.isArray(obj)
         //ECMAScript 5种的函数，当使用ie8的时候就会出现问题
         console.log(Array.isArray(arr)); //true
@@ -53,30 +54,30 @@
             return x.constructor.toString().indexOf("Array") > -1;
         }
         console.log(isArr(arr)); //true
+    }
 
-
-
+    {
         //复制数组的方法
         //浅拷贝
-        var a = [1, 2, 3, 4, 5];
-        var acopy = a.slice();
+        let a = [1, 2, 3, 4, 5];
+        let acopy = a.slice();
         console.log(acopy); //[1,2,3,4,5]
         console.log(a === acopy); //false 返回的是原数组的副本
 
-        var acopy1 = a.concat();
+        let acopy1 = a.concat();
         console.log(acopy1); //[1,2,3,4,5]
         console.log(a === acopy1); //false 返回的是原数组的副本
 
         //错误示例：不要用改变原数组的方法去复制数组，这样对新数组操作时，原数组也会改变
         //赋值
-        var acopy2 = a.copyWithin(0); //a2.copyWithin(0,0)也可
+        let acopy2 = a.copyWithin(0); //a2.copyWithin(0,0)也可
         console.log(acopy2); //[1,2,3,4,5]
         console.log(a); //[1,2,3,4,5]
         console.log(a === acopy2); //true  在原数组上做修改
         acopy2.push(6);
         console.log(acopy2); //[1,2,3,4,5,6]
         console.log(a); //[1,2,3,4,5,6]
-
+    }
 
 
         /*
@@ -88,7 +89,7 @@
         在数组的末尾增加一个或多个元素，并返回数组的新长度。
 
         array.pop()
-        删除数组的最后一个元素，并返回删除的这个元素。
+        删除数组的最后一个元素，并返回删除的这个元素。有参数不报错，忽略参数
 
         array.shift()
         删除数组的第一个元素，并返回这个元素。
@@ -103,7 +104,7 @@
         对数组元素进行排序，并返回当前数组。
 
         array.splice(index,howmany,item1,.....,itemX)
-        在任意的位置给数组添加或删除任意个元素。
+        在任意的位置给数组添加或删除任意个元素。 返回的是删除的元素组成的数组，如果没删除元素返回空数组
 
         array.copyWithin(target, start, end) ES6
         在数组内部，将一段元素序列拷贝到另一段元素序列上，覆盖原有的值
@@ -153,7 +154,7 @@
         虽然规范对这样的操作进行了详细的定义，但为了可读性和可维护性，请不要这样做。
         
         array.forEach(function(currentValue, index, arr), thisValue)
-        为数组中的每个元素执行一次回调函数。默认返回undefined
+        为数组中的每个元素执行一次回调函数(不支持continue、break，会报错，它会遍历所有元素)。默认返回undefined
 
         array.map(function(currentValue,index,arr), thisValue)
         返回一个由回调函数的返回值组成的新数组。
@@ -198,6 +199,7 @@
 
         */
 
+    {
         //自实现reverse功能
         let arr = [1, 2, 3, 4, 5];
         let i = 0,
@@ -208,8 +210,8 @@
             j--;
         }
         console.log(arr);
+    }
 
-      
 
         /*
         splice()方法
@@ -217,8 +219,8 @@
         这种方法会改变原始数组。
         */
         {
-            var colors = ["red", "green", "blue"];
-            var removed = colors.splice(0, 1); //移除第一项
+            let colors = ["red", "green", "blue"];
+            let removed = colors.splice(0, 1); //移除第一项
             console.log(colors); // [green", "blue" ]
             console.log(removed); // [ "red"]
 
@@ -241,12 +243,12 @@
         end:    可选。停止复制的索引位置 (不包括这一位，默认为 array.length)。如果为负值，表示倒数（也不包括那一位）
         */
         {
-            var a = [1, 2, 3, 4, 5];
+            let a = [1, 2, 3, 4, 5];
             console.log(a.copyWithin(0, 2)); //[ 3, 4, 5, 4, 5 ]
             console.log(a); //[ 3, 4, 5, 4, 5 ] 改变原数组
-            var acopy = [1, 2, 3, 4, 5];
+            let acopy = [1, 2, 3, 4, 5];
             console.log(acopy.copyWithin(2, 0, 2)); //[1,2,1,2,5]
-            var acopy1 = [1, 2, 3, 4, 5];
+            let acopy1 = [1, 2, 3, 4, 5];
             console.log(acopy1.copyWithin(1, 0, -2)); //[1,1,2,3,5]
         }
 
@@ -255,8 +257,8 @@
         常见引用：反转字符串
         */
         {
-            var str = 'hello';
-            var res = str.split('').reverse().join('');
+            let str = 'hello';
+            let res = str.split('').reverse().join('');
             console.log(res); //'olleh'
 
         }
@@ -269,14 +271,14 @@
         */
         {
             //浅拷贝 
-            var a = [1, 2, 3, 4, 5];
-            var b = a.concat();
+            let a = [1, 2, 3, 4, 5];
+            let b = a.concat();
             console.log(a == b); //false
 
 
-            var colors = ["red", "green", "blue"];
-            var colors1 = colors.concat("yellow", ["black", "brown"]);
-            var colors2 = colors.concat("yellow", ["black", "brown", ["white", "grey"]]);
+            let colors = ["red", "green", "blue"];
+            let colors1 = colors.concat("yellow", ["black", "brown"]);
+            let colors2 = colors.concat("yellow", ["black", "brown", ["white", "grey"]]);
 
             console.log(colors); //["red", "green", "blue"]       
             console.log(colors1); //["red", "green", "blue", "yellow", "black", "brown" ]
@@ -291,8 +293,23 @@
             }
 
         }
-
-
+        /*
+        array.forEach(function(currentValue, index, arr), thisValue)
+        1.为数组中的每个元素执行一次回调函数(不支持continue、break，会报错，它会遍历所有元素)。
+        2.自己设置返回值没用，默认返回undefined
+        */
+        {
+        let arr = [40, 100, 1, 5, 25, 1, 10];
+        console.log(arr.forEach(item => {
+            item = item + 1
+            return item;
+        }));//undefined
+        let map = new Map();
+        arr.forEach(item => {
+            map.set(item, map.has(item) ? map.get(item) + 1 : 1);
+        })
+        console.log(map);//Map(6) { 40 → 1, 100 → 1, 1 → 2, 5 → 1, 25 → 1, 10 → 1 }
+        }
         /*
         every() 方法使用指定函数检测数组中的所有元素：
         如果数组中检测到有一个元素不满足，则整个表达式返回 false ，且剩余的元素不会再进行检测。
@@ -314,7 +331,7 @@
         eg: 判断各变量相等
         */
         {
-            var a = [3, 3, 3, 3];
+            let a = [3, 3, 3, 3];
             //错误示范
             // if(a[0]===a[1]===a[2]===a[3])
             // return true
@@ -325,27 +342,48 @@
                 console.log(true); //true
 
             //利用数组的遍历方法
-            var target = a[0];
+            let target = a[0];
             if (a.every((item) => {
                     return item === target;
                 }))
                 console.log(true); //true
         }
 
+        {
+        //短路性测试
+        let arr = [40, 100, 1, 5, 25, 1, 10];
+        let i=0;
+        //every就是当所有都返回true，才会返回true
+        console.log(arr.every(item=>
+        {if(item>5)
+         i++;
+        //返回true。every才会继续执行
+         return item>5;
+        }));
+        console.log(i);
+
+        i=0;
+        console.log(arr.some(item=>{
+        i++;
+        //some返回第一个true，就不再执行后续了
+        return item===1;
+        }));
+        console.log(i);
+        }
 
 
+        {
         //filter()
         //filter()接收的回调函数，其实可以有多个参数。通常我们仅使用第一个参数，表示Array的某个元素。
         //回调函数还可以接收另外两个参数，表示元素的位置和数组本身：
-        var arr = ['A', 'B', 'C'];
-        var r = arr.filter(function (element, index, self) {
+        let arr = ['A', 'B', 'C'];
+        let r = arr.filter(function (element, index, self) {
             console.log(element); // 依次打印'A', 'B', 'C'
             console.log(index); // 依次打印0, 1, 2
             console.log(self); // self就是变量arr
         });
         //去除重复元素依靠的是indexOf总是返回第一个元素的位置，后续的重复元素位置与indexOf返回的位置不相等，因此被filter滤掉了。
-        var
-            r,
+        
             arr = ['apple', 'strawberry', 'banana', 'pear', 'apple', 'orange', 'orange', 'strawberry'];
         r = arr.filter(function (element, index, self) {
             return self.indexOf(element) === index;
@@ -356,22 +394,22 @@
         过滤数组
         有时我们需要过滤数组中值为 false 的值. 例如(0, undefined, null, false)，可传入一个 Boolean 函数
         */
-        var arr = [1, 0, undefined, null, false, ''];
+         arr = [1, 0, undefined, null, false, ''];
         console.log(arr.filter(Boolean)); //[1] Boolean()对' '、{}为true,无法过滤
 
-        var arr1 = [1, 0, undefined, null, false, '', ' ', {},
+        let arr1 = [1, 0, undefined, null, false, '', ' ', {},
             []
         ];
-        // var r = arr.filter(function (s) {
+        // let r = arr.filter(function (s) {
         //     return s && s.trim();
         // });
 
         console.log(arr1.filter(Number)); //[1]  Number([])===0  Number({})===NaN
-        console.log([1,2,'a','b','3'].filter(Number));//[1,2,3] Number('a')===NaN Number('b')===NaN
-        console.log([0,1,2,3,4].every(Number));//false
-        console.log([1,2,3,4].every(Number));//true
-        
-        
+        console.log([1, 2, 'a', 'b', '3'].filter(Number)); //[1,2,3] Number('a')===NaN Number('b')===NaN
+        console.log([0, 1, 2, 3, 4].every(Number)); //false
+        console.log([1, 2, 3, 4].every(Number)); //true
+        }
+
 
 
 
@@ -385,15 +423,13 @@
         initialValue:可选。传递给函数的初始值
         */
         {
-            var numbers = [15.5, 2.3, 1.1, 4.7];
-            var sum = numbers.reduce((total, num) => {
+            let numbers = [15.5, 2.3, 1.1, 4.7];
+            let sum = numbers.reduce((total, num) => {
                 return total + Math.round(num);
             }, 0);
             console.log(sum); //24
 
         }
-
-        
     </script>
 </head>
 
