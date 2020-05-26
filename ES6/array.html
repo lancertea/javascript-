@@ -66,6 +66,19 @@
                 // console.log(item)
             }
 
+            //for of可结合keys(),values(),entries()一起使用
+            for(let val of arr.values()){
+                console.log(val);//1 2 3 4 5
+                
+            }
+            let entries=arr.entries();
+            console.log(entries.next().value);//Array [0,1]
+            console.log(entries.next().value);//Array [1,2]
+            console.log(entries.next().value);//Array [2,3]
+            console.log(entries.next().value);//Array [3,4]
+            console.log(entries.next().value);//Array [4,5]
+            console.log(entries.next().value);//undefined
+
             //小栗子
             //怎么做？
             const Price = {
@@ -203,7 +216,7 @@
         //arr.includes(searchElement, fromIndex)
         //fromIndex如果为负值，则按升序从 array.length + fromIndex 的索引开始搜索。默认为 0。
         //判断当前数组是否包含某指定的值，如果是返回 true，否则返回 false。
-        console.log([NaN].includes(NaN));//-1
+        console.log([NaN].includes(NaN));//true
 
         }
 
