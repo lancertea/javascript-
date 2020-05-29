@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS获取盒模型对应的宽和高</title>
+    <link rel="stylesheet" type="text/css" href="wh.css">
+    <style>
+        .box {
+            box-sizing: border-box;
+            border: black 1px solid;
+            padding: 10px;
+            /* 第二高优先级 */
+            /* width: 120px;
+            height: 120px; */
+            background-color: cornflowerblue;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 最高优先级 -->
+    <!-- style="width: 100px; height: 100px;" -->
+    <div id='iebox' class="box" >
+
+        我是盒模型
+    </div>
+
+    <script>
+        var box = document.getElementById("iebox");
+        console.log(box.style.width, box.style.height);//100px 100px 只能拿到内联样式
+        // console.log(box.currentStyle.width,box,currentStyle.height);  仅IE支持
+        console.log(window.getComputedStyle(box).width,window.getComputedStyle(box).height);//200px 200px 拿到最终渲染后的样式
+        console.log(box.getBoundingClientRect().width,box.getBoundingClientRect().height);//200 200
+        console.log(box.getBoundingClientRect());
+        
+        
+        
+    </script>
+</body>
+
+</html>
