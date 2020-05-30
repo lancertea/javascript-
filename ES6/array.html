@@ -54,23 +54,31 @@
             // arr.a = 8
             for (let index in arr) { //注意这里index是索引
                 if (index * 1 === 2) { //要特别注意，for in 遍历数组时，index是字符串！！！
-                    continue
+                    break;
                 }
-                // console.log(index, arr[index])
+                console.log(index, arr[index])//'0' 1  '1' 2
             }
+            arr.name='zz';
+            for(let index in arr){
+                console.log(index);//'0' '1' '2' '3' '4' 'name'
+                
+            }
+            console.log(arr.length);//5
+            
 
             //ES6
             // for of
-            //可遍历任意可遍历对象
+            //可遍历任意可遍历对象(不能遍历普通对象)
             for (let item of arr) { //注意这里item是值本身
                 // console.log(item)
             }
 
             //for of可结合keys(),values(),entries()一起使用
             for(let val of arr.values()){
-                console.log(val);//1 2 3 4 5
-                
+                console.log(val);//1 2 3 4 5               
             }
+
+           
             let entries=arr.entries();
             console.log(entries.next().value);//Array [0,1]
             console.log(entries.next().value);//Array [1,2]
