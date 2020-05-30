@@ -32,7 +32,6 @@ document
 document.documentElement  HTML整个文档
 document.body
 document.head
-document.body
 childNodes 所有子节点(包括文本这些)
 children 所有元素子节点  IE6~8中会把注释节点当做元素节点获取到
 parentNode
@@ -90,6 +89,15 @@ console.log(outer);//HTMLCollection { 0: div#out.outer, length: 1, … }  一个
 */
 var btnarr=document.getElementsByClassName("btn");
 console.log(btnarr);//HTMLCollection { 0: button#bt.btn, 1: button.btn, 2: button.btn, 3: button.btn, 4: button.btn, length: 5, … }
+
+console.log(out.children);//HTMLCollection { 0: button#bt.btn, 1: button.btn, 2: button.btn, 3: button.btn, 4: button.btn, length: 5, … }
+console.log(out.childNodes);//NodeList(11) [ #text, button#bt.btn, #text, button.btn, #text, button.btn, #text, button.btn, #text, button.btn, … ]
+var bt =document.getElementById("bt");
+console.log(bt.parentElement);//<div id="out" class="outer">
+console.log(bt.parentNode);//<div id="out" class="outer">
+
+
+
 
 
 
