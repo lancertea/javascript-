@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>跨域方法：hash</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+   
+
+    <script>
+    //利用hash,场景：当前页面A，通过iframe或frame嵌入了跨域的页面B
+    //在A中伪代码如下：
+    var B=document.getElementsByTagName('iframe')[0];
+    B.src=B.src+'#'+'data';
+    //在B中伪代码如下：
+    window.onhashchange=function(){
+        var data=window.location.hash;
+    };
+    </script>
+</body>
+
+</html>
