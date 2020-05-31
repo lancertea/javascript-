@@ -28,6 +28,13 @@
         // }
         // }
 
+        // for (var j = 0; j < 5; j++) {
+        //     setTimeout(function () {
+        //         console.log(m);
+
+        //     }, 0);
+        // }
+
         //自定义属性
         // var btns = document.getElementsByTagName('input'),
         //     l = btns.length; //缓存
@@ -37,6 +44,14 @@
         //     item.onclick = function () {
         //         alert(this.index); //0 1 2 3 4 
         //     }
+        // }
+
+        // for (var j = 0; j < 5; j++) {
+        //     let m = j;
+        //     setTimeout(function () {
+        //         console.log(m);
+
+        //     }, 0);
         // }
 
         //闭包
@@ -51,12 +66,19 @@
         //     })(i);           
         //   }
 
+    //     for(var j=0;j<5;j++){
+    //    (function(i){
+    //     setTimeout(function(){
+    //     console.log(i); 
+    //    },0);
+    //    })(j)
+
         /* for (var i = 0; i < 10; i++) {
 	setTimeout((i => () => console.log(i))(i), 1000);
        } */
 
-       //=>可以基于bind的预先处理机制：在循环的时候就把每次执行函数需要输出的结果，预先传给函数即可
-      /* var fn = function (i) {
+        //=>可以基于bind的预先处理机制：在循环的时候就把每次执行函数需要输出的结果，预先传给函数即可
+        /* var fn = function (i) {
 	     console.log(i);
       };
       for (var i = 0; i < 10; i++) {
@@ -71,6 +93,12 @@
         //         alert(i); //0 1 2 3 4
         //     }
         // }
+
+    //     for(let j=0;j<5;j++){
+    //     setTimeout(function(){
+    //     console.log(j); 
+    //    },0);
+    //    }
 
         //forEach  伪数组转换为数组
         var btns = document.getElementsByTagName('input');
