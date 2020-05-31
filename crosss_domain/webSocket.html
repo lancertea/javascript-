@@ -14,8 +14,7 @@
 
     <script>
         // http://www.ruanyifeng.com/blog/2017/05/websocket.html
-        var ws = new WebSocket("wss://echo.websoket.org"); //这个是后端端口
-        
+        var ws = new WebSocket("wss://echo.websoket.org"); //这个是后端端口  
         //发送请求
         ws.onopen = function (evt) {
             ws.send("some message");
@@ -25,7 +24,7 @@
             console.log(evt.data);
             ws.close();
         };
-
+        
         ws.onclose = function (evt) {
             console.log("连接关闭");
         };
