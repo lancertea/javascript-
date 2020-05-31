@@ -11,7 +11,10 @@
 <!-- 浏览器走双核浏览器，优先用webkit浏览器渲染这个页面 -->
 	<meta name="renderer" content="webkit">
 <!-- DNS预获取 -->
+<!-- 页面中所有a标签在高级浏览器中是默认打开了DNS预解析，如果这个页面是https开头的，很多浏览器是关闭DNS预解析的 -->
+<!-- 强制打开DNS预解析 -->
 	<meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- 对哪个标签进行DNS预解析 -->
 	<link rel="dns-prefetch" href="//">
 <!-- 遇到link/img/audio/video标签，浏览器新分配一个线程加载资源，主线程会继续向下渲染   异步加载-->
     <link href="">
