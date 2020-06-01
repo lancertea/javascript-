@@ -172,6 +172,23 @@
             })
             console.log(str);
         }
+        
+        //验证ip地址
+        {
+            function matchIp(str) {
+            let reg = /^(\d+).(\d+).(\d+).(\d+)$/;
+            if (reg.test(str)) {
+                let arr = str.match(reg).splice(1, 4);
+                return arr.every(item => {
+                    return item >= 0 && item <= 255;
+                })
+
+            }
+        }
+        let ip = "0.123.255.0";
+        console.log(matchIp(ip));
+
+        }
 
 
     </script>
