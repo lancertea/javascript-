@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>对象防篡改</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <script>
+     /*
+     在JS对象中的属性有4个描述其行为的特性：
+     configurable:表示能否通过delete删除属性从而重新定义属性
+     enumerable:表示能否通过for-in循环或Object.keys方法返回属性
+     writable:表示能否修改属性的值
+     value:包含这个属性的数据值
+     以上四个属性在不显示调用Object.defineProperty()的时候，即通过赋值操作添加的属性，前三个默认值都为true，
+     而value为你自己设定的值，如果不设定的话则为undefined
+     */
+
+    /*
+    Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象。
+    默认情况下，通过Object.defineProperty()添加的属性是不可修改的(上面三个属性默认为false)
+    */ 
+    
+    //可新增属性，不能修改属性，不能删除属性
+    var p3={
+        name:"qq"
+    };
+    Object.defineProperty(p3,"name",{
+        configurable:false,
+        writable:false
+    })
+    p3.age=12;
+    console.log(p3.age);//12
+    delete p3.name;
+    console.log(p3.name);//'qq'
+    p3.name='aa';
+    console.log(p3.name);//'qq'
+    
+    //API检测不出来
+    console.log(Object.isExtensible(p3));//true
+    console.log(Object.isSealed(p3));//false
+    console.log(Object.isFrozen(p3));//false
+    
+    
+
+    //不可扩展对象
+    //不能新增属性值
+     var p={
+         name:"zz"
+     };
+     Object.preventExtensions(p);
+     p.age=18;
+     console.log(p.age);//undefined
+     console.log(Object.isExtensible(p));//false
+    /*
+    在 ES5 中，如果参数不是一个对象类型（而是原始类型），将抛出一个TypeError异常。
+    在 ES2015 中，非对象参数将被视为一个不可扩展的普通对象，因此会被直接返回。
+    Object.preventExtensions(1);//1
+    Object.isExtensible(1);// false  
+    */
+
+    //密封对象
+    //不能新增属性，也不能删除属性
+    //不能删除：相当于对象的[[configurable]]特性被设置为false。
+    var p1={
+         name:"ss"
+     };
+     Object.seal(p1);
+     p1.age=24;
+     console.log(p1.age);//undefined
+     delete p1.name;
+     console.log(p1.name);//'ss'
+     console.log(Object.isSealed(p1));//true
+     /*
+     在ES5中，如果这个方法的参数不是一个（原始）对象，那么它将导致TypeError。
+     在ES2015中，非对象参数将被视为已被密封的普通对象，会直接返回它。
+     Object.seal(1);// 1    
+     Object.isSealed(1);// true 
+     */
+
+
+     //冻结的对象
+     //不能新增属性，不能删除属性，也不能修改属性
+     //不能修改：对象的数据属性的[[Writable]]特性被设置为false
+     var p2={
+         name:"yy"
+     };
+     Object.freeze(p2);
+     p2.age=24;
+     console.log(p2.age);//undefined
+     delete p2.name;
+     console.log(p2.name);//'yy'
+     p2.name="zsy"
+     console.log(p2.name);//'yy'
+     console.log(Object.isFrozen(p2));//true
+     console.log(Object.isExtensible(p2));//false
+     /*
+     在ES5中，如果这个方法的参数不是一个对象（一个原始值），那么它会导致 TypeError。
+     在ES2015中，非对象参数将被视为要被冻结的普通对象，并被简单地返回。
+     Object.freeze(1)//1    
+     Object.isFrozen(1);// true                           
+     */
+     
+     
+     
+
+
+     
+    </script>
+</body>
+
+</html>
