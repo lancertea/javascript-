@@ -68,30 +68,6 @@
 
         console.log(s2)
 
-
-        //百度一面
-        //实现ES6模板字符串的功能
-        //参考https://www.cnblogs.com/axu1997/p/12633582.html
-        {
-            let data = {
-                name: 'zsy',
-                date: '2020/4/12',
-                address: '科技园'
-            }
-            let str = '${name}同学你好，你的面试时间为${date},面试地点为${address},请准时参加';
-
-
-            function templateFunc(str, data) {
-                let reg = /\$\{(\w+)\}/g;
-                let arr = [];
-                while (arr = reg.exec(str)) {
-                    str = str.replace(arr[0], data[arr[1]]);
-                }
-                return str;
-            }
-            console.log(templateFunc(str, data));
-        }
-
         //ES6 repeat()  返回一个新字符串，表示将原字符串重复n次
         console.log('x'.repeat(3));//'xxx'
         //参数如果是小数，会被取整
@@ -106,10 +82,6 @@
         //trimStart()消除字符串头部的空格  trimLeft()是trimStart()的别名
         //trimEnd()消除尾部的空格 trimRight()是trimEnd()的别名
         
-        
-       
-        
-
     </script>
 </head>
 
