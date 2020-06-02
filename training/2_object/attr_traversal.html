@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>对象属性的遍历</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <script>
+     /*
+     在JS对象中的属性有4个描述其行为的特性：
+     configurable:表示能否通过delete删除属性从而重新定义属性
+     enumerable:表示能否通过for-in循环或Object.keys方法返回属性
+     writable:表示能否修改属性的值
+     value:包含这个属性的数据值
+     以上四个属性在不显示调用Object.defineProperty()的时候，即通过赋值操作添加的属性，前三个默认值都为true，
+     而value为你自己设定的值，如果不设定的话则为undefined
+     */
+    
+    /*
+    Object.getOwnPropertyDescriptor方法可以获取该属性的描述对象。
+    let obj = { foo: 123 };
+    Object.getOwnPropertyDescriptor(obj, 'foo')
+    //  {
+    //    value: 123,
+    //    writable: true,
+    //    enumerable: true,
+    //    configurable: true
+    //  }
+    */
+
+    /*
+    目前，有四个操作会忽略enumerable为false的属性。
+    for...in循环：只遍历对象自身的和继承的可枚举的属性。
+    Object.keys()：返回对象自身的所有可枚举的属性的键名。
+    JSON.stringify()：只串行化对象自身的可枚举的属性。
+    Object.assign()： 忽略enumerable为false的属性，只拷贝对象自身的可枚举的属性。
+    */
+
+    /*
+    Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象。
+    默认情况下，通过Object.defineProperty()添加的属性是不可修改的(上面三个属性默认为false)
+    */ 
+    
+    /*
+    属性的遍历
+    for...in
+    for...in循环遍历对象自身的和继承的(原型上的)可枚举属性（不含 Symbol 属性）。
+    如果只想遍历对象自身属性可以用for...in+Object.hasOwnProperty(prop)一起使用
+
+    Object.keys(obj)
+    Object.keys返回一个数组，包括对象自身的（不含继承的）所有可枚举属性（不含 Symbol 属性）的键名。
+
+    Object.getOwnPropertyNames(obj)
+    Object.getOwnPropertyNames返回一个数组，包含对象自身的所有属性（不含 Symbol 属性，但是包括不可枚举属性）的键名。
+
+    Object.getOwnPropertySymbols(obj)
+    Object.getOwnPropertySymbols返回一个数组，包含对象自身的所有 Symbol 属性的键名。
+
+    Reflect.ownKeys(obj)
+    Reflect.ownKeys返回一个数组，包含对象自身的（不含继承的）所有键名，不管键名是 Symbol 或字符串，也不管是否可枚举。
+    */
+
+     
+    </script>
+</body>
+
+</html>
