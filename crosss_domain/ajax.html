@@ -19,7 +19,7 @@ let xhr=new XMLHttpRequest; //=>IE低版本浏览器中用的是 new ActiveXObje
 //URL:请求地址（API接口地址）
 //ASYNC:设置同步或者异步，默认是TRUE异步，FALSE同步
 注：xhr.open第三个参数控制的同步异步指的是：从当前send发送请求，算任务开始，一直到AJAX状态为4才算任务结束
-(同步是：在此期间所有的任务都不去处理，而异步是：在此期间该干啥干啥)
+(同步是：在此期间所有的任务都不去处理，而异步是：在此期间该干啥干啥(在send后会把这个请求的任务放在EventQueue(宏任务)))
 //USER-NAME:传递给服务器的用户名
 //USER-PASS:传递给服务器的密码
 xhr.open('GET','./json/xxx.json',true);
