@@ -178,7 +178,7 @@
             function matchIp(str) {
             let reg = /^(\d+).(\d+).(\d+).(\d+)$/;
             if (reg.test(str)) {
-                let arr = str.match(reg).splice(1, 4);
+                let arr = str.match(reg).splice(1, 5);
                 return arr.every(item => {
                     return item >= 0 && item <= 255;
                 })
