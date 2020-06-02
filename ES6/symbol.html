@@ -70,6 +70,45 @@
             a[c] = '明天';
             console.log(a[b]); //'明天'   
         }
+
+        
+        /*
+        Symbol值不能与其他类型的值进行运算，会报错。
+        但是，Symbol 值可以显式转为字符串。
+        let sym = Symbol('My symbol');
+        String(sym) // 'Symbol(My symbol)'
+        sym.toString() // 'Symbol(My symbol)'
+
+        另外，Symbol 值也可以转为布尔值，但是不能转为数值。
+        let sym = Symbol();
+        Boolean(sym) // true
+        !sym  // false
+        */
+
+        //Symbol作为对象属性名
+        let ms=Symbol();
+        let a={};
+        a.ms="hello"
+        console.log(a.ms);//"hello"
+        console.log(a[ms]);//undefined
+        console.log(a["ms"]);//"hello"
+        
+        
+
+        let b={};
+        b[ms]="hi"
+        console.log(b.ms);//undefined
+        console.log(b[ms]);//"hi"
+
+        let c={};
+        Object.defineProperty(c,ms,{value:'byebye'});
+        console.log(c.ms);//undefined
+        console.log(c[ms]);//"byebye"
+
+        
+        
+        
+        
     </script>
 </head>
 
