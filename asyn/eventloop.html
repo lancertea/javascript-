@@ -47,36 +47,48 @@
         // }
 
         // {
-        //     console.log(1);
-        //     setTimeout(_ => {
-        //         console.log(2);
-        //     }, 1000);
-        //     async function fn() {
-        //         console.log(3);
-        //         setTimeout(_ => {
-        //             console.log(4);
-        //         }, 20);
-        //         return Promise.reject();
-        //     }
-        //     async function run() {
-        //         console.log(5);
-        //         await fn();
-        //         console.log(6);
-        //     }
-        //     run();
-        //     // 需要执行150MS左右
-        //     for (let i = 0; i < 90000000; i++) {}
-        //     setTimeout(_ => {
-        //         console.log(7);
-        //         new Promise(resolve => {
-        //             console.log(8);
-        //             resolve();
-        //         }).then(_ => {
-        //             console.log(9);
-        //         });
-        //     }, 0);
-        //     console.log(10);
+            // console.log(1);
+            // setTimeout(_ => {
+            //     console.log(2);
+            // }, 1000);
+            // async function fn() {
+            //     console.log(3);
+            //     setTimeout(_ => {
+            //         console.log(4);
+            //     }, 20);
+            //     return Promise.reject();
+            // }
+            // async function run() {
+            //     console.log(5);
+            //     await fn();
+            //     console.log(6);
+            // }
+            // run();
+            // // 需要执行150MS左右
+            // for (let i = 0; i < 90000000; i++) {}
+            // setTimeout(_ => {
+            //     console.log(7);
+            //     new Promise(resolve => {
+            //         console.log(8);
+            //         resolve();
+            //     }).then(_ => {
+            //         console.log(9);
+            //     });
+            // }, 0);
+            // console.log(10);
         // }
+        /*
+        1
+        5
+        3
+        10
+        error
+        4
+        7
+        8
+        9
+        2
+        */
 
         
             console.log('script start')
@@ -107,14 +119,20 @@
 
             console.log('script end')
 
-
+            /*
+            window.requestAnimationFrame() 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前
+            调用指定的回调函数更新动画。
+            */
             requestAnimationFrame(function () {
                 console.log('requestAnimationFrame')
             })
-
+            /*
+            window.requestIdleCallback()方法将在浏览器的空闲时段内调用的函数排队。
+            */
             requestIdleCallback(function () {
                 console.log('requestIdleCallback')
             })
+
         
     </script>
 </body>
