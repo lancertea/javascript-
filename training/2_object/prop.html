@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>对象的属性</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <script>
+        //obj.name ==> obj["name"]  底层的自动转化
+        var obj = {
+            name: "zz",
+            age: 12,
+            sex: "male"
+        }
+
+        console.log(obj.name); // "zz"
+        console.log(obj["name"]); // "zz"
+        console.log(obj[name]); //undefined
+        
+
+        for (let key in obj) {
+            console.log(obj[key]); //"zz" 12 "male"
+            console.log(obj.key); // undefined * 3  : key不再是变量 转化为obj["key"]
+        }
+
+
+        //Symbol作为对象属性名
+        let ms = Symbol();
+        let a = {};
+        a.ms = "hello"
+        console.log(a.ms); //"hello"
+        console.log(a[ms]); //undefined
+        console.log(a["ms"]); //"hello"
+
+
+
+        let b = {};
+        b[ms] = "hi"
+        console.log(b.ms); //undefined
+        console.log(b[ms]); //"hi"
+
+        let c = {};
+        Object.defineProperty(c, ms, {
+            value: 'byebye'
+        });
+        console.log(c.ms); //undefined
+        console.log(c[ms]); //"byebye"
+    </script>
+</body>
+
+</html>

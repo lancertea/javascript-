@@ -85,26 +85,7 @@
         !sym  // false
         */
 
-        //Symbol作为对象属性名
-        let ms=Symbol();
-        let a={};
-        a.ms="hello"
-        console.log(a.ms);//"hello"
-        console.log(a[ms]);//undefined
-        console.log(a["ms"]);//"hello"
-        
-        
-
-        let b={};
-        b[ms]="hi"
-        console.log(b.ms);//undefined
-        console.log(b[ms]);//"hi"
-
-        let c={};
-        Object.defineProperty(c,ms,{value:'byebye'});
-        console.log(c.ms);//undefined
-        console.log(c[ms]);//"byebye"
-
+       
         
         
         
