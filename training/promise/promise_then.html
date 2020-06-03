@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Promise A+:then链、catch实现</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <script>
+        class MyPromise {
+            constructor(executor) {
+                this.status = "pending";
+                this.value = undefined;
+
+                this.resolveArr = [];
+                this.rejectArr = [];
+
+                let change = (status, value) => {
+                    if (this.status !== "pending") return;
+                    this.status = status;
+                    this.value = value;
+
+                    let fnArr = this.status === "fulfilled" ? this.resolveArr : this.rejectArr;
+                    fnArr.forEach(item => {
+                        typeof item === "function" ? item(this.value) : null;
+                    })
+                }
+
+                let resolve = result => {
+                    if (this.resolveArr.length > 0) {
+                        change("fulfilled", result);
+                        return;
+                    }
+                    let delayTimer = setTimeout(() => {
+                        change("fulfilled", result);
+                        clearTimeout(delayTimer);
+                    });
+                }
+
+                let reject = reason => {
+                    if (this.rejectArr.length > 0) {
+                        change("rejected", reason);
+                        return;
+                    }
+                    let delayTimer = setTimeout(() => {
+                        change("rejected", reason);
+                        clearTimeout(delayTimer);
+                    });
+                }
+
+                try {
+                    executor(resolve, reject);
+                } catch (err) {
+                    reject(err.message);
+                }
+            }
+
+            then(resolveFn, rejectFn) {
+                if (typeof resolveFn !== "function") {
+                    resolveFn = result => result;
+                }
+
+                if (typeof rejectFn !== "function") {
+                    rejectFn = reason => {
+                        return new MyPromise((resolve, reject) => {
+                            reject(reason);
+                        })
+                    }
+                }
+                //then链：返回一个新的promise实例
+                /*
+                1.resolveArr/rejectedArr不直接存放resolveFn/rejectedFn，因为要监听这两个方法的返回结果和是否报错，
+                进而才能控制新实例中到底执行resolve/reject
+                解决方法：先存放匿名函数，在匿名函数中把传递的resolveFn/rejectedFn执行
+                2.捕获方法执行是否报错
+                3.方法返回的如果是新的Promise实例，新实例成功或者失败的状态也是我们执行resolve/reject的标准
+                */
+                return new MyPromise((resolve, reject) => {
+                    this.resolveArr.push(() => {
+                        //then链中上一个实例的返回结果会影响下一个实例，所以这里需要获得其返回结果x
+                        try {
+                            let x = resolveFn(this.value);
+                            //如果x是一个新的promise实例，下一个实例执行哪个函数需要根据这个新的实例的结果判断
+                            x instanceof MyPromise ? x.then(resolve, reject) : resolve(x);
+                        } catch (err) {
+                            reject(err.message);
+                        }
+
+                    });
+
+                    this.rejectArr.push(() => {
+                        try {
+                            let x = rejectFn(this.value);
+                            x instanceof MyPromise ? x.then(resolve, reject) : resolve(x);
+                        } catch (err) {
+                            reject(err.message);
+                        }
+
+                    });
+                });
+            }
+
+            catch (rejectedFn) {
+                return this.then(null, rejectedFn);
+            }
+        }
+
+        //测试then链
+        // let p1 = new MyPromise((resolve, reject) => {
+        //     resolve(100);
+
+        //     // reject("0");
+
+        //     // resolve(a);
+        // });
+        // let p2=p1.then(res => {
+        //     console.log(`p1 success：${res}`);
+        //     return new MyPromise((resolve,reject)=>{
+        //         resolve(10);
+        //         reject(2);
+        //     });
+        // }, err => {
+        //     console.log(`p1 fault：${err}`);
+        //     throw new Error("aa");
+        // });
+
+        // p2.then(res=>{
+        //     console.log(`p2 success:${res}`);
+
+        // },err=>{
+        //     console.log(`p2 fault:${err}`);
+
+        // })
+        // console.log("end");
+
+        //测试方法缺少的时候,能否顺延
+        new MyPromise((resolve, reject) => {
+            // resolve();
+            reject();
+        }).then(result => {
+            console.log("1 ok");
+        }).then(null, reason => {
+            console.log("2 no");
+        }).then(result => {
+            console.log("3 ok");
+        }, reason => {
+            console.log("3 no");
+        });
+    </script>
+</body>
+
+</html>
