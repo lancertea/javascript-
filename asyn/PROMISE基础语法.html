@@ -50,6 +50,18 @@
 		// 	}, 1000);
 		// }); 
 
+		//调用resolve或reject并不会终结Promise的参数函数的执行
+		new Promise((resolve,reject)=>{
+			resolve(1);
+			console.log(2);	
+		}).then(r=>{
+			console.log(r);
+		});
+		/*
+		2
+		1
+		*/
+
 		/* // 2.3.1
 		let p1 = new Promise(() => {
 			setTimeout(_ => {
@@ -248,6 +260,29 @@
 		}).catch(reason => {
 			console.log(`失败：${reason}`);
 		}); */
+
+		/*
+		Promise对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。也就是说，错误总是会被下一个catch语句捕获。
+		catch()方法返回的还是一个Promise对象，因此后面还可以接着调用then()方法
+		如果没有报错，则会跳过catch()方法
+
+		const someAsyncThing = function() {
+        return new Promise(function(resolve, reject) {
+        // 下面一行会报错，因为x没有声明
+        resolve(x + 2);
+        });
+        };
+
+        someAsyncThing()
+        .catch(function(error) {
+        console.log('oh no', error);
+        })
+        .then(function() {
+        console.log('carry on');
+        });
+        // oh no [ReferenceError: x is not defined]
+        // carry on
+		*/
 	</script>
 
 
