@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Promise A+:核心代码实现</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <script>
+        class MyPromise {
+            constructor(executor) {
+            //每个Promise实例都有一个状态和结果属性
+                this.status = "pending";
+                this.value = undefined;
+            
+            //用来存储基于then指定的成功或者失败的方法
+                this.resolveArr = [];
+                this.rejectArr = [];
+
+            //定义resolve/reject方法用来改变promise实例的状态和结果
+                let change = (status, value) => {
+                    //状态一旦改变过，再改变则无效
+                    if (this.status !== "pending") return;
+                    this.status = status;
+                    this.value = value;
+                    // 改变完成状态后，把基于then指定的对应方法执行
+                    let fnArr = this.status === "fulfilled" ? this.resolveArr : this.rejectArr;
+                    fnArr.forEach(item => {
+                        typeof item === "function" ? item(this.value) : null;
+                    })
+                }
+             //为了保证执行resolve/reject的时候，已经通过then把需要执行的方法弄好了，需要判断处理:
+                //没有方法的时候，我们让改变状态的操作延迟进行
+                let resolve = result => {
+                    if (this.resolveArr.length > 0) {
+                        change("fulfilled", result);
+                        return;
+                    }
+                    let delayTimer = setTimeout(() => {
+                        change("fulfilled", result);
+                        clearTimeout(delayTimer);
+                    });
+                }
+
+                let reject = reason => {
+                    if (this.rejectArr.length > 0) {
+                        change("rejected", reason);
+                        return;
+                    }
+                    let delayTimer = setTimeout(() => {
+                        change("rejected", reason);
+                        clearTimeout(delayTimer);
+                    });
+                }
+              //每一次new Promise都会立即执行executor函数
+                try {
+                    executor(resolve, reject);
+                } catch (err) {
+                    reject(err.message);
+                }
+            }
+
+            then(resolveFn, rejectFn) {
+                this.resolveArr.push(resolveFn);
+                this.rejectArr.push(rejectFn);
+            }
+        }
+        new MyPromise((resolve, reject) => {
+            // resolve(100);
+
+            // reject("err");
+
+            // resolve(a);
+
+            setTimeout(()=>{
+                resolve(123);
+            },0);
+        }).then(res => {
+            console.log(`成功：${res}`);
+        }, err => {
+            console.log(`失败：${err}`);
+        })
+    </script>
+</body>
+
+</html>
