@@ -122,7 +122,7 @@
 		}, reason => {
 			console.log(`失败：` + reason);
 		}); */
-		
+
 		//3 '成功100'
 		// {
 		// 	let p1 = new Promise((resolve, reject) => {
@@ -152,7 +152,7 @@
 		 * =>方法中如果返回一个新的PROMISE实例，返回这个实例的结果是成功还是失败，也决定了当前实例是成功还是失败
 		 * =>剩下的情况基本上都是让实例变为成功的状态 （方法返回的结果是当前实例的value值：上一个then中方法返回的结果会传递到下一个then的方法中）
 		 */
-        /*
+		/*
 		 let p1 = new Promise((resolve, reject) => {
 			resolve(100);
 		});
@@ -189,6 +189,26 @@
 		/*
 		"成功：10"
 		"失败：100"
+		*/
+
+		/*
+		new Promise(resolve=>{
+			resolve(a);
+		}).then(result=>{
+			console.log(`成功：${result}`);
+			return result*10;
+			
+		},reason=>{
+			console.log(`失败: ${reason}`);
+		}).then(result=>{
+			console.log(`成功：${result}`);
+		},reason=>{
+			console.log(`失败: ${reason}`);
+		});
+		*/
+		/*
+        "失败: ReferenceError: a is not defined"
+		"成功：undefined"
 		*/
 
 		// TEHN中也可以只写一个或者不写函数
@@ -274,11 +294,13 @@
 		 * 
 		 * ASYNC 最主要的作用是配合AWAIT使用的，因为一旦在函数中使用AWAIT，那么当前的函数必须用ASYNC修饰
 		 */
-		/* async function fn() {
+		/*
+		async function fn() {
 			return 10;
 		}
-		console.log(fn()); */
-       {
+		console.log(fn());
+        */
+
 		// let p1 = Promise.resolve(100);
 		// let p2 = new Promise(resolve => {
 		// 	setTimeout(_ => {
@@ -286,10 +308,11 @@
 		// 	}, 1000);
 		// });
 		// let p3 = Promise.reject(3);
-	   }
- 
-		// 1 2 100
-		/* async function fn() {
+
+
+		// 1 2 200 100
+		/*
+		 async function fn() {
 			console.log(1);
 			// AWAIT会等待当前PROMISE的返回结果，只有返回的状态是RESOLVED情况，才会把返回结果赋值给RESULT
 			// AWAIT不是同步编程，是异步编程（微任务）:当代码执行到此行（先把此行），构建一个异步的微任务（等待PROMISE返回结果，并且AWAIT下面的代码也都被列到任务队列中），
@@ -300,8 +323,8 @@
 			console.log(AA);
 		}
 		fn();
-		console.log(2); */
-
+		console.log(2); 
+        */
 
 		/* async function fn() {
 			// 如果PROMISE是失败状态，则AWAIT不会接收其返回结果，AWAIT下面的代码也不会在继续执行（AWAIT只能处理PROMISE为成功状态的时候）
