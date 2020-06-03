@@ -65,12 +65,10 @@
                 }
 
                 if (typeof rejectFn !== "function") {
-                    rejectFn = reason => {
-                        return new MyPromise((resolve, reject) => {
-                            reject(reason);
-                        })
-                    }
+                    rejectFn = MyPromise.reject(reason);
                 }
+
+
                 //then链：返回一个新的promise实例
                 /*
                 1.resolveArr/rejectedArr不直接存放resolveFn/rejectedFn，因为要监听这两个方法的返回结果和是否报错，
@@ -106,6 +104,18 @@
 
             catch (rejectedFn) {
                 return this.then(null, rejectedFn);
+            }
+
+            static resolve(result) {
+                return new MyPromise((resolve, reject) => {
+                    resolve(result);
+                });
+            }
+
+            static reject(reason) {
+                return new MyPromise((resolve, reject) => {
+                    reject(reason);
+                });
             }
         }
 
