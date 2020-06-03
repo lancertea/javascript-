@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Promise A+:then链、catch实现</title>
+    <title>Promise A+:all实现</title>
     <style>
 
     </style>
@@ -70,21 +70,11 @@
                     };
                 }
 
-
-                //then链：返回一个新的promise实例
-                /*
-                1.resolveArr/rejectedArr不直接存放resolveFn/rejectedFn，因为要监听这两个方法的返回结果和是否报错，
-                进而才能控制新实例中到底执行resolve/reject
-                解决方法：先存放匿名函数，在匿名函数中把传递的resolveFn/rejectedFn执行
-                2.捕获方法执行是否报错
-                3.方法返回的如果是新的Promise实例，新实例成功或者失败的状态也是我们执行resolve/reject的标准
-                */
                 return new MyPromise((resolve, reject) => {
                     this.resolveArr.push(() => {
-                        //then链中上一个实例的返回结果会影响下一个实例，所以这里需要获得其返回结果x
+
                         try {
                             let x = resolveFn(this.value);
-                            //如果x是一个新的promise实例，下一个实例执行哪个函数需要根据这个新的实例的结果判断
                             x instanceof MyPromise ? x.then(resolve, reject) : resolve(x);
                         } catch (err) {
                             reject(err.message);
@@ -119,49 +109,43 @@
                     reject(reason);
                 });
             }
+
+            static all(arr) {
+                return new MyPromise((resolve, reject) => {
+                    let count = 0,
+                    results = [];
+                    for (let i = 0; i < arr.length; i++) {
+                        let item = arr[i];
+                        if (!(item instanceof MyPromise))
+                            continue;
+                        item.then(result => {
+                            count++;
+                            //results.push(result);
+                            //为了保持顺序
+                            results[i]=result;
+                            if (count === arr.length) {
+                                resolve(results);
+                            }
+                        }).catch(reason => {
+                            reject(reason);
+                        });
+                    }
+                });
+
+            }
         }
 
-        //测试then链
-        // let p1 = new MyPromise((resolve, reject) => {
-        //     resolve(100);
+        let p1 = MyPromise.resolve(10);
+        let p2 = MyPromise.resolve(20);
+        let p3 = MyPromise.resolve(30);
 
-        //     // reject("0");
+        MyPromise.all([p1, p2, p3]).then(res => {
+            console.log(res);
 
-        //     // resolve(a);
-        // });
-        // let p2=p1.then(res => {
-        //     console.log(`p1 success：${res}`);
-        //     return new MyPromise((resolve,reject)=>{
-        //         resolve(10);
-        //         reject(2);
-        //     });
-        // }, err => {
-        //     console.log(`p1 fault：${err}`);
-        //     throw new Error("aa");
-        // });
+        }).catch(err => {
+            console.log(err);
 
-        // p2.then(res=>{
-        //     console.log(`p2 success:${res}`);
-
-        // },err=>{
-        //     console.log(`p2 fault:${err}`);
-
-        // })
-        // console.log("end");
-
-        //测试方法缺少的时候,能否顺延
-        new MyPromise((resolve, reject) => {
-            // resolve();
-            reject();
-        }).then(result => {
-            console.log("1 ok");
-        }).then(null, reason => {
-            console.log("2 no");
-        }).then(result => {
-            console.log("3 ok");
-        }, reason => {
-            console.log("3 no");
-        });
+        })
     </script>
 </body>
 
