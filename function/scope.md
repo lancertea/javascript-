@@ -38,7 +38,7 @@ console.log(f); //20
 ```
 关于条件判断的变量提升  
 全局作用域
- 1.变量提升：不管条件是否成立都要进行变量提升  
+ 1.变量提升：不管条件是否成立都要进行变量提升    
  2.代码执行
 ```javascript
 console.log(a); //=>undefined
@@ -186,4 +186,33 @@ console.log(ary);//[0]
 }
 fn(ary);
 console.log(ary);//[100,23]
+```
+
+自执行函数：前面加的（）或者！、-、~、+只有一个目的，让语法符合而已。自执行函数本身不进行变量提升（没名字）
+(function(n){})(10);  
+ ~function(n){}(10);  
+ -function(n){}(10);  
+ !function(n){}(10);  
+ +function(n){}(10);
+ ```javascript
+f = function () {
+        return true;
+} //=>window.f=...
+g = function () {
+        return false;
+}
+
+~ function () {
+    if (g() && [] == ![]) { //=>Uncaught TypeError: g is not a function
+        f = function () {
+                return false;
+            }
+
+            function g() {
+                return true;
+            }
+    }
+}();
+console.log(f());
+console.log(g());
 ```
