@@ -36,10 +36,7 @@ console.log(delete f); //false
 console.log(window.f); //20
 console.log(f); //20
 ```
-关于条件判断的变量提升  
-全局作用域
- 1.变量提升：不管条件是否成立都要进行变量提升    
- 2.代码执行
+关于条件判断的变量提升：不管条件是否成立都要进行变量提升
 ```javascript
 console.log(a); //=>undefined
 if (!('a' in window)) { //=>'a' in window  =>TRUE
