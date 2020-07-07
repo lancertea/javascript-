@@ -191,7 +191,7 @@ console.log(ary);//[100,23]
  -function(n){}(10);  
  !function(n){}(10);  
  +function(n){}(10);
- ```javascript
+```javascript
 f = function () {
         return true;
 } //=>window.f=...
@@ -218,3 +218,23 @@ console.log(g());
 作用域链查找机制关键在于如何查找上级作用域：  
 1.从函数创建开始，作用域就已经制定好了  
 2.当前函数是在哪个作用域（N）下创建的，那么函数执行形成的作用域（M）的上级作用域就是N，和函数在哪执行的没关系，只和创建的地方有关系
+```javascript
+var i = 0;
+
+function A() {
+    var i = 10;
+
+    function x() {
+        console.log(i);
+    }
+    return x;
+}
+var y = A();
+    y();//10
+
+function B() {
+    var i = 20;
+    y();
+}
+    B();//10
+```
