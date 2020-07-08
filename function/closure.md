@@ -1,4 +1,8 @@
 ### 闭包
+闭包的两大作用  
+- 保护：私有变量和外界没有必然联系
+- 保存：形成不销毁的栈内存，里面的私有变量等信息保存下来了
+
 #### 堆栈内存释放问题（以谷歌webkit内核为例子）
 函数执行就会形成栈内存（从内存中分配的一块空间），如果内存都不销毁释放，很容易就会导致栈内存溢出（内存爆满，电脑就卡死了）
 
@@ -39,5 +43,34 @@ function X(){
     }
 let f=X(); //=>f占用了X执行形成的栈内存中的一个东西（返回小函数对应的堆），则X执行形成的栈内存不能被释放了
 ```
-    
+```javascript
+var i = 5;
+function fn(i) {
+    return function (n) {
+        console.log(n + (++i));
+    }
+}
+var f = fn(1);
+f(2);
+fn(3)(4);
+fn(5)(6);
+f(7);
+console.log(i)
+```    
+```javascript
+var i = 20;
+function fn() {
+    i -= 2;
+    return function (n) {
+    console.log((++i) - n);
+    }
+}
+var f = fn();
+f(1);
+f(2);
+fn()(3);
+fn()(4);
+f(5);
+console.log(i);
+```    
    
