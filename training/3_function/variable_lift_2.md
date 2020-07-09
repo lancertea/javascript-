@@ -77,6 +77,28 @@ bar();
  D、报错
 */
 ```
+```javascript
+let n = 12;
+~ function () {
+	// 作用域A
+	if (1) {
+		// 作用域B
+		let n = 13;
+	}
+	console.log(n); //=>12
+}();
+```
+```javascript
+let n = 12;
+~ function () {
+	let n = 0;
+	if (1) {
+		n = 13;
+	}
+	console.log(n); //=>13
+}();
+console.log(n); //=>12
+```
 
 5、无需画图
 
@@ -343,3 +365,16 @@ A(2);
 3、你理解的闭包作用是什么，优缺点？（乐视）
 
 4、简述let和var的区别
+
+
+答案
+- 1 B
+- 2 A
+- 3 D
+- 4 B
+- 
+
+
+
+
+
