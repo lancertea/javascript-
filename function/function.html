@@ -266,6 +266,59 @@
         	console.log(b); //=>20 里面的b一定需要是私有的，不能是全局的（声明它或者改为形参）
         })();
         console.log(b); //=>10 */
+
+        { 
+        /*
+ *  arguments是函数内置的实参集合（箭头函数中没有arguments）：不管是否定义了形参，也不管传递了多少实参，arguments中包含所有传递的实参信息（类数组集合）
+ *  
+ *  全局变量提升
+ *     var a;
+ *     function b...;
+ */
+// var a = 4;
+// function b(x, y, a) {
+// 	/*
+// 	 * 形参赋值
+// 	 *   x=1
+// 	 *   y=2
+// 	 *   a=3 
+// 	 * 在JS非严格模式下，ARGUMENTS和形参存在映射关系（一个改都会跟着变）
+// 	 */
+// 	// console.log(arguments); //=>{0:1,1:2,2:3,length:3...}
+// 	console.log(a); //=>3
+// 	arguments[2] = 10; //=>把传递的第三个实参值改为10，所以形参a也跟着改为10
+// 	console.log(a); //=>10
+// }
+// a = b(1, 2, 3); //=>a=b执行的返回结果（只看RETURN）  =>a=undefined
+// console.log(a); //=>undefined
+
+// 开启JS语法的严格模式（ES6或者平时开发，我们一般都基于严格模式）
+// 严格JS模式下ARGUMENTS和形参的映射机制就切断了
+// "use strict";
+// function b(x, y, a) {
+// 	arguments[2] = 10; //=>{2:10...}
+// 	console.log(a); //=>3
+// }
+// b(1, 2, 3);
+
+        //arguments是函数内置的实参集合（箭头函数中没有arguments）：不管是否定义了形参，也不管传递了多少实参，arguments中包含所有传递的实参信息（类数组集合）
+        /*
+             非严格模式下，arguments和形参存在映射关系
+             严格模式下，arguments和形参的关系就切断了,ES6均为严格模式   
+             */
+        //'use strict'
+        var a = 4;
+
+        function b(x, y, a) {
+            console.log(a);
+            arguments[2] = 10;
+            console.log(a);
+        }
+        a = b(1, 2, 3);
+        console.log(a);
+
+
+    }
     </script>
 
 </head>

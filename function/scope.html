@@ -74,24 +74,7 @@
         }
 
         f(10, 20);
-    } {
-        /*
-             非严格模式下，arguments和形参存在映射关系
-             严格模式下，arguments和形参的关系就切断了,ES6均为严格模式   
-             */
-        //'use strict'
-        var a = 4;
-
-        function b(x, y, a) {
-            console.log(a);
-            arguments[2] = 10;
-            console.log(a);
-        }
-        a = b(1, 2, 3);
-        console.log(a);
-
-
-    }
+    } 
 
     {
         //with增大作用域链
