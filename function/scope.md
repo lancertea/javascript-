@@ -200,6 +200,9 @@ g = function () {
 }
 
 ~ function () {
+    // 函数执行会形成一个私有作用域
+    // 1.变量提升 function g
+    // 2.代码执行
     if (g() && [] == ![]) { //=>Uncaught TypeError: g is not a function
         f = function () {
                 return false;
