@@ -139,7 +139,7 @@ toString()用于返回该对象的字符串
 6. Date：把 Date 对象转换为字符串（确切日期，非毫秒数）  
 7. Object/自定义对象类型：返回[object Object]  
 
-#### Boolean类型
+#### Boolean(obj)
 Boolean():将任何类型的值转换为布尔值。以下值会被转换为false：false、''、0、NaN、null、undefined。其余任何值都会被转换为true  
 Symbol值可以转为布尔值，但是不能转为数值
 ```javascript
@@ -176,3 +176,44 @@ console.log(Number.NEGATIVE_INFINITY); //-Infinity
 var x = 6;
 console.log(x.NEGATIVE_INFINITY); //undefined
 ```
+#### Number(obj)
+将任何类型的值转换为数值。  
+原始类型转换：  
+1. 如果是布尔值，true和false分别被转换为1和0
+2. 如果是数字值，返回本身
+3. 如果是null，返回0
+4. 如果是undefined，返回NaN
+5. 如果是字符串，遵循以下规则：
+- 如果字符串中只包含数字，则将其转换为十进制（忽略前导0）
+- 如果字符串中包含有效的浮点格式，将其转换为浮点数值（忽略前导0）
+- 如果字符串包含有效的十六进制格式（eg:'0xf'），将其转换为相同大小的十进制整数值。
+- 如果是空字符串，将其转换为0
+- 如果字符串中包含非以上格式，则将其转换为NaN  
+复合类型转换：  
+6. 如果是对象
+- 先调用对象的valueOf()方法，如果该方法返回的原始类型的值（数值、字符串、布尔值），则直接对该值使用Number方法，不再进行后续步骤。
+- 如果valueOf()方法返回复合类型的值，再调用对象自身的toString（）方法，如果toString()返回原始类型的值，则对该值使用Number()方法，不再进行后续步骤。
+- 如果toString()返回复合类型的值，则报错
+```javascript
+console.log(Number([]));//0
+console.log(Number([1]));//1
+console.log(Number([1,2]));//NaN
+console.log(Number(""));//0
+console.log(Number(" "));//0
+console.log(Number({}));//NaN
+```
+#### String(obj)
+将任何类型的值转换为字符串。  
+原始类型转换:
+1. 如果值是null,返回‘null’
+2. 如果值是undefined,返回‘undefined’
+3. 如果值为数值，则转换为相应的字符串
+4. 如果值为字符串，则返回原来的值
+5. 如果值为布尔值，true返回"true",false返回"false"  
+复合类型转换：  
+6. 如果值为对象
+- 先调用对象的toString()方法，如果该方法返回的原始类型的值（数值、字符串、布尔值），则直接对该值使用String方法，不再进行后续步骤。
+- 如果toString()方法返回复合类型的值，再调用valueOf()方法，如果valueOf()返回原始类型的值，则对该值使用String方法，不再进行后续步骤。
+- 如果valueOf()返回复合类型的值，则报错
+
+
