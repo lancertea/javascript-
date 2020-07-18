@@ -103,6 +103,16 @@ console.log(String(null)); //'null'
 为什么 typeof 运算符对于 null 值会返回 "Object"？这实际上是 JavaScript 最初实现中的一个错误，然后被 ECMAScript 沿用了。现在，null 被认为是对象的占位符，从而解释了这一矛盾，但从技术上来说，它仍然是原始值。
 
 #### instanceof
+用来检测某个实例是否属于这个类  
+语法：实例 instanceof 类，属于返回true，不属于返回false  
+[局限性]要求检测的实例必须是对象数据类型的，基本数据类型的实例是无法基于它检测出来的   
+```javascript
+let ary = [12, 23];
+console.log(ary instanceof Array); //true
+console.log(ary instanceof RegExp); //false
+console.log(ary instanceof Object); //true 
+console.log(1 instanceof Number); //false
+```
 
 #### Object.prototype.toString.call(obj)
 - 使用Object.prototype.toString()来进行类型识别，返回代表该对象的[object 数据类型]的字符串表示
