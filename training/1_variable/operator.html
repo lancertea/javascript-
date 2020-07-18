@@ -11,48 +11,6 @@
 <body>
 
     <script>
-// 逻辑或|| 和 逻辑与&& 在赋值操作中的意义
-// A||B ：先验证A的真假，如果A为真，返回的是A的值，如果A为假返回的是B的值
-// A&&B ：A为真返回B的值，A为假返回A的值
-// &&的优先级高于||
-/* let a = 0 || false;
-console.log(a); //=>FALSE
-a = 1 || false;
-console.log(a); //=>1
-a = 1 && 100;
-console.log(a); //=>100
-a = 0 && 100;
-console.log(a); //=>0
-a = 0 || 1 && 2 || 3; //=>先算1&&2  =>0||2||3  =>再算0||2 =>2 =>最后2||3 =>2
-console.log(a); //=>2 */
-
-
-// 应用场景：形参初始化
-/* function fn(x, callback) {
-	// => typeof x === 'undefined' ? x = 0 : null;
-    x = x || 0;
-    
-保证是函数
-	// callback代表回调函数（传递的是个函数）：我们需要保证它是一个函数才能执行
-	// typeof callback === 'function' ? callback() : null;
-	callback && callback();
-}
-fn();
-fn(10);
-fn(10, function () {}); */
-
-// var foo = 'hello';
-// (function (foo) {
-// 	/*
-// 	 * 形参赋值 & 变量提升
-// 	 *   foo = "hello" 
-// 	 */
-// 	console.log(foo); //=>"hello" 
-// 	var foo = foo || 'world';
-// 	console.log(foo); //=>"hello" 
-// })(foo); //=>把全局的FOO的值"HELLO"作为实参传递给函数的形参
-// console.log(foo); //=>"hello" 
-
         //对象转数字：先转换为字符串，再转换为数字
         //[12]=>Number([12].toString())=>Number('12')=>12
         //[1,2]=>Number([1,2].toString())=>Number('1,2')=>NaN
