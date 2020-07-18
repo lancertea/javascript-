@@ -27,11 +27,13 @@ console.log(c);//1
 ```javascript
 e = 10;
 console.log(window.e); //10 
+console.log(e);//10
 console.log(delete e); //true
-console.log(window.e); //undefined   另外这里直接输出e,会报错,为什么呢
+console.log(window.e); //undefined   
 //console.log(e); //error,ReferenceError: e is not defined
 var f = 20;
 console.log(window.f); //20
+console.log(f); //20
 console.log(delete f); //false
 console.log(window.f); //20
 console.log(f); //20
@@ -122,10 +124,10 @@ console.log(a); //1
 ```javascript
 var a = 1;
 function fn(a) {
-    console.log(a);
+    console.log(a);//ƒ a() {}
     var a = 2;
     function a() {}
-    console.log(a);
+    console.log(a);//2
 }
 fn(a)
 ```
