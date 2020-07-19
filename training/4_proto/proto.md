@@ -51,8 +51,7 @@
    my_fun.c();
    ```
 
-3. 一到经典的面试题
-
+3. 
     ```javascript
     function C1(name) {
         if (name) {
@@ -71,8 +70,7 @@
     alert((new C1().name) + (new C2().name) + (new C3().name));
     ```
 
-5. 还是要先画图在计算结果
-
+4. 
    ```javascript
    function Fn(num) {
    	this.x = this.y = num;
@@ -90,8 +88,7 @@
    console.log(f.constructor);
    ```
 
-5. 计算输出的结果（先画图）
-
+5. 
    ```javascript
    function Fn() {
    	let a = 1;
@@ -168,3 +165,22 @@ Foo.getName();
        "30"
     
     3."Tomundefinedjoin"
+
+    4. true
+       20
+       NaN
+       ƒ Object() { [native code] }
+
+    5. 1
+       undefined
+       ƒ () {
+   	   this.a = 3;
+            }
+       false
+       true
+       true
+    
+    
+       
+
+
