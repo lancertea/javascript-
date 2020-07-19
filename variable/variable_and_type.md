@@ -113,6 +113,16 @@ console.log(ary instanceof RegExp); //false
 console.log(ary instanceof Object); //true 
 console.log(1 instanceof Number); //false
 ```
+instanceof原理  
+判断实例对象的__proto__属性与构造函数的prototype是不是用一个引用。如果不是，他会沿着对象的__proto__向上查找的，直到顶端的Object.prototype
+
+#### constructor
+constructor属性返回对创建此对象的函数的引用
+[局限性]可以随意修改对应的constructor值或者手动给ary增加一个私有的constructor属性等
+```javascript
+let ary = [];
+console.log(ary.constructor === Array); //true
+```
 
 #### Object.prototype.toString.call(obj)
 - 使用Object.prototype.toString()来进行类型识别，返回代表该对象的[object 数据类型]的字符串表示
