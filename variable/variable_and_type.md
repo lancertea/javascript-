@@ -91,6 +91,7 @@ console.log(String(null)); //'null'
 - 识别所有基本类型，除了null
 - 识别函数
 - 判断是否是引用类型，但无法判断其具体类型，因为都是返回"object"
+[局限性]能判断是引用类型，但是无法判断具体是什么引用类型
 
 "undefined"  未声明的变量或声明后未初始化  
 "boolean"   布尔值true/false  
@@ -118,7 +119,7 @@ instanceof原理
 
 #### constructor
 constructor属性返回对创建此对象的函数的引用
-[局限性]可以随意修改对应的constructor值或者手动给ary增加一个私有的constructor属性等
+[局限性]new的时候默认有，实例的constructor指向其构造函数，但是可以随意修改对应的constructor值或者手动给ary增加一个私有的constructor属性
 ```javascript
 let ary = [];
 console.log(ary.constructor === Array); //true
@@ -128,6 +129,7 @@ console.log(ary.constructor === Array); //true
 - 使用Object.prototype.toString()来进行类型识别，返回代表该对象的[object 数据类型]的字符串表示
 - Object.prototype.toString()可以识别标准类型及内置对象类型，但不能识别自定义类型
 - 如果是原始类型，他会将原始类型包装为引用类型
+[局限性]可以识别标准类型及内置对象类型，但不能识别自定义类型
 
 ##### obj.toString() 和Object.prototype.toString.call(obj)的区别
 toString为Object的原型方法，而Array ，function等类型作为Object的实例，都重写了toString方法。不同的对象类型调用toString方法时，根据原型链的知识，调用的是对应的重写之后的toString方法（function类型返回内容为函数体的字符串，Array类型返回元素组成的字符串.....），而不会去调用Object上原型toString方法（返回对象的具体类型），所以采用obj.toString()不能得到其对象类型，只能将obj转换为字符串类型；因此，在想要得到对象的具体类型时，应该调用Object上原型toString方法。
