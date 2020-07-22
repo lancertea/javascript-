@@ -48,6 +48,17 @@ console.log(a); //=>undefined
 ```
 
 let，const关键字不会变量提升，声明的变量存在“暂时性死区”：let 定义变量是有一个“特殊声明”的过程，JS 预解析的时候，先将定义的 let ,const “特殊声明”提前，类似“举手”，JS 引擎规定了同一个作用域，同一个变量只能被一次“举手”（即不能重复声明）。
+
+[理解暂时性死区] ES6规定，let/const命令会使区块形成封闭的作用域，若在声明赋值之前使用变量，就会报错。总之，在代码块内，使用let命令声明（声明并赋值）之前，该变量都是不可用的。这在语法上，称为“暂时性死区”  
+- 影响：意味着typeof不再是一个百分之百安全的操作
+```javascript
+console.log(typeof a);//undefined;
+console.log(a)//ReferenceError: a is not defined
+```
+```javascript
+console.log(typeof a);//ReferenceError: Cannot access 'a' before initialization
+let a;
+```
 ```javascript
 console.log(1);//1
 console.log(a);//ReferenceError: Cannot access 'a' before initialization
