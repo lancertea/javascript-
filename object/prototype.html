@@ -484,49 +484,6 @@
             C3.prototype.name = 'Tom';
             alert((new C1().name) + (new C2().name) + (new C3().name));
         }
-        
-
-        //关于原型重定向的问题  注意这两道题的区别
-        {
-            function Fn(num) {
-                this.x = this.y = num;
-            }
-            Fn.prototype = {
-                x: 20,
-                sum: function () {
-                    console.log(this.x + this.y);
-                }
-            };
-            let f = new Fn(10);
-            console.log(f.sum === Fn.prototype.sum);
-            f.sum();
-            Fn.prototype.sum();
-            console.log(f.constructor);
-        }
-
-        {
-            function Fn() {
-                let a = 1;
-                this.a = a;
-            }
-            Fn.prototype.say = function () {
-                this.a = 2;
-            }
-            Fn.prototype = new Fn;
-            let f1 = new Fn;
-
-            Fn.prototype.b = function () {
-                this.a = 3;
-            };
-            console.log(f1.a);
-            console.log(f1.prototype);
-            console.log(f1.b);
-            console.log(f1.hasOwnProperty('b'));
-            console.log('b' in f1);
-            console.log(f1.constructor == Fn);
-
-
-        }
     </script>
 </head>
 
