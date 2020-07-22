@@ -65,6 +65,9 @@ oldMan.name
 let ary = [10,20,30];
 console.log('0' in ary);  //true
 console.log('push' in ary); //true
+for(let key in ary){
+    console.log(key);//"0"  "1"  "2"   为啥
+}
 console.log(ary.hasOwnProperty('0'));  //true
 console.log(ary.hasOwnProperty('push')); //false "push"是它公有的属性不是私有的
 
@@ -96,3 +99,14 @@ console.log([].hasPubProperty('push')); //=>TRUE
 
 3. Object.getOwnPropertyNames()
 该方法返回对象自身包含（不包括原型中）的所有属性(无论是否可枚举)的名称的数组。
+```javascript
+let ary = [10,20,30];
+for(let key in ary){
+    console.log(key);//"0"  "1"  "2"   浏览器限制还是啥？？
+}
+let res = Object.keys(ary);
+  console.log(res);//["0", "1", "2"]
+
+res = Object.getOwnPropertyNames(ary);
+console.log(res);//["0", "1", "2", "length"]
+```

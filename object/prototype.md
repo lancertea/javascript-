@@ -1,5 +1,4 @@
 ### 原型及原型链模式
-
 每个函数数据类型的值，都有prototype属性（原型），这个属性的属性值是一个对象（“用来存储实例公用属性和方法”）这个属性指向其原型对象，原型对象有个constructor属性，指向其构造函数
 - 普通的函数
 - 类（自定义类和内置类）
@@ -39,6 +38,41 @@ proto.getB = function () {}
 proto.getC = function () {}
 proto.getD = function () {} 
 ```
-
+```javascript
+ function Fn(num) {
+     this.x = this.y = num;
+ }
+ Fn.prototype = {
+     x: 20,
+     sum: function () {
+         console.log(this.x + this.y);
+     }
+ };
+ let f = new Fn(10);
+ console.log(f.sum === Fn.prototype.sum);
+ f.sum();
+ Fn.prototype.sum();
+ console.log(f.constructor);
+```
+```javascript
+function Fn() {
+	let a = 1;
+	this.a = a;
+}
+Fn.prototype.say = function () {
+    this.a = 2;
+}
+Fn.prototype = new Fn;
+let f1 = new Fn;
+Fn.prototype.b = function () {
+    this.a = 3;
+};
+console.log(f1.a);
+console.log(f1.prototype);
+console.log(f1.b);
+console.log(f1.hasOwnProperty('b'));
+console.log('b' in f1);
+console.log(f1.constructor == Fn);
+```
 
 
