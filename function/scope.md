@@ -82,10 +82,10 @@ console.log(a);
 #### 函数
 函数声明(function关键字)不仅会将函数名（变量）提升至其所在作用域的最前面，还会赋值，准确说就是让变量和某个值进行关联
 ```javascript
- console.log(sum(10,20));//30
-     function sum(n,m){
-         return n+m;
-     }
+console.log(sum(10,20));//30
+    function sum(n,m){
+        return n+m;
+    }
 ```
 函数表达式的方式，由于是用var或其他关键字来创建函数，变量提升阶段只会声明变量，不会赋值，所以此时函数在前面执行是没有值的，不能执行（推荐使用，更严谨）
 ```javascript
