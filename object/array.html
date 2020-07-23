@@ -267,7 +267,7 @@
         concat()方法
         用于连接两个或多个数组
         不改变原数组、返回被连接数组的副本（可实现浅拷贝）
-        可实现数组一层扁平化，多层怎么实现（后面补充）
+        可实现数组一层扁平化，多层需要递归实现
         */
         {
             //浅拷贝 
@@ -357,10 +357,11 @@
         console.log(arr.every(item=>
         {if(item>5)
          i++;
-        //返回true。every才会继续执行
+        //返回true,every才会继续执行
          return item>5;
         }));
         console.log(i);
+        //可以自己设定return true; 这就相当于将every当做forEach来用
 
         i=0;
         console.log(arr.some(item=>{
@@ -383,6 +384,18 @@
             console.log(self); // self就是变量arr
         });
         //去除重复元素依靠的是indexOf总是返回第一个元素的位置，后续的重复元素位置与indexOf返回的位置不相等，因此被filter滤掉了。
+            
+        //注意这两种过滤方式的区别，一种是去重，一种是删除重复的元素
+//         let arr = [1,1,2,3,3,4,5,7,8,4,5];
+//         let res = arr.filter((item,index)=>{
+//              return arr.indexOf(item)===index;
+//         })
+//         console.log(res);//[1, 2, 3, 4, 5, 7, 8]
+//         res = arr.filter((item,index)=>{
+//             return arr.indexOf(item)===arr.lastIndexOf(item);
+//         })
+//         console.log(res);//[2, 7, 8]
+//         console.log(arr);//[1, 1, 2, 3, 3, 4, 5, 7, 8, 4, 5]
         
             arr = ['apple', 'strawberry', 'banana', 'pear', 'apple', 'orange', 'orange', 'strawberry'];
         r = arr.filter(function (element, index, self) {
@@ -421,6 +434,8 @@
         index:可选。当前元素的索引
         arr:可选。当前元素所属的数组对象。
         initialValue:可选。传递给函数的初始值
+        
+        有initialValue，index从0开始，没有的话：index为0的值作为初始initialValue，index从1开始
         */
         {
             let numbers = [15.5, 2.3, 1.1, 4.7];
@@ -428,7 +443,6 @@
                 return total + Math.round(num);
             }, 0);
             console.log(sum); //24
-
         }
     </script>
 </head>
