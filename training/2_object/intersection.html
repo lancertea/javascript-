@@ -48,7 +48,7 @@
 
         //差集
         function difference(a,b) {
-            return [...new Set(a.filter(item => !b.includes(item)))];
+            return a.filter(item => !b.includes(item));
         }
 
     </script>
