@@ -29,11 +29,15 @@
         console.log(arr1.flat(Infinity));
 
         //解法二：把数组变成字符串
-        res = arr.toString().split(',').map(item => Number(item));
+        res = arr.toString().split(',').filter(Boolean).map(item=>Number(item));//要考虑空字符串的情况，所以要先过滤一下
         console.log(res);
 
         res = JSON.stringify(arr).replace(/(\[|\])/g, "").split(',').map(item => Number(item));
         console.log(res);
+        
+        //这个方法存在问题，没法处理arr1这种情况：
+        res=JSON.stringify(arr1);
+        console.log(res);//[1,null,[2,3,[4]],[5,6],7,8]
 
         //解法三：Array.prototype.some()
         while (arr.some(item => Array.isArray(item))) {
@@ -43,9 +47,13 @@
         // [8, 5, 7, 4, 3, 6, 4, 1, [9], 10]
         // [8, 5, 7, 4, 3, 6, 4, 1, 9, 10]
         console.log(arr);
-
-
-
+        
+        while(arr1.some(item=>Array.isArray(item))){
+            arr1 = [].concat(...arr1);
+        }
+        console.log(arr1);//[1, undefined, 2, 3, 4, 5, 6, 7, 8]
+        //所以还要后续处理下
+        
         //解法四：递归实现
         function flat(arr) {
             let res = [];
