@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>代码练习</title>
+</head>
+
+<body>
+        <!-- <div class="cls0 cls1" id="id" style="width:100px"><div>
+                <style type="text/css">
+                        .cls0.cls1 { width: 200px; }
+                        div#id { width: 300px; }
+                        #id.cls0 { width: 400px; }
+                        div.cls0 { width: 500px; }
+                </style>
+   -->
+
+   <ul>
+        <li>0</li>
+        <li>1</li>
+        <li>2</li>
+    </ul>
+    <script>
+    //2
+    //f t
+    //  let sangfor = {
+    //     toString () {
+    //         return 20;
+    //     },
+    //     valueOf () {
+    //         return '30';
+    //     }
+    // };
+    // console.log(sangfor == '20');
+    // console.log(sangfor == 30);
+
+    //3
+    // function A () { return [] }
+    // function B () {}
+    // B.prototype = new A();
+    // let b = new B();
+
+    // console.log(b instanceof A);
+    // console.log(b instanceof B);
+    // console.log(b instanceof Array);
+    // console.log(B.prototype.constructor === A);
+    // console.log(B.prototype.constructor === B);
+    // console.log(B.prototype.constructor === Array);
+    
+    // 4
+    // {var a = 0};
+    // {let b = 0};
+    // {let a = 1};
+    // {var b = 1};
+    // console.log(a, b);
+
+    //5
+    // var sangfor = NaN;
+    // function sangfor () {}
+    // if (typeof sangfor === 'number') {
+    //     console.log(100);
+    // } else if (typeof sangfor === 'function') {
+    //     console.log(200);
+    // } else if (typeof sangfor === 'object') {
+    //     console.log(300);
+    // } else {
+    //     console.log(400);
+    // }
+
+//     A. [] === []
+
+// B. null == 0
+
+// C. null == undefined
+
+// D. undefined == '0'
+
+// E. [] == false
+
+// F. NaN == false
+
+// function Sangfor () {};
+//     Sangfor.prototype.name = 100;
+//     let a = new Sangfor();
+//     console.log(a.name);
+//     Sangfor.prototype.name = 200;
+//     console.log(a.name);
+//     Sangfor.prototype = { name: 300 };
+//     console.log(a.name);
+
+
+// var sangfor = 0; 
+// function x () { 
+//     console.log(sangfor); 
+//     var sangfor = 1; 
+//     console.log(sangfor); 
+// }; 
+// x(); 
+// console.log(sangfor);
+
+
+    //10    
+    // let Base = { name: 'Base' };
+    // let A = function () { this.name = 'a'; };
+    // A.prototype = Object.create(Base);
+
+    // let a = new A();
+    // Base.name = 'new_name';
+    // console.log(a.name);
+
+    // delete a.name;
+    // console.log(a.name);
+
+    // Promise.resolve('sangfor')
+    //     .then(result => {
+    //         throw result;
+    //     })
+    //     .catch(console.error)
+    //     .then(console.log);
+
+    // function sangfor (a = 1) {
+    //     console.log(a);
+    // };
+    // sangfor();
+    // sangfor(undefined);
+    // sangfor(null);
+    // sangfor(false);
+
+    // function Sangfor (name) {
+    //     return this.name = name;
+    // };
+    // console.log([0, '0', [], {}, null].map(i => typeof new Sangfor(i).name));
+
+    // let sangfor = {
+    //     a: 100,
+    //     log: b => console.log(this.a + b)
+    // };
+    // sangfor.log(200);
+    // sangfor.log.call({ a: 300 }, 400);
+    // sangfor.log.bind({ a: 500 }, 600)();
+
+    // console.log(Number("1.20"));
+    // console.log(+"1.20");
+    // console.log(parseInt("1.20"));
+    // console.log(new Number("1.20"));
+
+    // let obj = {
+    //     sangfor: 100,
+    //     log () {
+    //         sangfor = 200;
+    //         console.log(this.sangfor);
+    //     }
+    // };
+    // obj.log();
+    // let { log } = obj;
+    // log();
+    
+
+    // function * gen (n) {
+    //     let value = yield n * 2 + 1;
+    //     console.log(value);
+    // };
+    // let f = gen(20);
+    // f.next(1);
+    // f.next(2);
+
+
+    </script>
+</body>
+
+</html>
