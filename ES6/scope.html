@@ -10,7 +10,7 @@
 
     Object.defineProperty(window, "PI2", {
         value: 3.1415926,
-        writable: false,
+        writable: false
     })
 
     console.log(window.PI2)
@@ -106,22 +106,6 @@
     // }
 
     
-
-
-    //一些练习题
-    {
-        var tmp = new Date();
-
-        function f() {
-            console.log(tmp);
-            if (false) {
-                var tmp = 'hello world';
-            }
-        }
-
-        f(); // undefined
-    }
-
     {
         var foo = 1;
 
@@ -129,7 +113,7 @@
             if (!foo) {
                 var foo = 10;
             }
-            console.log(foo);
+            console.log(foo);//10
         }
         bar();
     }
@@ -141,7 +125,7 @@
             if (!foo) {
                 let foo = 10;
             }
-            console.log(foo);
+            console.log(foo);//1
         }
         bar();
     }
