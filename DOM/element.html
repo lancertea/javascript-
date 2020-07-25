@@ -16,91 +16,24 @@
     </div>
 
     <script>
-        /*DOM：document object model 文档对象模型，提供系列的属性和方法，让我们能在JS中操作页面中的元素
+        var out = document.getElementById('out');
+        console.log(out); //<div id="out" class="outer"> 一个HTML元素
+        var outer = document.getElementsByClassName('outer');
+        console.log(outer); //HTMLCollection { 0: div#out.outer, length: 1, … }  一个HTML元素集合
+        /*
+        通过类[0]取单个元素，才能为该数组绑定事件 document.getElementsByClassName('outer')[0]
+        */
+        var btnarr = document.getElementsByClassName("btn");
+        console.log(
+        btnarr); //HTMLCollection { 0: button#bt.btn, 1: button.btn, 2: button.btn, 3: button.btn, 4: button.btn, length: 5, … }
 
-**获取元素的属性和方法**
-方法：
-document.getElementById('#id')
-[context].getElementsByTagName('tag')
-[context].getElementsByClassName('.class') 在IE6~8中不兼容
-document.getElementsByName() 在IE浏览器中只对表单元素的NAME有作用
-[context].querySelectorAll('xxx') 在IE6~8中不兼容
-[context].querySelector('xxx') 在IE6~8中不兼容
-
-属性：
-document  
-document.documentElement  HTML整个文档
-document.body
-document.head
-childNodes 所有子节点(包括文本这些)
-children 所有元素子节点  IE6~8中会把注释节点当做元素节点获取到
-parentNode
-firstChild / firstElementChild
-lastChild / lastElementChild
-previousSibling / previousElementSibling
-nextSibling / nextElementSibling
-//=>所有带Element的，在IE6~8中不兼容
-
-
-**DOM的增删改操作**
-创建元素
-document.createElement([tag-name])
-document.createTextNode([text content])
-字符串拼接（模板字符串），基于innerHTML/innerText存放到容器中
-
-增加元素
-在父元素最后增加一个子元素
-[parent].appendChild(child)
-在父元素中指定元素前面增加一个元素
-[parent].insertBefore(newnode,existingnode)
-
-拷贝元素
-[element].cloneNode(true/false)
-
-移除元素
-[parent].removeChild(element)
-
-设置自定义属性
-[element].xxx=xxx;
-console.log([element].xxx);
-delete [element].xxx;
-
-[element].setAttribute('xxx',xxx);
-console.log([element].getAttribute('xxx'));
-[element].removeAttribute('xxx');
-
-
-**获取元素样式和操作样式**
-修改元素样式
-[element].style.xxx=xxx;  修改和设置它的行内样式
-[element].className=xxx;  设置样式类
-
-获取元素的样式
-console.log([element].style.xxx); 
-获取的是当前元素写在行内上的样式,如果有这个样式，但是没有写在行内上，则获取不到
-*/
-
-var out=document.getElementById('out');
-console.log(out);//<div id="out" class="outer"> 一个HTML元素
-var outer=document.getElementsByClassName('outer');
-console.log(outer);//HTMLCollection { 0: div#out.outer, length: 1, … }  一个HTML元素集合
-/*
-通过类[0]取单个元素，才能为该数组绑定事件 document.getElementsByClassName('outer')[0]
-*/
-var btnarr=document.getElementsByClassName("btn");
-console.log(btnarr);//HTMLCollection { 0: button#bt.btn, 1: button.btn, 2: button.btn, 3: button.btn, 4: button.btn, length: 5, … }
-
-console.log(out.children);//HTMLCollection { 0: button#bt.btn, 1: button.btn, 2: button.btn, 3: button.btn, 4: button.btn, length: 5, … }
-console.log(out.childNodes);//NodeList(11) [ #text, button#bt.btn, #text, button.btn, #text, button.btn, #text, button.btn, #text, button.btn, … ]
-var bt =document.getElementById("bt");
-console.log(bt.parentElement);//<div id="out" class="outer">
-console.log(bt.parentNode);//<div id="out" class="outer">
-
-
-
-
-
-
+        console.log(out
+        .children); //HTMLCollection { 0: button#bt.btn, 1: button.btn, 2: button.btn, 3: button.btn, 4: button.btn, length: 5, … }
+        console.log(out
+        .childNodes); //NodeList(11) [ #text, button#bt.btn, #text, button.btn, #text, button.btn, #text, button.btn, #text, button.btn, … ]
+        var bt = document.getElementById("bt");
+        console.log(bt.parentElement); //<div id="out" class="outer">
+        console.log(bt.parentNode); //<div id="out" class="outer">
     </script>
 </body>
 
