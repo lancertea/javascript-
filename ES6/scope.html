@@ -129,6 +129,33 @@
         }
         bar();
     }
+
+   //for:设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。
+   {
+        for(var i = 0;i < 3;i++){
+            console.log(i);//0 1 2
+        }
+    }
+
+    {
+        for(var i = 0;i < 3;i++){
+            var i = 12;
+            console.log(i);//12
+        }
+    }
+
+    {
+      for(let i = 0;i < 3;i++){
+            console.log(i);//0 1 2
+        }
+    }
+
+    {
+        for(let i = 0;i < 3;i++){
+            let i = 12;
+            console.log(i);//12 12 12
+        }
+    }
 </script>
 
 <body>
