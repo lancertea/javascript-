@@ -50,32 +50,30 @@
         fn(1, 2, 3); //Arguments { 0: 1, 1: 2, 2: 3, … }
 
         // let f2=()=>{
-        //     console.log(arguments);
-
+        // console.log(arguments);
         // }
         // f2(1,2,3);//not defined
 
         //解决方法：扩展运算符
         let f3 = (...rest) => {
             console.log(rest);
-
         }
-        f3(1, 2, 3); //Array(3) [ 1, 2, 3 ]
+        f3(1, 2, 3); //[1, 2, 3]
     }
     //箭头函数中没有自己的this，它里面用到的this，都是自己所处上下文中的this（真实项目中，一但涉及THIS问题，箭头函数慎用）
     window.name = "WINDOW";
     let fn = n => {
-        console.log(this.name);
+        console.log("this :",this.name);
     };
     let obj = {
         name: 'OBJ',
         fn: fn
     };
     // FN所处的执行上下文中的THIS是WINDOW
-    fn(10); //=>this:window
-    fn.call(obj, 10); //=>this:window 不是我们预期的OBJ
-    //document.body.onclick = fn; //=>this:window 不是我们预期的BODY
-    obj.fn(10); //=>this:window
+    fn(10); //"this:window"
+    fn.call(obj, 10); //"this:window" 不是我们预期的OBJ
+    //document.body.onclick=fn(10);//"this:window" 不是我们预期的BODY
+    obj.fn(10); //"this:window"
     {
         // ES3,ES5
         var factory = function () {
