@@ -1,4 +1,4 @@
-uploadChooseFile (files) {
+function uploadChooseFile (files) {
     let reg = /^[\.0-9_a-zA-Z]+$/;
     let mapArr = [!files.every(item => (lodash.endsWith(item.name, '.sh') ||
         lodash.endsWith(item.name, '.bat') ||
