@@ -1,11 +1,11 @@
 1. 写出下面代码输出的结果
 
-  ```javascript
+```javascript
 console.log(a);
 var a = 12;
 a = 13;
 console.log(a);
-  ```
+```
 
 ```javascript
 console.log(a);
@@ -22,11 +22,11 @@ console.log(a);
 
 2. 写出下面代码输出的结果
 
- ```javascript
+```javascript
 var a = 12;
 var a = 13;
 console.log(a);
- ```
+```
 
 ```javascript
 let a = 12;
@@ -36,7 +36,7 @@ console.log(a);
 
 3. 写出下面代码输出的结果
 
- ```javascript
+```javascript
 console.log(a, b);
 var a = 12,
     b = 12;
@@ -47,11 +47,11 @@ function fn() {
 }
 fn();
 console.log(a, b);
- ```
+```
 
 4. 写出下面代码输出的结果
 
- ```javascript
+```javascript
 console.log(a, b, c);
 var a = 12,
     b = 13,
@@ -64,21 +64,21 @@ function fn(a) {
 }
 b = fn(10);
 console.log(a, b, c);
- ```
+```
 
 5. 写出下面代码输出的结果
 
- ```javascript
+```javascript
 console.log(a);
 if(!('a' in window)){
 	var a = 13;
 }
 console.log(a);
- ```
+```
 
 6. 写出下面代码输出的结果
 
- ```javascript
+```javascript
 fn();
 function fn(){ console.log(1); }
 fn();
@@ -90,7 +90,7 @@ function fn(){ console.log(4); }
 fn();
 function fn(){ console.log(5); }
 fn();
- ```
+```
 
 7. 写出下面代码输出的结果
 
