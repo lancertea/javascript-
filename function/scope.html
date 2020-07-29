@@ -45,7 +45,7 @@
         //函数上下文中的变量对象
         function f(x, y, z) {
 
-            // 声明的函数参数数量arguments (x, y, z)
+            // 声明的函数参数数量arguments (x, y, z) 没设置默认值(ES6才有)的函数参数数量
             console.log(f.length); // 3
 
             // 真正传进来的参数个数(only x, y)
@@ -83,8 +83,7 @@
         var w = 20;
         var y = 30;
 
-        // 在SpiderMonkey全局对象里
-        // 例如，全局上下文的变量对象是从"Object.prototype"继承到的
+        // 全局上下文的变量对象是从"Object.prototype"继承到的
         // 所以我们可以得到“没有声明的全局变量”
         // 因为可以从原型链中获取
 
@@ -270,10 +269,6 @@
         var c = fun(0).fun(1);
         c.fun(2);
         c.fun(3);
-
-
-
-
     }
     //经典面试题
     // {
