@@ -127,7 +127,7 @@ console.log(ary.constructor === Array); //true
 
 #### Object.prototype.toString.call(obj)
 - 使用Object.prototype.toString()来进行类型识别，返回代表该对象的[object 数据类型]的字符串表示
-- Object.prototype.toString()可以识别标准类型及内置对象类型，但不能识别自定义类型
+- Object.prototype.toString()可以识别标准类型及内置对象类型(Array、Set、Map、Regexp、Date、Function、Object)，但不能识别自定义类型
 - 如果是原始类型，他会将原始类型包装为引用类型
 [局限性]可以识别标准类型及内置对象类型，但不能识别自定义类型
 

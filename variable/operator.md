@@ -118,6 +118,14 @@ console.log(5 == NaN); //false
 console.log(NaN == NaN); //false
 console.log(NaN != NaN); //true
 ```
+注意==操作和其他操作的区别：  
+如果两边类型不同，==会将其转换为类型相同的再比大小
++等操作如果一边是对象类型，一边是基本类型，只要都是基本类型就可以运算了
+```javascript
+console.log(3+[20])//"320"
+console.log(3==[20])//true
+ 
+```
 
 #### ===   
 不转类型，直接判断类型和值是否相同。 但是 NaN === NaN 还是false  

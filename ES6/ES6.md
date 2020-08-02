@@ -18,6 +18,65 @@ console.log(typeof a);//undefined 这是浏览器的bug，本应该是报错的�
 //console.log(typeof b);//ReferenceError: Cannot access 'b' before initialization
 let b;
 ```
+#### symbol
+ES6 引入了一种新的原始数据类型Symbol，表示独一无二的值。Symbol函数可以接受一个字符串作为参数，表示对 Symbol 实例的描述, Symbol函数的参数只是表示对当前 Symbol 值的描述，因此相同参数的Symbol函数的返回值是不相等的。
+```javascript
+let s1 = Symbol('foo');
+let s2 = Symbol('bar');
+
+s1 // Symbol(foo)
+s2 // Symbol(bar)
+
+s1.toString() // "Symbol(foo)"
+s2.toString() // "Symbol(bar)"
+```
+Symbol 值不能与其他类型的值进行运算，会报错。Symbol 值可以显式转为字符串,也可以转为布尔值，但是不能转为数值。
+```javascript
+let sym = Symbol('My symbol');
+
+"your symbol is " + sym
+// TypeError: can't convert symbol to string
+
+String(sym) // 'Symbol(My symbol)'
+sym.toString() // 'Symbol(My symbol)'
+
+Boolean(sym) // true
+!sym  // false
+
+if (sym) {
+  // ...
+}
+
+Number(sym) // TypeError
+sym + 2 // TypeError
+```
+```javascript
+ //example 1
+ var a={}, b='123', c=123;  
+ a[b]='b';
+ a[c]='c';  
+ console.log(a[b]);//"c"
+ ---------------------
+ //example 2
+ var a={}, b=Symbol('123'), c=Symbol('123');  
+ a[b]='b';
+ a[c]='c';  
+ console.log(a[b]);//"b"
+ ---------------------
+ //example 3
+ var a={}, b={key:'123'}, c={key:'456'};  
+ a[b]='b';
+ a[c]='c';  
+ console.log(a[b]);//"c"
+ ```
+在全局注册同一个symbol
+ ```javascript
+let s1 = Symbol.for('foo');
+let s2 = Symbol.for('foo');
+
+s1 === s2 // true
+ ```
+ 
 #### “...”的作用
 - 拓展运算符（多用在解构赋值中）
 - 展开运算符（多用在传递实参中）
