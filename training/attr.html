@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>实现一个$attr(name,value)遍历</title>
+</head>
+
+<body>
+    <div id="AA" class="box clearfix"></div>
+    <div myIn="1"></div>
+    <div class="content box"></div>
+    <div name="BB"></div>
+    <div></div>
+    <div id="AA"></div>
+    <div myIn="1" class="clearfix"></div>
+    <div class="box"></div>
+    <div myIn="2"></div>
+    <div name="BB"></div>
+
+    <script>
+    function $attr(property, value){
+       let elements = document.getElementsByTagName("*"),
+       arr=[];
+       //[].forEach.call(elements,item=>{})
+       elements=Array.from(elements);
+       elements.forEach(item=>{
+        let itemValue = item.getAttribute(property);
+        if(property === "class"){
+            new RegExp("\\b"+value+"\\b").test(itemValue)?arr.push(item):null;
+            return;
+        }
+        if(itemValue === value){
+            arr.push(item);
+        }
+       });
+       return arr;
+    }
+    console.log($attr('class', 'box'));
+    </script>
+</body>
+
+</html>
