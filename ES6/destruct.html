@@ -18,12 +18,14 @@
 
 
         // 只要某种数据结构具有 Iterator 接口，都可以采用数组形式的解构赋值
+        //number, boolean, undefined, null, object, symbol都不具备Iterator接口
         // var arr = ['a', 'b', 'c', 'd']
         // var [firstName, , thirdName] = arr
         // console.log(firstName, thirdName)//'a'  'c'
         // var arr = 'abcd'
         // var [firstName, , thirdName] = arr
         // console.log(firstName, thirdName)//'a'  'c'
+        // var [a]=Symbol("a");//error
         var [firstName, , thirdName] = new Set([1, 2, 3, 4])
         var [a1, b1, , c1] = new Map([
             ['1', 1],
@@ -37,6 +39,12 @@
         //对象的解构赋值
         //对象的属性没有次序，变量必须与属性同名，才能取到正确的值。同名可以简写
         //对象的解构赋值的内部机制，是先找到同名属性，然后再赋给对应的变量。真正被赋值的是后者，而不是前者。
+        //只要等号右边的值不是对象或数组，就先将其转为对象。由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错。
+        let { toString: c } = 123;
+        let { toString: d } = true;
+        console.log(c === Number.prototype.toString);//true
+        console.log(d === Boolean.prototype.toString);//true
+        
         var {
             foo: baz
         } = {
