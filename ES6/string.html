@@ -30,6 +30,12 @@
         console.log(fav1.endsWith('!')); //false
         console.log(fav1.includes('love')); //true
         
+        let s = "hello world";
+        console.log(s.includes("e"));//true
+        console.log(s.includes("o",5));//true
+        console.log(s.startsWith("o",7));//true
+        console.log(s.endsWith("o",5));//true
+        
         //ES5
         // const retailPrice = 20
         // const wholeSalePrice = 16
@@ -81,6 +87,21 @@
 
         //trimStart()消除字符串头部的空格  trimLeft()是trimStart()的别名
         //trimEnd()消除尾部的空格 trimRight()是trimEnd()的别名
+        
+        {
+        //String.prototype.matchAll() 
+        let regex = /t(e)(st(\d?))/g;
+        let str = 'test1test2test3';
+        let match;
+        while (match = regex.exec(str)) {
+            console.log(match);
+        }
+            
+        for (let match of str.matchAll(regex)) {
+            console.log(match);
+        }
+        }
+      
         
     </script>
 </head>
