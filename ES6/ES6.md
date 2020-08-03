@@ -51,6 +51,7 @@ if (sym) {
 Number(sym) // TypeError
 sym + 2 // TypeError
 ```
+Symbol 作为属性名，遍历对象的时候，该属性不会出现在for...in、for...of循环中，也不会被Object.keys()、Object.getOwnPropertyNames()、JSON.stringify()返回。
 ```javascript
  //example 1
  var a={}, b='123', c=123;  
@@ -77,7 +78,37 @@ let s2 = Symbol.for('foo');
 
 s1 === s2 // true
  ```
+```javascript
+let a = Symbol("a");
+        let obj = {};
+        obj.a = 1;
+        obj.b = 2;
+        console.log(obj);//{a: 1, b: 2}
 
+        let obj1 = {};
+        obj1[a] = 1;
+        obj1.b = 2;
+        console.log(obj1);//{b: 2, Symbol(a): 1}
+        //console.log(obj1[b]); ReferenceError: b is not defined
+        console.log(obj1.b);//2
+        console.log(obj1["b"]);//2
+        console.log(obj1[a]);//1
+        console.log(obj1["a"]);//undefined
+
+        let obj2 = {
+            [a]: 1,
+            b: 2,
+            c: 3
+        };
+        console.log(obj2);//{b: 2, c: 3, Symbol(a): 1}
+        for (let key in obj2) {
+            console.log(obj2[key]);//2 3
+
+        }
+        console.log(Object.keys(obj2));//["b", "c"]
+        console.log(Object.getOwnPropertyNames(obj2));//["b", "c"]
+        console.log(Reflect.ownKeys(obj2));// ["b", "c", Symbol(a)]
+```
 #### “...”的作用
 - 拓展运算符（多用在解构赋值中）
 - 展开运算符（多用在传递实参中）
