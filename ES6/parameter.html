@@ -51,7 +51,15 @@
     // }
 
   }
-
+  
+  //参数变量x是默认声明的，在函数体中，不能用let或const再次声明，否则会报错。
+  //function (x){
+  // let x=1;}
+  //使用参数默认值时，函数不能有同名参数。
+  //function (x,x,y){
+  // }
+  
+  
   // 必填参数的检查
   {
     function checkParameter() {
@@ -78,6 +86,40 @@
     }
     sum(1, 2); //1 2 undefined undefined
   }
+  
+/*
+// 写法一
+function m1({x = 0, y = 0} = {}) {
+  return [x, y];
+}
+
+// 写法二
+function m2({x, y} = { x: 0, y: 0 }) {
+  return [x, y];
+}
+  
+// 函数没有参数的情况
+m1() // [0, 0]
+m2() // [0, 0]
+
+// x 和 y 都有值的情况
+m1({x: 3, y: 8}) // [3, 8]
+m2({x: 3, y: 8}) // [3, 8]
+
+// x 有值，y 无值的情况
+m1({x: 3}) // [3, 0]
+m2({x: 3}) // [3, undefined]
+
+// x 和 y 都无值的情况
+m1({}) // [0, 0];
+m2({}) // [undefined, undefined]
+
+m1({z: 3}) // [0, 0]
+m2({z: 3}) // [undefined, undefined] 
+*/
+  
+//参数默认值的位置：通常情况下，定义了默认值的参数，应该是函数的尾参数。如果非尾部的参数设置默认值，实际上这个参数是没法省略的。除非显式赋值为undefined
+//length属性的返回值，等于函数的参数个数减去指定了默认值的参数个数。  rest 参数也不会计入length属性。
 
   //如何处理不确定参数的问题
   {
@@ -86,16 +128,23 @@
     //arguments：实参长度
     function f() {
       var sum = 0;
+      //[].forEach.call(arguments,item=>{});
       Array.prototype.forEach.call(arguments, function (item) {
         sum += item * 1;
-      })
-      //ES6
-      // Array.from(arguments,function(item){
-      //   sum+=item*1;
-      // })
-      return sum
+      });
+      return sum;
     }
     console.log(f(1, 2, 3, 6)); //12
+    
+    //ES6
+    function f1(...arg){
+    var sum=0;
+    arg.forEach(item=>{
+    sum+=item;
+    });
+    return sum;
+    }
+     console.log(f1(1, 2, 3, 6)); //12
   }
 
   {
@@ -106,15 +155,6 @@
       return x + y + z;
     }
     console.log(sum1.length); //2
-
-    function f(...a) {
-      var sum = 0;
-      a.forEach(item => {
-        sum += item * 1
-      });
-      return sum
-    }
-    console.log(f(1, 2, 3, 6)); //12
   }
 
   {
@@ -144,38 +184,22 @@
     console.log(other); //[ 1, 2, "hello", true, 7 ]
   }
 
-  
+     //一旦设置了参数的默认值，函数进行声明初始化时，参数会形成一个单独的作用域（context）。等到初始化结束，
+        //这个作用域就会消失。这种语法行为，在不设置参数默认值时，是不会出现的。
+        // var x = 1;
+        // function f(x, y = x) {
+        //     console.log(y);
+        // }
+        // f(2) // 2
 
-  /*
-// 写法一
-function m1({x = 0, y = 0} = {}) {
-  return [x, y];
-}
+        // let x = 1;
+        // function f(y = x) {
+        //     let x = 2;
+        //     console.log(y);
+        // }
+        // f() // 1
 
-// 写法二
-function m2({x, y} = { x: 0, y: 0 }) {
-  return [x, y];
-}
-  
-// 函数没有参数的情况
-m1() // [0, 0]
-m2() // [0, 0]
-
-// x 和 y 都有值的情况
-m1({x: 3, y: 8}) // [3, 8]
-m2({x: 3, y: 8}) // [3, 8]
-
-// x 有值，y 无值的情况
-m1({x: 3}) // [3, 0]
-m2({x: 3}) // [3, undefined]
-
-// x 和 y 都无值的情况
-m1({}) // [0, 0];
-m2({}) // [undefined, undefined]
-
-m1({z: 3}) // [0, 0]
-m2({z: 3}) // [undefined, undefined] 
-  */
+ 
 </script>
 
 <body>
