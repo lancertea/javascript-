@@ -7,6 +7,13 @@
 </head>
 
 <body>
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    
     <script>
         {
             //数组遍历的方法
@@ -107,28 +114,81 @@
             */
 
             //ES5
+            //Array.prototype.slice.call(); 
+            //[].slice.call();
             //这两种方法不适用于Set
-            function convertArr() {
-                // let b=Array.prototype.slice.call(arguments); 
-                let b = [].slice.call(arguments);
-                console.log(b);
-
-            }
-            convertArr(1, 2, 3, 4, 5);
-            // let imgs = [].slice.call(document.querySelectorAll('img')) // NodeList
-            // console.log(imgs)
+            let darr = document.getElementsByTagName("div");
+            console.log(darr);//HTMLCollection(6) [div, div, div, div, div, div]
+            darr = [].slice.call(darr);
+            console.log(darr);//[div, div, div, div, div, div]
 
             //ES6
-            //这两种方法均适用
+            //扩展符...
+            // let args =[...arguments]
+            console.log([...a]);
+            //如果将扩展运算符用于数组赋值，只能放在参数的最后一位，否则会报错
+            //任何定义了遍历器（Iterator）接口的对象，都可以用扩展运算符转为真正的数组
+            //实现Iterator的对象：Array、string、Nodelist、Set、Map、Generator函数、arguments对象
+            
+             {
+        /*
+        扩展预算符
+        1.将伪数组变为数组
+        [...document.querySelectorAll('div')]
+        // [<div>, <div>, <div>]
+
+        2.替代apply方法
+        // ES5 的写法
+        function f(x, y, z) {
+          ...
+        }
+        var args = [0, 1, 2];
+        f.apply(null, args);
+
+        // ES6的写法
+        f(...args);
+
+        3.可用扩展运算符在一个数组里插入多个元素
+        // ES5的写法
+        var arr1 = [0, 1, 2];
+        var arr2 = [3, 4, 5];
+        Array.prototype.push.apply(arr1, arr2);
+
+        // ES6 的写法
+        arr1.push(...arr2);
+        */
+        }
+            
             // Array.prototype.from
             // let args = Array.from(arguments)
             // let imgs = Array.from(document.querySelectorAll('img'))
             let a = new Set([1, 2, 3, 4, 5, 6, 7, 7]);
             console.log(Array.from(a));
+            
+            let arrayLike = {
+            '0': 'a',
+            '1': 'b',
+            '2': 'c',
+            length: 3
+        };
+        
+        //let arr = [...arrayLike];TypeError: object is not iterable (cannot read property Symbol(Symbol.iterator))
+        //可以改为使用Array.from方法将arrayLike转为真正的数组
 
-            //扩展符
-            // let args =[...arguments]
-            console.log([...a]);
+        //Array.from方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象（包括 ES6 新增的数据结构 Set 和 Map）。
+        console.log(Array.from(arrayLike)); //["a", "b", "c"]
+
+        let obj = {
+            a:"a",
+            b:"b",
+            c:'c',
+            length:3
+        }
+        console.log(Array.from(obj)); //[undefined, undefined, undefined]
+        
+        //Array.from还可以接受第二个参数，作用类似于数组的map方法，用来对每个元素进行处理，将处理后的值放入返回的数组。
+        console.log(Array.from([1,2,3],x=>x+1));
+
 
             /*
             两方法对比：
@@ -228,39 +288,12 @@
         console.log([NaN].includes(NaN));//true
 
         }
-
-        {
-        /*
-        扩展预算符
-        1.将伪数组变为数组
-        [...document.querySelectorAll('div')]
-        // [<div>, <div>, <div>]
-
-        2.替代apply方法
-        // ES5 的写法
-        function f(x, y, z) {
-          ...
-        }
-        var args = [0, 1, 2];
-        f.apply(null, args);
-
-        // ES6的写法
-        f(...args);
-
-        3.可用扩展运算符在一个数组里插入多个元素
-        // ES5的写法
-        var arr1 = [0, 1, 2];
-        var arr2 = [3, 4, 5];
-        Array.prototype.push.apply(arr1, arr2);
-
-        // ES6 的写法
-        arr1.push(...arr2);
-        */
         
-
-
-
-        }
+        //find()、findIndex()、includes()都可以发现NaN，弥补了数组的indexOf方法的不足
+        //includes()返回一个布尔值，表示某个数组是否包含给定的值
+        //Map 结构的has方法，是用来查找键名的
+        //Set 结构的has方法，是用来查找值的
+ 
     </script>
 
 </body>
