@@ -86,4 +86,37 @@ fn()(4);
 f(5);
 console.log(i);
 ```    
-   
+```javascript
+var i = 20;
+function fn() {
+    i -= 2;
+    return function (n) {
+    console.log((++i) - n);
+    }
+}
+var f = fn();
+f(1);
+f(2);
+fn()(3);
+fn()(4);
+f(5);
+console.log(i);
+```       
+```javascript
+ var result = [],
+        a = 3,
+        total = 0
+    function f(a) {
+        var i = 0;
+        for (; i < 3; i = i + 1) {
+            result[i] = function () {
+                total += a * i
+                console.log(total);
+            }
+        }
+    }
+    f(1);
+   result[0]();
+   result[1]();
+   result[2]();
+```       
