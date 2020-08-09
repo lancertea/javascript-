@@ -145,3 +145,32 @@ fn(10,20,30);
 - 没有自己的 this，无法调用 call，apply
 - 没有 prototype 属性 ，而 new 命令在执行时需要将构造函数的 prototype 赋值给新的对象的__proto__
 5. 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数
+
+#### 原生具备Iterator接口的数据结构
+Array  Map  Set  String  TypedArray arguments NodeList
+
+##### for in 和for of的区别
+JavaScript 原有的for...in循环，只能获得对象的键名，不能直接获取键值。ES6 提供for...of循环，允许遍历获得键值。
+for...of循环调用遍历器接口，数组的遍历器接口只返回具有数字索引的属性。这一点跟for...in循环也不一样。
+```javascript
+let arr = [3, 5, 7];
+arr.foo = 'hello';
+
+for (let i in arr) {
+  console.log(i); // "0", "1", "2", "foo"
+}
+
+for (let i of arr) {
+  console.log(i); //  "3", "5", "7"
+}
+```
+for...in循环有几个缺点。
+1. 数组的键名是数字，但是for...in循环是以字符串作为键名“0”、“1”、“2”等等。
+2. for...in循环不仅遍历数字键名，还会遍历手动添加的其他键，甚至包括原型链上的键。
+3. 某些情况下，for...in循环会以任意顺序遍历键名。
+总之，for...in循环主要是为遍历对象而设计的，不适用于遍历数组。
+
+for...of的优点
+1. 有着同for...in一样的简洁语法，但是没有for...in那些缺点。
+2. 不同于forEach方法，它可以与break、continue和return配合使用。
+3. 提供了遍历所有数据结构的统一操作接口。
