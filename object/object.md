@@ -96,13 +96,14 @@ console.log([].hasPubProperty('push')); //=>TRUE
 
 2. Object.keys()  
 取得对象上所有可枚举的实例属性,该方法返回对象自身包含（不包括原型中）的所有可枚举属性的名称的数组。
+相应还有Object.values(obj)、Object.entries(obj)
 
 3. Object.getOwnPropertyNames()
 该方法返回对象自身包含（不包括原型中）的所有属性(无论是否可枚举)的名称的数组。
 ```javascript
 let ary = [10,20,30];
 for(let key in ary){
-    console.log(key);//"0"  "1"  "2"   浏览器限制还是啥？？
+    console.log(key);//"0"  "1"  "2"   
 }
 let res = Object.keys(ary);
   console.log(res);//["0", "1", "2"]
