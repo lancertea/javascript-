@@ -26,7 +26,15 @@
         console.log(c); //22
         console.log(d); //21
 
-
+        let obj = {
+            2: 3,
+            3: 4,
+            length: 2,
+            push: Array.prototype.push
+        }
+        obj.push(1); //this:obj  obj[obj.length++]=1=>obj[2]=1 obj.length=3
+        obj.push(2);
+        console.log(obj);
 
         /*
         位操作符
