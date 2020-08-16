@@ -1,27 +1,46 @@
+<!-- 非html标签 -->
 <!-- 声明文档类型，告知浏览器的解析器以什么文档规范解析文档 -->
 <!DOCTYPE html>
+
+<!-- html页面的根元素 -->
 <html>
 
+<!-- 规定文档相关的配置信息（元数据），出现在dom树中，不出现在渲染树中，估不可见，但可通过js获取 -->
 <head>
-<!-- 编码方式 -->
+<!-- 指定一个文档中包含的所有相对url的根url -->
+    <base target="_top" href="...">
+
+<!-- meta 表示那些不能由其他html元相关元素之一表示的任何元数据信息 -->
+<!-- meta属性 charset指定编码方式 注意和标题的出现顺序-->
     <meta charset="UTF-8">
+
+<!-- meta属性 name表示meta提供的是文档级别元数据，应用于整个页面  例子如下-->
+<!-- meta属性 content 视具体情况而定 -->
+<!-- 移动端 常见配置 -->
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+<!-- 浏览器走双核浏览器，优先用webkit浏览器渲染这个页面 -->
+    <meta name="renderer" content="webkit">
+
+<!-- meta属性 http-equiv编译指令，提供的信息与类似命名的http头部相同  例子如下-->
 <!-- 兼容性配置 IE走最高级的Edge去渲染，如果是chrome浏览器就chrome渲染-->
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-<!-- 浏览器走双核浏览器，优先用webkit浏览器渲染这个页面 -->
-	<meta name="renderer" content="webkit">
 <!-- DNS预获取 -->
 <!-- 页面中所有a标签在高级浏览器中是默认打开了DNS预解析，如果这个页面是https开头的，很多浏览器是关闭DNS预解析的 -->
 <!-- 强制打开DNS预解析 -->
-	<meta http-equiv="x-dns-prefetch-control" content="on">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- 其他还有content-security-policy   内容安全策略指定允许的服务器源和脚本端点，有助于防止跨站点脚本攻击 -->
+<!-- content-type  -->
+<!-- default-style -->
+
 <!-- 对哪个标签进行DNS预解析 -->
 	<link rel="dns-prefetch" href="//">
 <!-- 遇到link/img/audio/video标签，浏览器新分配一个线程加载资源，主线程会继续向下渲染   异步加载-->
     <link href="">
     <title>ceshi</title>
 <!-- 遇到script标签或者@import是同步加载的，主线程先去加载并执行JS代码，完成后再继续向下渲染，所以最好把script标签
-放到最下面-->
+放到最下面.@import是等到dom加载完再去加载的，嵌套过多容易导致无样式内容闪烁-->
     <script></script>
+<!-- 遇到style标签是同步加载的，如果放在后面，浏览器渲染的时候，页面会先以标签和浏览器模式的样式进行渲染，等读到style标签时又要重新渲染 -->
     <style>
 		.box {
 			margin: 20px auto;
