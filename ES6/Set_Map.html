@@ -17,6 +17,7 @@
             console.log(s.add(NaN)); //Set(6) [ 1, 2, 3, "3", 4, NaN ]
             console.log(s.add(NaN)); //Set(6) [ 1, 2, 3, "3", 4, NaN ]
             console.log(s.delete(3)); //true
+            console.log(s.delete(5)); //false
             console.log(s.size); //5
             console.log(s.has(2)); //true
             //清空:s.clear()
@@ -119,7 +120,7 @@
         WeakSet
         与Set的区别：
         1.支持的类型只能是对象
-        2.弱引用：不会检测这个对象有没有在其他地方用过
+        2.弱引用：如果其他对象都不再引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存，不考虑该对象还存在于WeakSet之中
         3.没有clear()方法、没有size属性，不能遍历
         */
         {

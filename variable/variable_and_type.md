@@ -3,7 +3,7 @@
 基本类型（原始值）：字符串(String)、数字(Number)、布尔(Boolean)、对空（Null）、未定义（Undefined）、Symbol（独一无二的值）  
 存储在栈（stack）中的简单数据段，也就是说，它们的值直接存储在变量访问的位置   
 
-引用数据类型（引用值）：对象(Object)、数组(Array)、日期(Date)、正则(RegExp)、函数(Function) 
+引用数据类型（引用值）：对象(Object)、数组(Array)、日期(Date)、正则(RegExp)、函数(Function) 、Set、Map
 基本包装类型：字符串(String)、数字(Number)、布尔(Boolean)  
 存储在堆（heap）中的对象，也就是说，存储在变量处的值是一个指针（point），指向存储对象的内存处  
 
@@ -183,7 +183,8 @@ console.log((new Boolean(false)).valueOf()); //false
 可以对任何数调用 isFinite() 方法，以确保该数不是无穷大,这个函数在参数位于最小最大数值之间时会返回true
 
 - NaN，表示非数（Not a Number）任何涉及NaN的操作都会返回NaN.NaN与任何值都不相等，包括NaN本身  
-可以对任何数调用 isNaN() 方法，以确定这个数是否“不是数值”。isNaN() 在接收到一个值后，会尝试将其转换为数值，不能转换的返回true（相当于调用了Number()）
+可以对任何数调用 isNaN() 方法，以确定这个数是否“不是数值”。
+ES5时，isNaN() 在接收到一个值后，会尝试将其转换为数值，不能转换的返回true（相当于调用了Number()）
 ```javascript
 console.log(typeof Number.MAX_VALUE); //"number"
 console.log(typeof Number.MIN_VALUE); //"number"

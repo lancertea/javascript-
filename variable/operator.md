@@ -30,6 +30,7 @@ console.log(undefined || null); //null
 console.log(3 || undefined || null); //3
 console.log(undefined || null || 3); //3
 
+
 //&&的优先级高于||
 var a = 0 || 1 && 2 || 3; //=>先算1&&2  =>0||2||3  =>再算0||2 =>2 =>最后2||3 =>2
 console.log(a); //2
