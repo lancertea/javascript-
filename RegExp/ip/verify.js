@@ -445,3 +445,286 @@ export function validIPRange (IPRange) {
         msg: 'IP段格式有误'
     };
 }
+
+/**
+ *表单换行校验公共方法
+ * @param {Function | Array} validMethod
+ * @param {RegExp} reg 正则
+ * @param {number} maxLen 最大输入的长度
+ * @param {string | Function} errorTip 自定义的错误提醒内容
+ * @returns {Boolean}
+ */
+export function commonValid (validMethod, reg = '\n', maxLen = 0, errorTip = '') {
+    return (value = '', errors = []) => {
+        let arr = Array.isArray(value) ? value : value.split(reg);
+
+        arr = arr.filter(item => !(['', null].includes(item)));
+
+        // arr.length判断有输入, maxlen为最大长度
+        if (arr.length &&
+            maxLen &&
+            arr.length > maxLen) {
+            errors.push(`该输入项最多允许${maxLen}项`);
+            return false;
+        }
+
+        for (let item of arr) {
+
+            let result = '';
+
+            // 多个校验规则
+            if (!Array.isArray(validMethod)) {
+                result = validMethod(item);
+            } else {
+                for (let i = 0; i < validMethod.length; i++) {
+                    let validReg = validMethod[i];
+                    result = validReg(item);
+
+                    // 有一个通过校验即可
+                    if (result === true) {
+                        break;
+                    }
+                }
+            }
+
+            if (result !== true) {
+                if (typeof errorTip === 'function') {
+                    errors.push(errorTip(item));
+                } else {
+                    errors.push(errorTip || result);
+                }
+
+                return false;
+            }
+        }
+
+        return true;
+    };
+}
+
+/**
+ * 获取某个范围内的排好序的随机数组
+ * @param {Number} loopTime 随机个数
+ * @param {Number} minVal 随机数最小值
+ * @param {Number} maxVal 随机数最大值（不包含）
+ * @returns {Array} 随机数组
+ */
+export function getSortRandomArr (loopTime, minVal, maxVal) {
+    let arr = [];
+
+    for (let i = 0; i < loopTime; i++) {
+        arr.push(getRandom(minVal, maxVal));
+    }
+
+    // 排序
+    arr.sort((a, b) => {
+        return a - b;
+    });
+
+    return arr;
+}
+
+/**
+ * 获取范围随机数
+ * @param {Number} min 范围最小值
+ * @param {Number} max 范围最大值
+ * @returns {Number}   范围内的随机数
+ */
+export function getRandom (min, max) {
+    let differ = max - min;
+
+    return parseInt(Math.random() * differ + min);
+}
+
+/*
+ * 获取url中参数的值
+ * @param {String} name  参数名
+ * @returns {*}
+ */
+export function getURLParam (name) {
+    let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+    let r = window.location.search.substr(1).match(reg);
+    if (r !== null) {
+        return unescape(r[2]);
+    }
+    return null;
+}
+
+export function getParamObj (str, separator = '&') {
+    let arr = str.split(separator),
+        obj = {};
+
+    arr.forEach(item =>{
+        let targetArr = item.split('=');
+        obj[targetArr[0].trim()] = targetArr[1];
+    });
+    return obj;
+}
+
+/**
+ * 日期格式化方法
+ * 用法：formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+ * @param {Date} date
+ * @param {String} fmt
+ * @returns {*}
+ */
+export function formatDate (date, fmt = 'yyyy-MM-dd hh:mm:ss') {
+    let type = typeof date;
+
+    //  时间戳类型
+    if (type === 'number') {
+        date = date.toString().length === 13 ? date : 1000 * date;
+        date = new Date(date);
+    }
+
+    let o = {
+        'M+': date.getMonth() + 1, //月份
+        'd+': date.getDate(), //日
+        'h+': date.getHours(), //小时
+        'm+': date.getMinutes(), //分
+        's+': date.getSeconds(), //秒
+        'q+': Math.floor((date.getMonth() + 3) / 3), //季度
+        'S': date.getMilliseconds() //毫秒
+    };
+
+    if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+    }
+    for (let k in o) {
+        if (o.hasOwnProperty(k) && new RegExp('(' + k + ')').test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
+        }
+    }
+
+
+    return fmt;
+}
+
+/**
+ * 将 2018-01-01 12:12:12 转换成 2018/01/01 12:12:12的形式
+ * 原因：new Date会有兼容性问题，必须要先转换
+ * @param {String} dateStr
+ * @returns {String}
+ */
+export function formatDateToStandard (dateStr) {
+    return dateStr.replace(new RegExp('-', 'g'), '/');
+}
+
+/**
+ * 获取两个日期之间相差的天数
+ * @param {String} dateStr1 //dateStr1和dateStr2是2002-12-18格式
+ * @param {String} dateStr2
+ * @returns {String}
+ */
+export function getDateDiff (dateStr1, dateStr2) {
+    let formatDate1 = new Date(formatDateToStandard(dateStr1)),
+        formatDate2 = new Date(formatDateToStandard(dateStr2)),
+        days = Math.abs(formatDate1 - formatDate2) / 1000 / 60 / 60 / 24; //把相差的毫秒数转换为天数
+
+    return days;
+}
+
+export const KEYSTR = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+/**
+ * 加密操作
+ * @param {String} input   需要进行加密的字符串
+ * @returns {String} output   加密完成的字符串
+ */
+export function enCrypt (input = '') {
+    let output = '';
+    let chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+    let i = 0;
+
+    input = utf8Encode(input);        // 对需要编码的字符串进行UTF-8编码
+
+    while (i < input.length) {
+        chr1 = input.charCodeAt(i++);
+        chr2 = input.charCodeAt(i++);
+        chr3 = input.charCodeAt(i++);
+        enc1 = chr1 >> 2;
+        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+        enc4 = chr3 & 63;
+
+        if (isNaN(chr2)) {
+            enc3 = enc4 = 64;
+        } else if (isNaN(chr3)) {
+            enc4 = 64;
+        }
+
+        output = output + KEYSTR.charAt(enc1) + KEYSTR.charAt(enc2) + KEYSTR.charAt(enc3) + KEYSTR.charAt(enc4);
+    }
+
+    return output;
+};
+
+/**
+ * 返回最近一周的时间范围 [1593089261672, 1593694061672]
+ * @returns {number[]}
+ */
+export function getLatestWeek () {
+    const end = new Date();
+    const start = new Date();
+    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+    return [start.valueOf(), end.valueOf()];
+}
+
+/**
+ * 解密操作
+ * @param {String} input   需要进行解密的字符串
+ * @returns {String} output   解密完成的字符串
+ */
+export function deCrypt (input) {
+    let output = '';
+    let chr1, chr2, chr3;
+    let enc1, enc2, enc3, enc4;
+    let i = 0;
+
+    if (input) {
+        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, '');
+
+        while (i < input.length) {
+            enc1 = KEYSTR.indexOf(input.charAt(i++));
+            enc2 = KEYSTR.indexOf(input.charAt(i++));
+            enc3 = KEYSTR.indexOf(input.charAt(i++));
+            enc4 = KEYSTR.indexOf(input.charAt(i++));
+            chr1 = (enc1 << 2) | (enc2 >> 4);
+            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+            chr3 = ((enc3 & 3) << 6) | enc4;
+            output = output + String.fromCharCode(chr1);
+
+            if (enc3 !== 64) {
+                output = output + String.fromCharCode(chr2);
+            }
+
+            if (enc4 !== 64) {
+                output = output + String.fromCharCode(chr3);
+            }
+        }
+        output = utf8Decode(output);        // 对已解码的字符串进行UTF-8解码
+
+        return output;
+    }
+};
+
+//应用
+validIpOrIpRange (ipList, errors) {
+            if (ipList.length !== [...new Set(ipList)].length) {
+                errors.push('存在相同的IP或者IP段');
+                return false;
+            }
+
+            let validRes = ipList.every(item => {
+                if (item.includes('-')) {
+                    return validIPRange(item).isMatch;
+                }
+                return validIpSingle(item, errors);
+            });
+
+            if (!validRes) {
+                errors.push('请输入合法的IP或者IP段，用","隔开');
+            }
+
+            return validRes;
+        }
