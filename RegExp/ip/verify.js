@@ -708,7 +708,8 @@ export function deCrypt (input) {
     }
 };
 
-//应用
+//应用  :validtion="function"
+//validIpOrIpRange
 validIpOrIpRange (ipList, errors) {
             if (ipList.length !== [...new Set(ipList)].length) {
                 errors.push('存在相同的IP或者IP段');
@@ -728,3 +729,23 @@ validIpOrIpRange (ipList, errors) {
 
             return validRes;
         }
+
+
+//VALID_IP_LIST_FN  
+const VALID_IP = validIpMultiple();
+    const MAX_LEN = 10; // textarea最长输入条数
+
+    const VALID_IP_LIST_FN = commonValid(
+        VALID_IP,
+        SPACE_REGEX,
+        MAX_LEN,
+        errItem => `${errItem}不是合法IP，请输入合法IP`
+    );
+
+//VALID_PORT_LIST_FN
+    const VALID_PORT_LIST_FN = commonValid(
+        input => validPort(input),
+        SPACE_REGEX,
+        MAX_LEN,
+        errItem => `${errItem}不是合法端口号，${PORT_REGEX_TEXT}`
+    );
