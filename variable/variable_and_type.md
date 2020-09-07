@@ -148,7 +148,7 @@ constructor属性返回对创建此对象的函数的引用
 valueOf()用于返回指定对象的原始值（基本类型值）  
 1. undefined、null没有这个方法  
 2. String、bool、Number返回其基本类型值  
-3. Array、Function、RegExp、Object返回其本身  
+3. Array、Function、RegExp、Object、自定义对象类型返回其本身  
 4. Date：返回当前时间距1970年1月1日午夜的毫秒数
 
 toString()用于返回该对象的字符串  
@@ -160,6 +160,17 @@ toString()用于返回该对象的字符串
 5. RegExp:返回正则表达式字面量的字符串表示  
 6. Date：把 Date 对象转换为字符串（确切日期，非毫秒数）  
 7. Object/自定义对象类型：返回[object Object]  
+
+```javascript
+function people(name,age){
+    this.name=name;
+    this.age=age;
+}
+
+let p1 =new people('jane',18);
+console.log(p1.toString());//'[object Object]'
+console.log(p1.valueOf());//people {name: "jane", age: 18}
+```
 
 #### Boolean(obj)
 Boolean():将任何类型的值转换为布尔值。以下值会被转换为false：false、''、0、NaN、null、undefined。其余任何值都会被转换为true  

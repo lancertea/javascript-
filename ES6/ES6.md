@@ -10,7 +10,7 @@
 - 并非真正的常量：使用const定义的对象或者数组可以修改，但不能重新赋值（const实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址所保存的数据不得改动。对于简单类型的数据（数值、字符串、布尔值），值就保存在变量指向的那个内存地址，因此等同于常量。但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指向实际数据的指针，const只能保证这个指针是固定的（即总是指向另一个固定的地址），至于它指向的数据结构是不是可变的，就完全不能控制了。）
 
 ##### 暂时性死区
-暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到给变量赋值的那一行代码出现，才可以获取和使用该变量。
+暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量。
 ```javascript
 //console.log(a);//ReferenceError: a is not defined
 console.log(typeof a);//undefined 这是浏览器的bug，本应该是报错的，因为没有a（暂时性死区）
@@ -82,34 +82,31 @@ s1 === s2 // true
  ```
 ```javascript
 let a = Symbol("a");
-        let obj = {};
-        obj.a = 1;
-        obj.b = 2;
-        console.log(obj);//{a: 1, b: 2}
-
-        let obj1 = {};
-        obj1[a] = 1;
-        obj1.b = 2;
-        console.log(obj1);//{b: 2, Symbol(a): 1}
-        //console.log(obj1[b]); ReferenceError: b is not defined
-        console.log(obj1.b);//2
-        console.log(obj1["b"]);//2
-        console.log(obj1[a]);//1
-        console.log(obj1["a"]);//undefined
-
-        let obj2 = {
-            [a]: 1,
-            b: 2,
-            c: 3
-        };
-        console.log(obj2);//{b: 2, c: 3, Symbol(a): 1}
-        for (let key in obj2) {
-            console.log(obj2[key]);//2 3
-
-        }
-        console.log(Object.keys(obj2));//["b", "c"]
-        console.log(Object.getOwnPropertyNames(obj2));//["b", "c"]
-        console.log(Reflect.ownKeys(obj2));// ["b", "c", Symbol(a)]
+let obj = {};
+obj.a = 1;
+obj.b = 2;
+console.log(obj);//{a: 1, b: 2}
+let obj1 = {};
+obj1[a] = 1;
+obj1.b = 2;
+console.log(obj1);//{b: 2, Symbol(a): 1}
+//console.log(obj1[b]); ReferenceError: b is not defined
+console.log(obj1.b);//2
+console.log(obj1["b"]);//2
+console.log(obj1[a]);//1
+console.log(obj1["a"]);//undefined
+let obj2 = {
+    [a]: 1,
+    b: 2,
+    c: 3
+};
+console.log(obj2);//{b: 2, c: 3, Symbol(a): 1}
+for (let key in obj2) {
+    console.log(obj2[key]);//2 3
+}
+console.log(Object.keys(obj2));//["b", "c"]
+console.log(Object.getOwnPropertyNames(obj2));//["b", "c"]
+console.log(Reflect.ownKeys(obj2));// ["b", "c", Symbol(a)]
 ```
 #### “...”的作用
 - 拓展运算符（多用在解构赋值中）

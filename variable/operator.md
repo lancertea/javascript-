@@ -124,7 +124,7 @@ console.log(NaN != NaN); //true
 +等操作如果一边是对象类型，一边是基本类型，只要都是基本类型就可以运算了
 ```javascript
 console.log(3+[20])//"320"
-console.log(3==[20])//true
+console.log(3==[20])//false
  
 ```
 
