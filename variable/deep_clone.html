@@ -49,6 +49,7 @@
         };
         d.num = 3
         console.log(f.num) //2
+        //方法三：for in 自己循环遍历赋值  缺点：不支持对symbol处理
 
         //浅拷贝：
         // let obj2={};
@@ -86,6 +87,11 @@
         console.log(obj1) //{x: 1, y: undefined, z: ƒ, a: Symbol(foo)}
         console.log(JSON.stringify(obj1)); //{"x":1}
         console.log(obj2) //{x: 1}
+
+
+        function shallowClone(obj){
+            
+        }
 
         
     </script>
