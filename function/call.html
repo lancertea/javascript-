@@ -9,18 +9,6 @@
 
 <body>
     <script>
-/*
-call方法
-
-语法：函数.call([context],[params1],....)
-
-函数基于原型链找到Function.prototype.call这个方法，并且把它执行，在call方法执行的时候完成了一些功能
- - 让当前函数执行
- - 把函数中的THIS指向改为第一个传递给CALL的实参
- - 把传递给CALL其余的实参，当做参数信息传递给当前函数
- 如果执行CALL一个实参都没有传递，非严格模式下是让函数中的THIS指向window，严格模式下指向的是undefined
-*/
-
 window.name = 'WINDOW';
 let obj = {name: 'OBJ'};
 function fn(n,m) {

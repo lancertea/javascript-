@@ -65,5 +65,72 @@ f1.__proto__.say(); //=>this:f1.__proto__  =>console.log(f1.__proto__.y)  =>unde
 Fn.prototype.eat(); //=>this:Fn.prototype  =>console.log(Fn.prototype.x + Fn.prototype.y)  =>NaN
 f1.write(); //=>this:f1  =>f1.z=1000  =>给f1设置一个私有的属性z=1000
 Fn.prototype.write();//=>this:Fn.prototype  =>Fn.prototype.z=1000  =>给原型上设置一个属性z=1000（属性是实例的公有属性）
+```
 
+#### call / apply / bind 
+call / apply / bind是原型上提供的三个公有属性方法，每一个函数都可以调用这个方法，用来改变函数中的THIS指向的
+```javascript
+//Function.prototype => function anonymous(){}
+function fn(){}
+fn.call(); //=>fn函数基于原型链找到Function.prototype上的call方法，并且让其执行（执行的是call方法：方法中的this是fn）
+fn.call.call(); //=>fn.call就是Function.prototype上的call方法，也是一个函数，只要是函数就能用原型上的方法，所以可以继续调用call来执行
+
+/*
+Function.prototype.call = function $1(){
+    //...
+}
+fn.call => $1
+fn.call() => $1()  this:fn
+fn.call.call() => $1.call() => 继续让call执行,this:$1
+
+实例.方法()：都是找到原型上的内置方法，让内置方法先执行（只不过执行的时候做了一些事情会对实例产生改变，而这也是这些内置方法的作用），内置方法中的THIS一般都是当前操作的实例
+*/
+```
+
+##### call方法
+> 语法：函数.call([context],[params1],....)
+>
+> 函数基于原型链找到Function.prototype.call这个方法，并且把它执行，在call方法执行的时候完成了一些功能
+>
+> - 让当前函数执行
+> - 把函数中的THIS指向改为第一个传递给CALL的实参
+> - 把传递给CALL其余的实参，当做参数信息传递给当前函数
+>
+> 如果执行CALL一个实参都没有传递，非严格模式下是让函数中的THIS指向WINDOW，严格模式下指向的是UNDEFINED   
+
+详见call.html
+
+##### apply方法
+> 和call方法一样，都是把函数执行，并且改变里面的this关键字的，唯一的区别就是传递给函数参数的方式不同
+>
+> - call是一个个传参
+> - apply是按照数组传参
+
+```javascript
+let obj={name:'OBJ'};
+let fn=function(n,m){
+    console.log(this.name);
+}
+//=>让fn方法执行，让方法中的this变为obj，并且传递10/20
+fn.call(obj,10,20);
+fn.apply(obj,[10,20]);
+```
+
+##### bind方法
+> 和call/apply一样，也是用来改变函数中的this关键字的，只不过基于bind改变this，当前方法并没有被执行，类似于预先改变this
+
+```javascript
+let obj={name:'OBJ'};
+function fn(){
+    console.log(this.name);
+}
+document.body.onclick=fn; //=>当事件触发,fn中的this:BODY
+
+//=>点击BODY，让FN中的THIS指向OBJ
+//document.body.onclick=fn.call(obj); //=>基于call/apply这样处理，不是把fn绑定给事件，而是把fn执行后的结果绑定给事件
+document.body.onclick=function(){
+    //this:BODY
+    fn.call(obj);
+}
+document.body.onclick=fn.bind(obj); //=>bind的好处是：通过bind方法只是预先把fn中的this修改为obj，此时fn并没有执行呢，当点击事件触发才会执行fn（call/apply都是改变this的同时立即把方法执行） =>在IE6~8中不支持bind方法  预先做啥事情的思想被称为“柯理化函数”
 ```
