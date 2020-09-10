@@ -66,12 +66,12 @@
         //     })(i);           
         //   }
 
-    //     for(var j=0;j<5;j++){
-    //    (function(i){
-    //     setTimeout(function(){
-    //     console.log(i); 
-    //    },0);
-    //    })(j)
+        //     for(var j=0;j<5;j++){
+        //    (function(i){
+        //     setTimeout(function(){
+        //     console.log(i); 
+        //    },0);
+        //    })(j)
 
         /* for (var i = 0; i < 10; i++) {
 	setTimeout((i => () => console.log(i))(i), 1000);
@@ -94,11 +94,11 @@
         //     }
         // }
 
-    //     for(let j=0;j<5;j++){
-    //     setTimeout(function(){
-    //     console.log(j); 
-    //    },0);
-    //    }
+        //     for(let j=0;j<5;j++){
+        //     setTimeout(function(){
+        //     console.log(j); 
+        //    },0);
+        //    }
 
         //forEach  伪数组转换为数组
         var btns = document.getElementsByTagName('input');
@@ -118,6 +118,39 @@
         // var Bt = document.getElementById('btnBox');
         // console.log(Bt.childNodes);
         // console.log(Bt.children);
+
+        //setTimeout()
+        // for (var i = 0; i < 5; i++) {
+        //     setTimeout(() => {
+        //         console.log(i);
+        //     }, 1000);
+        // }
+
+        // for (let i = 0; i < 5; i++) {
+        //     setTimeout(() => {
+        //         console.log(i);
+        //     }, 1000);
+        // }
+
+        // for (var i = 0; i < 5; i++) {
+        //     ~ function (i) {
+        //         setTimeout(() => {
+        //             console.log(i);
+        //         }, 1000);
+        //     }(i);
+        // }
+
+        // for (var i = 0; i < 5; i++) {
+        //     setTimeout((i =>
+        //         () => console.log(i))(i), 1000);
+        // }
+
+        var fn = function (i) {
+            console.log(i);
+        }
+        for (var i = 0; i < 5; i++) {
+            setTimeout(fn.bind(null, i), 1000);
+        }
     </script>
 </body>
 

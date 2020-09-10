@@ -14,8 +14,10 @@
                 base = [].shift.call(arguments);
                 // base=[...arguments].shift();  这样是错的，相当于进行了一次浅拷贝
             obj.__proto__ = base.prototype;
-            var result = base.apply(obj, arguments);
-            return result instanceof Object ? result : obj;
+            base.apply(obj, arguments);
+            // var result = base.apply(obj, arguments);
+            // return result instanceof Object ? result : obj;
+            return obj;
         }
 
         function Car(color) {

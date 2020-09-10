@@ -19,6 +19,8 @@
 	}
 }
 fn(100)(200) */
+
+
 /* (function () {
 	//=>this:需要改变THIS的函数
 	//=>context:需要改变的THIS指向
@@ -39,8 +41,10 @@ let obj = {
 function fn(...arg) {
 	console.log(this, arg);
 }
-document.body.onclick = fn.myBind(obj, 100, 200);;
+document.body.onclick = fn.myBind(obj, 100, 200);
  */
+
+ 
 //=>点击的时候FN中的this=>obj arg=>[100,200,事件对象]
 // document.body.onclick = fn.bind(obj, 100, 200);
 // document.body.onclick = function (ev) {
