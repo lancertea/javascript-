@@ -6,8 +6,8 @@
 //方法
 document.getElementById([ID])
 document.getElementsByName([NAME])///=>在IE浏览器中只对表单元素的NAME有作用
-document.queryselector([SELECTOR])//=>在IE6~8中不兼容
-document.queryselectorAll([SELECTPR])//=>在IE6~8中不兼容
+[context].queryselector([SELECTOR])//=>在IE6~8中不兼容
+[context].queryselectorAll([SELECTPR])//=>在IE6~8中不兼容
 [context].getElementsByTagName([TAG-NAME])
 [context].getElementsByClassName([CLASS-NAME])
 
