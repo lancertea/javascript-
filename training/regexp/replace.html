@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>重写replace方法</title>
+</head>
+
+<body>
+    <script>
+        /*
+         * 重写字符串内置方法replace 
+         *    1.正则在字符串中匹配几次，我们传递的回调函数就会被执行几次（前提：正则设置了global修饰符）
+         *    2.每一次执行回调函数，都把当前正则匹配的信息（既有大正则，也有小分组的）传递给回调函数
+         *    3.还要接收回调函数的返回值，返回的是啥内容，就要把当前字符串中正则匹配这一部分内容替换成啥
+         */
+        //处理字符串：把字符串中的某一项替换成另外一项
+        function handle(str, val1, val2) {
+            let index = str.indexOf(val1);
+            return str.substring(0, index) + val2 + str.substring(index + val1.length);
+        }
+        String.prototype.myReplace = function (reg, callback) {
+            //判断参数是不是正则和函数
+            if (reg instanceof RegExp && typeof callback === "function") {
+                let _this = this.substring(0),
+                    //没有设置global,只匹配一次
+                    isGlobal = reg.global,
+                    arr = reg.exec(_this);
+                while (arr) {
+                    let res = callback(...arr);
+                    _this = handle(_this, arr[0], res);
+                    arr = reg.exec(_this);
+                    if (!isGlobal) break;
+                }
+                return _this;
+            }
+
+
+
+        }
+
+        let str = "{0}年{1}月{2}日",
+            arr = ['2019', '09', '03'];
+        str = str.myReplace(/\{(\d)\}/g, (context, $1) => {
+            context = arr[$1];
+            return context;
+        });
+        console.log(str);
+    </script>
+</body>
+
+</html>

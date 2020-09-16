@@ -40,44 +40,6 @@
 		queryData(function anonymous(data) {
 			//=>data:服务器返回的结果
 		}); */
-
-		/*
-		 * 重写字符串内置方法replace 
-		 *    1.正则在字符串中匹配几次，我们传递的回调函数就会被执行几次（前提：正则设置了global修饰符）
-		 *    2.每一次执行回调函数，都把当前正则匹配的信息（既有大正则，也有小分组的）传递给回调函数
-		 *    3.还要接收回调函数的返回值，返回的是啥内容，就要把当前字符串中正则匹配这一部分内容替换成啥
-		 */
-		/* ~ function () {
-			//=>处理字符串：把字符串中的某一项替换成另外一项
-			function handle(str, val1, val2) {
-				let index = str.indexOf(val1);
-				return str.substring(0, index) + val2 + str.substring(index + val1.length);
-			}
-
-			function replace(reg, callback) {
-				let _this = this.substring(0),
-					isGlobal = reg.global,
-					arr = reg.exec(this);
-				while (arr) {
-					//=>捕获到的结果是数组(执行回调函数,把捕获的结果传递给它)；还要接收回调函数执行的返回值，用返回值替换字符串中当前正则匹配的内容；
-					if (typeof callback === "function") {
-						let res = callback.apply(null, arr);
-						_this = handle(_this, arr[0], res);
-					}
-					arr = reg.exec(this);
-					//=>不设置GLOBAL的情况执行一次
-					if (!isGlobal) break;
-				}
-				return _this;
-			}
-			String.prototype.replace = replace;
-		}();
-		let str = "{0}年{1}月{2}日",
-			arr = ['2019', '09', '03'];
-		str = str.replace(/\{(\d)\}/g, function (content, group1) {
-			return '@#' + arr[group1];
-		});
-		console.log(str); */
 	</script>
 
 	<script>
