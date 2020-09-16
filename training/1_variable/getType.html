@@ -28,8 +28,8 @@
 
         let obj={}
         console.log(obj.constructor);
-        
-        
+        console.log(Object.prototype.toString.call(Symbol));//'[object Function]'
+        console.log(Object.prototype.toString.call(Symbol()));//'[object Symbol]'
         
 
         function getType(obj) {
