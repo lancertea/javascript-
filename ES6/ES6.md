@@ -187,17 +187,7 @@ let fn=(n,...arg)=>{
 fn(10,20,30);
 ```
 
-#### 箭头函数和普通函数的区别
-1. 箭头函数语法上比普通函数更加简洁（ES6中每一种函数都可以使用形参赋默认值和剩余运算符）
-2. 普通function的声明在变量提升中是最高的，箭头函数的创建都是函数表达式方式（变量=函数），这种模式下，不存在变量提升，函数只能在创建完成后被执行（也就是创建的代码之后执行）
-3. 箭头函数没有自己的this，它里面的this是继承函数所处上下文中的this（使用call/apply等任何方式都无法改变this的指向）
-3. 箭头函数中没有arguments（类数组），但是可以基于...arg扩展运算符获取实参集合
-4. 箭头函数不能用于构造函数，不能用new关键字去调用
-- 没有自己的 this，无法调用 call，apply
-- 没有 prototype 属性 ，而 new 命令在执行时需要将构造函数的 prototype 赋值给新的对象的__proto__
-5. 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数
-
-### Iterator
+#### Iterator
 遍历器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
 
 Iterator 的作用有三个：
@@ -227,6 +217,102 @@ Map(), Set(), WeakMap(), WeakSet()（比如new Map([['a',1],['b',2]])）
 Promise.all()
 Promise.race()
 
+
+#### 属性的遍历
+##### 属性的特性
+在JS对象中的属性有4个描述其行为的特性：
+- configurable:表示能否通过delete删除属性从而重新定义属性
+- enumerable:表示能否通过for-in循环或Object.keys方法返回属性
+- writable:表示能否修改属性的值
+- value:包含这个属性的数据值
+以上四个属性在不显示调用Object.defineProperty()的时候，即通过赋值操作添加的属性，前三个默认值都为true，而value为你自己设定的值，如果不设定的话则为undefined
+```javascript
+//Object.getOwnPropertyDescriptor方法可以获取该属性的描述对象。
+let obj = { foo: 123 };
+Object.getOwnPropertyDescriptor(obj, 'foo')
+//  {
+//    value: 123,
+//    writable: true,
+//    enumerable: true,
+//    configurable: true
+//  }
+```
+     
+##### 可枚举不可枚举
+可枚举属性是指那些内部 “可枚举” 标志设置为 true 的属性，对于通过直接的赋值和属性初始化的属性，该标识值默认为即为 true，对于通过 Object.defineProperty 等定义的属性，该标识值默认为 false。可枚举的属性可以通过 for...in 循环进行遍历（除非该属性名是一个 Symbol）  
+常见不可枚举的属性：name prototype length 
+
+目前，有四个操作会忽略enumerable为false的属性。
+- for...in循环：只遍历对象自身的和继承的可枚举的属性。
+- Object.keys()：返回对象自身的所有可枚举的属性的键名。
+- JSON.stringify()：只串行化对象自身的可枚举的属性。
+- Object.assign()： 忽略enumerable为false的属性，只拷贝对象自身的可枚举的属性。
+
+##### 遍历方法
+1. for...in 循环
+该方法依次访问一个对象及其原型链中所有可枚举的属性(不含Symbol属性).同时使用 hasOwnProperty()+in，可确定该属性到底是存在于对象中，还是原型中
+```javascript
+let ary = [10,20,30];
+console.log('0' in ary);  //true
+console.log('push' in ary); //true
+for(let key in ary){
+    console.log(key);//"0"  "1"  "2"   为啥
+}
+console.log(ary.hasOwnProperty('0'));  //true
+console.log(ary.hasOwnProperty('push')); //false "push"是它公有的属性不是私有的
+
+console.log(Array.prototype.hasOwnProperty('push')); //true 是公有还是私有属性，需要看相对谁来说的
+console.log(Array.prototype.hasOwnProperty('hasOwnProperty')); //false
+console.log(Object.prototype.hasOwnProperty('hasOwnProperty')); //true   
+//自己堆中有的就是私有属性，需要基于__proto__查找的就是公有属性
+```
+检测某个属性是否为对象的公有属性：hasPubProperty  
+方法：是它的属性，但是不是私有的
+```javascript
+//基于内置类原型扩展方法
+Object.prototype.hasPubProperty = function (property) {
+	//=>验证传递的属性名合法性（一般只能是数字或字符串等基本值）
+	let x = ["string", "number", "boolean"],
+		y = typeof property;
+	if (!x.includes(y)) return false;
+	//=>开始校验是否为公有的属性（方法中的THIS就是要校验的对象）
+	let n = property in this,
+		m = this.hasOwnProperty(property);
+	return n && !m;
+}
+console.log(Array.prototype.hasPubProperty('push')); //=>FALSE
+console.log([].hasPubProperty('push')); //=>TRUE
+```
+
+2. Object.keys(obj)  
+取得对象上所有可枚举的实例属性(不含Symbol属性),该方法返回对象自身包含（不包括原型中）的所有可枚举属性的名称的数组。
+相应还有Object.values(obj)、Object.entries(obj)
+
+3. Object.getOwnPropertyNames(obj)
+该方法返回对象自身包含（不包括原型中）的所有属性(无论是否可枚举)(不含Symbol属性)的名称的数组。
+```javascript
+let ary = [10,20,30];
+for(let key in ary){
+    console.log(key);//"0"  "1"  "2"   
+}
+let res = Object.keys(ary);
+  console.log(res);//["0", "1", "2"]
+
+res = Object.getOwnPropertyNames(ary);
+console.log(res);//["0", "1", "2", "length"]
+```
+
+4. Object.getOwnPropertySymbols(obj)
+该方法返回一个数组，包含对象自身的所有 Symbol 属性的键名。
+
+5. Reflect.ownKeys(obj)
+该方法返回一个数组，包含对象自身的（不含继承的）所有键名，不管键名是 Symbol 或字符串，也不管是否可枚举。
+
+以上的 5 种方法遍历对象的键名，都遵守同样的属性遍历的次序规则。
+首先遍历所有数值键，按照数值升序排列。
+其次遍历所有字符串键，按照加入时间升序排列。
+最后遍历所有 Symbol 键，按照加入时间升序排列。
+
 ##### for in 和for of的区别
 JavaScript 原有的for...in循环，只能获得对象的键名，不能直接获取键值。ES6 提供for...of循环，允许遍历获得键值。
 for...of循环调用遍历器接口，数组的遍历器接口只返回具有数字索引的属性。这一点跟for...in循环也不一样。
@@ -252,3 +338,13 @@ for...of的优点
 1. 有着同for...in一样的简洁语法，但是没有for...in那些缺点。
 2. 不同于forEach方法，它可以与break、continue和return配合使用。
 3. 提供了遍历所有数据结构的统一操作接口。
+
+#### 箭头函数和普通函数的区别
+1. 箭头函数语法上比普通函数更加简洁（ES6中每一种函数都可以使用形参赋默认值和剩余运算符）
+2. 普通function的声明在变量提升中是最高的，箭头函数的创建都是函数表达式方式（变量=函数），这种模式下，不存在变量提升，函数只能在创建完成后被执行（也就是创建的代码之后执行）
+3. 箭头函数没有自己的this，它里面的this是继承函数所处上下文中的this（使用call/apply等任何方式都无法改变this的指向）
+3. 箭头函数中没有arguments（类数组），但是可以基于...arg扩展运算符获取实参集合
+4. 箭头函数不能用于构造函数，不能用new关键字去调用
+- 没有自己的 this，无法调用 call，apply
+- 没有 prototype 属性 ，而 new 命令在执行时需要将构造函数的 prototype 赋值给新的对象的__proto__
+5. 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数
