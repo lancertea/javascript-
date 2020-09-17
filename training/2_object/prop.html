@@ -32,7 +32,8 @@
         //Symbol作为对象属性名
         let ms = Symbol();
         let a = {};
-        a.ms = "hello"
+        //这里a的属性其实是"ms",而不是Symbol ms
+        a.ms = "hello";
         console.log(a.ms); //"hello"
         console.log(a[ms]); //undefined
         console.log(a["ms"]); //"hello"

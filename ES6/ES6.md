@@ -22,8 +22,11 @@ let b;
 #### symbol
 【引入原因】：ES5 的对象属性名都是字符串，这容易造成属性名的冲突。比如，你使用了一个他人提供的对象，但又想为这个对象添加新的方法（mixin 模式），新方法的名字就有可能与现有方法产生冲突
 
-ES6 引入了一种新的原始数据类型Symbol，表示独一无二的值。Symbol函数可以接受一个字符串作为参数(如果是一个对象，会调用对象的toString()方法)，表示对 Symbol 实例的描述, Symbol函数的参数只是表示对当前 Symbol 值的描述，因此相同参数的Symbol函数的返回值是不相等的。
+ES6 引入了一种新的原始数据类型Symbol，表示独一无二的值。Symbol值通过[Symbol函数]生成，Symbol函数可以接受一个字符串作为参数(如果是一个对象，会调用对象的toString()方法)，表示对 Symbol 实例的描述, Symbol函数的参数只是表示对当前 Symbol 值的描述，因此相同参数的Symbol函数的返回值是不相等的。
 ```javascript
+typeof Symbol //"function"
+typeof Symbol() //"symbol"
+
 let s1 = Symbol('foo');
 let s2 = Symbol('bar');
 
@@ -53,7 +56,27 @@ if (sym) {
 Number(sym) // TypeError
 sym + 2 // TypeError
 ```
-Symbol 作为属性名，遍历对象的时候，该属性不会出现在for...in、for...of循环中，也不会被Object.keys()、Object.getOwnPropertyNames()、JSON.stringify()返回。
+##### 作为属性名的Symbol
+```javascript
+let mySymbol = Symbol();
+
+// 第一种写法
+let a = {};
+a[mySymbol] = 'Hello!';
+
+// 第二种写法
+let a = {
+  [mySymbol]: 'Hello!';
+};
+
+// 第三种写法
+let a = {};
+Object.defineProperty(a, mySymbol, { value: 'Hello!' });
+
+// 以上写法都得到同样结果
+a[mySymbol] // "Hello!"
+```
+
 ```javascript
  //example 1
  var a={}, b='123', c=123;  
@@ -73,6 +96,35 @@ Symbol 作为属性名，遍历对象的时候，该属性不会出现在for...i
  a[c]='c';  
  console.log(a[b]);//"c"
  ```
+
+Symbol 作为属性名，遍历对象的时候，该属性不会出现在for...in、for...of循环中，也不会被Object.keys()、Object.getOwnPropertyNames()、JSON.stringify()返回。
+但是，它也不是私有属性，有一个Object.getOwnPropertySymbols()方法，可以获取指定对象的所有 Symbol 属性名。该方法返回一个数组，成员是当前对象的所有用作属性名的 Symbol 值。
+```javascript
+const obj = {};
+let a = Symbol('a');
+let b = Symbol('b');
+
+obj[a] = 'Hello';
+obj[b] = 'World';
+
+const objectSymbols = Object.getOwnPropertySymbols(obj);
+
+objectSymbols
+// [Symbol(a), Symbol(b)]
+ ```
+
+ 另一个新的 API，Reflect.ownKeys()方法可以返回所有类型的键名，包括常规键名和 Symbol 键名。
+ ```javascript
+let obj = {
+  [Symbol('my_key')]: 1,
+  enum: 2,
+  nonEnum: 3
+};
+
+Reflect.ownKeys(obj)
+//  ["enum", "nonEnum", Symbol(my_key)]
+ ```
+
 在全局注册同一个symbol
  ```javascript
 let s1 = Symbol.for('foo');
@@ -145,8 +197,35 @@ fn(10,20,30);
 - 没有 prototype 属性 ，而 new 命令在执行时需要将构造函数的 prototype 赋值给新的对象的__proto__
 5. 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数
 
-#### 原生具备Iterator接口的数据结构
+### Iterator
+遍历器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
+
+Iterator 的作用有三个：
+1. 为各种数据结构，提供一个统一的、简便的访问接口；
+2. 使得数据结构的成员能够按某种次序排列；
+3. ES6 创造了一种新的遍历命令for...of循环，Iterator 接口主要供for...of消费。
+
+Iterator 的遍历过程是这样的。
+1. 创建一个指针对象，指向当前数据结构的起始位置。也就是说，遍历器对象本质上，就是一个[指针对象]。
+2. 第一次调用指针对象的next方法，可以将指针指向数据结构的第一个成员。
+3. 第二次调用指针对象的next方法，指针就指向数据结构的第二个成员。
+4. 不断调用指针对象的next方法，直到它指向数据结构的结束位置。
+
+每一次调用next方法，都会返回数据结构的当前成员的信息。具体来说，就是返回一个包含value和done两个属性的对象。其中，value属性是当前成员的值，done属性是一个布尔值，表示遍历是否结束。
+
+##### 原生具备Iterator接口的数据结构
 Array  Map  Set  String  TypedArray arguments NodeList
+
+##### 调用 Iterator 接口的场合
+- 解构赋值
+- 扩展运算符
+- yield*
+- 任何接受数组作为参数的场合
+for...of
+Array.from()
+Map(), Set(), WeakMap(), WeakSet()（比如new Map([['a',1],['b',2]])）
+Promise.all()
+Promise.race()
 
 ##### for in 和for of的区别
 JavaScript 原有的for...in循环，只能获得对象的键名，不能直接获取键值。ES6 提供for...of循环，允许遍历获得键值。

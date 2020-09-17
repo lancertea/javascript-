@@ -29,7 +29,7 @@
         console.log(arr1.flat(Infinity));
 
         //解法二：把数组变成字符串
-        res = arr.toString().split(',').filter(Boolean).map(item=>Number(item));//要考虑空字符串的情况，所以要先过滤一下
+        res = arr.toString().split(',').filter(item=>item!=='').map(item=>Number(item));//要考虑空字符串的情况，所以要先过滤一下
         console.log(res);
 
         res = JSON.stringify(arr).replace(/(\[|\])/g, "").split(',').map(item => Number(item));

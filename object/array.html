@@ -15,42 +15,6 @@
         a.length = 8;
         console.log(a); //[1, 99, 3.14, 'Hello', null, true，undefined，undefined]
 
-        // let obj = {
-        //     "1": 123,
-        //     "2": 234,
-        //     "8": 456
-        // };
-        // console.log(myFlat(obj));
-
-        // function myFlat(obj) {
-        //     // let max = 0;
-        //     // for (let key in obj) {
-        //     //     max = Number(key) > max ? Number(key) : max;
-        //     // }
-        //     // let res = Array.from({
-        //     //     length: max
-        //     // }, function () {
-        //     //     return 0
-        //     // });
-        //     let res=[];
-        //     for (let key in obj) {
-        //         res[key - 1] = obj[key];
-        //     }
-        //     // res=res.map(item=>{
-        //     //     if(item===undefined){
-        //     //         item=0;
-        //     //     }
-        //     //     return item;
-        //     // });
-        //     for(let i=0;i<res.length;i++){
-        //         if(res[i]===undefined){
-        //             res[i]=0;
-        //         }
-        //     }
-        //     return res;
-        // }
-
-
         //避免 使用new Array()
         //arr与arr1都创建了空数组
         let arr = new Array(); // 差

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>对象相关练习题</title>
+    <title>对象属性遍历</title>
 
 </head>
 
@@ -11,64 +11,134 @@
 <body>
 
     <script>
-{
-// Array.prototype.push=function(val){
-//     this[this.length++]=val;
-//     return this.length;
-// }
-     let obj={
-        2:3,
-        3:4,
-        length:2,
-        push:Array.prototype.push
-     }
-    obj.push(1);//this:obj  obj[obj.length++]=1=>obj[2]=1 obj.length=3
-    obj.push(2);
-    console.log(obj);
-}    
+        {
+            // Array.prototype.push=function(val){
+            //     this[this.length++]=val;
+            //     return this.length;
+            // }
+            let obj = {
+                2: 3,
+                3: 4,
+                length: 2,
+                push: Array.prototype.push
+            }
+            obj.push(1); //this:obj  obj[obj.length++]=1=>obj[2]=1 obj.length=3
+            obj.push(2);
+            console.log(obj);
+        }
 
-/* 
-某公司1到12月份的销售额存在一个对象里面
-如下： {
-    1: 222,
-    2: 123,
-    5: 888
-}，
-请把数据处理为如下结构：[222, 123, null, null, 888, null, null, null, null, null, null, null] 
-*/
-{
-let obj={
-    1: 222,
-    2: 123,
-    5: 888
-}
-//1
-var arr=Array(12).fill(null).map((item,index)=>{
-    return obj[index+1]||null;
-});
-console.log(arr);
+        /* 
+        某公司1到12月份的销售额存在一个对象里面
+        如下： {
+            1: 222,
+            2: 123,
+            5: 888
+        }，
+        请把数据处理为如下结构：[222, 123, null, null, 888, null, null, null, null, null, null, null] 
+        */
+        {
+            let obj = {
+                1: 222,
+                2: 123,
+                5: 888
+            }
+            //1
+            var arr = Array(12).fill(null).map((item, index) => {
+                return obj[index + 1] || null;
+            });
+            console.log(arr);
 
-//2
-//=>Object.keys(obj):获取obj中所有的属性名，以数组的方式返回
-// console.log(Object.keys(obj)); //=>["1","2","5"]
-var res=Array.from({length:12},function(){return null})
-Object.keys(obj).forEach(item=>{
-    res[item-1]=obj[item];
-});
-console.log(res);
-
-
-//3
-obj.length=13;
-arr=Array.from(obj).slice(1).map(item=>{
-    return typeof item==='undefined'?null:item;
-})
-console.log(arr);
+            //2
+            //=>Object.keys(obj):获取obj中所有的属性名，以数组的方式返回
+            // console.log(Object.keys(obj)); //=>["1","2","5"]
+            var res = Array.from({
+                length: 12
+            }, function () {
+                return null
+            })
+            Object.keys(obj).forEach(item => {
+                res[item - 1] = obj[item];
+            });
+            console.log(res);
 
 
+            //3
+            obj.length = 13;
+            arr = Array.from(obj).slice(1).map(item => {
+                return typeof item === 'undefined' ? null : item;
+            })
+            console.log(arr);
+        }
 
-}
+        {
+            let data = [{
+                    date: '2020-05-01',
+                    detial: {}
+                },
+                {
+                    date: '2020-06-01',
+                    detial: {}
+                },
+                {
+                    date: '2020-05-01',
+                    detial: {}
+                }
+            ];
 
+            // 实现一个函数，将数据按月分类。 注意：数据的时间不连续 processDate(data) 
+            //{'2020-05': [{}, {}], '2020-06': [{}] } 
+            console.log(processData(data));
+
+            function processData(data) {
+                let res = {};
+                if (!data) return res;
+                for (let item of data) {
+                    if (res[item.date]) {
+                        res[item.date].push(item.detial);
+                    } else {
+                        res[item.date] = [];
+                        res[item.date].push(item.detial);
+                    }
+                }
+                return res;
+            }
+        }
+
+        {
+            let obj = {
+                "1": 123,
+                "2": 234,
+                "8": 456
+            };
+            console.log(myFlat(obj));
+
+            function myFlat(obj) {
+                let res = [];
+                for (let key in obj) {
+                    res[key - 1] = obj[key];
+                }
+                for (let i = 0; i < res.length; i++) {
+                    if (res[i] === undefined) {
+                        res[i] = 0;
+                    }
+                }
+                // res = res.map(item => {
+                //     if (item === undefined) {
+                //         item = 0;
+                //     }
+                //     return item;
+                // });
+
+                // for (let item of res) {
+                //     if (item === undefined) {
+                //         item = 0;
+                //     }
+                //     return item;
+                // }
+                return res;
+            }
+
+        }
     </script>
 </body>
 
