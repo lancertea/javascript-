@@ -56,3 +56,47 @@ oldMan.name
 ```
 
 #### 属性的遍历（见ES6.md）
+
+#### Object.create(obj)和Object.assign(obj)
+Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__。
+Object.create(proto[, propertiesObject])
+```javascript
+// 用于创建一个新对象,被创建的对象继承另一个对象(o)的原型
+function createObj(o) {//传入的参数o为返回实例的__porto__,也就是实例构造函数的显示原型
+    function F() {}//构造函数
+    F.prototype = o;
+    return new F();//返回实例
+}
+```
+Object.assign() 方法用于将所有可枚举属性的值从一个或多个源对象(sources)复制到目标对象(target)。它将返回目标对象。
+Object.assign(target, ...sources)
+```javascript
+const target = { a: 1 };
+
+const source1 = { b: 2 };
+const source2 = { c: 3 };
+
+Object.assign(target, source1, source2);
+target // {a:1, b:2, c:3}
+```
+如果目标对象与源对象有同名属性，或多个源对象有同名属性，则后面的属性会覆盖前面的属性。
+```javascript
+const target = { a: 1, b: 1 };
+
+const source1 = { b: 2, c: 2 };
+const source2 = { c: 3 };
+
+Object.assign(target, source1, source2);
+target // {a:1, b:2, c:3}
+```
+如果只有一个参数，Object.assign()会直接返回该参数。
+```javascript
+const obj = {a: 1};
+Object.assign(obj) === obj // true
+```
+```javascript
+// 复制一个对象
+const obj = { a: 1 };
+const copy = Object.assign({}, obj);
+console.log(copy); // { a: 1 }
+```

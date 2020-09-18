@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>模拟实现map数组方法</title>
+</head>
+
+<body>
+    <script>
+        // 模拟实现map
+        // arr.map(function (currentValue, index, arr) {
+        // })
+        // currentValue 必须。 当前元素的值
+        // index 可选。 当期元素的索引值
+        // arr 可选。 当期元素属于的数组对象
+
+        Array.prototype.newMap = function (fn) { //写法一
+            var newArr = [];
+            for (var i = 0; i < this.length; i++) {
+                newArr.push(fn(this[i], i, this)) //this指向调用newMap方法的数组
+            }
+            return newArr;
+        }
+
+        // arr.reduce((previousValue, currentValue, currentIndex, array) => {}, initialValue？)
+        // reduce若不指定初始值， 那么第一次迭代的 previousValue 为 ar[[0], currentValue 为 arr[1], currentIndex 为 1，
+        // 若指定初始值， 那么第一次迭代的 previousValue 为 initialValue, currentValue为 arr[0], currentIndex 为0.
+
+        Array.prototype.newMap = function (fn, Arg) { ////写法二：用数组的reduce方法实现数组的map
+            var res = [];
+            this.reduce((prev, curr, index, array) => {
+                res.push(fn.call(Arg, curr, index, array));
+            }, 0) //指定初始值initialValue=0，所以从currentIndex=0开始，即第一个开始  不这样会缺第一项，结果为[3,4]
+            return res;
+        }
+
+        Array.prototype.reduceToMap = function (handle) {
+            return this.reduce((target, current, index) => {
+                target.push(handle.call(this, current, index));
+                return target;
+            }, [])
+        };
+
+
+        let arr = [1, 2, 3];
+        let res = arr.newMap((a) => a + 1);
+        console.log(res); //[2,3,4]
+    </script>
+</body>
+
+</html>

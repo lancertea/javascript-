@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>模拟实现filter数组方法</title>
+</head>
+
+<body>
+    <script>
+        Array.prototype.myFilter = function myFilter(fn, context) {
+            if (typeof fn !== "function") {
+                throw new TypeError(`${fn} is not a function`);
+            }
+            let arr = this;
+            let temp = [];
+            for (let i = 0; i < arr.length; i++) {
+                let result = fn.call(context, arr[i], i, arr);
+                if (result) temp.push(arr[i]);
+            }
+            return temp;
+        };
+
+        Array.prototype.reduceToFilter = function (handler) {
+            return this.reduce((targe, current, index) => {
+                if (handler.call(this, current, index)) {
+                    target.push(current);
+                }
+                return target;
+            }, []);
+        };
+    </script>
+</body>
+
+</html>
