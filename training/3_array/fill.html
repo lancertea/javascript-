@@ -13,6 +13,30 @@
                 this[i] = value;
             }
         }
+
+        function mysetinterval(fn, time) {
+            console.log("利用steTimeout实现setInterval");
+
+            function interval() { //执行该函数，异步被挂起time时间后在执行，一上来就执行fn
+                setTimeout(interval, time); //异步
+                //好，time时间过去，这个异步被执行，而内部执行的函数正是interval，就相当于进了一个循环，递归
+                fn(); //同步
+            }
+            setTimeout(interval, time); //interval被延迟time时间执行
+        }
+
+        async function test() {
+            console.log('开始');
+            await sleep(4000);
+            console.log('结束');
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => {
+                setTimeout(resolve, ms);
+            })
+        }
+        test();
     </script>
 </body>
 
