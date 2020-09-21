@@ -285,35 +285,33 @@ console.log('carry on');
 
 
 	<script>
-		Promise.all([promise1, promise2, ...])： ALL中存放的是多个PROMISE实例（ 每一个实例管理者一个异步操作），
-		执行ALL方法返回的结果是一个新的PROMISE实例 "PROA" *
-			当所有PROMISE实例的状态都为Fulfilled的时候(成功)， 让PROA的状态也变为Fulfilled, 并且把所有PROMISE成功获取的结果，
-		存储为成为一个数组（ 顺序和最开始编写的顺序一致）“ result = [result1, result2, ...]”， 让PROA这个数组的VALUE值等于这个数组 *
-			都成功（ PROA状态是FUFILLED） 才会通知THEN中第一个方法执行， 只要有一个失败（ PROA状态是REJECTED），
-		就会通知THEN中第二个方法或者CATCH中的方法执行
-		Promise.all([ajax1(), ajax3(), ajax2()]).then(results => {
-			//=>results:[result1,result3,result2]
-		});
+Promise.all([promise1, promise2, ...])： ALL中存放的是多个PROMISE实例（ 每一个实例管理者一个异步操作），
+执行ALL方法返回的结果是一个新的PROMISE实例 "PROA" *
+	当所有PROMISE实例的状态都为Fulfilled的时候(成功)， 让PROA的状态也变为Fulfilled, 并且把所有PROMISE成功获取的结果，
+存储为成为一个数组（ 顺序和最开始编写的顺序一致）“ result = [result1, result2, ...]”， 让PROA这个数组的VALUE值等于这个数组 *
+	都成功（ PROA状态是FUFILLED） 才会通知THEN中第一个方法执行， 只要有一个失败（ PROA状态是REJECTED），
+就会通知THEN中第二个方法或者CATCH中的方法执行
+Promise.all([ajax1(), ajax3(), ajax2()]).then(results => {
+	//=>results:[result1,result3,result2]
+});
 
-		例如：
-		let p2 = new Promise(resolve => {
-			setTimeout(_ => {
-				resolve(2);
-			}, 1000);
-		});
-		let p3 = Promise.reject(3);
-
-		Promise.all([p2, p1]).then(result => {
-			// 返回的结果是按照ARR中编写实例的顺序组合在一起的
-			// [2,1]
-			console.log(`成功：${result}`);
-		}).catch(reason => {
-			console.log(`失败：${reason}`);
-		});
-
-		Promise.race([ajax1(), ajax3(), ajax2()]).then(result => {
-			//=>看哪一个PROMISE状态最先处理完（成功或者失败），以最先处理完的为主
-		});
+	例如：
+	let p2 = new Promise(resolve => {
+		setTimeout(_ => {
+			resolve(2);
+		}, 1000);
+	});
+	let p3 = Promise.reject(3);
+	Promise.all([p2, p1]).then(result => {
+		// 返回的结果是按照ARR中编写实例的顺序组合在一起的
+		// [2,1]
+		console.log(`成功：${result}`);
+	}).catch(reason => {
+		console.log(`失败：${reason}`);
+	});
+	Promise.race([ajax1(), ajax3(), ajax2()]).then(result => {
+		//=>看哪一个PROMISE状态最先处理完（成功或者失败），以最先处理完的为主
+	});
 	</script>
 
 	<script>

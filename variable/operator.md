@@ -56,6 +56,7 @@ array.some(function(currentValue,index,arr), thisValue)
 
 ### ==和===
 #### ==
+##### 比较大小
 对于 == 来说，如果对比双方的类型不一样的话，就会进行类型转换  
 判断流程：  
 首先会判断两者类型是否相同。相同的话就是比大小了  
@@ -126,6 +127,47 @@ console.log(NaN != NaN); //true
 console.log(3+[20])//"320"
 console.log(3==[20])//false
  
+```
+
+##### 赋值操作
+js中变量的连续赋值  
+普通赋值
+```javascript
+var a=3;
+var b=a=5;
+console.log(a);
+console.log(b);
+```
+一般来说，等号赋值的方向是从右至左，那么上面的代码等同于下面这段代码：
+```javascript
+var a=3;　　//全局变量a被赋值为3
+var a=5;　　//此时a被重新赋值为5
+var b=a;　　//将a的值赋给全局变量b
+console.log(a);//a最终的值就是第二次被赋的值：5
+console.log(b);//按照代码执行顺序b的值也是：5
+```
+
+```javascript
+var a = {
+        n: 1
+    },
+    b = a;
+a.x = a = {
+    n: 2
+};
+console.log(a);
+console.log(b);
+console.log(a.x);
+console.log(b.x);
+```
+```javascript
+var a = {n: 1}；//a第一次被赋值，是一个引用类型值，请记得变量赋值为引用类型值的时候，通过变量改变这个对象的时候，对象本身也发生了变化
+var b = a;//b被赋值为a,因此b就是对象{n:1}
+a.x = a = {n: 2}；//这个赋值与之前的简单案例有所不同，a.x指的是给a添加一个x属性，在js的运算中“.”和"="运算符同时出现，会先执行"."运算//因此，赋值顺序被改变了，是先给a.x赋值，再给a赋值//就是先执行：a.x={n:2},注意这里a并未改变，是给a的x属性赋值为{n:2},a还是{n:1}//再回到我代码中的第一句话，这个赋值行为，改变了{n:1}这个对象，即给它增加了名为x的属性//再执行a={n:2}，这是变量a不再是对象{n:1},而被重新赋值为一个新的对象{n:2};
+
+console.log(a);//自然此时a是对象{n:2}console.log(b);//a的二次赋值，并没有影响b，b还是对象{n:1},但是由于a在重新赋值之前，给{n:1}这个对象，增加了一个x属性，因此，这时的b已经有了x属性
+console.log(a.x);//{n:2}对象没有x属性，所以结果是undefined
+console.log(b.x)；//综上所述，这个结果是{n:2}
 ```
 
 #### ===   

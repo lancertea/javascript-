@@ -1,5 +1,5 @@
-### ES5与ES6的比较
-#### var const和let的区别
+## ES5与ES6
+### var const和let的区别
 在 ES6 之前，JavaScript 只有两种作用域： 全局变量与函数内的局部变量，没有块级作用域（{}）。let和const是ES6新增的关键字，let，const声明的变量只在 let 命令所在的代码块{}内有效，可实现块级作用域。const 声明一个只读的常量，一旦声明，就不能再重新赋值。
 具体区别如下：
 - 全局声明的var变量会挂载在window对象上，而let和const不会
@@ -9,7 +9,7 @@
 - 变量提升：创建变量的六种方式中：var/function有变量提升，也就是变量的使用可以写在变量的声明之前，因为无论声明写到当前作用域哪里，在代码执行前都会提升到当前作用域最前面。而let/const/class/import都不存在这个机制，必须先声明赋值才能使用。const必须声明的时候就要立即赋值，且赋值后不能再重新赋值。
 - 并非真正的常量：使用const定义的对象或者数组可以修改，但不能重新赋值（const实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址所保存的数据不得改动。对于简单类型的数据（数值、字符串、布尔值），值就保存在变量指向的那个内存地址，因此等同于常量。但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指向实际数据的指针，const只能保证这个指针是固定的（即总是指向另一个固定的地址），至于它指向的数据结构是不是可变的，就完全不能控制了。）
 
-##### 暂时性死区
+#### 暂时性死区
 暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量。
 ```javascript
 //console.log(a);//ReferenceError: a is not defined
@@ -19,7 +19,7 @@ console.log(typeof a);//undefined 这是浏览器的bug，本应该是报错的�
 let b;
 ```
 
-#### symbol
+### symbol
 【引入原因】：ES5 的对象属性名都是字符串，这容易造成属性名的冲突。比如，你使用了一个他人提供的对象，但又想为这个对象添加新的方法（mixin 模式），新方法的名字就有可能与现有方法产生冲突
 
 ES6 引入了一种新的原始数据类型Symbol，表示独一无二的值。Symbol值通过[Symbol函数]生成，Symbol函数可以接受一个字符串作为参数(如果是一个对象，会调用对象的toString()方法)，表示对 Symbol 实例的描述, Symbol函数的参数只是表示对当前 Symbol 值的描述，因此相同参数的Symbol函数的返回值是不相等的。
@@ -56,7 +56,7 @@ if (sym) {
 Number(sym) // TypeError
 sym + 2 // TypeError
 ```
-##### 作为属性名的Symbol
+#### 作为属性名的Symbol
 ```javascript
 let mySymbol = Symbol();
 
@@ -160,6 +160,36 @@ console.log(Object.keys(obj2));//["b", "c"]
 console.log(Object.getOwnPropertyNames(obj2));//["b", "c"]
 console.log(Reflect.ownKeys(obj2));// ["b", "c", Symbol(a)]
 ```
+### Iterator
+遍历器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
+
+Iterator 的作用有三个：
+1. 为各种数据结构，提供一个统一的、简便的访问接口；
+2. 使得数据结构的成员能够按某种次序排列；
+3. ES6 创造了一种新的遍历命令for...of循环，Iterator 接口主要供for...of消费。
+
+Iterator 的遍历过程是这样的。
+1. 创建一个指针对象，指向当前数据结构的起始位置。也就是说，遍历器对象本质上，就是一个[指针对象]。
+2. 第一次调用指针对象的next方法，可以将指针指向数据结构的第一个成员。
+3. 第二次调用指针对象的next方法，指针就指向数据结构的第二个成员。
+4. 不断调用指针对象的next方法，直到它指向数据结构的结束位置。
+
+每一次调用next方法，都会返回数据结构的当前成员的信息。具体来说，就是返回一个包含value和done两个属性的对象。其中，value属性是当前成员的值，done属性是一个布尔值，表示遍历是否结束。
+
+#### 原生具备Iterator接口的数据结构
+Array  Map  Set  String  TypedArray arguments NodeList
+
+#### 调用 Iterator 接口的场合
+- 解构赋值
+- 扩展运算符
+- yield*
+- 任何接受数组作为参数的场合
+for...of
+Array.from()
+Map(), Set(), WeakMap(), WeakSet()（比如new Map([['a',1],['b',2]])）
+Promise.all()
+Promise.race()
+
 #### “...”的作用
 - 拓展运算符（多用在解构赋值中）
 - 展开运算符（多用在传递实参中）
@@ -187,44 +217,13 @@ let fn=(n,...arg)=>{
 fn(10,20,30);
 ```
 
-#### Iterator
-遍历器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
-
-Iterator 的作用有三个：
-1. 为各种数据结构，提供一个统一的、简便的访问接口；
-2. 使得数据结构的成员能够按某种次序排列；
-3. ES6 创造了一种新的遍历命令for...of循环，Iterator 接口主要供for...of消费。
-
-Iterator 的遍历过程是这样的。
-1. 创建一个指针对象，指向当前数据结构的起始位置。也就是说，遍历器对象本质上，就是一个[指针对象]。
-2. 第一次调用指针对象的next方法，可以将指针指向数据结构的第一个成员。
-3. 第二次调用指针对象的next方法，指针就指向数据结构的第二个成员。
-4. 不断调用指针对象的next方法，直到它指向数据结构的结束位置。
-
-每一次调用next方法，都会返回数据结构的当前成员的信息。具体来说，就是返回一个包含value和done两个属性的对象。其中，value属性是当前成员的值，done属性是一个布尔值，表示遍历是否结束。
-
-##### 原生具备Iterator接口的数据结构
-Array  Map  Set  String  TypedArray arguments NodeList
-
-##### 调用 Iterator 接口的场合
-- 解构赋值
-- 扩展运算符
-- yield*
-- 任何接受数组作为参数的场合
-for...of
-Array.from()
-Map(), Set(), WeakMap(), WeakSet()（比如new Map([['a',1],['b',2]])）
-Promise.all()
-Promise.race()
-
-
-#### 属性的遍历
-##### 属性的特性
+### 属性的遍历
+#### 属性的特性
 在JS对象中的属性有4个描述其行为的特性：
 - configurable:表示能否通过delete删除属性从而重新定义属性
 - enumerable:表示能否通过for-in循环或Object.keys方法返回属性
 - writable:表示能否修改属性的值
-- value:包含这个属性的数据值
+- value:包含这个属性的数据值  
 以上四个属性在不显示调用Object.defineProperty()的时候，即通过赋值操作添加的属性，前三个默认值都为true，而value为你自己设定的值，如果不设定的话则为undefined
 ```javascript
 //Object.getOwnPropertyDescriptor方法可以获取该属性的描述对象。
@@ -238,7 +237,7 @@ Object.getOwnPropertyDescriptor(obj, 'foo')
 //  }
 ```
      
-##### 可枚举不可枚举
+#### 可枚举不可枚举
 可枚举属性是指那些内部 “可枚举” 标志设置为 true 的属性，对于通过直接的赋值和属性初始化的属性，该标识值默认为即为 true，对于通过 Object.defineProperty 等定义的属性，该标识值默认为 false。可枚举的属性可以通过 for...in 循环进行遍历（除非该属性名是一个 Symbol）  
 常见不可枚举的属性：name prototype length 
 
@@ -248,7 +247,7 @@ Object.getOwnPropertyDescriptor(obj, 'foo')
 - JSON.stringify()：只串行化对象自身的可枚举的属性。
 - Object.assign()： 忽略enumerable为false的属性，只拷贝对象自身的可枚举的属性。
 
-##### 遍历方法
+#### 遍历方法
 1. for...in 循环
 该方法依次访问一个对象及其原型链中所有可枚举的属性(不含Symbol属性).同时使用 hasOwnProperty()+in，可确定该属性到底是存在于对象中，还是原型中
 ```javascript
@@ -342,6 +341,68 @@ for...of的优点
 #### super
 this关键字总是指向函数所在的当前对象，ES6 又新增了另一个类似的关键字super，指向当前对象的原型对象。
 
+### 函数
+#### 函数的参数
+##### 函数参数默认值
+1. ES6 允许为函数的参数设置默认值，即直接写在参数定义的后面。
+```javascript
+function f(x, y = 'World') {
+            console.log(x, y);
+}
+//当y===undefined，才会被改为默认值
+ f('Hello');//'Hello World'
+ f('Byebye','');//'Byebye'
+```
+2. 参数变量是默认声明的，所以不能用let或const再次声明(var可以)
+```javascript
+function f(x=1, y=2) {
+  console.log(x, y);
+  var x=3,y=4;
+  console.log(x, y);
+}
+f();//1 2    3 4
+
+function foo(x = 5) {
+  let x = 1; // error
+  const x = 2; // error
+}
+```
+3. 通常情况下，定义了默认值的参数，应该是函数的尾参数。因为这样比较容易看出来，到底省略了哪些参数。如果非尾部的参数设置默认值，实际上这个参数是没法省略的。
+```javascript
+// 例一
+function f(x = 1, y) {
+  return [x, y];
+}
+
+f() // [1, undefined]
+f(2) // [2, undefined]
+f(, 1) // 报错
+f(undefined, 1) // [1, 1]
+
+// 例二
+function f(x, y = 5, z) {
+  return [x, y, z];
+}
+
+f() // [undefined, 5, undefined]
+f(1) // [1, 5, undefined]
+f(1, ,2) // 报错
+f(1, undefined, 2) // [1, 5, 2]
+```
+上面代码中，有默认值的参数都不是尾参数。这时，无法只省略该参数，而不省略它后面的参数，除非显式输入undefined。
+
+4. 函数的length属性，将返回没有指定默认值的参数个数。
+```javascript
+(function (a) {}).length // 1
+(function (a = 5) {}).length // 0
+(function (a, b, c = 5) {}).length // 2
+```
+如果设置了默认值的参数不是尾参数，那么length属性也不再计入后面的参数了。
+```javascript
+(function (a = 0, b, c) {}).length // 0
+(function (a, b = 1, c) {}).length // 1
+```
+
 #### 箭头函数和普通函数的区别
 1. 箭头函数语法上比普通函数更加简洁（ES6中每一种函数都可以使用形参赋默认值和剩余运算符）
 2. 普通function的声明在变量提升中是最高的，箭头函数的创建都是函数表达式方式（变量=函数），这种模式下，不存在变量提升，函数只能在创建完成后被执行（也就是创建的代码之后执行）
@@ -351,3 +412,25 @@ this关键字总是指向函数所在的当前对象，ES6 又新增了另一个
 - 没有自己的 this，无法调用 call，apply
 - 没有 prototype 属性 ，而 new 命令在执行时需要将构造函数的 prototype 赋值给新的对象的__proto__
 5. 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数
+```javascript
+function foo() {
+  setTimeout(() => {
+    console.log('id:', this.id);
+  }, 100);
+}
+
+var id = 21;
+
+foo.call({ id: 42 });
+// id: 42
+```
+
+### 严格模式
+从 ES5 开始，函数内部可以设定为严格模式。
+```javascript
+function doSomething(a, b) {
+  'use strict';
+  // code
+}
+```
+ES6规定只要函数参数使用了默认值、解构赋值、或者扩展运算符，那么函数内部就不能显式设定为严格模式，否则会报错。
