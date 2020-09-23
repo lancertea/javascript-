@@ -1,5 +1,18 @@
 ### 作用域以及变量提升
 #### 浏览器执行代码的机制
+编译器（把代码解析成为浏览器看的懂的结构）
+   词法解析
+   AST抽象语法树
+   构建出浏览器能够执行的代码 
+引擎（V8 / webkit内核）
+   变量提升
+   作用域 / 闭包
+   变量对象
+   堆栈内存
+   GO/VO/AO/EC/ECStack
+   ...  
+
+
 代码执行前：  
 1.开启栈内存，形成作用域（执行上下文）  
 2.词法解析  
@@ -230,6 +243,15 @@ g = function () {
 }();
 console.log(f());
 console.log(g());
+```
+```javascript
+var x = 10;
+~ function(x) {
+    console.log(x);
+    x = x || 10 && 30 ||40;
+    console.log(x);
+}();
+console.log(x);
 ```
 
 #### 作用域链

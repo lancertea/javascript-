@@ -2,135 +2,165 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>函数柯理化</title>
+	<meta charset="UTF-8">
+	<title>函数柯理化</title>
 
 </head>
 
 
 <body>
 
-    <script>
-/* 函数柯理化：预先处理的思想（利用闭包的机制） */
-/* function fn(x){
-	//=>预先在闭包中把X值存储起来
-	return function(y){
-		return x+y;
-	}
-}
-fn(100)(200) */
-
-
-/* (function () {
-	//=>this:需要改变THIS的函数
-	//=>context:需要改变的THIS指向
-	//=>outerArg:其余需要传递给函数的实参信息
-	function myBind(context = window, ...outerArg) {
-		let _this = this; 
-		return function anonymous(...innerArg) {
-			_this.call(context, ...outerArg.concat(innerArg));
+	<script>
+		/* 函数柯理化：预先处理的思想（利用闭包的机制） */
+		/* function fn(x){
+			//=>预先在闭包中把X值存储起来
+			return function(y){
+				return x+y;
+			}
 		}
-	}
-	Function.prototype.myBind = myBind;
-})();
-
-let obj = {
-	name: 'OBJ'
-};
-
-function fn(...arg) {
-	console.log(this, arg);
-}
-document.body.onclick = fn.myBind(obj, 100, 200);
- */
-
- 
-//=>点击的时候FN中的this=>obj arg=>[100,200,事件对象]
-// document.body.onclick = fn.bind(obj, 100, 200);
-// document.body.onclick = function (ev) {
-// 	fn.call(obj, 100, 200, ev);
-// }
-//=>执行bind方法，会返回一个匿名函数，当事件触发，匿名函数执行，我们再处理fn即可
+		fn(100)(200) */
 
 
-// document.body.onclick = fn; //=>this:BODY  arg:[事件对象]
-/* document.body.onclick = function (ev) {
-	//=>ev事件对象：给元素的某个事件绑定方法，当事件触发会执行这个方法，并且会把当前事件的相关信息传递给这个函数“事件对象”
-	console.log(ev);
-} */
+		/* (function () {
+			//=>this:需要改变THIS的函数
+			//=>context:需要改变的THIS指向
+			//=>outerArg:其余需要传递给函数的实参信息
+			function myBind(context = window, ...outerArg) {
+				let _this = this; 
+				return function anonymous(...innerArg) {
+					_this.call(context, ...outerArg.concat(innerArg));
+				}
+			}
+			Function.prototype.myBind = myBind;
+		})();
 
+		let obj = {
+			name: 'OBJ'
+		};
 
-
-
-/* 请实现一个 add 函数，满足以下功能 */
-// add(1); //1
-// add(1)(2); //3
-// add(1)(2)(3); //6
-// add(1)(2)(3)(4); //10
-// add(1)(2, 3); //6
-// add(1, 2)(3); //6
-// add(1, 2, 3); //6
-
-function currying(fn, length) {
-	length = length || fn.length;
-	return function (...args) {
-		if (args.length >= length) {
-			return fn(...args);
+		function fn(...arg) {
+			console.log(this, arg);
 		}
-		return currying(fn.bind(null, ...args), length - args.length);
-	}
-}
-let add = currying((...arg) => eval(arg.join('+')),5);
+		document.body.onclick = fn.myBind(obj, 100, 200);
+		 */
 
-console.log(add(1, 2, 3, 4, 5));
-console.log(add(1, 2)(3, 4, 5));
-console.log(add(1, 2)(3, 4)(5));
-console.log(add(1, 2)(3)(4)(5));
-console.log(add(1)(2)(3)(4)(5));
 
-/* function add(...A) {
-	return function (...B) {
-		return function (...C) {
-			return eval([...A, ...B, ...C].join('+'));
+		//=>点击的时候FN中的this=>obj arg=>[100,200,事件对象]
+		// document.body.onclick = fn.bind(obj, 100, 200);
+		// document.body.onclick = function (ev) {
+		// 	fn.call(obj, 100, 200, ev);
+		// }
+		//=>执行bind方法，会返回一个匿名函数，当事件触发，匿名函数执行，我们再处理fn即可
+
+
+		// document.body.onclick = fn; //=>this:BODY  arg:[事件对象]
+		/* document.body.onclick = function (ev) {
+			//=>ev事件对象：给元素的某个事件绑定方法，当事件触发会执行这个方法，并且会把当前事件的相关信息传递给这个函数“事件对象”
+			console.log(ev);
+		} */
+
+
+
+
+		/* 请实现一个 add 函数，满足以下功能 */
+		// add(1); //1
+		// add(1)(2); //3
+		// add(1)(2)(3); //6
+		// add(1)(2)(3)(4); //10
+		// add(1)(2, 3); //6
+		// add(1, 2)(3); //6
+		// add(1, 2, 3); //6
+
+		function currying(fn, length) {
+			length = length || fn.length;
+			return function (...args) {
+				if (args.length >= length) {
+					return fn(...args);
+				}
+				return currying(fn.bind(null, ...args), length - args.length);
+			}
 		}
-	}
-}
-add(1)(2)(3); */
+		let add = currying((...arg) => eval(arg.join('+')), 5);
 
-// function $add(n1, n2, n3, n4) {
-// 	return n1 + n2 + n3 + n4;
-// }
-// add = currying($add, 4);
-// console.log(add(1, 2, 3, 4));
-// console.log(add(1)(2)(3)(4)); 
-//=>$add.bind(null,1).bind(null,2).bind(null,3)(4)
-// function anonymous1(...innerArg){ $add.call(null,...[1,...innerArg]) }
-// function anonymous2(...innerArg){ anonymous1.call(null,...[2,...innerArg])}
-// function anonymous3(...innerArg){ anonymous2.call(null,...[3,...innerArg])}
-// anonymous3(4) 
-// 往回推
-// anonymous2.call(null,3,4)
-// anonymous1.call(null,2,3,4)
-// $add.call(null,1,2,3,4)
-// console.log(add(1, 2)(3, 4));
+		console.log(add(1, 2, 3, 4, 5));
+		console.log(add(1, 2)(3, 4, 5));
+		console.log(add(1, 2)(3, 4)(5));
+		console.log(add(1, 2)(3)(4)(5));
+		console.log(add(1)(2)(3)(4)(5));
 
-// function curring(fn,...arg){
-//        if(arg.length>=fn.length){
-//            return fn(...arg);
-//        } 
-//        else{
-//            return (...arg1)=>curring(fn,...arg,...arg1);
-//        }
-//        }
-//        function add(a,b,c){
-//        return a+b+c;
-//        }
-    
-//        add=curring(add);
-//        console.log(add(1,2,3));
-//        console.log(add(1,2)(3));
-//        console.log(add(1)(2)(3));
-    </script>
+		/* function add(...A) {
+			return function (...B) {
+				return function (...C) {
+					return eval([...A, ...B, ...C].join('+'));
+				}
+			}
+		}
+		add(1)(2)(3); */
+
+		// function $add(n1, n2, n3, n4) {
+		// 	return n1 + n2 + n3 + n4;
+		// }
+		// add = currying($add, 4);
+		// console.log(add(1, 2, 3, 4));
+		// console.log(add(1)(2)(3)(4)); 
+		//=>$add.bind(null,1).bind(null,2).bind(null,3)(4)
+		// function anonymous1(...innerArg){ $add.call(null,...[1,...innerArg]) }
+		// function anonymous2(...innerArg){ anonymous1.call(null,...[2,...innerArg])}
+		// function anonymous3(...innerArg){ anonymous2.call(null,...[3,...innerArg])}
+		// anonymous3(4) 
+		// 往回推
+		// anonymous2.call(null,3,4)
+		// anonymous1.call(null,2,3,4)
+		// $add.call(null,1,2,3,4)
+		// console.log(add(1, 2)(3, 4));
+
+		// function curring(fn,...arg){
+		//        if(arg.length>=fn.length){
+		//            return fn(...arg);
+		//        } 
+		//        else{
+		//            return (...arg1)=>curring(fn,...arg,...arg1);
+		//        }
+		//        }
+		//        function add(a,b,c){
+		//        return a+b+c;
+		//        }
+
+		//        add=curring(add);
+		//        console.log(add(1,2,3));
+		//        console.log(add(1,2)(3));
+		//        console.log(add(1)(2)(3));
+
+		{
+
+			function add() {
+				//add（）的参数
+				var args = [].slice.call(arguments)
+				var fn = function () {
+
+					//链式调用的参数
+					var arg = [].slice.call(arguments)
+					//参数拼接
+					args = args.concat(arg)
+					return fn
+				}
+				fn.sumOf = function () {
+					var sum = 0
+
+					for (var i = 0; i < args.length; i++) {
+						sum = sum + args[i]
+					}
+					return sum
+
+				}
+				return fn
+			}
+			console.log(add(2, 3, 4).sumOf());
+			console.log(add(2)(3, 4).sumOf());
+			console.log(add(2)(3)(4).sumOf());
+			console.log(add(2, 3)(4).sumOf());
+		}
+	</script>
 </body>
 
 </html>
