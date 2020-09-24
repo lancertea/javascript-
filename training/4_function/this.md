@@ -37,6 +37,23 @@
    ```
 
    ```javascript
+    const user = {
+           count: 1,
+           action: {
+               getCount: () => this.count //window window window 
+               // getCount:function(){
+               //     return this.count;       //this:action action window
+               // }            
+           }
+       };
+    const action = user.action;
+    const getCount = user.action.getCount;
+    console.log(user.action.getCount());
+    console.log(action.getCount());
+    console.log(getCount());
+   ```
+
+   ```javascript
    var name='window';
    var Tom={
    	name:"Tom",
@@ -156,5 +173,6 @@
     fn(4);
     console.log(obj.x, x);
    ```
-
+  
+  
 
