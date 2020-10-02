@@ -62,13 +62,12 @@ array.some(function(currentValue,index,arr), thisValue)
 首先会判断两者类型是否相同。相同的话就是比大小了  
 类型不相同的话，就会进行类型转换：  
 1. 先判断是否在对比 null 和 undefined，是的话就会返回 true
-2. 判断两者类型是否为 string 和 number，是的话就会将字符串转换为 number
-3. 判断其中一方是否为 boolean，是的话就会把 boolean 转为 number 再进行判断。注意：flase->0  true->1
-4. 比较相等性之前，不能将null和undefined转换成其他任何值(null==undefined)
-5. 判断其中一方是否为 object 且另一方为 string、number 或者 symbol，是的话就会把 object转为原始类型再进行判断  
+2. 如果两者是类型不同的基本类型，就将两者都先转换为number，再判断。 注意：flase->0  true->1
+3. 比较相等性之前，不能将null和undefined转换成其他任何值(null==undefined)
+4. 判断其中一方是否为 object 且另一方为 string、number 或者 symbol，是的话就会把 object转为原始类型再进行判断  
 '1' == { a: 'b' } ->'1' == '[object Object]'  
-6. 两边都是对象的话，那么只要不是同一对象的不同引用（不管对象里的内容等不等），都为false  
-7. 只要出现NaN，就一定是false，因为就连NaN自己都不等于NaN 对于NaN，判断的方法是使用全局函数 isNaN()  
+5. 两边都是对象的话，那么只要不是同一对象的不同引用（不管对象里的内容等不等），都为false  
+6. 只要出现NaN，就一定是false，因为就连NaN自己都不等于NaN 对于NaN，判断的方法是使用全局函数 isNaN()  
 ```javascript
 console.log(null == undefined); //true
 //判断两者类型是否为 string 和 number，是的话就会将字符串转换为 number
@@ -79,6 +78,7 @@ console.log(1 == 'b'); //false  "b"转换为number为NaN
 console.log(false == 0); //true
 console.log(true == 1); //true
 console.log(true == 2); //false
+console.log(true == '1') //true
 //比较相等性之前，不能将null和undefined转换成其他任何值
 console.log(undefined == 0); //false
 console.log(null == 0); //false

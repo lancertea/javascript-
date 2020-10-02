@@ -68,6 +68,10 @@
         console.log(0.1 + 0.2 === 0.3);// false
         console.log(withinErrorMargin(0.1 + 0.2, 0.3));//true
 
+        //计算小数时，也可通过把小数放到位整数（乘倍数），再缩小回原来倍数（除倍数）
+        console.log((0.1*10+0.2*10)/10===0.3);//true
+        
+
         // BigInt
         //BigInt 只用来表示整数，没有位数的限制，任何位数的整数都可以精确表示
         //为了与 Number 类型区别，BigInt 类型的数据必须添加后缀n。

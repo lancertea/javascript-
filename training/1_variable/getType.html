@@ -41,8 +41,12 @@
             }
 
             return Object.prototype.toString.call(obj).slice(8, -1);
-
         }
+        //自定义类型可以暂时用函数的name属性获取,但是要注意实例自己可能也有name属性的情况
+        console.log(f1.name);//'zz'
+        console.log(f1.constructor.name);//'fox'
+
+        
     </script>
 </body>
 
