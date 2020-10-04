@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>rest参数和扩展运算符</title>
+</head>
+<script>
+/*
+...
+扩展运算符：把数组或者类数组展开成用逗号隔开的值
+rest参数：把逗号隔开的值组合成一个数组
+*/
+  {
+    // ES5 合并数组
+    var params = ['hello', true, 7];
+    var other = [1, 2].concat(params);
+    console.log(other); //[ 1, 2, "hello", true, 7 ]
+  }
+
+  //rest参数的逆运算
+  // function sum(x = 1, y = 2, z = 3) {
+  //   return x + y + z
+  // }
+  // let data = [4, 5, 9]
+  // //ES5
+  // // console.log(sum(data[0], data[1], data[2]))
+  // // console.log(sum.apply(this, data))
+  // // ES6  spread
+  // console.log(sum(...data))
+
+  {
+    // ES6 利用扩展运算符合并数组
+    var params = ['hello', true, 7];
+    var other = [
+      1, 2, ...params
+    ];
+    console.log(other); //[ 1, 2, "hello", true, 7 ]
+  }
+
+</script>
+
+<body>
+
+</body>
+
+</html>

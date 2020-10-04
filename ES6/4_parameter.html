@@ -26,7 +26,7 @@
       x = x || '123';
       y = y || '456';
       //x=''||'123'=false||'123'='123'
-      return x+y;
+      return x + y;
     }
     console.log(a('')); //'123456'
 
@@ -51,15 +51,22 @@
     // }
 
   }
-  
+
   //参数变量x是默认声明的，在函数体中，不能用let或const再次声明，否则会报错。
   //function (x){
   // let x=1;}
-  //使用参数默认值时，函数不能有同名参数。
-  //function (x,x,y){
+  //使用参数默认值时，函数不能有同名参数，会报错
+  //function (x,x,y=5){ 
   // }
-  
-  
+  {
+    function foo(x, x, y) {
+      console.log(x); //2
+      console.log(y); //undefined
+      return x + x + y;
+    }
+    console.log(foo(1, 2)); //NaN
+  }
+
   // 必填参数的检查
   {
     function checkParameter() {
@@ -86,40 +93,40 @@
     }
     sum(1, 2); //1 2 undefined undefined
   }
-  
-/*
-// 写法一
-function m1({x = 0, y = 0} = {}) {
-  return [x, y];
-}
 
-// 写法二
-function m2({x, y} = { x: 0, y: 0 }) {
-  return [x, y];
-}
-  
-// 函数没有参数的情况
-m1() // [0, 0]
-m2() // [0, 0]
+  /*
+  // 写法一
+  function m1({x = 0, y = 0} = {}) {
+    return [x, y];
+  }
 
-// x 和 y 都有值的情况
-m1({x: 3, y: 8}) // [3, 8]
-m2({x: 3, y: 8}) // [3, 8]
+  // 写法二
+  function m2({x, y} = { x: 0, y: 0 }) {
+    return [x, y];
+  }
+    
+  // 函数没有参数的情况
+  m1() // [0, 0]
+  m2() // [0, 0]
 
-// x 有值，y 无值的情况
-m1({x: 3}) // [3, 0]
-m2({x: 3}) // [3, undefined]
+  // x 和 y 都有值的情况
+  m1({x: 3, y: 8}) // [3, 8]
+  m2({x: 3, y: 8}) // [3, 8]
 
-// x 和 y 都无值的情况
-m1({}) // [0, 0];
-m2({}) // [undefined, undefined]
+  // x 有值，y 无值的情况
+  m1({x: 3}) // [3, 0]
+  m2({x: 3}) // [3, undefined]
 
-m1({z: 3}) // [0, 0]
-m2({z: 3}) // [undefined, undefined] 
-*/
-  
-//参数默认值的位置：通常情况下，定义了默认值的参数，应该是函数的尾参数。如果非尾部的参数设置默认值，实际上这个参数是没法省略的。除非显式赋值为undefined
-//length属性的返回值，等于函数的参数个数减去指定了默认值的参数个数。  rest 参数也不会计入length属性。
+  // x 和 y 都无值的情况
+  m1({}) // [0, 0];
+  m2({}) // [undefined, undefined]
+
+  m1({z: 3}) // [0, 0]
+  m2({z: 3}) // [undefined, undefined] 
+  */
+
+  //参数默认值的位置：通常情况下，定义了默认值的参数，应该是函数的尾参数。如果非尾部的参数设置默认值，实际上这个参数是没法省略的。除非显式赋值为undefined
+  //length属性的返回值，等于函数的参数个数减去指定了默认值的参数个数。  rest 参数也不会计入length属性。
 
   //如何处理不确定参数的问题
   {
@@ -135,16 +142,16 @@ m2({z: 3}) // [undefined, undefined]
       return sum;
     }
     console.log(f(1, 2, 3, 6)); //12
-    
+
     //ES6
-    function f1(...arg){
-    var sum=0;
-    arg.forEach(item=>{
-    sum+=item;
-    });
-    return sum;
+    function f1(...arg) {
+      var sum = 0;
+      arg.forEach(item => {
+        sum += item;
+      });
+      return sum;
     }
-     console.log(f1(1, 2, 3, 6)); //12
+    console.log(f1(1, 2, 3, 6)); //12
   }
 
   {
@@ -155,51 +162,33 @@ m2({z: 3}) // [undefined, undefined]
       return x + y + z;
     }
     console.log(sum1.length); //2
+
+    function sum2(x, y = 1, z) {
+      return x + y + z;
+    }
+    console.log(sum2.length); //1
   }
 
-  {
-    // ES5 合并数组
-    var params = ['hello', true, 7];
-    var other = [1, 2].concat(params);
-    console.log(other); //[ 1, 2, "hello", true, 7 ]
-  }
-
-  //rest参数的逆运算
-  // function sum(x = 1, y = 2, z = 3) {
-  //   return x + y + z
+  //一旦设置了参数的默认值，函数进行声明初始化时，参数会形成一个单独的作用域（context）。等到初始化结束，
+  //这个作用域就会消失。这种语法行为，在不设置参数默认值时，是不会出现的。
+  // let x = 1;
+  // function f(x, y = x) {
+  //     console.log(y);
   // }
-  // let data = [4, 5, 9]
-  // //ES5
-  // // console.log(sum(data[0], data[1], data[2]))
-  // // console.log(sum.apply(this, data))
-  // // ES6  spread
-  // console.log(sum(...data))
+  // f(2) // 2
 
-  {
-    // ES6 利用扩展运算符合并数组
-    var params = ['hello', true, 7];
-    var other = [
-      1, 2, ...params
-    ];
-    console.log(other); //[ 1, 2, "hello", true, 7 ]
-  }
+  // let x = 1;
+  // function f(y = x) {
+  //     let x = 2;
+  //     console.log(y);
+  // }
+  // f() // 1
 
-     //一旦设置了参数的默认值，函数进行声明初始化时，参数会形成一个单独的作用域（context）。等到初始化结束，
-        //这个作用域就会消失。这种语法行为，在不设置参数默认值时，是不会出现的。
-        // var x = 1;
-        // function f(x, y = x) {
-        //     console.log(y);
-        // }
-        // f(2) // 2
-
-        // let x = 1;
-        // function f(y = x) {
-        //     let x = 2;
-        //     console.log(y);
-        // }
-        // f() // 1
-
- 
+  // function f(y = x) {
+  //     let x = 2;
+  //     console.log(y);
+  // }
+  // f() // error:x is not defined
 </script>
 
 <body>

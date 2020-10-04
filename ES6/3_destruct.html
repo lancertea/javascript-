@@ -238,6 +238,10 @@
         let {name,age,id,status}=jsonData;
         console.log(name,age,id,status);
 
+        let j = '{"a":"hello", "b":"world"}';
+        let {a,b} = JSON.parse(j);
+        console.log(a,b);
+
         5.遍历Map结构
         const map = new Map();
         map.set('first', 'hello');
