@@ -55,8 +55,29 @@ oldMan.name
 ...
 ```
 
-#### 属性的遍历（见ES6.md）
+### 创建对象
+1. 字面量创建
+2. new关键字创建
+```javascript
+let obj1 = {};
+let obj2 = new Object(obj1);
+console.log(obj1 == obj2); //true
+console.log(obj1 === obj2); //true  为啥这里是全等的
 
+```
+3. Object.create(obj)
+4. Object.assign(obj)
+```javascript
+/*
+创建一个空对象
+有时我们需要创建一个纯净的对象, 不包含什么原型链等等. 
+一般创建空对象最直接方式通过字面量 {}, 但这个对象中依然存在 __proto__ 属性来指向 Object.prototype 等等.
+*/
+let cle = {};
+console.log(cle.__proto__);//Object.prototype
+let cle1 = Object.create(null);
+console.log(cle1.__proto__); //undefined
+```
 #### Object.create(obj)和Object.assign(obj)
 Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__。
 Object.create(proto[, propertiesObject])
@@ -100,3 +121,6 @@ const obj = { a: 1 };
 const copy = Object.assign({}, obj);
 console.log(copy); // { a: 1 }
 ```
+
+#### 属性的遍历（见ES6.md）
+

@@ -36,18 +36,7 @@
 
 
 
-        /*
-        创建一个空对象
-        有时我们需要创建一个纯净的对象, 不包含什么原型链等等. 
-        一般创建空对象最直接方式通过字面量 {}, 但这个对象中依然存在 __proto__ 属性来指向 Object.prototype 等等.
-        */
-        let cle = {};
-        console.log(cle.__proto__);
-        let cle1 = Object.create(null);
-        console.log(cle1.__proto__); //undefined
-
-
-
+        
         /*
         合并对象
         在JavaScript中合并多个对象的需求一直存在, 比如在传参时需要把表单参数和分页参数进行合并后在传递给后端,利用ES6提供的扩展运算符让对象合并变得很简单.

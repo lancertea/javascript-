@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>常量，作用域</title>
+    <title>变量及作用域</title>
 </head>
 <script>
     // ES5 中常量的写法
@@ -93,19 +93,6 @@
 
     }
 
-    //暂时性死区
-    //暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，
-    //只有等到给变量赋值的那一行代码出现，才可以获取和使用该变量。
-    //报错不是未定义，在读取变量的时候才可能抛变量未定义的错误
-    // var tmp = 123;
-    // var x = 2;
-
-    // if (true) {
-    //     tmp = 'abc'; //can't access lexical declaration `x' before initialization
-    //     let tmp;
-    // }
-
-    
     {
         var foo = 1;
 
@@ -113,7 +100,7 @@
             if (!foo) {
                 var foo = 10;
             }
-            console.log(foo);//10
+            console.log(foo); //10
         }
         bar();
     }
@@ -125,35 +112,35 @@
             if (!foo) {
                 let foo = 10;
             }
-            console.log(foo);//1
+            console.log(foo); //1
         }
         bar();
     }
 
-   //for:设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。
-   {
-        for(var i = 0;i < 3;i++){
-            console.log(i);//0 1 2
+    //for:设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。
+    {
+        for (var i = 0; i < 3; i++) {
+            console.log(i); //0 1 2
         }
     }
 
     {
-        for(var i = 0;i < 3;i++){
+        for (var i = 0; i < 3; i++) {
             var i = 12;
-            console.log(i);//12
+            console.log(i); //12
         }
     }
 
     {
-      for(let i = 0;i < 3;i++){
-            console.log(i);//0 1 2
+        for (let i = 0; i < 3; i++) {
+            console.log(i); //0 1 2
         }
     }
 
     {
-        for(let i = 0;i < 3;i++){
+        for (let i = 0; i < 3; i++) {
             let i = 12;
-            console.log(i);//12 12 12
+            console.log(i); //12 12 12
         }
     }
 </script>

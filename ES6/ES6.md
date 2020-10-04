@@ -1,13 +1,28 @@
 ## ES5与ES6
 ### var const和let的区别
+[全局变量/属性]：全局变量/属性的作用域不是单个文件的，如果有多个文件，在一个文件定义了全局变量，在其他文件也是可以访问到的  
+两者的区别：全局属性可以被delete删除（返回true），全局变量不可以被delete删除（返回false）
+
+var:variable(可变的)  
 在 ES6 之前，JavaScript 只有两种作用域： 全局变量与函数内的局部变量，没有块级作用域（{}）。let和const是ES6新增的关键字，let，const声明的变量只在 let 命令所在的代码块{}内有效，可实现块级作用域。const 声明一个只读的常量，一旦声明，就不能再重新赋值。
 具体区别如下：
 - 全局声明的var变量会挂载在window对象上，而let和const不会
-在全局作用域下，带var/function声明的全局变量相当于给window设置了对应的属性（既是全局变量也是属性），不带var的声明只是给window设置了对应的属性，如果使用的是let/const声明的，只是全局变量，没有给window设置属性的.  
-属性可以被delete删掉，变量不可以
+在全局作用域下，带var/function声明的全局变量相当于给window设置了对应的属性（既是全局变量也是属性），不带var的声明只是给window设置了对应的属性，如果使用的是let/const声明的，只是全局变量，没有给window设置属性
 - 重置变量：在相同的作用域中，只有var声明的变量可以重新声明
 - 变量提升：创建变量的六种方式中：var/function有变量提升，也就是变量的使用可以写在变量的声明之前，因为无论声明写到当前作用域哪里，在代码执行前都会提升到当前作用域最前面。而let/const/class/import都不存在这个机制，必须先声明赋值才能使用。const必须声明的时候就要立即赋值，且赋值后不能再重新赋值。
 - 并非真正的常量：使用const定义的对象或者数组可以修改，但不能重新赋值（const实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址所保存的数据不得改动。对于简单类型的数据（数值、字符串、布尔值），值就保存在变量指向的那个内存地址，因此等同于常量。但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指向实际数据的指针，const只能保证这个指针是固定的（即总是指向另一个固定的地址），至于它指向的数据结构是不是可变的，就完全不能控制了。）
+
+#### 块级作用域
+```javascript
+//词法声明不能出现在单个语句的上下文中
+if (true)
+    let a = 5; //Lexical declaration cannot appear in a single-statement context
+```
+```javascript
+  if (true) {
+    let a = 5;
+  }
+```
 
 #### 暂时性死区
 暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量。
@@ -17,6 +32,61 @@ console.log(typeof a);//undefined 这是浏览器的bug，本应该是报错的�
 //let const解决了typeof检测时出现的暂时性死区问题
 //console.log(typeof b);//ReferenceError: Cannot access 'b' before initialization
 let b;
+```
+
+#### 函数声明
+ES5规定，函数只能在顶层作用域和函数作用域之中声明，不能在块级作用域声明。但是浏览器没有遵守这个规定，为了兼容以前的旧代码，还是支持在块级作用域之中声明函数。
+```javascript
+   if (true) {
+    function f() {}
+  }
+//不报错
+```
+不过，“严格模式”下还是会报错
+```javascript
+'use strict';
+   if (true) {
+    function f() {}
+  }
+//报错
+```
+ES6引入了块级作用域，明确允许在块级作用域之中声明函数
+```javascript
+'use strict';
+   if (true) {
+    function f() {}
+  }
+//不报错
+```
+ES6的浏览器：
+- 允许在块级作用域内声明函数
+- 函数声明类似于var，即会提升到全局作用域或函数作用域的头部，函数定义会提升到所在块级作用域的头部
+```javascript
+console.log(f); //undefined
+if (true) {
+    function f() {}
+}
+console.log(f); //function f() {}
+```
+```javascript        
+var a = 0;
+console.log(a, window.a); //0  0
+//a();  报错，说明函数定义是块级作用域，如果注释掉第一句，上一句输出两个undefined，说明函数声明是提升到全局位置了
+
+if (true) {
+    a(); //'function'  函数声明提到函数级作用域最前面(这里是全局)，函数定义提升到块级作用域最前面
+    console.log(a, window.a); //输出 function a 和 0
+    a = 1; // 取作用域最近的块级作用域的 function a ,且被重置为 1了，本质又是一个变量的赋值。
+    console.log(a, window.a); // a 是指向块级作用域的 a, 输出 1 和 0 
+    function a() {
+        console.log('function');
+    } // 函数的声明，将执行函数的变量的定义同步到函数级的作用域。
+    console.log(a, window.a); // 输出 1 和 1
+    a = 21; // 仍然是函数定义块级作用域的 a ,重置为 21
+    console.log(a, window.a); // 输出为函数提升的块级作用域的 a, 输出 21，1
+    console.log("里面", a);
+  }
+console.log("外部", a);
 ```
 
 ### symbol
