@@ -173,6 +173,10 @@
         // }
         // m.set(o, 4)
         // console.log(m.get(o))
+        
+        //注意这里是先值后键
+        // m.forEach((val,key)=>{console.log(val,key)});
+        // for(let [key,val] of m){console.log(key,val);}
 
         /*
         由上可知，Map 的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键。这就解决了同名属性碰撞（clash）的问题，

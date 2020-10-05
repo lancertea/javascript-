@@ -31,8 +31,15 @@
     形参只有一个，小括号可以不加
     const fn=n=>{};
 
-    函数体中只有一句话，并且是return xxx的，可以省略大括号和return等
+    函数体只有一句话，且是返回一个表达式，可以省略大括号和return等
     const fn=n=>n*10;
+
+    函数体只有一句话，且是返回一个对象，需要用小括号括起来
+    let sum =(x,y,z)=>(return {
+        x:x,
+        y:y,
+        z:z
+    });
 
     function fn(n){
         return function(m){
@@ -116,7 +123,8 @@
     }
     //箭头函数的妙用
     {
-    //箭头函数可以让setTimeout里面的this，绑定定义时所在的作用域，而不是指向运行时所在的作用域。
+    //箭头函数可以让this，绑定定义时所在的作用域，而不是指向运行时所在的作用域。
+    //延时操作
         let obj = {
             name: 'OBJ',
             fn: function () {
@@ -136,6 +144,11 @@
                 setTimeout(function () {
                 	_this.name = 'zz'; //=>需要使用的时候拿出来用即可
                 }, 1000); */
+
+                /*setTimeout(function(){
+                    console.log(this);
+                    this.name = 'zz';
+                }.bind(this),1000);*/
             }
         };
         obj.fn();
