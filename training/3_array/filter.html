@@ -8,6 +8,24 @@
 
 <body>
     <script>
+        function filter(arr, fn) {
+            let res = [];
+            for (let i = 0; i < arr.length; i++) {
+                if (fn(arr[i])) {
+                    res.push(arr[i])
+                }
+            }
+            return res;
+        }
+
+        let a = [1, 2, 3];
+
+        function f(x) {
+            return x % 2 === 0;
+        }
+        console.log(filter(a, f));
+
+
         Array.prototype.myFilter = function myFilter(fn, context) {
             if (typeof fn !== "function") {
                 throw new TypeError(`${fn} is not a function`);

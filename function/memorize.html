@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>模拟实现memorize方法</title>
+</head>
+
+<body>
+    <script>
+        function memorize(f) {
+            let cache = {};
+            return function () {
+                //将伪数组转变成一个字符串，作为键
+                let key = JSON.stringify(arguments);
+                cache[key] = cache[key] || f.apply(f, arguments);
+                return cache[key];
+            }
+        }
+
+        function getArea(r) {
+            console.log(r);
+            return Math.PI * r * r;
+        }
+
+        let getAreaWithMemory = memorize(getArea);
+        console.log(getAreaWithMemory(3)); //3 28.27...
+        console.log(getAreaWithMemory(3)); //28.27...
+        console.log(getAreaWithMemory(4)); //4 50.26...
+    </script>
+</body>
+
+</html>

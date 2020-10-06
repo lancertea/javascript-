@@ -15,33 +15,33 @@
         // 它们与传统的全局方法isFinite()和isNaN()的区别在于，传统方法先调用Number()将非数值的值转为数值，再进行判断，
         // 而这两个新方法只对数值有效，Number.isFinite()对于非数值一律返回false, Number.isNaN()只有对于NaN才返回true，
         // 非NaN一律返回false。
-        
+
         //Number.isFinite()
-        console.log(Number.isFinite(15));//true
-        console.log(Number.isFinite(NaN));//false
-        console.log(Number.isFinite(Infinity));//false
+        console.log(Number.isFinite(15)); //true
+        console.log(Number.isFinite(NaN)); //false
+        console.log(Number.isFinite(Infinity)); //false
 
         //如果参数类型不是数值，Number.isFinite一律返回false。
-        console.log(Number.isFinite('foo'));//false
+        console.log(Number.isFinite('foo')); //false
         //ES5 isFinite() 先调用Number()将非数值的值转为数值，再进行判断
-        console.log(isFinite('15'));//true
+        console.log(isFinite('15')); //true
         //ES6 只对数值有效
-        console.log(Number.isFinite('15'));//false
-        console.log(Number.isFinite(true));//false
-        
+        console.log(Number.isFinite('15')); //false
+        console.log(Number.isFinite(true)); //false
+
         //Number.isNaN()
-        console.log(Number.isNaN(NaN));//true
-        console.log(Number.isNaN(15));//false
-        console.log(Number.isNaN('15'));//false
-        console.log(Number.isNaN(true));//false
-        console.log(Number.isNaN('true'/0));//true
+        console.log(Number.isNaN(NaN)); //true
+        console.log(Number.isNaN(15)); //false
+        console.log(Number.isNaN('15')); //false
+        console.log(Number.isNaN(true)); //false
+        console.log(Number.isNaN('true' / 0)); //true
 
         //ES5 isNaN() 先调用Number()将非数值的值转为数值，再进行判断
-        console.log(isNaN(NaN));//true
-        console.log(isNaN('NaN'));//true
+        console.log(isNaN(NaN)); //true
+        console.log(isNaN('NaN')); //true
         //ES6 只对NaN返回true,非NaN一律返回false
-        console.log(Number.isNaN(NaN));//true
-        console.log(Number.isNaN('NaN'));//false
+        console.log(Number.isNaN(NaN)); //true
+        console.log(Number.isNaN('NaN')); //false
 
         /*
         // ES5的写法
@@ -54,7 +54,7 @@
 
         这样做的目的，是逐步减少全局性方法，使得语言逐步模块化。
         */
-        
+
         //Number.isInteger()用来判断一个数值是否为整数。
         //由于JavaScript 采用 IEEE 754 标准，数值存储为64位双精度格式，数值精度最多可以达到 53 个
         //二进制位（1 个隐藏位与 52 个有效位）。如果数值的精度超过这个限度，第54位及后面的位就会被
@@ -65,25 +65,69 @@
         function withinErrorMargin(left, right) {
             return Math.abs(left - right) < Number.EPSILON * Math.pow(2, 2);
         }
-        console.log(0.1 + 0.2 === 0.3);// false
-        console.log(withinErrorMargin(0.1 + 0.2, 0.3));//true
+        //0.1->0.000110011....无法整除，计算机存储位有限，会舍弃后面的位，0.1会有精度缺失
+        console.log(0.0000000001===0.1);//false
+        console.log(0.100000000000000000001===0.1);//true
+        console.log(0.1+0.2);//0.30000000000000004
+        console.log(0.1 + 0.2 === 0.3); // false
+       
+        console.log(withinErrorMargin(0.1 + 0.2, 0.3)); //true
 
         //计算小数时，也可通过把小数放到位整数（乘倍数），再缩小回原来倍数（除倍数）
-        console.log((0.1*10+0.2*10)/10===0.3);//true
-        
+        console.log((0.1 * 10 + 0.2 * 10) / 10 === 0.3); //true
+
+        const max = Math.pow(2,53);
+        console.log(max);
+        console.log(Number.MAX_SAFE_INTEGER===max-1);//true
+        console.log(Number.MIN_SAFE_INTEGER);
+        console.log(Number.isSafeInteger(Number.MAX_SAFE_INTEGER));//true
+
 
         // BigInt
         //BigInt 只用来表示整数，没有位数的限制，任何位数的整数都可以精确表示
         //为了与 Number 类型区别，BigInt 类型的数据必须添加后缀n。
         //BigInt 与普通整数是两种值，它们之间并不相等。
-        console.log(42n===42);//false
-        console.log(typeof 123n);// 'bigint'
+        console.log(42n === 42); //false
+        console.log(typeof 123n); // 'bigint'
         //BigInt 可以使用负号（-），但是不能使用正号（+），因为会与 asm.js 冲突。
         //-42n 正确
         //+42n 报错
-       
-        
-        
+
+        //十进制->二进制
+        {
+            let a = 5;
+            console.log(a.toString(2));//'101'
+
+            let b = 101;
+            console.log(parseInt(b, 2));//5
+        }
+        //ES5 0101在严格模式下会报错
+        //ES6 0B 二进制  0O八进制
+        {
+            let a = 0B0101;
+            console.log(a);//5
+
+            let b =0O777;
+            console.log(b);//511
+        }
+
+        //Math
+        //转换成数字
+        console.log(Math.trunc(5.5));//5
+        console.log(Math.trunc(true));//1
+        console.log(Number.parseInt(true));//NaN
+        console.log(Math.trunc(undefined));//NaN
+        console.log(Math.trunc());//NaN
+
+        //正数返回1，负数返回-1，0返回0
+        console.log(Math.sign(5));//1
+        console.log(Math.sign(-5));//-1
+        console.log(Math.sign(0));//0
+        console.log(Math.sign(NaN));//NaN
+        console.log(Math.sign(true));//1
+        console.log(Math.sign(false));//0
+
+
     </script>
 </body>
 

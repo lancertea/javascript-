@@ -160,6 +160,19 @@
 			console.log(add(2)(3)(4).sumOf());
 			console.log(add(2, 3)(4).sumOf());
 		}
+
+		{
+			function curry(func) {
+				return function curriedFn(...args) {
+					if (args.length < func.length) {
+						return function () {
+							return curriedFn(...args.concat(Array.from(arguments)))
+						}
+					}
+					return func(...args);
+				}
+			}
+		}
 	</script>
 </body>
 

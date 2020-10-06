@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>模拟实现every、some数组方法</title>
+</head>
+
+<body>
+    <script>
+        function every(arr, fn) {
+            let res = true;
+            for (let val of arr) {
+                res = fn(val);
+                if (!res) {
+                    break;
+                }
+            }
+            return res;
+        }
+
+
+
+        function some(arr, fn) {
+            let res = false;
+            for (let val of arr) {
+                res = fn(val);
+                if (res) {
+                    break;
+                }
+            }
+            return res;
+        }
+    </script>
+</body>
+
+</html>
