@@ -51,19 +51,27 @@
             };
         }
 
-        console.log(compose1(fn3,fn1,fn2,fn1)(5));//=>16
-        
-         function compose1(...funcs) {
-        	if (funcs.length === 0) {
-        		return arg => arg
-        	}
+        console.log(compose1(fn3, fn1, fn2, fn1)(5)); //=>16
 
-        	if (funcs.length === 1) {
-        		return funcs[0]
-        	}
+        function compose1(...funcs) {
+            if (funcs.length === 0) {
+                return arg => arg
+            }
 
-        	return funcs.reduce((a, b) => (...args) => a(b(...args)))
-        } 
+            if (funcs.length === 1) {
+                return funcs[0]
+            }
+
+            return funcs.reduce((a, b) => (...args) => a(b(...args)))
+        }
+
+        function compose2(...args) {
+            return function (val) {
+                return args.reverse().reduce(function (acc, fn) {
+                    return fn(acc);
+                }, val)
+            }
+        }
 
 
 
