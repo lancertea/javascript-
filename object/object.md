@@ -59,7 +59,7 @@ oldMan.name
 1. 字面量创建
 2. new关键字创建
 ```javascript
-let obj1 = {};
+let obj1 = {a:1,b:2};
 let obj2 = new Object(obj1);
 console.log(obj1 == obj2); //true
 console.log(obj1 === obj2); //true  为啥这里是全等的
