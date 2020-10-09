@@ -22,6 +22,21 @@
 
     // PI = 4
 
+    let o = {
+        name:'xx',
+        age:18
+    }
+    let d = new Proxy(o,{
+        get(target,key){
+            return target[key];
+        },
+        set(taget,key,val){
+            return false;
+        }
+    })
+    d.name='zz';
+    console.log(d.name,d.age);
+
 
     // 作用域
     //ES5:只有两种作用域： 全局与函数内的局部作用域

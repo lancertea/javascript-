@@ -104,7 +104,7 @@
           return false;
         }
       },
-      
+
       //拦截delete
       deleteProperty(target, key) {
         if (key.indexOf('_') > -1) {
@@ -114,10 +114,10 @@
           return target[key]
         }
       },
-      
+
       // Object.keys Object.getOwnPropertySymbols Object.getOWnPropertyNames
-      ownKeys(target){
-      return Object.keys(target).filter(item=>item!='sex')
+      ownKeys(target) {
+        return Object.keys(target).filter(item => item != 'sex')
       }
     });
 
@@ -131,8 +131,8 @@
     // console.log('delete',person);
     // delete person._s;
     // console.log('delete',person);
-    console.log('ownKeys',Object.keys(person));
-    
+    console.log('ownKeys', Object.keys(person));
+
 
     try {
       person.sex = 'female';
@@ -144,7 +144,28 @@
 
   }
 
-  
+  //只读
+  //对数据进行校验
+  //生成只读的id
+
+  class Component {
+    constructor() {
+      this.proxy = new Proxy({
+        id: Math.random().toString().slice(-8)
+      }, {})
+    }
+
+    get id() {
+      return this.proxy.id;
+    }
+  }
+  let c = new Component(),
+    c1 = new Component();
+  for (let i = 0; i < 4; i++) {
+    console.log(c.id, c1.id);
+  }
+  c.id = 'abc';
+  console.log(c.id, c1.id);
 </script>
 
 <body>
