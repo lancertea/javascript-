@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>async</title>
+    <script>
+        async function firstAsync() {
+            let p1 = new Promise((resolve, reject) => {
+                setTimeout(function () {
+                    resolve('now it is done')
+                }, 1000)
+            })
+
+            p1.then(res => {
+                console.log(res);
+            });
+
+            //   console.log(await p1);
+            //   console.log(await Promise.resolve(40));
+            console.log(2);
+            return Promise.resolve(3);
+
+        }
+
+        firstAsync().then(val => {
+            console.log(val);
+        })
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

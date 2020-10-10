@@ -102,8 +102,29 @@ Generator 函数的调用方法与普通函数一样，也是在函数名后面�
         console.log(status.next());
         console.log(status.next());
 
-
         }
+
+        function *gen(){
+            let val;
+            val = yield * [1,2,3];
+            console.log(val);
+        }
+
+        let l =gen();
+        console.log(l.next());//1
+        console.log(l.next());//2
+        console.log(l.next());//3 
+        console.log(l.next());//undefined undefined
+
+        function *gen1(){
+            let val;
+            val = yield [1,2,3];
+            console.log(val);
+        }
+
+        let l1 =gen1();
+        console.log(l1.next(10));//[1,2,3]
+        console.log(l1.next(20));//20 undefined
     </script>
 </head>
 
