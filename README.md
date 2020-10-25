@@ -5,3 +5,5 @@
 
 ## 函数
 ### [变量提升及其作用域](https://github.com/lancertea/javascript-/blob/master/function/scope.md)
+### [闭包](https://github.com/lancertea/javascript-/blob/master/function/closure.md)
+### [this](https://github.com/lancertea/javascript-/blob/master/function/this.md)
