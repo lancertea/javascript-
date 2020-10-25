@@ -1,5 +1,5 @@
-### 作用域以及变量提升
-#### 浏览器执行代码的机制
+# 变量提升及其作用域
+## 浏览器执行代码的机制
 编译器（把代码解析成为浏览器看的懂的结构）
    词法解析
    AST抽象语法树
@@ -20,10 +20,11 @@
 4.变量提升  
 代码自上而下执行，如果上一行代码报错，下面的代码都不会再去执行了
 
-#### 变量提升
+## 变量提升
 变量的提升是以变量作用域来决定的，即全局作用域中声明的变量会提升至全局最顶层，函数内声明的变量只会提升至该函数作用域最顶层。
 
-var关键字会变量提升，只是提前声明，不会将赋值提升，默认值是undefined
+### var
+var关键字会变量提升，只是将声明提升到作用域最前面，不会将赋值提升，默认值是undefined
 ```javascript
 console.log(a);//undefined
 // console.log(c); //error,ReferenceError: c is not defined
@@ -60,6 +61,7 @@ if (!('a' in window)) { //=>'a' in window  =>TRUE
 console.log(a); //=>undefined       
 ```
 
+### let/const
 let，const关键字不会变量提升，声明的变量存在“暂时性死区”：let 定义变量是有一个“特殊声明”的过程，JS 预解析的时候，先将定义的 let ,const “特殊声明”提前，类似“举手”，JS 引擎规定了同一个作用域，同一个变量只能被一次“举手”（即不能重复声明）。
 
 [理解暂时性死区] ES6规定，let/const命令会使区块形成封闭的作用域，若在声明(没赋值的话，默认赋值为undefined)之前使用变量，就会报错。总之，在代码块内，使用let命令声明之前，该变量都是不可用的。这在语法上，称为“暂时性死区”  
@@ -92,8 +94,8 @@ let a=13;//SyntaxError: Identifier 'a' has already been declared
 console.log(a);
 ```
 
-#### 函数
-函数声明(function关键字)不仅会将函数名（变量）提升至其所在作用域的最前面，还会赋值，准确说就是让变量和某个值进行关联
+### 函数
+函数声明(function关键字)不仅会将函数名（变量）提升至其所在作用域的最前面（全局/函数作用域），还会将其赋值提升至所在作用域最前面（块级作用域），准确说就是让变量和某个值进行关联
 ```javascript
 console.log(sum(10,20));//30
     function sum(n,m){
@@ -159,10 +161,14 @@ fn(a)
 如果是变量提升，是不存在块级作用域的，但是函数提升是存在的。函数 function a(){} 在经过预解析之后，将函数声明提到函数级作用域最前面，然后将函数定义提升到块级作用域最前面。
 ```javascript
 console.log(a); // undefined
-if (true) {
+if ('a' in window) {
     console.log(a); // function a()
-function a() {}
+    a();//'variable'
+function a() {
+    console.log('variable')
 }
+}
+a();//'variable'shishen
 ```
 ```javascript
 console.log(b); //undefined
@@ -213,6 +219,7 @@ fn(ary);
 console.log(ary);//[100,23]
 ```
 
+#### 自执行函数
 自执行函数：前面加的（）或者！、-、~、+只有一个目的，让语法符合而已。自执行函数本身不进行变量提升（没名字）  
 (function(n){})(10);  
  ~function(n){}(10);  
@@ -233,11 +240,11 @@ g = function () {
     // 2.代码执行
     if (g() && [] == ![]) { //=>Uncaught TypeError: g is not a function
         f = function () {
-                return false;
+            return false;
             }
 
-            function g() {
-                return true;
+        function g() {
+            return true;
             }
     }
 }();
@@ -278,3 +285,8 @@ function B() {
 }
     B();//10
 ```
+
+## 练习题  
+### [变量提升及其作用域查找练习1](https://github.com/lancertea/javascript-/blob/master/training/4_function/variable_lift_1.md)
+### [变量提升及其作用域查找练习2](https://github.com/lancertea/javascript-/blob/master/training/4_function/variable_lift_2.md)
+
