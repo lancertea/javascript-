@@ -72,23 +72,7 @@ fn(3)(4);
 fn(5)(6);
 f(7);
 console.log(i)
-```    
-```javascript
-var i = 20;
-function fn() {
-    i -= 2;
-    return function (n) {
-    console.log((++i) - n);
-    }
-}
-var f = fn();
-f(1);
-f(2);
-fn()(3);
-fn()(4);
-f(5);
-console.log(i);
-```    
+```        
 ```javascript
 var i = 20;
 function fn() {
