@@ -119,3 +119,6 @@ foo();
 }
 foo()//Uncaught RangeError: Maximum call stack size exceeded
 ```
+
+## 练习题 
+### [闭包练习题](https://github.com/lancertea/javascript-/blob/master/training/4_function/closure.md)

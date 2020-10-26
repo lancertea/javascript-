@@ -287,6 +287,6 @@ function B() {
 ```
 
 ## 练习题  
-### [变量提升及其作用域查找练习1](https://github.com/lancertea/javascript-/blob/master/training/4_function/variable_lift_1.md)
-### [变量提升及其作用域查找练习2](https://github.com/lancertea/javascript-/blob/master/training/4_function/variable_lift_2.md)
+### [变量提升及其作用域查找练习1](https://github.com/lancertea/javascript-/blob/master/training/4_function/variable_lift.md)
+
 

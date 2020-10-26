@@ -1,7 +1,6 @@
 #####  一、选择题
 
 1、
-
 ```javascript
 console.log(a); 
 var a=12; 
@@ -21,7 +20,6 @@ console.log(a);
 ```
 
 2、
-
 ```javascript
 console.log(a); 
 var a=12;
@@ -85,7 +83,7 @@ let n = 12;
 		// 作用域B
 		let n = 13;
 	}
-	console.log(n); //=>12
+	console.log(n); 
 }();
 ```
 ```javascript
@@ -95,9 +93,9 @@ let n = 12;
 	if (1) {
 		n = 13;
 	}
-	console.log(n); //=>13
+	console.log(n); 
 }();
-console.log(n); //=>12
+console.log(n); 
 ```
 
 5、
@@ -126,18 +124,8 @@ console.log(n);
 ```
 
 6、
-
 ```javascript
-var a=10,b=11,c=12;
-function test(a){
-     a=1;
-     var b=2;
-     c=3;
-}
-test(10);
-console.log(a);  
-console.log(b);   
-console.log(c);
+
 
 /*
  A、1 11 3   
@@ -148,7 +136,6 @@ console.log(c);
 ```
 
 7、
-
 ```javascript
 if(!("a" in window)){
    var a=1;
@@ -183,7 +170,6 @@ console.log(a);
 ```
 
 9、
-
 ```javascript
 var foo='hello'; 
 (function(foo){
@@ -202,7 +188,6 @@ console.log(foo);
 ```
 
 10、需画图
-
 ```javascript
 var a=9; 
 function fn(){ 
@@ -228,7 +213,6 @@ console.log(a);
 ##### 二、问答题
 
 1、
-
 ```javascript
 var ary=[1,2,3,4];
 function fn(ary){
@@ -243,7 +227,6 @@ console.log(res);
 ```
 
 2、
-
 ```javascript
 function fn(i) {
     return function (n) {
@@ -258,7 +241,6 @@ f(30);
 ```
 
 3、
-
 ```javascript
 var i = 10;
 function fn() {
@@ -274,7 +256,6 @@ f(30);
 ```
 
 4、
-
 ```javascript
 var test = (function(i){
     return function(){
@@ -285,7 +266,6 @@ test(5);
 ```
 
 5、
-
 ```javascript
 var a=1;
 var obj ={
@@ -295,27 +275,27 @@ function fn(){
    var a2 = a;
    obj2 = obj;
    a2 =a;
-   obj2.name =”jack”;
+   obj2.name ='jack';
 }
 fn();
 console.log(a);
 console.log(obj);
 ```
 
-6、无需画图
-
+6、
 ```javascript
 var a = 1;
 function fn(a){
-    console.log(a)
+    console.log(a);
     var a = 2;
     function a(){}
+    console.log(a);
 }
-fn(a)
+fn(a);
 ```
 
 7、
-
+(做错)
 ```javascript
 var a=0,
 	b=0;

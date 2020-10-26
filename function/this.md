@@ -134,3 +134,6 @@ document.body.onclick=function(){
 }
 document.body.onclick=fn.bind(obj); //=>bind的好处是：通过bind方法只是预先把fn中的this修改为obj，此时fn并没有执行呢，当点击事件触发才会执行fn（call/apply都是改变this的同时立即把方法执行） =>在IE6~8中不支持bind方法  预先做啥事情的思想被称为“柯理化函数”
 ```
+
+## 练习题 
+### [this练习题](https://github.com/lancertea/javascript-/blob/master/training/4_function/this.md)
