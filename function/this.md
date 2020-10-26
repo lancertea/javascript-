@@ -136,4 +136,4 @@ document.body.onclick=fn.bind(obj); //=>bind的好处是：通过bind方法只�
 ```
 
 ## 练习题 
-### [this练习题](https://github.com/lancertea/javascript-/blob/master/training/4_function/this.md)
+### [this练习](https://github.com/lancertea/javascript-/blob/master/training/4_function/this.md)

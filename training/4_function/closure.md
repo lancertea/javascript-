@@ -338,6 +338,8 @@ A(2);
     }
 </script>
 ```
+[参考答案](https://github.com/lancertea/javascript-/blob/master/training/button.html)
+
 
 2、document.parentNode 和 document.parentnode 的区别？（腾讯）
 
