@@ -1,7 +1,6 @@
 1. 写出下面代码输出结果
 
    ```javascript
-   <!-- 做错 -->
    var num = 10;
    var obj = {num: 20};
    obj.fn = (function (num) {
@@ -145,7 +144,7 @@
    ```
 
 6. 滴滴面试题
-
+（做错）
    ```javascript
    var foo = {
      bar: function () {
@@ -155,7 +154,7 @@
    foo.bar(); 
    (foo.bar)(); 
    ```
-
+（做错）
     ```javascript
     var x = 3,
     obj = {
