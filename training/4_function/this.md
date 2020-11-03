@@ -154,24 +154,44 @@
    foo.bar(); 
    (foo.bar)(); 
    ```
-（做错）
-    ```javascript
-    var x = 3,
-    obj = {
-        x: 5
-    };
-    obj.fn = (function () {
-    this.x *= ++x;
-    return function (y) {
-        this.x *= (++x) + y;
-        console.log(x);
-    }
-    })();
-    var fn = obj.fn;
-    obj.fn(6);
-    fn(4);
-    console.log(obj.x, x);
+   ```javascript
+   var x = 3,
+   obj = {
+       x: 5
+   };
+   obj.fn = (function () {
+   this.x *= ++x;
+   return function (y) {
+       this.x *= (++x) + y;
+       console.log(x);
+   }
+   })();
+   var fn = obj.fn;
+   obj.fn(6);
+   fn(4);
+   console.log(obj.x, x);
    ```
+
+7. 美团
+   ```javascript
+   var name = 'global';
+   var obj = {
+       name: 'local',
+       foo: function () {
+           console.log(this);
+           this.name = 'foo';
+       }.bind(window)
+   };
+   var bar = new obj.foo();
+   setTimeout(function () {
+       console.log(window.name);
+   }, 0);
+   console.log(bar.name);
+   var bar3 = bar2 = bar;
+   bar2.name = 'foo2';
+   console.log(bar3.name);
+   ```
+
   
   
 

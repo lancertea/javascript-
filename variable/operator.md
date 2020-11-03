@@ -6,7 +6,8 @@
 1. 如果第一个操作数为对象，则返回第二个操作数
 2. 如果第二个操作数为对象，只有在第一个操作数求值结果为true的情况下才会返回该对象
 3. 如果两个操作数都是对象，则返回第二个操作数
-4. 如果有作数是null/NaN/undefined，则返回null/NaN/undefined。(同时有很多个null/NaN/undefined以第一个为主)  
+4. 如果有一个数是null/NaN/undefined，则返回null/NaN/undefined。(同时有很多个null/NaN/undefined以第一个为主)   
+
 ||:  
 1. 如果第一个操作数为对象，则返回第一个操作数
 2. 如果第一个操作数求值结果为false，则返回第二个操作数
@@ -125,8 +126,9 @@ console.log(NaN != NaN); //true
 +等操作如果一边是对象类型，一边是基本类型，只要都是基本类型就可以运算了
 ```javascript
 console.log(3+[20])//"320"
+//3已经是基本类型number，([20]).valueOf()=>[20]，还是引用类型，所以调用([20]).toString()=>'20'，变为3+'20'=>'320'
 console.log(3==[20])//false
- 
+// 同上，([20]).toString()=>'20'，Number('20')=>NaN
 ```
 
 #### 赋值操作

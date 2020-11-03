@@ -5,7 +5,7 @@
 <head>
 
     <meta charset="UTF-8">
-    <title>作用域以及变量提升</title>
+    <title>问题清单</title>
 
 </head>
 
@@ -14,7 +14,7 @@
 
 </body>
 
-<script>   
+<script>
     {
         /*
         eval()
@@ -74,7 +74,7 @@
         }
 
         f(10, 20);
-    } 
+    }
 
     {
         //with增大作用域链
@@ -114,147 +114,6 @@
             console.log(window.w); // 20
 
         })();
-    }
-
-    //相关题目：
-    {
-        let i, a1
-        // for循环很快执行完了、监听事件相对很慢
-        for (i = 0; i < 10; i++) {
-            a1 = document.createElement('a')
-            a1.innerHTML = i + '<br>'
-            // a1.index=i;
-            a1.addEventListener('click', function (e) {
-                e.preventDefault()
-                alert(i) //全是10
-                // alert(this.index);
-            })
-            document.body.appendChild(a1)
-        }
-
-        let a2
-        for (let i = 0; i < 10; i++) {
-            a2 = document.createElement('a')
-            a2.innerHTML = i + '<br>'
-            a2.addEventListener('click', function (e) {
-                e.preventDefault()
-                alert(i) //0，1，2，3，4，…，9
-            })
-            document.body.appendChild(a2)
-        }
-
-        //for循环还有一个特别之处，就是设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。
-        for (let j = 0; j < 3; j++) {
-            let j = 'abc';
-            console.log(j);
-        }
-        // abc
-        // abc
-        // abc
-    }
-
-    {
-        {
-            for (var i = 0; i < 3; i++) {
-                setTimeout(function () {
-                    console.log(i); //3 3 3
-
-                }, 100);
-            }
-
-        } {
-            for (let i = 0; i < 3; i++) {
-                setTimeout(function () {
-                    console.log(i); // 0 1 2
-
-                }, 100);
-            }
-        } {
-            //立即执行函数（闭包）
-            for (var i = 0; i < 3; i++) {
-                // (function(){})();
-                (function (j) { //j为形参
-                    setTimeout(function () {
-                        console.log(j); //0 1 2
-                    }, 100);
-                })(i); //i为实参
-
-            }
-        }
-    }
-
-    {
-
-        //词法作用域：函数在定义（或声明）它们的作用域里执行，而不是在执行（或调用）它们的作用域里运行
-
-        var a = 10;
-
-        function fn() {
-            var b = 20;
-
-            function bar() {
-                console.log(a + b); //30
-
-            }
-            return bar;
-        }
-        var x = fn(),
-            b = 200;
-        x();
-
-    }
-
-    {
-        var x = 10;
-
-        function fn() {
-            console.log(x);
-
-        }
-
-        function show(f) {
-            var x = 20;
-            (
-                function () {
-                    f();
-                }
-            )();
-        }
-        show(fn); //10
-
-    }
-
-    {
-        var i = 5;
-
-        function fn(i) {
-            return function (n) {
-                console.log(n + (++i));
-            }
-        }
-        var f = fn(1);
-        f(2); //=>4
-        fn(3)(4); //=>8
-        fn(5)(6); //=>12
-        f(7); //=>10
-        console.log(i); //=>5
-
-
-    }
-
-    {
-        var i = 10;
-
-        function fn() {
-            return function (n) {
-                console.log(n + (++i));
-            }
-        }
-        var f = fn();
-        f(20);
-        fn()(20);
-        fn()(30);
-        f(30);
     }
 
     {
@@ -389,29 +248,20 @@
     //     new new Foo().getName();
     // } 
 
-
-    //美团笔试题
     {
-        var name = 'global';
-        var obj = {
-            name: 'local',
-            foo: function () {
-                console.log(this);
-                this.name = 'foo';
-            }.bind(window)
-        };
-        var bar = new obj.foo();
+        var a = 0;
+        if (true) {
+            console.log(a, window.a);
+            a = 1;
+            console.log(a, window.a);
 
-        setTimeout(function () {
-            console.log(window.name);
-        }, 0);
-        console.log(bar.name);
-
-        var bar3 = bar2 = bar;
-        bar2.name = 'foo2';
-        console.log(bar3.name);
-
-        //foo foo2  global
+            function a() {}
+            console.log(a, window.a);
+            a = 21;
+            console.log(a, window.a);
+            console.log("里面", a);
+        }
+        console.log("外部", a);
     }
 </script>
 

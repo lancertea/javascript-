@@ -1,4 +1,5 @@
-1. 写出下面代码输出的结果
+写出下面代码输出的结果
+1. 
 
 ```javascript
 console.log(a);
@@ -20,7 +21,7 @@ a = 13;
 console.log(a);
 ```
 
-2. 写出下面代码输出的结果
+2. 
 
 ```javascript
 var a = 12;
@@ -34,7 +35,7 @@ let a = 13;
 console.log(a);
 ```
 
-3. 写出下面代码输出的结果
+3. 
 
 ```javascript
 console.log(a, b);
@@ -49,7 +50,7 @@ fn();
 console.log(a, b);
 ```
 
-4. 写出下面代码输出的结果
+4. 
 
 ```javascript
 console.log(a, b, c);
@@ -66,7 +67,7 @@ b = fn(10);
 console.log(a, b, c);
 ```
 
-5. 写出下面代码输出的结果
+5. 
 
 ```javascript
 console.log(a);
@@ -76,7 +77,18 @@ if(!('a' in window)){
 console.log(a);
 ```
 
-6. 写出下面代码输出的结果
+```javascript
+var tmp = new Date();
+function f() {
+    console.log(tmp);
+    if (false) {
+        var tmp = 'hello world';
+    }
+}
+f();
+```
+
+6. 
 
 ```javascript
 fn();
@@ -92,7 +104,7 @@ function fn(){ console.log(5); }
 fn();
 ```
 
-7. 写出下面代码输出的结果
+7. 
 
 ```javascript
 f = function () {return true;}
@@ -107,7 +119,7 @@ console.log(f());
 console.log(g());
 ```
 
-8. 写出下面代码输出的结果
+8. 
 
 ```javascript
 console.log(typeof a);
@@ -118,7 +130,7 @@ console.log(typeof a);
 let a;
 ```
 
-9. 写出下面代码输出的结果
+9. 
 
 ```javascript
 var ary = [12, 23];
@@ -133,7 +145,7 @@ fn(ary);
 console.log(ary);
 ```
 
-10. 写出下面代码输出的结果（如何查找上级作用域和堆栈内存释放问题）
+10. 如何查找上级作用域和堆栈内存释放问题
 
 ```javascript
 var n = 1;

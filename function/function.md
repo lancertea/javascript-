@@ -60,6 +60,24 @@ let fn = function AAA() {
 fn();
 ```
 ```javascript
+ // {
+ //     var b = 10;
+ //     (function () {
+ //         b = 20;
+ //         console.log(b);
+ //     })();
+ //     console.log(b);
+ // }
+ // {
+ //     var b = 10;
+ //     function b() {
+ //         b = 20;
+ //         console.log(b);
+ //     }
+ //     b();
+ //     console.log(b);
+ // }
+
  var b = 10;
 (function b(b) {
 	b = 20;
