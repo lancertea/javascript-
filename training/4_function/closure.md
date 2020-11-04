@@ -1,4 +1,4 @@
-#####  一、选择题
+## 一、选择题
 
 1、
 ```javascript
@@ -187,7 +187,7 @@ console.log(foo);
 */
 ```
 
-10、需画图
+10、
 ```javascript
 var a=9; 
 function fn(){ 
@@ -210,7 +210,7 @@ console.log(a);
 */
 ```
 
-##### 二、问答题
+## 二、问答题
 
 1、
 ```javascript
@@ -295,7 +295,7 @@ fn(a);
 ```
 
 7、
-(做错)
+
 ```javascript
 var a=0,
 	b=0;
@@ -325,9 +325,64 @@ c.fun(2);
 c.fun(3);
 ```
 
+9、
 
+```javascript
+var i = 5;
+function fn(i) {
+    return function (n) {
+        console.log(n + (++i));
+    }
+}
+var f = fn(1);
+f(2);
+fn(3)(4);
+fn(5)(6);
+f(7);
+console.log(i)
+```  
 
-##### 三：附加思考题（面试题）
+10、
+
+```javascript
+var i = 20;
+function fn() {
+    i -= 2;
+    return function (n) {
+    console.log((++i) - n);
+    }
+}
+var f = fn();
+f(1);
+f(2);
+fn()(3);
+fn()(4);
+f(5);
+console.log(i);
+```     
+
+11、
+
+```javascript
+ var result = [],
+        a = 3,
+        total = 0
+    function f(a) {
+        var i = 0;
+        for (; i < 3; i = i + 1) {
+            result[i] = function () {
+                total += a * i
+                console.log(total);
+            }
+        }
+    }
+    f(1);
+   result[0]();
+   result[1]();
+   result[2]();
+```   
+
+## 三：附加思考题（面试题）
 
 1、以下代码的功能是要实现为5个input按钮循环绑定click点击事件，绑定完成后点击1、2、3、4、5五个按钮分别会alert输出0、1、2、3、4五个字符。（腾讯）
 
@@ -359,30 +414,8 @@ c.fun(3);
 
 2、document.parentNode 和 document.parentnode 的区别？（腾讯）
 
-3、你理解的闭包作用是什么，优缺点？（乐视）
+3、你理解的闭包作用是什么，优缺点？
 
-4、简述let和var的区别
-
-
-答案
-- 1. B
-- 2. A
-- 3. D
-- 4. B
-- 5. C
-- 6. D
-- 7. B
-- 8. D
-- 9. A X
-- 10. D
-
-- 1. [0,2,3,4] [100]
-- 2. 30 60 80 41
-- 3. 31 32 43 44
-- 4. "4"
-- 5. 1 {name:jack}
-- 6. f a(){}
-- 7  "1"  "4"  x
  
 
 

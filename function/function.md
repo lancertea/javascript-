@@ -1,16 +1,7 @@
 # 函数
-函数数据类型：
+## 函数有三种角色
 1. 普通函数
-2. 类（内置类 OR 自定义类）  
-对象数据类型:
-1. {}普通对象  []数组对象  /^$/正则对象  日期对象  Math数学函数对象  arguments等类数组对象  HTMLCollection/NodeList元素或者节点集合类数组对象...
-2. 实例也是对象数据类型的
-3. 类的prototype也是对象数据类型的（Function.prototype除外,它是一个匿名空函数）
-4. 函数也是对象 
-
-#### 函数有三种角色
-1. 普通函数
-- 形参、实参、ARGUMENTS、RETURN、箭头函数
+- 形参、实参、arguments、箭头函数
 - 私有作用域（栈内存、执行上下文）
 - 形参赋值 & 变量提升
 - 作用域链      
@@ -20,9 +11,9 @@
 - prototype 和 __proto__ 原型和原型链
 - instanceof
 - constructor
-- hasOwnProperty...
 3. 普通对象
-它是由键值对组成的...
+它是由键值对组成的
+- hasOwnProperty
 ```javascript
 function Fn(n, m) {
 	this.x = n + m;
@@ -41,7 +32,8 @@ let f = new Fn(20, 10);
 //=>普通对象
 Fn.total = 1000;
 ```
-匿名函数
+
+## 匿名函数
 ```javascript
 var b = 10;
 (function b() {
