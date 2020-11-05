@@ -1,5 +1,5 @@
-### 原型及原型链模式
-每个函数数据类型的值，都有prototype属性（原型），这个属性的属性值是一个对象（“用来存储实例公用属性和方法”）这个属性指向其原型对象，原型对象有个constructor属性，指向其构造函数
+# 原型及原型链模式
+每个函数数据类型的值，都有prototype属性（原型），这个属性的属性值是一个对象（“用来存储实例公用属性和方法”）这个属性指向其原型对象，原型对象有个constructor属性，指向其构造函数  
 - 普通的函数
 - 类（自定义类和内置类）
 JavaScript 的所有对象中都包含了一个 __proto__ 内部属性，这个属性所对应的就是该对象的构造函数的原型对象。函数(普通函数/构造函数/内置类（Function、Object）)的__proto__为Function.prototype是一个空的匿名函数，其上面有很多常用方法：call apply bind
@@ -9,9 +9,41 @@ JavaScript 的所有对象中都包含了一个 __proto__ 内部属性，这个�
 - 函数也是对象数据类型的值
 当函数对象作为构造函数创建实例时，该 prototype 属性值将被作为实例对象的原型__proto__。
 
-#### 原型链查找机制
+## 原型链查找机制
 1. 先找自己私有的属性，有则调取使用，没有继续找
 2. 基于\__proto\__找所属类原型上的方法（Fn.prototype），如果还没有则继续基于\__proto\__往上找...一直找到Object.prototype为止
+
+### 补充：为什么getElementById的上下文只能是document?
+document的原型链：
+document  
+->HTMLDocument.prototype  
+->Document.prototype
+- createElement
+- getElementById
+- ...
+
+->Node.prototype
+- appendChild
+- cloneNode
+- ...  
+
+->EventTarget.prototype
+- addEventListener  
+
+->Object.prototype
+
+div的原型链  
+div  
+->HTMLDivElement.prototype  
+->HTMLElement.prototype  
+->Element.prototype  
+- getElementsByClassName
+- getElementsByTagName
+- ...
+
+->Node.prototype  
+->EventTarget.prototype  
+->Object.prototype
 
 #### 重构类的原型
 重构类的原型：让某个类的原型指向新的堆内存地址（重定向指向）  
