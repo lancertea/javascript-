@@ -1,4 +1,4 @@
- 1. 
+wp 1. 
    ```javascript
    function Fn() {
        this.x = 100;
@@ -24,7 +24,7 @@
    console.log(Fn.prototype.__proto__.constructor);
    f1.getX();
    f1.__proto__.getX();
-   f2.getY();
+   f2.getY();gan
    Fn.prototype.getY();
    ```
 

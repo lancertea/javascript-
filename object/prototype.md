@@ -107,4 +107,7 @@ console.log('b' in f1);
 console.log(f1.constructor == Fn);
 ```
 
+## 练习题 
+### [原型练习](https://github.com/lancertea/javascript-/blob/master/training/5_proto/proto.md)
+
 
