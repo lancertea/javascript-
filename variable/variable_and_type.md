@@ -110,13 +110,34 @@ console.log(String(null)); //'null'
 ### instanceof
 用来检测某个实例是否属于这个类  
 语法：实例 instanceof 类，属于返回true，不属于返回false  
-[局限性]要求检测的实例必须是对象数据类型的，基本数据类型的实例是无法基于它检测出来的   
+[局限性]
+- 要求检测的实例必须是对象数据类型的，基本数据类型的实例是无法基于它检测出来的   
 ```javascript
 let ary = [12, 23];
 console.log(ary instanceof Array); //true
 console.log(ary instanceof RegExp); //false
 console.log(ary instanceof Object); //true 
 console.log(1 instanceof Number); //false
+```
+- 如果有原型重定向的情况，重定向前的实例无法通过这种方式检测
+```javascript
+function Fn() {
+    this.x = 100;
+    this.y = 200;
+}
+Fn.prototype.getX = function () {
+    console.log(this.x);
+};
+let f1 = new Fn;
+Fn.prototype = {
+    getY: function () {
+        console.log(this.y);
+    }
+}
+
+let f2 = new Fn;
+console.log(f1 instanceof Fn); //false
+console.log(f2 instanceof Fn); //true
 ```
 instanceof原理  
 判断实例对象的__proto__属性与构造函数的prototype是不是用一个引用。如果不是，他会沿着对象的__proto__向上查找的，直到顶端的Object.prototype
