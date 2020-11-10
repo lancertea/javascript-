@@ -1,4 +1,4 @@
-### this
+# this
 this是执行上下文中的一个属性，而不是某个变量对象的属性。总是指向函数所在的当前对象  
 this由调用者提供，由调用函数的方式来决定（this的取值是在函数执行的时候决定的，不是在函数定义的时候确定的），能改变this的指向，但是不能给this赋值。    
 1. new 的优先级最高：
@@ -35,7 +35,7 @@ document.body.onclick=function(){
 }
 ```
 
-#### 原型链中的this问题
+## 原型链中的this问题
  面向对象中有关私有/公有方法中的THIS问题  
  1. 方法执行，看前面是否有点，点前面是谁THIS就是谁
  2. 把方法总的THIS进行替换 
@@ -67,7 +67,7 @@ f1.write(); //=>this:f1  =>f1.z=1000  =>给f1设置一个私有的属性z=1000
 Fn.prototype.write();//=>this:Fn.prototype  =>Fn.prototype.z=1000  =>给原型上设置一个属性z=1000（属性是实例的公有属性）
 ```
 
-#### call / apply / bind 
+## call / apply / bind 
 call / apply / bind是原型上提供的三个公有属性方法，每一个函数都可以调用这个方法，用来改变函数中的THIS指向的
 ```javascript
 //Function.prototype => function anonymous(){}
@@ -87,7 +87,7 @@ fn.call.call() => $1.call() => 继续让call执行,this:$1
 */
 ```
 
-##### call方法
+### call方法
 > 语法：函数.call([context],[params1],....)
 >
 > 函数基于原型链找到Function.prototype.call这个方法，并且把它执行，在call方法执行的时候完成了一些功能
@@ -98,9 +98,9 @@ fn.call.call() => $1.call() => 继续让call执行,this:$1
 >
 > 如果执行CALL一个实参都没有传递，非严格模式下是让函数中的THIS指向WINDOW，严格模式下指向的是UNDEFINED   
 
-详见call.html
+### [自实现call方法](https://github.com/lancertea/javascript-/blob/master/function/call.html)
 
-##### apply方法
+### apply方法
 > 和call方法一样，都是把函数执行，并且改变里面的this关键字的，唯一的区别就是传递给函数参数的方式不同
 >
 > - call是一个个传参
@@ -115,6 +115,7 @@ let fn=function(n,m){
 fn.call(obj,10,20);
 fn.apply(obj,[10,20]);
 ```
+### [自实现apply方法](https://github.com/lancertea/javascript-/blob/master/function/apply.html)
 
 ##### bind方法
 > 和call/apply一样，也是用来改变函数中的this关键字的，只不过基于bind改变this，当前方法并没有被执行，类似于预先改变this
@@ -132,8 +133,9 @@ document.body.onclick=function(){
     //this:BODY
     fn.call(obj);
 }
-document.body.onclick=fn.bind(obj); //=>bind的好处是：通过bind方法只是预先把fn中的this修改为obj，此时fn并没有执行呢，当点击事件触发才会执行fn（call/apply都是改变this的同时立即把方法执行） =>在IE6~8中不支持bind方法  预先做啥事情的思想被称为“柯理化函数”
+document.body.onclick=fn.bind(obj); //=>bind的好处是：通过bind方法只是预先把fn中的this修改为obj，此时fn并没有执行呢，当点击事件触发才会执行fn（call/apply都是改变this的同时立即把方法执行） =>在IE6~8中不支持bind方法  预先做啥事情的思想被称为“柯理化”
 ```
+### [自实现bind方法](https://github.com/lancertea/javascript-/blob/master/function/bind.html)
 
 ## 练习题 
 ### [this练习](https://github.com/lancertea/javascript-/blob/master/training/4_function/this.md)
