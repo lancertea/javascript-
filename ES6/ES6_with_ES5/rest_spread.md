@@ -1,5 +1,5 @@
-## ...
-### rest parameters
+# ...
+## rest parameters
 ES6：
 ```javascript
 function f(x, ...y) {
@@ -18,7 +18,7 @@ function f(x) {
 console.log(f(3, 'hello', true) === 6); //true
 ```
 
-### spread operator
+## spread operator
 ES6：
 ```javascript
 function add(a, b) {

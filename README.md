@@ -21,7 +21,9 @@
 ### [ES6](https://github.com/lancertea/javascript-/blob/master/ES6/ES6.md)
 - var const和let的区别
 - 属性的遍历
-- 
+- symbol
+- Iterator
+- 函数
 ### [解构赋值](https://github.com/lancertea/javascript-/blob/master/ES6/destruct.html)
 
 

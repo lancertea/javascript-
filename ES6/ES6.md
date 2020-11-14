@@ -319,6 +319,7 @@ Reflect.ownKeys(obj)
  ```
 
 在全局注册同一个symbol
+Symbol.for()与Symbol()这两种写法，都会生成新的 Symbol。它们的区别是，前者会被登记在全局环境中供搜索，后者不会。Symbol.for()不会每次调用就返回一个新的 Symbol 类型的值，而是会先检查给定的key是否已经存在，如果不存在才会新建一个值。比如，如果你调用Symbol.for("cat")30 次，每次都会返回同一个 Symbol 值，但是调用Symbol("cat")30 次，会返回 30 个不同的 Symbol 值。
  ```javascript
 let s1 = Symbol.for('foo');
 let s2 = Symbol.for('foo');
@@ -409,12 +410,13 @@ let fn=(n,...arg)=>{
 };
 fn(10,20,30);
 ```
+### [ES5实现...](https://github.com/lancertea/javascript-/blob/master/ES6/ES6_with_ES5/rest_spread.html)
 
 ### super
 this关键字总是指向函数所在的当前对象，ES6 又新增了另一个类似的关键字super，指向当前对象的原型对象。
 
 ## 函数
-### 函数的参数
+### 默认参数
 1. ES6 允许为函数的参数设置默认值，即直接写在参数定义的后面。
 ```javascript
 function f(x, y = 'World') {
@@ -462,6 +464,31 @@ f(1, undefined, 2) // [1, 5, 2]
 ```
 上面代码中，有默认值的参数都不是尾参数。这时，无法只省略该参数，而不省略它后面的参数，除非显式输入undefined。
 
+默认值可以是表达式,但是表达式中的变量必须是已经初始化过的
+```javascript
+function f (x, y = 7, z = x + y) {
+  console.log(f.length)
+  return x * 10 + z
+}
+```
+
+必填参数的检查
+```javascript
+    function checkParameter() {
+      throw new Error('can\'t be empty')
+    }
+
+    function f(x = checkParameter(), y = 7, z = 42) {
+      return x + y + z
+    }
+    console.log(f(1)); //50
+    try {
+      f()
+    } catch (e) {
+      console.log(e);
+    };
+```
+
 4. 函数的length属性，将返回没有指定默认值的参数个数。
 ```javascript
 (function (a) {}).length // 1
@@ -473,6 +500,34 @@ f(1, undefined, 2) // [1, 5, 2]
 (function (a = 0, b, c) {}).length // 0
 (function (a, b = 1, c) {}).length // 1
 ```
+
+#### 如何处理不确定参数的问题
+```javascript
+  // 不确定参数有几个，但是要对他们求和  
+  // ES3,ES5 
+  //arguments：实参长度
+  function f() {
+    var sum = 0;
+    //[].forEach.call(arguments,item=>{});
+    Array.prototype.forEach.call(arguments, function (item) {
+      sum += item * 1;
+    });
+    return sum;
+  }
+  console.log(f(1, 2, 3, 6)); //12
+
+  //ES6
+  function f1(...arg) {
+    var sum = 0;
+    arg.forEach(item => {
+      sum += item;
+    });
+    return sum;
+  }
+  console.log(f1(1, 2, 3, 6)); //12
+```
+
+### [ES5实现默认参数](https://github.com/lancertea/javascript-/blob/master/ES6/ES6_with_ES5/default_parameter.html)
 
 ### 箭头函数和普通函数的区别
 1. 箭头函数语法上比普通函数更加简洁（ES6中每一种函数都可以使用形参赋默认值和剩余运算符）

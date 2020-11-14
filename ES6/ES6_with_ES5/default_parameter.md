@@ -9,7 +9,7 @@ console.log(sum(3,4));//7
 ```
 ES5:
 ```javascript
-function sum(x = 1, y = 2) {
+function sum(x, y) {
     (x === undefined) && (x = 1);
     (y === undefined) && (y = 2);
     return x + y;
