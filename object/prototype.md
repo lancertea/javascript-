@@ -45,7 +45,42 @@ div
 ->EventTarget.prototype  
 ->Object.prototype
 
-#### 重构类的原型
+## 原型方法
+构造函数  Person  
+原型对象  Person.prototype  
+实例对象  p1  
+
+- instanceof  
+判断实例对象的__proto__属性与构造函数的prototype是不是同一个引用。
+如果不是，他会沿着对象的__proto__向上查找的，直到顶端Object.prototype  
+eg: p1 instanceof Person
+- construcor  
+判断对象是哪个类的直接实例  
+eg:p1.construcor===Person
+
+- isPrototypeOf(obj)  
+返回一个布尔值，用来判断某个原型对象和某个实例之间的关系  
+eg:Person.prototype.isPrototypeOf(p1)
+
+- Object.getPrototypeOf(obj)  
+获得一个对象的原型  
+eg:Object.getPrototypeOf(p1)===Person.prototype
+
+- hasOwnProperty()  
+检测一个属性是存在于实例还是存在与原型
+
+## 构造函数，new时发生了什么
+var obj  = {}; 
+obj.__proto__ = Base.prototype;
+Base.call(obj);  
+
+1. 创建一个新的对象 obj;
+2. 将这个空对象的__proto__成员指向了Base函数对象prototype成员对象
+3. Base函数对象的this指针替换成obj, 相当于执行了Base.call(obj);
+4. 如果构造函数显示的返回一个对象，那么则这个实例为这个返回的对象。 否则返回这个新创建的对象
+ 
+
+## 重构类的原型
 重构类的原型：让某个类的原型指向新的堆内存地址（重定向指向）  
 问题：
 1. 重定向后的空间中不一定有constructor属性（只有浏览器默认给prototype开辟的堆内存中才存在constructor），这样导致类和原型机制不完整；所以需要手动再给新的原型空间设置constructor属性   
