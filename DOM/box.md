@@ -1,11 +1,12 @@
-### JS中的DOM操作：盒子模型属性
+# DOM
+## JS中的DOM操作：盒子模型属性
 > DOM：document object model 文档对象模型，提供系列的属性和方法，让我们能在JS中操作页面中的元素
 
-#### 获取元素的属性和方法
+## 获取元素的属性和方法
 ```javascript
 //方法
 document.getElementById([ID])
-document.getElementsByName([NAME])///=>在IE浏览器中只对表单元素的NAME有作用
+document.getElementsByName([NAME])///=>在IE6-8浏览器中只对表单元素的NAME有作用
 [context].queryselector([SELECTOR])//=>在IE6~8中不兼容
 [context].queryselectorAll([SELECTPR])//=>在IE6~8中不兼容
 [context].getElementsByTagName([TAG-NAME])
@@ -19,13 +20,15 @@ document.body
 childNodes //所有子节点(包括文本这些)
 children //所有元素子节点  IE6~8中会把注释节点当做元素节点获取到
 parentNode
-firstChild/firstElementChild
-lastChild/lastElementChild
+firstChild//所有子节点的第一个
+firstElementChild//所有元素子节点的第一个
+lastChild//所有子节点的最后一个
+lastElementChild//所有元素子节点的最后一个
 previousSibling/previousElementSibling
 nextSibling/nextElementSibling
 //=>所有带Element的，在IE6~8中不兼容
 ```
-#### DOM的增删改操作
+## DOM的增删改操作
 ```javascript
 //创建元素
 document.createElement([tag-name])
@@ -53,7 +56,7 @@ delete [element].xxx;
 console.log([element].getAttribute("xxx");
 [element].removeAttribute("xxx");
 ```
-#### DOM的增删改操作
+## 获取元素样式和操作样式
 ```javaScript
 //修改元素样式
 [element].style.xxx=xxx;  //修改和设置它的行内样式
