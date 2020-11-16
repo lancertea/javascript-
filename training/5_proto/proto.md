@@ -117,6 +117,28 @@ wp 1.
    let n = 10;
    let m = n.plus(10).minus(5);
    console.log(m);//=>15（10+10-5）
+
+   ~ function () {
+        function check(num) {
+            return !Number.isNaN(num);
+        }
+
+        Number.prototype.plus = function (num) {
+            if (check(num)&&check(this)) {
+                return this + num;
+            }
+        }
+
+        Number.prototype.minus = function (num) {
+            if (check(num)&&check(this)) {
+                return this - num;
+            }
+        }
+    }();
+
+    let n = 10;
+    let m = n.plus(10).minus(5);
+    console.log(m); //=>15
    ```
 
 7. 阿里超经典面试题（超有难度，可以暂时先不做，看看）
