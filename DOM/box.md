@@ -56,6 +56,8 @@ delete [element].xxx;
 console.log([element].getAttribute("xxx");
 [element].removeAttribute("xxx");
 ```
+### [用例](https://github.com/lancertea/javascript-/blob/master/DOM/DOM.html)
+
 ## 获取元素样式和操作样式
 ```javaScript
 //修改元素样式
@@ -68,7 +70,23 @@ console.log([element].getAttribute("xxx");
 window.getComputedStyle([ELEMENT],[伪类]) / [ELEMENT].currentStyle//拿到的是渲染后的样式，通用性好
 第一个参数是操作的元素  第二个参数是元素的伪类:after/:before。获取的结果是CSSStyleDeclaration这个类的实例（对象），包含了当前元素所有的样式信息
 ```
-#### JS盒子模型属性
+
+### JS如何设置获取盒模型对应的宽和高
+1. dom.style.width/height
+缺点：只能取到内联样式
+
+2. Dom.currentStyle.width/height
+优点：拿到的是渲染之后的样式
+缺点：仅IE支持
+
+3. Window.getComputedStyle(dom).width/height
+优点：拿到的是渲染之后的样式，通用性好
+
+4. dom.getBoundingClientRect()返回一个（类似）对象，可拿到8个属性：left、right、bottom、top、width、height、x、y  不带单位
+可以用来计算元素的绝对位置
+
+
+## JS盒子模型属性
  - client
    - width / height
    - top / left
@@ -80,7 +98,7 @@ window.getComputedStyle([ELEMENT],[伪类]) / [ELEMENT].currentStyle//拿到的�
    - width / height
    - top / left
 
-##### client
+### client
 获取盒子可视区域的宽高（内容宽度+左右padding）  
 1. 内容溢出与否对他无影响
 2. 获取的结果是没有单位的（其余的盒模型属性也是）
@@ -96,7 +114,7 @@ let winH = document.documentElement.clientHeight || document.body.clientHeight;
 box.clientLeft  
 box.clientTop
 
-#### offset
+### offset
 在client的基础上加上border == 盒子本身的宽高  
 box.offsetWidth  
 box.offsetHeight
@@ -109,9 +127,9 @@ offsetParent：获取它的父参照物（不一定是父元素）
 offsetTop：距离其父参照物的上偏移  
 offsetLeft：距离其父参照物的左偏移（当前元素的外边框到父参照物的里边框）
 
-#### scroll
+### scroll
 在没有内容溢出的情况下，获取的结果和client是一样的
-在有内容溢出的情况下，获取的结果约等于真实内容的宽高（上/左PADDING + 真实内容的高度/宽度）
+在有内容溢出的情况下，获取的结果约等于真实内容的宽高（上/左padding + 真实内容的高度/宽度）
 1. 不同浏览器获取的结果不尽相同
 2. 设置overflow属性值对最后的结果也会产生一定的影响  
 box.scrollWidth  
@@ -136,4 +154,7 @@ box.scrollLeft  横向滚动条卷去的宽度
 回到顶部：document.documentElement.scrollTop=0
 回到底部：document.documentElement.scrollTop=document.documentElement.scrollHeight-document.documentElement.clientHeight
 
+### demo
+#### [获取盒子上偏移值](https://github.com/lancertea/javascript-/blob/master/DOM/offset.html)
+#### [回到顶部](https://github.com/lancertea/javascript-/blob/master/DOM/top.html)
 

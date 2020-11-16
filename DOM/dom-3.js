@@ -1,4 +1,4 @@
-// // DOM查询做缓存
+// DOM查询做缓存
 //不缓存DOM查询结果
 // for(let i=0;i<document.getElementsByTagName('p').length;i++){
 //     //每次循环，都会计算length，频繁进行DOM查询
