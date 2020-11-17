@@ -8,7 +8,7 @@
 ### [原型](https://github.com/lancertea/javascript-/blob/master/object/prototype.md)
 ### [数组]
 ### [字符串]
-### [正则]
+### [正则](https://github.com/lancertea/javascript-/blob/master/RegExp/regex.md)
 
 
 ## 函数
