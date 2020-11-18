@@ -55,7 +55,7 @@ oldMan.name
 ...
 ```
 
-### 创建对象
+## 创建对象
 1. 字面量创建
 2. new关键字创建
 ```javascript
@@ -122,5 +122,5 @@ const copy = Object.assign({}, obj);
 console.log(copy); // { a: 1 }
 ```
 
-#### 属性的遍历（见ES6.md）
+## [属性的遍历](https://github.com/lancertea/javascript-/blob/master/ES6/ES6.md)
 

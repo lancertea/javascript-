@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>ES5与ES6数组的一些方法对比</title>
+    <title>ES5与ES6数组的一些方法对比以及ES6对数组的扩展</title>
 </head>
 
 <body>
@@ -37,7 +37,6 @@
                 }
                 // console.log(item)
             })
-
 
             //every
             //array.every(function(currentValue,index,arr), thisValue)  &&
@@ -160,10 +159,10 @@
             //ES6
             //扩展符...
             // let args =[...arguments]
-            console.log([...darr]);//[div, div, div, div, div, div]
-            console.log([...darr1]);//[div, div, div, div, div, div]
-            console.log([...s]);//[1,2,3]
-            console.log([...m]);//[['a', 1],['b', 2],['c', 3]]
+            console.log([...darr]); //[div, div, div, div, div, div]
+            console.log([...darr1]); //[div, div, div, div, div, div]
+            console.log([...s]); //[1,2,3]
+            console.log([...m]); //[['a', 1],['b', 2],['c', 3]]
             //如果将扩展运算符用于数组赋值，只能放在参数的最后一位，否则会报错
             //任何定义了遍历器（Iterator）接口的对象，都可以用扩展运算符转为真正的数组
             //实现Iterator的对象：Array、string、Nodelist、Set、Map、Generator函数、arguments对象
@@ -198,10 +197,10 @@
             }
 
             // Array.prototype.from
-            console.log(Array.from(darr));//[div, div, div, div, div, div]
-            console.log(Array.from(darr1));//[div, div, div, div, div, div]
-            console.log(Array.from(s));//[1,2,3]
-            console.log(Array.from(m));//[['a', 1],['b', 2],['c', 3]]
+            console.log(Array.from(darr)); //[div, div, div, div, div, div]
+            console.log(Array.from(darr1)); //[div, div, div, div, div, div]
+            console.log(Array.from(s)); //[1,2,3]
+            console.log(Array.from(m)); //[['a', 1],['b', 2],['c', 3]]
 
             let arrayLike = {
                 '0': 'a',

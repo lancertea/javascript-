@@ -4,10 +4,10 @@
 ### [操作符](https://github.com/lancertea/javascript-/blob/master/variable/operator.md)
 
 ## 对象
-### [对象]
+### [对象](https://github.com/lancertea/javascript-/blob/master/object/object.md)
 ### [原型](https://github.com/lancertea/javascript-/blob/master/object/prototype.md)
-### [数组]
-### [字符串]
+### [数组](https://github.com/lancertea/javascript-/blob/master/object/array.md)
+### [字符串](https://github.com/lancertea/javascript-/blob/master/object/string.md)
 ### [正则](https://github.com/lancertea/javascript-/blob/master/RegExp/regex.md)
 
 

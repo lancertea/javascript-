@@ -12,16 +12,6 @@
 <body>
     <script>
         /*
-     在JS对象中的属性有4个描述其行为的特性：
-     configurable:表示能否通过delete删除属性从而重新定义属性
-     enumerable:表示能否通过for-in循环或Object.keys方法返回属性
-     writable:表示能否修改属性的值
-     value:包含这个属性的数据值
-     以上四个属性在不显示调用Object.defineProperty()的时候，即通过赋值操作添加的属性，前三个默认值都为true，
-     而value为你自己设定的值，如果不设定的话则为undefined
-     */
-
-        /*
         Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象。
         默认情况下，通过Object.defineProperty()添加的属性是不可修改的(上面三个属性默认为false)
         */
