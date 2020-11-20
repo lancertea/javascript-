@@ -25,6 +25,23 @@ let reg1 = /\d+/;
 let reg2 = new RegExp("\\d+");
 //两种的区别：第二个才能使用变量
 ```
+
+### 正则两种创建方式的区别
+```javascript
+//=>构造函数因为传递的是字符串，\需要写两个才代表斜杠
+let reg = /\d+/g;
+reg = new RegExp("\\d+","g");
+
+//=>正则表达式中的部分内容是变量存储的值
+//1.两个斜杠中间包起来的都是元字符（如果正则中要包含某个变量的值，则不能使用字面量方式创建）
+let type = "abc";
+reg = /^@"+type+"@$/; 
+console.log(reg.test("@abc@")); //=>false
+console.log(reg.test('@"""typeeeee"@')); //=>true
+//2.这种情况只能使用构造函数方式（因为它传递的规则是字符串，只有这样才能进行字符串拼接）
+reg = new RegExp("^@"+type+"@$");
+console.log(reg.test("@abc@"));//=>true
+```
 正则表达式由两部分组成
 - 元字符
 - 修饰符
@@ -41,7 +58,7 @@ let reg2 = new RegExp("\\d+");
 //=>2.特殊元字符：单个或者组合在一起代表特殊的含义
 \    转义字符（普通->特殊->普通）
 .    除\n（换行符）以外的任意字符
-^    以哪一个元字符作为开始   注：^出现在开头表示字符边界，在中括号开头表示非，在其它地方就表示字符^
+^    以哪一个元字符作为开始   注：^出现在开头表示字符边界，在中括号开头表示非(eg:[^xy])，在其它地方就表示字符^
 $    以哪一个元字符作为结束
 \n   换行符
 \d   0~9之间的一个数字
@@ -62,7 +79,7 @@ x|y  x或者y中的一个字符
 
 (x) 匹配 'x' 并且记住匹配项
 (?:x) 匹配 'x' 但是不记住匹配项
-x(?=y) 配'x'仅仅当'x'后面跟着'y'.这种叫做正向肯定查找。
+x(?=y) 匹配'x'仅仅当'x'后面跟着'y'.这种叫做正向肯定查找。
 x(?!y) 匹配'x'仅仅当'x'后面不跟着'y',这个叫做正向否定查找
 
 //=>3.普通元字符：代表本身含义的
@@ -82,7 +99,7 @@ g =>global      全局匹配
 ```
 
 ## 元字符详细解析
-`^ $`ndd
+`^ $`                       
 ```javascript
 let reg = /^\d/;
 console.log(reg.test("abc")); //=>false
@@ -135,11 +152,11 @@ let reg = /^18|29$/;
 console.log(reg.test("18")); //=>true
 console.log(reg.test("29")); //=>true
 console.log(reg.test("129")); //=>true
-console.log(reg.test("189")); //=>true
+console.log(reg.test("189")); //=>true1
 console.log(reg.test("1829")); //=>true
 console.log(reg.test("829")); //=>true
 console.log(reg.test("182")); //=>true
-//---直接x|y会存在很乱的优先级问题，一般我们写的时候都伴随着小括号进行分组，因为小括号改变处理的优先级 =>小括号：分组
+//---直接x|y会存在很乱的优先级问题，一般我们写的时候都伴随着小括号进行分组，小括号的第一个作用：分组，改变处理的优先级
 reg = /^(18|29)$/;
 console.log(reg.test("18")); //=>true
 console.log(reg.test("29")); //=>true
@@ -155,7 +172,7 @@ console.log(reg.test("189")); //=>false
 let reg = /^[@+]$/;
 console.log(reg.test("@")); //=>true
 console.log(reg.test("+")); //=>true
-console.log(reg.test("@@")); //=>false
+19console.log(reg.test("@@")); //=>false
 console.log(reg.test("@+")); //=>false
 
 reg = /^[\d]$/; //=>\d在中括号中还是0-9
@@ -181,7 +198,7 @@ console.log(reg.test("2"));//=>true
 console.log(reg.test("10"));//=>false
 ```
 
-**常用的正则表达式**
+## 常用的正则表达式
 
 1. 验证是否为有效数字
 
@@ -248,7 +265,7 @@ console.log(reg.test("10"));//=>false
    //=> ((\.|-)[A-Za-z0-9]+)*
    //1.对@后面名字的补充
    // 多域名     .com.cn
-   // 企业邮箱    zxt@abc-peixun-office.com
+   // 企业邮箱    zxt@abc-studyhard-office.com
    
    //=> \.[A-Za-z0-9]+
    //1. 这个匹配的是最后的域名（.com/.cn/.org/.edu/.net...）
@@ -274,32 +291,7 @@ console.log(reg.test("10"));//=>false
    reg.exec("130828199012040617"); //=>["130828199012040617", "130828", "1990", "12", "04", "1", "7"...] 捕获结果是数组，包含每一个小分组单独获取的内容
    ```
 
-**正则两种创建方式的区别**
-
-   ```javascript
-//=>构造函数因为传递的是字符串，\需要写两个才代表斜杠
-let reg = /\d+/g;
-reg = new RegExp("\\d+","g");
-
-//=>正则表达是中的部分内容是变量存储的值
-//1.两个斜杠中间包起来的都是元字符（如果正则中要包含某个变量的值，则不能使用字面量方式创建）
-let type = "abc";
-reg = /^@"+type+"@$/; 
-console.log(reg.test("@abc@")); //=>false
-console.log(reg.test('@"""typeeeee"@')); //=>true
-//2.这种情况只能使用构造函数方式（因为它传递的规则是字符串，只有这样才能进行字符串拼接）
-reg = new RegExp("^@"+type+"@$");
-console.log(reg.test("@abc@"));//=>true
-   ```
-
-
-
-----
-
-
-
-**正则的捕获**
-
+## 正则的捕获
 > 实现正则捕获的办法
 >
 > - 正则RegExp.prototype上的方法
@@ -316,7 +308,7 @@ console.log(reg.test("@abc@"));//=>true
 > 1. 不加g时候的匹配模式和匹配结果跟exec的一模一样
 > 2. 加g会将所有匹配结果组成的一个数组，且数组中不再有之前index，input这些属性了。多次匹配的情况下,match只能把大正则匹配的内容获取到，小分组匹配的信息无法获取
 >   - splite
->   - .......
+>   
 
 ```javascript
 let str = "abc2019yangfan2020qihang2021";
@@ -358,19 +350,20 @@ let str = "abc2019yangfan2020qihang2021";
 
 // let reg = /\d+/g;
 // console.log(reg.exec(str)); //=>["2019"...]
-// console.log(reg.lastIndex); //=>11 设置全局匹配修饰符g后，第一次匹配完，lastIndex会自己修改
+// console.log(reg.lastIndex); //=>7 设置全局匹配修饰符g后，第一次匹配完，lastIndex会自己修改
 // console.log(reg.exec(str)); //=>["2020"...]
-// console.log(reg.lastIndex); //=>22
+// console.log(reg.lastIndex); //=>18
 // console.log(reg.exec(str)); //=>["2021"...]
-// console.log(reg.lastIndex); //=>32
+// console.log(reg.lastIndex); //=>28
 // console.log(reg.exec(str)); //=>null 当全部捕获后，再次捕获的结果是null，但是lastIndex又回归了初始值零，再次捕获又从第一个开始了...
 // console.log(reg.lastIndex); //=>0
 // console.log(reg.exec(str)); //=>["2019"...]
+// console.log(reg.lastIndex); //=>7
 
 // let reg = /\d+/g;
 // if (reg.test(str)) {
 // 	//=>验证一下:只有正则和字符串匹配我们在捕获
-// 	console.log(reg.lastIndex); //=>11 基于TEST匹配验证后，LASTINDEX已经被修改为第一次匹配后的结果，所以下一次捕获不再从头开始了
+// 	console.log(reg.lastIndex); //=>7 基于TEST匹配验证后，LASTINDEX已经被修改为第一次匹配后的结果，所以下一次捕获不再从头开始了
 // 	console.log(reg.exec(str)); //=>["2020"...]
 // }
 
@@ -405,21 +398,21 @@ let str = "abc!2019!yangfan!2020!qihang!2021!";
 let reg = /\d+/;
 let res = reg.exec(str);
 console.log(res);
-//["2019", index: 3, input: "abc2019yangfan2020qihang2021", groups: undefined, length:1]
+//["2019", index: 4, input: "abc2019yangfan2020qihang2021", groups: undefined, length:1]
 res = reg.exec(str);
 console.log(res);
-//["2019", index: 3, input: "abc2019yangfan2020qihang2021", groups: undefined, length:1]
+//["2019", index: 4, input: "abc2019yangfan2020qihang2021", groups: undefined, length:1]
 
 reg = /(\d+)/;
 res = reg.exec(str);
 console.log(res);
-// ["2019", "2019", index: 3, input: "abc2019yangfan2020qihang2021", groups: undefined, length:2]
+// ["2019", "2019", index: 4, input: "abc2019yangfan2020qihang2021", groups: undefined, length:2]
 res = reg.exec(str);
 console.log(res);
-// ["2019", "2019", index: 3, input: "abc2019yangfan2020qihang2021", groups: undefined, length:2]     
+// ["2019", "2019", index: 4, input: "abc2019yangfan2020qihang2021", groups: undefined, length:2]     
 //可看出这里的length是匹配到的内容的个数+组内匹配到的个数
 
-reg = /!(\d+)!/g;
+reg = /!(\d+)!/;
 res = reg.exec(str);
 console.log(res);
 // ["！2019！", "2019", index: 3, input: "abc！2019！yangfan！2020！qihang！2021！", groups: undefined, length:2]
@@ -436,7 +429,7 @@ console.log(res);
 // ["！2020！", "2020", index: 16, input: "abc！2019！yangfan！2020！qihang！2021！", groups: undefined, length:2]
 res = reg.exec(str);
 console.log(res);
-//["!2021!", "2021", index: 28, input: "abc!2019!yangfan!2020!qihang!2021!", groups: undefined]
+//["!2021!", "2021", index: 28, input:"abc!2019!yangfan!2020!qihang!2021!", groups: undefined, length:2]
 res = reg.exec(str);
 console.log(res);
 //null
@@ -444,37 +437,16 @@ console.log(res);
 reg = /!(\d0)(\d+)!/g;
 res = reg.exec(str);
 console.log(res);
-//["!2019!", "20", "19", index: 3, input: "abc!2019!yangfan!2020!qihang!2021!", groups: undefined]
+//["!2019!", "20", "19", index: 3, input: "abc!2019!yangfan!2020!qihang!2021!", groups: undefined, length: 3]
 res = reg.exec(str);
 console.log(res);
-//["!2020!", "20", "20", index: 16, input: "abc!2019!yangfan!2020!qihang!2021!", groups: undefined]
+//["!2020!", "20", "20", index: 16, input: "abc!2019!yangfan!2020!qihang!2021!", groups: undefined, length: 3]
 res = reg.exec(str);
 console.log(res);
-//["!2021!", "20", "21", index: 28, input: "abc!2019!yangfan!2020!qihang!2021!", groups: undefined]
+//["!2021!", "20", "21", index: 28, input: "abc!2019!yangfan!2020!qihang!2021!", groups: undefined, length: 3]
 res = reg.exec(str);
 console.log(res);
 //null
-
-//需求：编写一个方法execAll，执行一次可以把所有匹配的结果捕获到（前提正则一定要设置全局修饰符g）
-RegExp.prototype.execAll = function(str){
-if(!this.global) return this.exec(str);
-let ary = [],
-    res = this.exec(str);
-    while(res){
-        ary.push(res[0]);
-        res = this.exec(str);
-    }
-return ary.length ===0 ? null:ary;
-}
-
-
-console.log(reg.execAll(str));//["!2019!", "!2020!", "!2021!"]
-
-console.log(str.match(reg));//["!2019!", "!2020!", "!2021!"]
-
-reg = /!(\d+)!/
-console.log(str.match(reg));//["!2019!", "2019", index: 3, input: "abc!2019!yangfan!2020!qihang!2021!", groups: undefined]
-console.log(str.match(reg));//["!2019!", "2019", index: 3, input: "abc!2019!yangfan!2020!qihang!2021!", groups: undefined]
 
 str = "{0}年{1}月{2}日";
 reg = /\{(\d+)\}/g;
@@ -484,6 +456,7 @@ while(reg.test(str)){
 
 console.log(reg.test(str)); //true
 console.log(RegExp.$1); //"0"
+//一次匹配的结果
 console.log(RegExp.$1,RegExp.$2,RegExp.$3);//"0"
 
 console.log(reg.test(str)); //true
@@ -561,10 +534,10 @@ console.log(reg.test("deep")); //=>true
 console.log(reg.test("some")); //=>false
 ```
 
-**正则捕获的贪婪性**
+## 正则捕获的贪婪性
 
 ```javascript
-let str = "珠峰2019@2020培训";
+let str = "mount2019@2020study";
 //=>正则捕获的贪婪性：默认情况下，正则捕获的时候，是按照当前正则所匹配的最长结果来获取的
 let reg = /\d+/g;
 console.log(str.match(reg)); //=>["2019","2020"]
@@ -584,7 +557,7 @@ console.log(str.match(reg)); //=>["2", "0", "1", "9", "2", "0", "2", "0"]
 
 
 
-**其它正则捕获的方法**
+## 其它正则捕获的方法
 
 1. test也能捕获（本意是匹配）
 
@@ -610,25 +583,25 @@ console.log(str.match(reg)); //=>["2", "0", "1", "9", "2", "0", "2", "0"]
 
    ```javascript
    let str = "abc@2019|abc@2020";
-   //=>把"abc"替换成"珠峰"
+   //=>把"abc"替换成"mount"
    //1.不用正则，执行一次只能替换一个
    /*
-   str = str.replace("abc","珠峰").replace("abc","珠峰");
+   str = str.replace("abc","mount").replace("abc","mount");
    console.log(str);
    */
    //2.使用正则会简单一点
-   str = str.replace(/abc/g,"珠峰");
+   str = str.replace(/abc/g,"mount");
    console.log(str);
    ```
 
    ```javascript
    let str = "abc@2019|abc@2020";
-   //=>把"abc"替换为"abcpeixun"
-   //str=str.replace("abc","abcpeixun").replace("abc","abcpeixun");
-   //"abcpeixunpeixun@2019|abc@2020" 每一次替换都是从字符串第一个位置开始找的（类似于正则捕获的懒惰性）
+   //=>把"abc"替换为"abcstudyhard"
+   //str=str.replace("abc","abcstudyhard").replace("abc","abcstudyhard");
+   //"abcstudyhardstudyhard@2019|abc@2020" 每一次替换都是从字符串第一个位置开始找的（类似于正则捕获的懒惰性）
    
    //=>基于正则g可以实现
-   str = str.replace(/abc/g,"abcpeixun");
+   str = str.replace(/abc/g,"abcstudyhard");
    ```
 
    案例：把时间字符串进行处理
@@ -659,134 +632,10 @@ console.log(str.match(reg)); //=>["2", "0", "1", "9", "2", "0", "2", "0"]
        return $1+"年"+$2+"月"+$3+"日";
    });
    ```
-
-   单词首字母大写
-
-   ```javascript
-   let str = "good good study，day day up！";
-   let reg = /\b([a-zA-Z])[a-zA-Z]*\b/g;
-   //=>函数被执行了六次，每一次都把正则匹配信息传递给函数
-   //=>每一次ARG:["good","g"] ["good","g"] ["study","s"]...
-   str = str.replace(reg,(...arg)=>{
-       let [content,$1]=arg;
-       $1=$1.toUpperCase();
-       content=content.substring(1);
-       return $1+content;
-   });
-   console.log(str); //=>"Good Good Study，Day Day Up！"
-   ```
-
-   验证一个字符串中那个字母出现的次数最多，多少次？
-
-   ```javascript
-   /*去重思维*/
-   let str = "abcpeixunzhoulaoshi";
-   let obj = {};
-   [].forEach.call(str, char => {
-   	if (typeof obj[char] !== "undefined") {
-   		obj[char]++;
-   		return;
-   	}
-   	obj[char] = 1;
-   });
-   let max = 1,
-   	res = [];
-   for (let key in obj) {
-   	let item = obj[key];
-   	item > max ? max = item : null;
-   }
-   for (let key in obj) {
-   	let item = obj[key];
-   	if (item === max) {
-   		res.push(key);
-   	}
-   }
-   console.log(`出现次数最多的字符：${res}，出现了${max}次`);
-   
-   /*排序*/
-   let str = "abcpeixunzhoulaoshi";
-   str = str.split('').sort((a, b) => a.localeCompare(b)).join('');
-   // console.log(str);//=>"aeefghhhiilnnoopsuuuxzz"
-   let ary = str.match(/([a-zA-Z])\1+/g).sort((a, b) => b.length - a.length);
-   // console.log(ary); //=>["hhh", "uuu", "ee", "ii", "nn", "oo", "zz"]
-   let max = ary[0].length,
-   	res = [ary[0].substr(0, 1)];
-   for (let i = 1; i < ary.length; i++) {
-   	let item = ary[i];
-   	if (item.length < max) {
-   		break;
-   	}
-   	res.push(item.substr(0, 1));
-   }
-   console.log(`出现次数最多的字符：${res}，出现了${max}次`);
-   
-   /*从最大到最小去试找*/
-   let str = "abcpeixunzhoulaoshi",
-   	max = 0,
-   	res = [],
-   	flag = false;
-   str = str.split('').sort((a, b) => a.localeCompare(b)).join('');
-   for (let i = str.length; i > 0; i--) {
-   	let reg = new RegExp("([a-zA-Z])\\1{" + (i - 1) + "}", "g");
-   	str.replace(reg, (content, $1) => {
-   		res.push($1);
-   		max = i;
-   		flag = true;
-   	});
-   	if (flag) break;
-   }
-   console.log(`出现次数最多的字符：${res}，出现了${max}次`);
-   ```
-
-   其它方法：formatTime 、 queryURLParams 、 millimeter
-   
-   ```javascript
-   ~ function () {
-   	/*
-   	 * formatTime：时间字符串的格式化处理
-   	 *   @params
-   	 *     templete:[string] 我们最后期望获取日期格式的模板
-   	 *     模板规则:{0}->年  {1~5}->月日时分秒
-   	 *   @return
-   	 *     [string]格式化后的时间字符串
-   	 */
-   	function formatTime(templete = "{0}年{1}月{2}日 {3}时{4}分{5}秒") {
-   		let timeAry = this.match(/\d+/g);
-   		return templete.replace(/\{(\d+)\}/g, (...[, $1]) => {
-   			let time = timeAry[$1] || "00";
-   			return time.length < 2 ? "0" + time : time;
-   		});
-   	}
-   
-   	/* 
-   	 * queryURLParams：获取URL地址问号和面的参数信息（可能也包含HASH值）
-   	 *   @params
-   	 *   @return
-   	 *     [object]把所有问号参数信息以键值对的方式存储起来并且返回
-   	 */
-   	function queryURLParams() {
-   		let obj = {};
-   		this.replace(/([^?=&#]+)=([^?=&#]+)/g, (...[, $1, $2]) => obj[$1] = $2);
-   		this.replace(/#([^?=&#]+)/g, (...[, $1]) => obj['HASH'] = $1);
-   		return obj;
-   	}
-   
-   	/* 
-   	 * millimeter：实现大数字的千分符处理
-   	 *   @params
-   	 *   @return
-   	 *     [string]千分符后的字符串
-   	 */
-   	function millimeter() {
-   		return this.replace(/\d{1,3}(?=(\d{3})+$)/g, content => content + ',');
-   	}
+ 
    	
-   	/* 扩展到内置类String.prototype上 */
-   	["formatTime", "queryURLParams", "millimeter"].forEach(item => {
-   		String.prototype[item] = eval(item);
-   	});
-   }();
-   ```
+
+   
 
 
 
