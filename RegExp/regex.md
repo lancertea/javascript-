@@ -23,7 +23,8 @@ let reg1 = /\d+/;
 
 //=>构造函数模式创建  两个参数：元字符字符串，修饰符字符串
 let reg2 = new RegExp("\\d+");
-//两种的区别：第二个才能使用变量
+//写法2与写法1的区别是：写法2里面的参数可以是变量
+//另外写法2里面的参数是一个字符串，所以需要转义
 ```
 
 ### 正则两种创建方式的区别
@@ -314,6 +315,32 @@ console.log(reg.test("10"));//=>false
 let str = "abc2019yangfan2020qihang2021";
 let reg = /\d+/;
 /*
+RegExpObject.exec(string)
+如果 exec() 找到了匹配的文本，则返回一个结果数组。否则，返回 null。
+此数组的第 0 个元素是与正则表达式相匹配的文本，第 1 个元素是与 RegExpObject 的第 1 个子表达式相匹配的文本
+（如果有的话），第 2 个元素是与 RegExpObject 的第 2 个子表达式相匹配的文本（如果有的话），以此类推。
+除了数组元素和 length 属性之外，exec() 方法还返回两个属性。
+index 属性声明的是匹配文本的第一个字符的位置。
+input 属性则存放的是被检索的字符串 string。
+在调用非全局的 RegExp 对象的 exec() 方法时，返回的数组与调用方法 String.match() 返回的数组是相同的。
+但是，当 RegExpObject 是一个全局正则表达式时，exec() 的行为就稍微复杂一些。
+它会在 RegExpObject 的 lastIndex 属性指定的字符处开始检索字符串 string。
+当 exec() 找到了与表达式相匹配的文本时，在匹配后，它将把 RegExpObject 的 lastIndex 属性设置为匹配文本的最后
+一个字符的下一个位置。这就是说，可以通过反复调用 exec() 方法来遍历字符串中的所有匹配文本。
+当 exec() 再也找不到匹配的文本时，它将返回 null，并把 lastIndex 属性重置为 0。
+
+StringObject.match(searchvalue)
+StringObject.match(regexp)
+如果 regexp 没有标志 g，那么 match() 方法就只能在 stringObject 中执行一次匹配。如果没有找到任何匹配的文本，match() 将返回 null。否则，它将返回一个数组，其中存放了与它找到的匹配文本有关的信息。该数组的第 0 个元素存放的是匹配文本，而其余的元素存放的是与正则表达式的子表达式匹配的文本。除了这些常规的数组元素之外，返回的数组还含有两个对象属性。
+       
+index 属性声明的是匹配文本的起始字符在stringObject 中的位置，input 属性声明的是对 stringObject 的引用。
+
+如果 regexp 具有标志 g，则 match() 方法将执行全局检索，找到 stringObject 中的所有匹配子字符串。若没有找到任何匹配的子串，则返回 null。
+如果找到了一个或多个匹配子串，则返回一个数组。不过全局匹配返回的数组的内容与前者大不相同，它的数组元素中存放的是 stringObject 中所有的匹配子串，而且也没有 index 属性或 input 属性。
+
+*/
+
+/*
  * 基于exec实现正则的捕获
  *   1.捕获到的结果是null或者一个数组
  *     第一项：本次捕获到的内容
@@ -555,7 +582,22 @@ console.log(str.match(reg)); //=>["2", "0", "1", "9", "2", "0", "2", "0"]
 - (?=) 正向预查
 - (?!) 负向预查
 
-
+```javascript
+//正向预查、负向预查应用：密码
+// 编写一条正则，用来验证此规则：一个6~16位的字符串，必须同时包含有大小写字母和数字
+// let reg=/^[a-zA-Z0-9]{6,16}$/   以大小写字母或数字组成的一个长度为6-16位的字符串，可以全是字母或数字
+// let reg=/(?!^[a-z]+$)(?!^[A-z]+$)(?!^[0-9]+$)^[a-zA-Z0-9]{6,16}$/;  单个不行，两两组合可以
+var reg=/(?!^[a-zA-Z]+$)(?!^[0-9]+$)(?!^[A-Z0-9]+$)(?!^[a-z0-9]+$)^[a-zA-Z0-9]{6,16}$/;
+console.log(reg.test('aaaAAA'));
+console.log(reg.test('aaa123'));
+console.log(reg.test('a1aA3A11'));
+        
+/* 1-10位：数字、字母、下划线组成字符串，必须有_ */
+//reg=/(?!^[a-zA-Z0-9]+$)^\w{1,10}$/
+reg=/(?=_)\w{1,10}/
+console.log(reg.test('12a'));
+console.log(reg.test('12a_'));
+```
 
 ## 其它正则捕获的方法
 
