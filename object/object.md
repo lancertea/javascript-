@@ -62,7 +62,7 @@ oldMan.name
 let obj1 = {a:1,b:2};
 let obj2 = new Object(obj1);
 console.log(obj1 == obj2); //true
-console.log(obj1 === obj2); //true  为啥这里是全等的
+console.log(obj1 === obj2); //true
 
 ```
 3. Object.create(obj)
@@ -71,7 +71,7 @@ console.log(obj1 === obj2); //true  为啥这里是全等的
 /*
 创建一个空对象
 有时我们需要创建一个纯净的对象, 不包含什么原型链等等. 
-一般创建空对象最直接方式通过字面量 {}, 但这个对象中依然存在 __proto__ 属性来指向 Object.prototype 等等.
+一般创建空对象最直接方式通过字面量 {}, 但这个对象中依然存在 __proto__ 属性来指向 Object.prototype
 */
 let cle = {};
 console.log(cle.__proto__);//Object.prototype
@@ -120,6 +120,7 @@ Object.assign(obj) === obj // true
 const obj = { a: 1 };
 const copy = Object.assign({}, obj);
 console.log(copy); // { a: 1 }
+console.log(obj===copy); // false
 ```
 
 ## [属性的遍历](https://github.com/lancertea/javascript-/blob/master/ES6/ES6.md)
