@@ -63,9 +63,123 @@ let obj1 = {a:1,b:2};
 let obj2 = new Object(obj1);
 console.log(obj1 == obj2); //true
 console.log(obj1 === obj2); //true
-
 ```
+
+```javascript
+function P(num) {
+    this.num = num;
+}
+var p = new P('zz');
+console.log(p.constructor); //function P(num)
+function P1(num) {
+    this.num = num;
+}
+var p1 = P1('ss'); //p1为undefined
+//console.log(p1.constructor);
+console.log(P1 === P1.prototype.constructor); //true
+function P2(num) {
+    return {
+        num: num
+    };
+}
+var p2 = P2('yy');
+console.log(p2.constructor); //function Object()
+console.log(P2 === P2.prototype.constructor); //true
+```
+
+```javascript
+function O(name, num) {
+    this.name = name;
+    this.num = num;
+    //这样写算什么
+    gender: 'woman';
+}
+O.prototype.age = 18;
+O.prototype.arr = [1, 2, 3];
+
+var o1 = new O('o1', [1, 2]);
+console.log(o1); //Object { name: "o1",num:[1,2] }
+console.log(o1.gender); //undefined
+console.log(O.gender);//undefined
+o1.num.push(3);
+//重写原型的引用类型值时，自己不会添加相应属性，会改变原型的引用类型值
+o1.arr.push(4);
+//重写原型对象的基本类型值时，在实例中添加了一个与原型的属性同名的属性，该属性会屏蔽原型中的那个属性，不会改变原型的基本类型值
+o1.age = 20;
+console.log(o1); //Object { name: "o1",num:[1,2,3], age: 20 }
+console.log(O.prototype); //Object { age: 18, arr: [1,2,3,4],constructor: function O(name)}
+//使用delete操作符可以删除实例属性，从而能重新访问原型中的属性
+delete o1.age;
+console.log(o1.age); //18
+console.log(o1.hasOwnProperty('name')); //true
+console.log(o1.hasOwnProperty('arr')); //false
+
+console.log(O.prototype.isPrototypeOf(o1)); //true
+console.log(Object.getPrototypeOf(o1) === O.prototype); //true
+console.log(o1 instanceof O); //true
+console.log(o1 instanceof Object); //true
+console.log(o1.constructor === O); //true
+console.log(o1.constructor === Object); //false
+
+//遍历属性：
+//1.for-in 所有属性
+//该方法依次访问一个对象及其原型链中所有可枚举的属性
+for (var pro in o1) {
+    console.log(pro); //'name','num','age','arr'
+}
+
+//同时使用 hasOwnProperty()+in，可确定该属性到底是存在于对象中，还是原型中
+for (var pro in o1) {
+    if (o1.hasOwnProperty(pro)) {
+        console.log(pro); //'name','num'
+    }
+}
+
+//2.Object.keys()  取得对象上所有可枚举的实例属性
+//该方法返回对象自身包含（不包括原型中）的所有可枚举属性的名称的数组
+console.log(Object.keys(O)); //[]
+console.log(Object.keys(o1)); //[ "name", "num" ]
+console.log(Object.keys(O.prototype)); //[ "age", "arr" ]
+
+//3.Object.getOwnPropertyNames():
+//该方法返回对象自身包含（不包括原型中）的所有属性(无论是否可枚举)的名称的数组
+console.log(Object.getOwnPropertyNames(O)); //  ["length", "name", "arguments", "caller", "prototype"]
+console.log(Object.getOwnPropertyNames(o1)); //[ "name", "num" ]
+console.log(Object.getOwnPropertyNames(O.prototype)); // [ "constructor", "age", "arr" ]
+
+//4.Reflect.ownKeys(obj)
+//该方法返回一个数组，包含对象自身的（不含继承的）所有键名，不管键名是 Symbol 或字符串，也不管是否可枚举
+console.log(Reflect.ownKeys(O));//  ["length", "name", "arguments", "caller", "prototype"]
+console.log(Reflect.ownKeys(o1));//[ "name", "num" ]
+console.log(Reflect.ownKeys(O.prototype));// [ "constructor", "age", "arr" ]
+```
+
 3. Object.create(obj)
+创建一个新对象，使用现有的对象来提供新创建的对象的__proto__（充当原型）
+```javascript
+var P = {
+    name: 'o1',
+    arr: [1, 2, 3]
+};
+var o1 = Object.create(P);
+
+console.log(o1); //Object {}
+console.log(o1.name); //'o1'
+o1.name = 'oo';
+o1.arr.push(4);
+console.log(o1.name); //'oo'
+console.log(o1.arr); //[1,2,3,4]
+console.log(o1); //Object { name: "oo" }
+console.log(P); //Object { name: "o1", arr: [1,2,3,4] }
+
+// console.log(P.prototype.isPrototypeOf(o1));  P.prototype is undefined
+console.log(Object.getPrototypeOf(o1) === P); //true
+//console.log(o1 instanceof P); P不是构造函数，会报错
+console.log(o1 instanceof Object); //true
+console.log(o1.constructor === P); //false
+console.log(o1.constructor === Object); //true
+```
+
 4. Object.assign(obj)
 ```javascript
 /*

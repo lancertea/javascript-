@@ -11,7 +11,7 @@ JavaScript 的所有对象中都包含了一个 __proto__ 内部属性，这个�
 
 ## 原型链查找机制
 1. 先找自己私有的属性，有则调取使用，没有继续找
-2. 基于\__proto\__找所属类原型上的方法（Fn.prototype），如果还没有则继续基于\__proto\__往上找...一直找到Object.prototype为止
+2. 基于__proto__找所属类原型上的方法（Fn.prototype），如果还没有则继续基于__proto__往上找...一直找到Object.prototype为止
 
 ### 补充：为什么getElementById的上下文只能是document?
 document的原型链：  
