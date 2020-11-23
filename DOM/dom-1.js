@@ -23,7 +23,7 @@ p1.style.width = '100px'
 console.log(p1.style.width)
 p1.style.color='blue'
 p1.className = 'red'
-console.log(p1.classNameqi)
+console.log(p1.className)
 console.log(p1.nodeName)
 console.log(p1.nodeType) // 1
 
