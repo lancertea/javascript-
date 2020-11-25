@@ -360,3 +360,9 @@ console.log(sum); //24
 
 ## [ES6对数组的扩展](https://github.com/lancertea/javascript-/blob/master/ES6/array.html)
 
+## 相关练习题
+### [数组扁平化](https://github.com/lancertea/javascript-/blob/master/training/2_object/flat.html)
+### [并、交、差集的实现](https://github.com/lancertea/javascript-/blob/master/training/2_object/intersection.html)
+### [其他](https://github.com/lancertea/javascript-/blob/master/training/2_object/array.html)
+
+### 数组常用API实现
