@@ -66,7 +66,7 @@
             return Math.abs(left - right) < Number.EPSILON * Math.pow(2, 2);
         }
         //0.1->0.000110011....无法整除，计算机存储位有限，会舍弃后面的位，0.1会有精度缺失
-        console.log(0.0000000001===0.1);//false
+        console.log(0.1000000001===0.1);//false
         console.log(0.100000000000000000001===0.1);//true
         console.log(0.1+0.2);//0.30000000000000004
         console.log(0.1 + 0.2 === 0.3); // false
