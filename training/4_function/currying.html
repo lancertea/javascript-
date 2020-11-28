@@ -80,22 +80,17 @@
 				return currying(fn.bind(null, ...args), length - args.length);
 			}
 		}
-		let add = currying((...arg) => eval(arg.join('+')), 5);
+		function add(...arg) {
+            return arg.reduce((res, cur) => res + cur);
+        }
+
+		add = currying(add,5);
 
 		console.log(add(1, 2, 3, 4, 5));
 		console.log(add(1, 2)(3, 4, 5));
 		console.log(add(1, 2)(3, 4)(5));
 		console.log(add(1, 2)(3)(4)(5));
 		console.log(add(1)(2)(3)(4)(5));
-
-		/* function add(...A) {
-			return function (...B) {
-				return function (...C) {
-					return eval([...A, ...B, ...C].join('+'));
-				}
-			}
-		}
-		add(1)(2)(3); */
 
 		// function $add(n1, n2, n3, n4) {
 		// 	return n1 + n2 + n3 + n4;
@@ -112,32 +107,13 @@
 		// anonymous2.call(null,3,4)
 		// anonymous1.call(null,2,3,4)
 		// $add.call(null,1,2,3,4)
-		// console.log(add(1, 2)(3, 4));
-
-		// function curring(fn,...arg){
-		//        if(arg.length>=fn.length){
-		//            return fn(...arg);
-		//        } 
-		//        else{
-		//            return (...arg1)=>curring(fn,...arg,...arg1);
-		//        }
-		//        }
-		//        function add(a,b,c){
-		//        return a+b+c;
-		//        }
-
-		//        add=curring(add);
-		//        console.log(add(1,2,3));
-		//        console.log(add(1,2)(3));
-		//        console.log(add(1)(2)(3));
+		// console.log(add(1, 2)(3, 4));	
 
 		{
-
 			function add() {
 				//add（）的参数
 				var args = [].slice.call(arguments)
 				var fn = function () {
-
 					//链式调用的参数
 					var arg = [].slice.call(arguments)
 					//参数拼接
@@ -151,7 +127,6 @@
 						sum = sum + args[i]
 					}
 					return sum
-
 				}
 				return fn
 			}

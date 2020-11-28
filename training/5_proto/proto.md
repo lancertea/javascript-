@@ -1,4 +1,5 @@
-wp 1. 
+1. 
+
    ```javascript
    function Fn() {
        this.x = 100;
@@ -29,6 +30,7 @@ wp 1.
    ```
 
 2. 
+
    ```javascript
    function fun(){
    	this.a=0;
@@ -52,6 +54,7 @@ wp 1.
    ```
 
 3. 
+
     ```javascript
     function C1(name) {
         if (name) {
@@ -71,6 +74,7 @@ wp 1.
     ```
 
 4. 
+
    ```javascript
    function Fn(num) {
    	this.x = this.y = num;
@@ -89,6 +93,7 @@ wp 1.
    ```
 
 5. 
+
    ```javascript
    function Fn() {
    	let a = 1;
@@ -141,7 +146,7 @@ wp 1.
     console.log(m); //=>15
    ```
 
-7. 阿里超经典面试题（超有难度，可以暂时先不做，看看）
+7. 
 
     ```javascript
     function Foo() {
