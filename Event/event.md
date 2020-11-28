@@ -1,63 +1,69 @@
-### 事件及事件绑定
-事件是元素天生自带的默认操作行为
-  =>不论我们是否给其绑定了方法，当我们操作的时候，也会把对应的事件触发 
-事件绑定是给元素的某个行为绑定一个方法
-  =>目的是当事件行为触发的时候，可以做一些事情
+# 事件
+## 事件及事件绑定
+[事件] 是元素天生自带的默认操作行为，不论我们是否给其绑定了方法，当我们操作的时候，也会把对应的事件触发   
+[事件绑定] 是给元素的某个行为绑定一个方法,目的是当事件行为触发的时候，可以做一些事情
 
-#### 常用的事件行为
-  [鼠标事件]
-    click 点击（移动端click被识别为单击）
-    dblclick 双击
-    mousedown 鼠标按下
-    mouseup  鼠标抬起
-    mousemove 鼠标移动
-    mouseover 鼠标滑过
-    mouseout  鼠标滑出
-    mouseenter 鼠标进入
-    mouseleave 鼠标离开
-    mousewhell 鼠标滚轮滚动
-  [键盘事件]
-    keydown 按下某个键
-    keyup 抬起某个键
-    keypress 除Shift/Fn/CapsLock键以外，其它键按住（连续触发）
-  [移动端手指事件]
-    单手指事件模型 Touch
-       touchstart 手指按下
-       touchmove 手指移动
-       touchend  手指松开
-       touchcancel 操作取消（一般应用于非正常状态下操作结束）
-    多手指事件模型 Gesture
-       gesturestart
-       gesturechange / gestureupdate
-       gestureend
-       gesturecancel
-  [表单元素常用事件]
-    focus 获取焦点
-    blur 失去焦点
-    change 内容改变
-  [音视频常用事件]
-    canplay  可以播放（资源没有加载完，播放中可能会卡顿）
-    canplaythrough 可以播放（资源已经加载完，播放中不会卡顿）
-    play 开始播放
-    playing 播放中
-    pause 暂停播放
-  [其它常用事件]
-    load 资源加载完
-    unload 资源卸载
-    beforeunload 当前页面关闭之前
-    error 资源加载失败
-    scroll 滚动事件
-    readystatechange AJAX请求状态改变事件
-    contextmenu 鼠标右键触发
-    ......
+## 常用的事件行为
+  [鼠标事件]  
+    click 点击（移动端click被识别为单击）  
+    dblclick 双击  
+    mousedown 鼠标按下  
+    mouseup  鼠标抬起  
+    mousemove 鼠标移动  
+    mouseover 鼠标滑过  
+    mouseout  鼠标滑出  
+    mouseenter 鼠标进入  
+    mouseleave 鼠标离开  
+    mousewhell 鼠标滚轮滚动  
+
+  [键盘事件]  
+    keydown 按下某个键  
+    keyup 抬起某个键  
+    keypress 除Shift/Fn/CapsLock键以外，其它键按住（连续触发）  
+
+  [移动端手指事件]  
+  - 单手指事件模型 Touch  
+       touchstart 手指按下  
+       touchmove 手指移动  
+       touchend  手指松开  
+       touchcancel 操作取消（一般应用于非正常状态下操作结束）  
+  - 多手指事件模型 Gesture
+       gesturestart  
+       gesturechange / gestureupdate  
+       gestureend  
+       gesturecancel  
+
+  [表单元素常用事件]  
+    focus 获取焦点  
+    blur 失去焦点  
+    change 内容改变  
+
+  [音视频常用事件]  
+    canplay  可以播放（资源没有加载完，播放中可能会卡顿）  
+    canplaythrough 可以播放（资源已经加载完，播放中不会卡顿）  
+    play 开始播放  
+    playing 播放中  
+    pause 暂停播放  
+     
+  [其它常用事件]  
+    load 资源加载完  
+    unload 资源卸载  
+    beforeunload 当前页面关闭之前  
+    error 资源加载失败  
+    scroll 滚动事件  
+    readystatechange AJAX请求状态改变事件  
+    contextmenu 鼠标右键触发  
+
+查看事件的方式：     
 https://developer.mozilla.org/zh-CN/docs/Web/Events
 或者查看元素的属性（属性中onxxx就是元素拥有的事件行为）
 
-#### DOM0事件绑定 VS DOM2事件绑定
-[DOM0]
+
+## DOM0事件绑定 VS DOM2事件绑定
+### DOM0
   元素.on事件行为=function(){}
 
-DOM0事件绑定的原理：给元素的私有属性赋值，当事件触发，浏览器会帮我们把赋的值执行，
+DOM0事件绑定的原理：给元素(box)的私有属性赋值，当事件触发，浏览器会帮我们把赋的值执行，
 但是这样也导致 “只能给当前元素某一个事件行为绑定一个方法”
 ```javaScript
 box.onclick = function () {
@@ -73,7 +79,7 @@ box.onclick = function () {
 	box.onclick = null;
 } 
 ```
-[DOM2]
+### DOM2
   元素.addEventListener(事件行为,function(){},true/false)
   IE6~8中：元素.attachEvent('on事件行为',function(){})
 
@@ -140,11 +146,16 @@ window.addEventListener('DOMContentLoaded', function () {
 		}); 
 ```
 
-### 事件对象
-给元素的事件行为绑定方法，当事件行为触发方法会被执行，不仅被执行，而且还会把当前操作的相关信息传递给这个函数 =>“事件对象”
+### window.onload VS $(document).ready()
+1. $(document).ready() 采用的是DOM2事件绑定，监听的是DOMContentLoaded这个事件，所以只要DOM结构加载完成就会被触发执行，而且同一个页面中可以使用多次（绑定不同的方法，因为基于DOM2事件池绑定机制完成的）
+2. window.onload必须等待所有资源都加载完成才会被触发执行，采用DOM0事件绑定，同一个页面只能绑定一次（一个方法），想绑定多个也需要改为window.addEventListener('load', function () {})DOM2绑定方式
+
+
+##  事件对象
+给元素的事件行为绑定方法，当事件行为触发，方法会被执行，不仅被执行，而且还会把当前操作的相关信息传递给这个函数 =>“事件对象”
 例如：  
 如果是鼠标操作，获取的是MouseEvent类的实例 =>鼠标事件对象
-鼠标事件对象 -> MouseEvent.prototype -> UIEvent.prototype -> Event.prototype -> Object.prototype
+鼠标事件对象 -> MouseEvent.prototype -> UIEvent.prototype -> Event.prototype -> Object.prototype  
 如果是键盘操作，获取的是KeyboardEvent类的实例 =>键盘事件对象
 ```javaScript
 box.onclick = function (ev) {
@@ -180,4 +191,33 @@ box.onclick = function (ev) {
 		} 
 } 
 ```
+
+### IE和W3C的事件处理区别
+绑定事件  
+W3C： targetEl.addEventListener('event',handler,false)  
+IE: targetEl.attachEven('onEvent',handler)  
+
+删除事件  
+W3C： targetEl.removeEventListener('event',handler,false)  
+IE: targetEl.detachEvent('onEvent',handler) 
+
+事件对象  
+W3C： ev  
+IE: window.event
+
+事件目标（事件源）  
+W3C: evd.target   
+IE: window.event.srcElement
+
+阻止事件默认行为  
+W3C： ev.preventDefault()  
+IE: window.event.returnValue = 'false' 
+
+阻止事件传播  
+W3C： ev.stopPropagation()  
+IE: window.event.cancelBubble = 'true'
+
+
+
+
 
