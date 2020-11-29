@@ -80,7 +80,7 @@ box.onclick = function () {
 } 
 ```
 ### DOM2
-  元素.addEventListener(事件行为,function(){},true/false)
+  元素.addEventListener(事件行为,function(){},true/false)  
   IE6~8中：元素.attachEvent('on事件行为',function(){})
 
 DOM2事件绑定的原理：基于原型链查找机制，找到EventTarget.prototype上的方法并且执行，此方法执行，会把给当前元素某个事件行为绑定的所有方法，存放到浏览器默认的事件池中（绑定几个方法，会向事件池存储几个），当事件行为触发，会把事件池中存储的对应方法，依次按照顺序执行 “给当前元素某一个事件行为绑定多个不同方法” 
@@ -150,7 +150,6 @@ window.addEventListener('DOMContentLoaded', function () {
 1. $(document).ready() 采用的是DOM2事件绑定，监听的是DOMContentLoaded这个事件，所以只要DOM结构加载完成就会被触发执行，而且同一个页面中可以使用多次（绑定不同的方法，因为基于DOM2事件池绑定机制完成的）
 2. window.onload必须等待所有资源都加载完成才会被触发执行，采用DOM0事件绑定，同一个页面只能绑定一次（一个方法），想绑定多个也需要改为window.addEventListener('load', function () {})DOM2绑定方式
 
-
 ##  事件对象
 给元素的事件行为绑定方法，当事件行为触发，方法会被执行，不仅被执行，而且还会把当前操作的相关信息传递给这个函数 =>“事件对象”
 例如：  
@@ -195,7 +194,7 @@ box.onclick = function (ev) {
 ### IE和W3C的事件处理区别
 绑定事件  
 W3C： targetEl.addEventListener('event',handler,false)  
-IE: targetEl.attachEven('onEvent',handler)  
+IE: targetEl.attachEvent('onEvent',handler)  
 
 删除事件  
 W3C： targetEl.removeEventListener('event',handler,false)  
@@ -206,7 +205,7 @@ W3C： ev
 IE: window.event
 
 事件目标（事件源）  
-W3C: evd.target   
+W3C: ev.target   
 IE: window.event.srcElement
 
 阻止事件默认行为  
@@ -216,6 +215,17 @@ IE: window.event.returnValue = 'false'
 阻止事件传播  
 W3C： ev.stopPropagation()  
 IE: window.event.cancelBubble = 'true'
+
+## 常见事件行为
+### [a标签默认行为](https://github.com/lancertea/javascript-/blob/master/Event/preventDefault.html)
+### [mouseover和mouseenter的本质区别](https://github.com/lancertea/javascript-/blob/master/Event/mouseover_mouseenter.html)
+
+## 事件传播
+### [事件传播机制](https://github.com/lancertea/javascript-/blob/master/Event/event_model.html)
+
+
+## 用例
+### [推箱子](https://github.com/lancertea/javascript-/blob/master/Event/box.html)
 
 
 

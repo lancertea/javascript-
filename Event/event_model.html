@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>事件流</title>
+    <title>事件传播机制</title>
     <style>
         #a {
             width: 400px;
@@ -26,6 +26,12 @@
 </head>
 
 <body>
+    <!-- 
+		事件的传播机制
+			捕获阶段：从最外层向最里层事件源依次进行查找（目的：是为冒泡阶段事先计算好传播的层级路径） =>CAPTURING_PHASE:1
+			目标阶段：当前元素的相关事件行为触发 =>AT_TARGET:2
+			冒泡传播：触发当前元素的某一个事件行为，不仅它的这个行为被触发了，而且它所有的祖先元素（一直到window）相关的事件行为都会被依次触发（从内到外的顺序） =>BUBBLING_PHASE:3  （Event.prototype）
+	 -->
     <div id="a">
         a
         <div id="b">
@@ -40,6 +46,7 @@
         var da = document.getElementById('a');
         var db = document.getElementById('b');
         var dc = document.getElementById('c');
+        
 
         /*    
 
@@ -56,9 +63,9 @@
                 };
                 dc.onclick=function(e){
                     e=e||window.event;
-                    console.log('c');//c b a body HTML document
-                    e.cancelBubble =true;  //阻止冒泡
+                    console.log('c');//c b a body HTML document 
                     e.stopPropagation(); //阻止传播  c
+                    // e.cancelBubble =true; 
                     
                 };
 
@@ -77,7 +84,6 @@
                     
                 };
         */
-
 
         //事件捕获
         window.addEventListener('click', function () {

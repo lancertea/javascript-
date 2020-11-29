@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>事件小案例：推盒子</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            
+        }
+
+        .container {
+            box-sizing: border-box;
+            width: 400px;
+            height: 400px;
+            background: lightblue;
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -200px 0 0 -200px;
+        }
+
+        .container .box{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background: lightcoral;
+            /* CSS动画 */
+            transition: .3s linear;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box"></div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script>
+        let $container = $(".container"),
+            $box = $container.children(".box");
+            $(document).on("keydown keypress", function(ev){
+                //1.首先获取按键码和元素当前的top/left
+                let code = ev.keyCode,
+                    T = parseFloat($box.css("top")),
+                    L = parseFloat($box.css("left")),
+                    step = 15;
+                //2.根据键盘码计算移动的距离    
+                switch(code){
+                    case 37:
+                        L -= step;
+                        break;
+                    case 38:
+                        T -= step;
+                        break;
+                    case 39:
+                        L += step;
+                        break;
+                    case 40:
+                        T += step;
+                        break;
+                }
+                //4.边界判断
+                let minL = 0,
+                    maxL = $container.outerWidth() - $box.outerWidth(),
+                    minT = 0,
+                    maxT = $container.outerHeight() - $box.outerHeight();
+                    L = L < minL ? L = minL : (L > maxL ? maxL : L);
+                    T = T < minT ? T = minT : (T > maxT ? maxT : T);
+                //3.把最新的样式重新赋值为盒子
+                $box.css({
+                    left:L,
+                    top:T
+                });
+            });
+    </script>
+</body>
+
+</html>

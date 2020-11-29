@@ -32,7 +32,7 @@
 ### [常见DOM操作](https://github.com/lancertea/javascript-/blob/master/DOM/box.md)
 
 ## 事件
-### [事件及事件绑定](https://github.com/lancertea/javascript-/blob/master/Event/event.md)
+### [事件](https://github.com/lancertea/javascript-/blob/master/Event/event.md)
 
 ## jquery
 

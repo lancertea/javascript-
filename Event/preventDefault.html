@@ -3,33 +3,41 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>阻止默认行为</title>
-	<link rel="stylesheet" href="css/reset.min.css">
+	<title>阻止事件的默认行为</title>
 </head>
 
 <body>
 	<!-- 
-		A标签的默认行为1：页面跳转 
-		A标签的默认行为2：锚点定位
+		a标签的默认行为1：页面跳转 
+		a标签的默认行为2：锚点定位
 	-->
-	<!-- <a href="http://www.zhufengpeixun.cn/#free_course">珠峰培训</a> -->
-
+	<a href="https://github.com/lancertea">lancertea</a>
+	<br>
+	
+	<!-- 1 -->
+	<a href="javascript:;">href阻止默认行为</a>
 	<!-- 
 		阻止它的默认行为
 		  1. href="javascript:;"
 		  2. 点击A标签：先触发click行为，然后再去执行href的跳转
 	 -->
-	<!-- <a href="http://www.zhufengpeixun.cn/" id="link">我就是一个按钮</a> -->
+	<br>
+
+	<a href="https://github.com/lancertea" id="link">按钮</a>
 	<script>
-		/* link.onclick = function (ev) {
+		// 2
+		link.onclick = function (ev) {
 			//=>返回一个FALSE，相当于结束后面即将执行的步骤
 			return false;
 		}
-		link.onclick = function (ev) {
-			ev.preventDefault();
-		} */
+
+		// 3
+		// link.onclick = function (ev) {
+		// 	ev.preventDefault();
+		// } 
 	</script>
 
+<!-- 右键出现自定义盒子 -->
 	<!-- <style>
 		.context {
 			display: none;
@@ -80,8 +88,9 @@
 		//  ALT  18
 		//  ......
 
-		/* cardInp.onkeydown = cardInp.onkeyup = function (ev) {
+		cardInp.onkeydown = cardInp.onkeyup = function (ev) {
 			let val = this.value,
+			// 只能输入数字和X
 				reg = /[^0-9X]/g;
 			this.value = val.replace(reg, '');
 			//=>超过18位禁止输入
@@ -95,7 +104,7 @@
 			if (ev.keyCode === 13) {
 				alert(this.value);
 			}
-		} */
+		} 
 	</script>
 </body>
 
