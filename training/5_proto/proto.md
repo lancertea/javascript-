@@ -25,7 +25,7 @@
    console.log(Fn.prototype.__proto__.constructor);
    f1.getX();
    f1.__proto__.getX();
-   f2.getY();gan
+   f2.getY();
    Fn.prototype.getY();
    ```
 
@@ -167,7 +167,7 @@
     function getName() {
         console.log(5);
     }
-Foo.getName();
+    Foo.getName();
     getName();
     Foo().getName();
     getName();

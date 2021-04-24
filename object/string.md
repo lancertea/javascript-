@@ -107,7 +107,7 @@ console.log(s.substr(-5, 5)); //"world"
 console.log(s.substr(-3, -1)); //""
         
 //split()
-console.log(s.split()); //[ "hello world" ]
+console.log(s.split()); //[ "helloworld" ]
 console.log(s.split('')); //[ "h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d" ]
 ```
 
