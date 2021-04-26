@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>不借助第三个变量的前提下，交换两个变量的值</title>
+</head>
+
+<body>
+    <script>
+        {
+            let a = 10,
+                b = 12;
+
+            //算术运算法：
+            a = b - a; //a=2 b=12
+            b = b - a; //a=2 b=10
+            a = b + a; //a=12 b=10
+            //它的原理是：把a、b看做数轴上的点，围绕两点间的距离来进行计算。
+            // 具体过程：第一句“a=b-a”求出ab两点的距离，并且将其保存在a中；第二句“b=b-a”求出a到原点的距离
+            //（b到原点的距离与ab两点距离之差），并且将其保存在b中；第三句“a=b+a”求出b到原点的距离
+            //（a到原点距离与ab两点距离之和），并且将其保存在a中。完成交换。
+            console.log(a, b);
+        }
+
+        {
+
+            let a = 10,
+                b = 12;
+            //借助数组
+            a = [b, b = a][0];
+            console.log(a, b);
+        }
+
+        {
+            let a = 10,
+                b = 12;
+            //位运算
+            a ^= b;
+            b ^= a;
+            a ^= b;
+            console.log(a, b);
+
+        }
+    </script>
+
+</body>
+
+</html>

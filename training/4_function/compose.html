@@ -67,16 +67,9 @@
 
         function compose2(...args) {
             return function (val) {
-                return args.reverse().reduce(function (acc, fn) {
-                    return fn(acc);
-                }, val)
+                return args.reverse().reduce((acc, fn)=>fn(acc), val)
             }
         }
-
-
-
-
-
         /* let arr = [12, 23, 34, 45];
         let total = arr.reduce((x, y) => {
         	//=>x:上一次处理的结果

@@ -174,3 +174,40 @@ arr = Array.from(obj).slice(1).map(item => {
 })
 console.log(arr);
 ```
+
+## ['1','2','3'].map(parseInt)
+```javaScript
+console.log(['1','2','3'].map(parseInt));
+//[1,NaN,NaN]
+console.log(['1','2','4'].map(parseInt));
+//[1,NaN,NaN]
+console.log(['1','2','1'].map(parseInt));
+//[1,NaN,1]
+console.log(['1','2','0'].map(parseInt));
+//[1,NaN,0]
+```
+
+```javaScript
+//map标准定义是会传递3个参数:
+arr.map(function(item, key, arr){
+	...
+})
+
+// parseInt(string, radix)
+// string：需要转化的字符，如果不是字符串会被转换，忽视空格符。
+// radix：数字2-36之间的整型。默认使用10，表示10进制。这个参数的意义是指把前面的字符看作多少进制的数字，所谓的基数。如果radix在2-36之外会返回NaN。
+
+//在没有指定基数，或者基数为0的情况下，javascript作如下处理:
+// 如果字符串string以 “0x” 或者 “0X” 开头，则基数是16，16进制；
+// 如果字符串string以 “0” 开头，基数是8（8进制）或者10（10进制）,根据实现环境决定。	
+// ECMAScript 5规定使用10，但是并不是所有浏览器都遵循这个规定，最好明确给出radix的值。
+// 如果字符串string 以其他任何值开头，则基数是10，10进制
+
+let arr = ['1','2','3'].map(function(item, key, arr){
+		//3个参数
+		parseInt("1", 0) //0为10进制
+		parseInt("2", 1) //radix中没有1进制
+		parseInt("3", 2) //2进制中超过1的值不存在
+	});
+//[1, NaN, NaN]
+```
