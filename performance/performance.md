@@ -36,6 +36,51 @@ o1.o=null;
 
 JavaScript内存管理有一个主要概念是可达性，“可达性” 值是那些以某种方式可访问或可用的值，它们被保证存储在内存中。有一组基本的固有可达值，由于显而易见的原因无法删除，比如：本地函数的局部变量和参数，全局变量，当前嵌套调用链上的其他函数的变量和参数，这些值被称为"根"，如果引用或引用链可以从根访问任何其他值，则认为该值是可访问的 
 
+### 执行顺序
+当从服务器接收HTML页面的第一批数据时，DOM解析器就开始工作了，在解析过程中，如果遇到了JS脚本，如下所示：
+```HTML
+<html>
+    <body>
+        极客时间
+        <script>
+        document.write("--foo")
+        </script>
+    </body>
+</html>
+```
+那么DOM解析器会先执行JavaScript脚本，执行完成之后，再继续往下解析。
+
+那么第二种情况复杂点了，我们内联的脚本替换成js外部文件，如下所示：
+```HTML
+<html>
+    <body>
+        极客时间
+        <script type="text/javascript" src="foo.js"></script>
+    </body>
+</html>
+```
+这种情况下，当解析到JavaScript的时候，会先暂停DOM解析，并下载foo.js文件，下载完成之后执行该段JS文件，然后再继续往下解析DOM。这就是JavaScript文件为什么会阻塞DOM渲染。
+
+我们再看第三种情况，还是看下面代码：
+```HTML
+<html>
+    <head>
+        <style type="text/css" src = "theme.css" />
+    </head>
+    <body>
+        <p>极客时间</p>
+        <script>
+            let e = document.getElementsByTagName('p')[0]
+            e.style.color = 'blue'
+        </script>
+    </body>
+</html>
+```
+当我在JavaScript中访问了某个元素的样式，那么这时候就需要等待这个样式被下载完成才能继续往下执行，所以在这种情况下，CSS也会阻塞DOM的解析。
+
+所以这时候如果头部包含了js文件，那么同样也会暂停DOM解析，等带该JavaScript文件下载后，便开始编译执行该文件，执行结束之后，才开始继续DOM解析。
+
+
    
 
  

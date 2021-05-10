@@ -96,11 +96,16 @@ var s = "helloworld";
 console.log(s.slice(0, 6)); //"hellow" 
 console.log(s.slice(-5, -1)); //"worl"
 console.log(s.slice(-1, -5)); //""
+
         
 console.log(s.substring(0, 6)); //"hellow"
 console.log(s.substring(-5, -1)); //""
+console.log(s.substring(3, -2)); //相当于[0,3] "hel"
 console.log(typeof s.substring(-5, -1));//"string"
-console.log(s.substring(-1, 6)); //"hellow" 
+console.log(s.substring(-1, 6)); //"hellow"
+
+console.log(s.slice(8, -5)); //""
+console.log(s.substring(8, -5)); //"hellowor" 
         
 console.log(s.substr(0, 5)); //"hello"
 console.log(s.substr(-5, 5)); //"world"
