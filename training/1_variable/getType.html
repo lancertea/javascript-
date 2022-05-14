@@ -39,7 +39,7 @@
             if (typeof obj !== 'object') {
                 return (typeof obj);
             }
-
+            //判断可以枚举标准内置类
             return Object.prototype.toString.call(obj).slice(8, -1);
         }
         //自定义类型可以暂时用函数的name属性获取,但是要注意实例自己可能也有name属性的情况
