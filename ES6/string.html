@@ -110,6 +110,23 @@
                 console.log(match);
             }
         }
+        {
+            //String.prototype.replaceAll() 
+            console.log('aabbcc'.replace(/b/,'_')); //'aa_bcc'
+            console.log('aabbcc'.replace(/b/g,'_')); //'aa__cc'
+            console.log('aabbcc'.replaceAll('b','_')); //'aa__cc'
+            // 正则必须带g
+            console.log('aabbcc'.replaceAll(/b/g,'_')); //'aa__cc'
+        }
+
+        {
+            // at()方法接受一个整数作为参数，返回参数指定位置的字符，支持负索引（即倒数的位置）。
+            const str = 'hello';
+            console.log(str.at(1))// "e"
+            console.log(str.at(-1))// "o"
+            // 如果参数位置超出了字符串范围，at()返回undefined
+            console.log(str.at(10))// undefined
+        }
     </script>
 </head>
 
