@@ -11,26 +11,6 @@
 
 <body>
     <script>
-        /*
-        Object.getOwnPropertyDescriptor() 方法返回指定对象上一个自有属性对应的属性描述符。
-        （自有属性指的是直接赋予该对象的属性，不需要从原型链上进行查找的属性）
-
-        一个属性描述符是一个记录，由下面属性当中的某些组成的:
-        configurable: 当且仅当指定对象的属性描述可以被改变或者属性可被删除时(表示能否通过delete删除属性从而重新定义属性)，为true; 默认为false
-        enumerable: 当且仅当指定对象的属性可以被枚举出时，为 true; 默认为false
-        writable: 当且仅当属性的值可以被改变时为true。(仅针对数据属性描述有效); 默认为false
-        value: 该属性的值(仅针对数据属性描述符有效); 默认为undefined
-        get
-        set
-        
-        Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象。
-        默认情况下，通过Object.defineProperty()添加的属性是不可修改的(上面三个属性默认为false)
-
-        以上四个属性在不显示调用Object.defineProperty()的时候，即通过赋值操作添加的属性，前三个默认值都为true，
-        而value为你自己设定的值，如果不设定的话则为undefined
-
-
-        */
         {
 
             let a = {};
@@ -70,6 +50,8 @@
         p.age = 18;
         console.log(p.age); //undefined
         console.log(Object.isExtensible(p)); //false
+        p.name = 'ss';
+        console.log(p.name); //ss
         /*
         在 ES5 中，如果参数不是一个对象类型（而是原始类型），将抛出一个TypeError异常。
         在 ES2015 中，非对象参数将被视为一个不可扩展的普通对象，因此会被直接返回。
@@ -88,6 +70,8 @@
         console.log(p1.age); //undefined
         delete p1.name;
         console.log(p1.name); //'ss'
+        p1.name = 'aa'
+        console.log(p1.name); //'aa'
         console.log(Object.isSealed(p1)); //true
         /*
         在ES5中，如果这个方法的参数不是一个（原始）对象，那么它将导致TypeError。

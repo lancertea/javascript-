@@ -103,13 +103,31 @@ console.log("外部", a);
 ### [ES5实现ES6块级作用域](https://github.com/lancertea/javascript-/blob/master/ES6/ES6_with_ES5/scope.md)
 
 ## 属性的遍历
-### 属性的特性
-在JS对象中的属性有4个描述其行为的特性：
-- configurable:表示能否通过delete删除属性从而重新定义属性
-- enumerable:表示能否通过for-in循环或Object.keys方法返回属性
-- writable:表示能否修改属性的值
-- value:包含这个属性的数据值  
-以上四个属性在不显示调用Object.defineProperty()的时候，即通过赋值操作添加的属性，前三个默认值都为true，而value为你自己设定的值，如果不设定的话则为undefined
+### 属性描述符
+ Object.getOwnPropertyDescriptor() 方法返回指定对象上一个自有属性对应的属性描述符。（自有属性指的是直接赋予该对象的属性，不需要从原型链上进行查找的属性）
+ 一个属性描述符是一个记录，由下面属性当中的某些组成的:
+ - configurable: 当且仅当指定对象的属性描述可以被改变或者属性可被删除时(表示能否通过delete删除属性从而重新定义属性)，为true; 默认为false
+ - enumerable: 当且仅当指定对象的属性可以被枚举出时，为 true; 默认为false
+ - writable: 当且仅当属性的值可以被改变时为true。(仅针对数据属性描述有效); 默认为false
+ - value: 该属性的值(仅针对数据属性描述符有效); 默认为undefined
+ - get
+ - set
+        
+ Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象。默认情况下，通过Object.defineProperty()添加的属性是不可修改的(上面三个属性默认为false)
+ ```javascript
+//Object.getOwnPropertyDescriptor方法可以获取该属性的描述对象。
+  let a = {};
+  Object.defineProperty(a, 'name', {});
+  console.log(Object.getOwnPropertyDescriptor(a, 'name'));
+//  {
+//    value: undefined,
+//    writable: false,
+//    enumerable: false,
+//    configurable: false
+//  }
+```
+
+以上前四个属性在不显示调用Object.defineProperty()的时候，即通过赋值操作添加的属性，前三个默认值都为true，而value为你自己设定的值，如果不设定的话则为undefined
 ```javascript
 //Object.getOwnPropertyDescriptor方法可以获取该属性的描述对象。
 let obj = { foo: 123 };
