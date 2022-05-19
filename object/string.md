@@ -51,12 +51,6 @@ str.endsWith(searchString[, length])   ES6
 用来判断当前字符串是否是以另外一个给定的子字符串“结尾”的，根据判断结果返回 true 或 false
 length表示的是前n个字符
 
-str.split([separator[, limit]])  
-通过分离字符串成字串，将字符串对象分割成字符串数组。
-JavaScript为字符串提供了一些常用方法，注意，调用这些方法本身不会改变原有字符串的内容，而是返回一个新字符串
-所以一般想对字符串操作的时候，可先用split("")将其转换为字符串数组再操作
-separator 一个字符串或正则表达式
-
 str.concat(str2, [, ...strN])  
 连接两个字符串文本，并返回一个新的字符串。
 
@@ -84,6 +78,14 @@ str.padEnd(targetLength [, padString])  ES6
 
 str.repeat(count)  ES6  
 构造并返回一个新字符串，该字符串包含被连接在一起的指定数量的字符串的副本
+
+下面的方法可用正则：
+
+str.split([separator[, limit]])  
+通过分离字符串成字串，将字符串对象分割成字符串数组。
+JavaScript为字符串提供了一些常用方法，注意，调用这些方法本身不会改变原有字符串的内容，而是返回一个新字符串
+所以一般想对字符串操作的时候，可先用split("")将其转换为字符串数组再操作
+separator 一个字符串或正则表达式
         
 str.match(regexp) 
 使用正则表达式与字符串相比较。

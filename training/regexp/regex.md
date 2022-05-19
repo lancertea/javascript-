@@ -150,11 +150,11 @@ console.log(templateFunc(str, data));
 
 let str1 = str.replace(/\$\{(\w+)\}/g, (...arg) => {
     let [context, $1] = arg;
-        context = data[$1];
-        return context;
-    })
-    console.log(str1);
-}
+        // context = data[$1];
+        // return context;
+        return data[$1];
+    });
+console.log(str1);
 ```
 
 ## 验证IP地址
