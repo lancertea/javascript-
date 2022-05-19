@@ -290,6 +290,42 @@ String.prototype.getParam = function (key) {
 }
 ```
 
+```javascript
+ /* 
+         * queryURLParams：获取URL地址问号后面的参数信息（可能也包含HASH值）
+         *   @params
+         *   @return
+         *     [object]把所有问号参数信息以键值对的方式存储起来并且返回
+         * 
+         */
+        String.prototype.queryURLParams = function () {
+            let obj = {};
+            this.replace(/([^?=&#]+)=([^?=&#]+)/g, (...[, $1, $2]) => obj[$1] = $2);
+            this.replace(/#([^?=&#]+)/g, (...[, $1]) => obj['HASH'] = $1);
+            for (let key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    while (obj[key].includes('%')) {
+                        obj[key] = decodeURIComponent(obj[key]);
+                    }
+                }
+
+            }
+            return obj;
+        }
+        //对参数进行编码用encodeURIComponent，对整个url进行编码用encodeURI
+        let url =
+            "https://www.baidu.com/s?wd=%E9%9D%A2%E5%8C%85&rsv_spt=1&rsv_iqid=0x9e4162cb0006bc3b&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_dl=tb&rsv_sug3=14&rsv_sug1=14&rsv_sug7=100&rsv_sug2=0&rsv_btype=i&prefixsug=%25E9%259D%25A2%25E5%258C%2585&rsp=5&inputT=5261&rsv_sug4=9572";
+        console.log(url.queryURLParams());
+
+        // console.log(encodeURI('面包')); //%E9%9D%A2%E5%8C%85
+        // console.log(encodeURIComponent('面包')); //%E9%9D%A2%E5%8C%85
+        // let s = encodeURI(encodeURI('面包'));
+        // console.log(s);
+        // console.log(decodeURI(s));
+
+
+```
+
 ## 格式化金钱
 
 ```javascript
