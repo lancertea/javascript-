@@ -67,6 +67,7 @@ array.splice(index,howmany,item1,.....,itemX)
 
 array.copyWithin(target, start, end) ES6  
 在数组内部，将一段元素序列拷贝到另一段元素序列上，覆盖原有的值
+start, end如果有负值，表示从末尾开始计算
 
 array.fill(value, start, end)    ES6  
 将数组中指定区间的所有元素的值，都替换成某个固定的值
@@ -92,6 +93,10 @@ arr.includes(searchElement)  ES6
 arr.includes(searchElement, fromIndex)  
 fromIndex如果为负值，则按升序从 array.length + fromIndex 的索引开始搜索。默认为 0  
 判断当前数组是否包含某指定的值，如果是返回 true，否则返回 false
+可以发现NaN
+
+arr.at() ES6
+根据索引返回相应位置的值，接受负数，表示从最后开始找
 
 #### 迭代方法
 在下面的众多遍历方法中，有很多方法都需要指定一个回调函数作为参数。在每一个数组元素都分别执行完回调函数之前，数组的length属性会被缓存在某个地方，所以，如果你在回调函数中为当前数组添加了新的元素，那么那些新添加的元素是不会被遍历到的。此外，如果在回调函数中对当前数组进行了其它修改，比如改变某个元素的值或者删掉某个元素，那么随后的遍历操作可能会受到未预期的影响。总之，不要尝试在遍历过程中对原数组进行任何修改
@@ -113,9 +118,11 @@ array.some(function(currentValue,index,arr),thisValue)  ||
 
 array.find(function(currentValue, index, arr),thisValue)  ES6  
 找到第一个满足测试函数的元素并返回那个元素的值，如果找不到，则返回 undefined
+可以发现NaN
 
 array.findIndex(function(currentValue, index, arr), thisValue)  ES6  
 找到第一个满足测试函数的元素并返回那个元素的索引，如果找不到，则返回 -1
+可以发现NaN
 
 array.keys()  ES6  
 返回一个数组迭代器对象，该迭代器会包含所有数组元素的键
@@ -139,6 +146,8 @@ Array.isArray(obj)
 
 Array.from(object, mapFunction, thisValue)   ES6    
 将一个拥有 length 属性的对象或可迭代的对象变成一个数组
+
+Array.of()
 
 ## 一些方法的应用举例
 ### 自实现reverse功能

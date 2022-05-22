@@ -212,6 +212,10 @@
             //let arr = [...arrayLike];TypeError: object is not iterable (cannot read property Symbol(Symbol.iterator))
             //可以改为使用Array.from方法将arrayLike转为真正的数组
 
+            //ES5 
+            console.log([].slice.call(arrayLike));//["a", "b", "c"]
+
+            //ES6
             //Array.from方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象（包括 ES6 新增的数据结构 Set 和 Map）。
             console.log(Array.from(arrayLike)); //["a", "b", "c"]
 

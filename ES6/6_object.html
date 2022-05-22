@@ -68,6 +68,8 @@
         let target = {}
         Object.assign(target, origin);
         console.log(target); //Object { a: 1, b: 2 }
+        //如果只有一个参数，Object.assgin()会直接返回该参数
+        console.log( Object.assign(origin) === origin); //true
 
         //目标对象传入undefined和null会报错
         // Object.assign(null,origin);
@@ -77,11 +79,13 @@
         let t1 = {
             a: 1
         };
-        Object.assign(t1, null);
+        let test = Object.assign(t1, null);
         console.log(t1); //{a:1}
+        console.log(t1 === test); //true
         let t2 = {};
-        Object.assign(t2, undefined);
+        test = Object.assign(t2, undefined);
         console.log(t2); //{}
+        console.log(t2 === test); //true
 
         let t3 = {
             a: 1,
