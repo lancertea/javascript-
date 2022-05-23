@@ -154,8 +154,9 @@ console.log(Reflect.ownKeys(o1));//[ "name", "num" ]
 console.log(Reflect.ownKeys(O.prototype));// [ "constructor", "age", "arr" ]
 ```
 
-3. Object.create(obj)
-创建一个新对象，使用现有的对象来提供新创建的对象的__proto__（充当原型）
+3. Object.create(proto,[propertiesObject])
+创建一个新对象，使用现有的对象proto来提供新创建的对象的__proto__（充当原型）
+proto是null或者原始包装对象，否则会报错
 ```javascript
 var P = {
     name: 'o1',
@@ -180,7 +181,9 @@ console.log(o1.constructor === P); //false
 console.log(o1.constructor === Object); //true
 ```
 
-4. Object.assign(obj)
+4. Object.assign(target, ...sources)
+target: 目标对象，修改后的返回值
+sources：源对象
 ```javascript
 /*
 创建一个空对象

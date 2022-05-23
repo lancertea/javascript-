@@ -49,8 +49,9 @@
         };
         d.num = 3
         console.log(f.num) //2
-        //方法三：for in 自己循环遍历赋值  缺点：不支持对symbol处理
+        //方法一/二只能拷贝对象的实例属性
 
+        //方法三：for in 自己循环遍历赋值
         //浅拷贝：
         // let obj2={};
         // for(let key in obj){

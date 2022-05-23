@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非原生类浅拷贝</title>
+</head>
+
+<body>
+    <script>
+        class A {
+            constructor(f, l) {
+                this.f = f;
+                this.l = l;
+            }
+            fN() {
+                return this.f + ' ' + this.l;
+            }
+        }
+
+        function shalloCopy(obj) {
+            return Object.assign(Object.create(Object.getPrototypeOf(obj)), obj);
+
+        }
+
+        function shalloCopy1(obj) {
+            return Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
+
+        }
+        const user = new A('h', 'w');
+        const n1 = shalloCopy(user);
+        console.log(user);
+        console.log(n1);
+        console.log(user instanceof A);
+        console.log(Object.getPrototypeOf(user));
+        console.log(n1 instanceof A);
+
+        const n2 = shalloCopy1(user);
+        console.log(user);
+        console.log(n2);
+        console.log(user instanceof A);
+        console.log(Object.getPrototypeOf(user));
+        console.log(n2 instanceof A);
+    </script>
+</body>
+
+</html>

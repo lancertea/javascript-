@@ -57,6 +57,33 @@ eg: p1 instanceof Person
 - construcor  
 判断对象是哪个类的直接实例  
 eg:p1.construcor===Person
+所有对象（使用 Object.create(null) 创建的对象除外）都将具有 constructor 属性。
+在没有显式使用构造函数的情况下，创建的对象（例如对象和数组文本）将具有 constructor 属性，这个属性指向该对象的基本对象构造函数类型。
+```javascript
+let val = null;
+val.constructor = 1; // TypeError: val is null
+
+val = 'abc';
+val.constructor = Number; // val.constructor === String
+
+val.foo = 'bar'; // An implicit instance of String('abc') was created and assigned the prop foo
+val.foo === undefined; // true, since a new instance of String('abc') was created for this comparison, which doesn't have the foo property
+```
+
+可以为除了 null 和 undefined（因为这两者没有相应的构造函数）之外的任何类型指定 constructor 属性（如 String、Number、Boolean 等），但基本类型不会保留这些更改（也不会抛出异常）。
+任何对象都可以更改 constructor 属性的值，请注意，改变 constructor 的属性不会影响 instanceof 运算符
+
+```javascript
+let a = [];
+a.constructor = String
+a.constructor === String // true
+a instanceof String // false
+a instanceof Array // true
+
+a = new Foo();
+a.constructor = 'bar'
+a.constructor === 'bar' // true
+```
 
 - isPrototypeOf(obj)  
 返回一个布尔值，用来判断某个原型对象和某个实例之间的关系  
@@ -65,6 +92,11 @@ eg:Person.prototype.isPrototypeOf(p1)
 - Object.getPrototypeOf(obj)  
 获得一个对象的原型  
 eg:Object.getPrototypeOf(p1)===Person.prototype
+
+- Object.setPrototypeOf(obj, prototype)  ES6
+obj: 要设置其原型的对象
+prototype: 该对象的新原型（一个对象或null）
+为一个对象设置原型
 
 - hasOwnProperty()  
 检测一个属性是存在于实例还是存在与原型

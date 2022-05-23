@@ -280,6 +280,7 @@ Number(sym) // TypeError
 sym + 2 // TypeError
 ```
 ### 作为属性名的Symbol
+Symbol 值作为对象属性名时，不能用点运算符。
 ```javascript
 let mySymbol = Symbol();
 
