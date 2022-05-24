@@ -9,12 +9,14 @@
 
 <body>
     <script>
-        function myNew() {
-            var obj = {},
-                base = [].shift.call(arguments);
+        function myNew(...arg) {
+            let obj = {},
+            // base = [].shift.call(arguments);
             // base=[...arguments].shift();  这样是错的，相当于进行了一次浅拷贝
-            obj.__proto__ = base.prototype;
-            base.apply(obj, arguments);
+            base = arg[0] || Object;
+            // obj.__proto__ = base.prototype;
+            Object.setPrototypeOf(obj, base.prototype);
+            base.apply(obj, arg.slice(1));
             return obj;
         }
 

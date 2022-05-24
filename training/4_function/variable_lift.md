@@ -150,7 +150,7 @@ console.log(ary);
 ```javascript
 var n = 1;
 function fn() {
-    var n = 2;
+    var n = 3;
     function f() {
         n--;
         console.log(n);

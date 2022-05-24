@@ -169,7 +169,7 @@ function a() {
     console.log('variable')
 }
 }
-a();//'variable'shishen
+a();//'variable'
 ```
 ```javascript
 console.log(b); //undefined
