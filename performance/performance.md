@@ -113,7 +113,7 @@ href是Hypertext Reference的简写，表示超文本引用，指向网络资源
 <link type="text/css" rel="stylesheet" href="common.css">
 ```
 src是source的简写，目的是要把文件下载到html页面中去
-   ```HTML
+```HTML
 <img src="img/girl.jpg"> 
 <iframe src="top.html"> 
 <script src="show.js">
@@ -126,6 +126,42 @@ src是source的简写，目的是要把文件下载到html页面中去
 1. 当浏览器遇到href会并行下载资源并且不会停止对当前文档的处理。(同时也是为什么建议使用 link 方式加载 CSS，而不是使用 @import 方式)
 2. 当浏览器解析到src ，会暂停其他资源的下载和处理，直到将该资源加载或执行完毕。(这也是script标签为什么放在底部而不是头部的原因)
 
+### 怎样向页面添加JS
+浏览器在读取一个网页时都发生什么:浏览器在读取一个网页时，代码（HTML, CSS 和 JavaScript）将在一个运行环境（浏览器标签页）中得到执行。就像一间工厂，将原材料（代码）加工为一件产品（网页）。在 HTML 和 CSS 集合组装成一个网页后，浏览器的 JavaScript 引擎将执行 JavaScript 代码。这保证了当 JavaScript 开始运行之前，网页的结构和样式已经就位。
+
+这样很好，因为JavaScript 最普遍的用处是通过 DOM API（见上文）动态修改 HTML 和 CSS 来更新用户界面 （user interface）。如果 JavaScript 在 HTML 和 CSS 就位之前加载运行，就会引发错误。
+
+内部脚本：
+1. 把脚本元素放在文档体的底端（</body> 标签之前，与之相邻）
+2. 内部脚本可使用DOMContentLoaded事件，HTML 文档体加载、解释完毕事件
+```JavaScript
+document.addEventListener("DOMContentLoaded", function() {
+  . . .
+});
+```
+外部脚本：
+1. async
+浏览器遇到 async 脚本时不会阻塞页面渲染，而是直接下载然后运行。这样脚本的运行次序就无法控制，只是脚本不会阻止剩余页面的显示。当页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本时，async是最理想的选择
+```HTML
+<!-- 三者的调用顺序是不确定的 -->
+<script async src="js/vendor/jquery.js"></script>
+
+<script async src="js/script2.js"></script>
+
+<script async src="js/script3.js"></script>
+```
+2. defer
+脚本会被延迟到整个页面都解析完毕后再运行。设置该属性相当于告诉浏览器立即下载，但延迟执行
+```HTML
+<!-- 脚本将按照在页面中出现的顺序加载和运行 -->
+<script defer src="js/vendor/jquery.js"></script>
+
+<script defer src="js/script2.js"></script>
+
+<script defer src="js/script3.js"></script>
+```
+如果脚本无需等待页面解析，且无依赖独立运行，那么应使用async。
+如果脚本需要等待页面解析，且依赖于其它脚本，调用这些脚本时应使用defer，将关联的脚本按所需顺序置于 HTML中。
 
 
 
