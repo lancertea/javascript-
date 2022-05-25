@@ -1,4 +1,19 @@
 # DOM
+## window对象和document对象
+window
+window 对象表示一个包含DOM文档的窗口，其document属性指向窗口中载入的DOM文档
+```javaScript
+var win = document.defaultView
+```
+window作为全局变量，代表了脚本正在运行的窗口，暴露给Javascript代码，是 JavaScript 的顶级对象。
+我们创建的所有对象、函数、变量都是 Window 对象的成员。
+Window 对象的方法和属性是在全局范围内有效的。
+
+document
+Document接口表示任何在浏览器中载入的网页，并作为网页内容的入口，也就是DOM树，是 HTML 文档的根节点与所有其他节点（元素节点，文本节点，属性节点, 注释节点）
+Document 对象使我们可以通过脚本对 HTML 页面中的所有元素进行访问
+Document 对象是 Window 对象的一部分，即 window.document
+
 ## JS中的DOM操作：盒子模型属性
 > DOM：document object model 文档对象模型，提供系列的属性和方法，让我们能在JS中操作页面中的元素
 
@@ -153,6 +168,42 @@ box.scrollLeft  横向滚动条卷去的宽度
 整个页面：
 回到顶部：document.documentElement.scrollTop=0
 回到底部：document.documentElement.scrollTop=document.documentElement.scrollHeight-document.documentElement.clientHeight
+
+### css单位
+px
+绝对单位,传统上一个像素对应于计算机屏幕上的一个点
+物理像素：设备屏幕实际拥有的像素点
+逻辑像素：也叫“设备独立像素”（Device Independent Pixel, DIP），可以理解为反映在CSS/JS代码里的像素点数
+很久之前两者是没有区别的，直到Retina（视网膜技术）技术的兴起，这种技术使用4个乃至更多物理像素来渲染1个逻辑像素，这样一来，同样的CSS代码设置的尺寸，在Retina和非Retina屏幕上看起来大小是一样的，但在Retina屏幕上要精细得多
+
+%
+相对单位，父元素宽度的比例
+
+em
+相对单位，相对于父元素的字体（font-size）大小（如果有设置）
+
+rem
+相对于根元素 html 的 font-size 
+
+vw/vh
+基于视窗的宽度/高度计算，1vw/vh等于视窗宽度/高度的百分之一
+### 视口
+视口(viewport)代表当前可见的计算机图形区域。 在浏览器范畴里，它代表的是浏览器中网站可见内容的部分。视口外的内容在被滚动进来前都是不可见的。
+文档的 Element.clientWidth 是指一个文档使用 CSS pixels 单位表示的内部宽度, 包括其 padding (不包括 borders, margins 或垂直滚动条，如果有的话）. 这就是 viewport 的宽度。
+Window.innerWidth 是用 CSS pixels 单位表示的浏览器窗口 viewport 宽度，包括垂直滚动条，如果渲染了的话。
+Window.outerWidth 是指包括了浏览器外边框的窗口宽度。
+
+Web 浏览器包含两个 viewport，布局视口(layout viewport)和可视视口(visual viewport)。visual viewport 指当前浏览器中可见的部分，并且可以变化。当使用触屏双指缩放，当动态键盘在手机上弹出的时候，或者之前隐藏的地址栏变得可见的时候，visual viewport 缩小了，但是 layout viewport 却保持不变。
+
+innerHeight 和 innerWidth 所组成的区域通常被认为是布局视口(layout viewport) 。 1vh单位是1%布局视口的高度，vw单位与此类似
+
+对于各种不同形状，不同设备像素比移动设备，其浏览器的视口（窗口中显示网页信息的区域）不一定与渲染页面大小相同。移动设备的视口的默认值为 980px，一般情况下都要比这些设备的屏幕尺寸要大。
+为了让页面能够全部展示，这些浏览器在渲染时会对页面进行缩放。比如在一个宽 320px 的移动设备显示一个视觉视口宽为 980px 的页面，移动设备浏览器会对这个页面进行缩放直至其视觉视口宽度为 320px（具体取决于浏览器实现）。但直接缩放页面会导致页面字体变小，使得缩放后的页面显示效果都不会很理想。
+如果开发者想让移动端浏览器使用屏幕宽度作为视口替换默认的 980px 宽度视口，则可以在 HTML 的头部添加以下标签：
+```HTML
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+```
+
 
 ### demo
 #### [获取盒子上偏移值](https://github.com/lancertea/javascript-/blob/master/DOM/offset.html)
