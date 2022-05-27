@@ -444,7 +444,11 @@ fn(10,20,30);
 ### [ES5实现...](https://github.com/lancertea/javascript-/blob/master/ES6/ES6_with_ES5/rest_spread.html)
 
 ### super
-this关键字总是指向函数所在的当前对象，ES6 又新增了另一个类似的关键字super，指向当前对象的原型对象。
+super这个关键字，既可以当作函数使用，也可以当作对象使用
+- super作为函数调用时，代表父类的构造函数，
+在子类普通方法中通过super调用父类的方法时，方法内部的this指向当前的子类实例
+- super作为对象，super在静态方法之中指向父类，在普通方法之中指向父类的原型对象。
+在子类的静态方法中通过super调用父类的方法时，方法内部的this指向当前的子类，而不是子类的实例
 
 ## 函数
 ### 默认参数
