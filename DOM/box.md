@@ -10,9 +10,9 @@ window作为全局变量，代表了脚本正在运行的窗口，暴露给Javas
 Window 对象的方法和属性是在全局范围内有效的。
 
 document
-Document接口表示任何在浏览器中载入的网页，并作为网页内容的入口，也就是DOM树，是 HTML 文档的根节点与所有其他节点（元素节点，文本节点，属性节点, 注释节点）
-Document 对象使我们可以通过脚本对 HTML 页面中的所有元素进行访问
-Document 对象是 Window 对象的一部分，即 window.document
+Document接口表示任何在浏览器中载入的网页，并作为网页内容的入口，也就是DOM树，是HTML文档的根节点与所有其他节点（元素节点，文本节点，属性节点, 注释节点）
+Document对象使我们可以通过脚本对 HTML 页面中的所有元素进行访问
+Document对象是 Window 对象的一部分，即 window.document
 
 ## JS中的DOM操作：盒子模型属性
 > DOM：document object model 文档对象模型，提供系列的属性和方法，让我们能在JS中操作页面中的元素
