@@ -38,6 +38,12 @@ console.log(a instanceof Number); //true
 console.log(1 === a); //false
 ```
 
+```javascript
+//1 与 Number(1)有什么区别
+console.log(!!new Boolean(false)); //true
+console.log(new Boolean(false).valueOf()); //false
+```
+
 ### 基本包装类型和引用类型的区别
 引用类型和基本包装类型的主要区别是对象的生存期。引用类型在执行流离开当前作用域之前都一直保存在内存中。而自动创建的基本包装类型的对象，则只存在于一行代码的执行瞬间，然后立即被销毁
 
@@ -154,10 +160,14 @@ instanceof原理
 
 ### constructor
 constructor属性返回对创建此对象的函数的引用  
-[局限性] new的时候默认有，实例的constructor指向其构造函数，但是可以随意修改对应的constructor值或者手动给ary增加一个私有的constructor属性
+[局限性] 只能验证对象实例（对象才有属性），实例的constructor指向其构造函数，但是可以随意修改对应的constructor值或者手动给ary增加一个私有的constructor属性
 ```javascript
 let ary = [];
+let n = new Number(1);
 console.log(ary.constructor === Array); //true
+console.log(n.constructor === Number); //true
+ary.constructor = 3;
+console.log(ary.constructor === Array); //false
 ```
 
 ### Object.prototype.toString.call(obj)
