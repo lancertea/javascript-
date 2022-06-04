@@ -66,21 +66,21 @@
             return Math.abs(left - right) < Number.EPSILON * Math.pow(2, 2);
         }
         //0.1->0.000110011....无法整除，计算机存储位有限，会舍弃后面的位，0.1会有精度缺失
-        console.log(0.1000000001===0.1);//false
-        console.log(0.100000000000000000001===0.1);//true
-        console.log(0.1+0.2);//0.30000000000000004
+        console.log(0.1000000001 === 0.1); //false
+        console.log(0.100000000000000000001 === 0.1); //true
+        console.log(0.1 + 0.2); //0.30000000000000004
         console.log(0.1 + 0.2 === 0.3); // false
-       
+
         console.log(withinErrorMargin(0.1 + 0.2, 0.3)); //true
 
         //计算小数时，也可通过把小数放到位整数（乘倍数），再缩小回原来倍数（除倍数）
         console.log((0.1 * 10 + 0.2 * 10) / 10 === 0.3); //true
 
-        const max = Math.pow(2,53);
+        const max = Math.pow(2, 53);
         console.log(max);
-        console.log(Number.MAX_SAFE_INTEGER===max-1);//true
+        console.log(Number.MAX_SAFE_INTEGER === max - 1); //true
         console.log(Number.MIN_SAFE_INTEGER);
-        console.log(Number.isSafeInteger(Number.MAX_SAFE_INTEGER));//true
+        console.log(Number.isSafeInteger(Number.MAX_SAFE_INTEGER)); //true
 
 
         // BigInt
@@ -96,38 +96,65 @@
         //十进制->二进制
         {
             let a = 5;
-            console.log(a.toString(2));//'101'
+            console.log(a.toString(2)); //'101'
 
             let b = 101;
-            console.log(parseInt(b, 2));//5
+            console.log(parseInt(b, 2)); //5
         }
         //ES5 0101在严格模式下会报错
         //ES6 0B 二进制  0O八进制
         {
             let a = 0B0101;
-            console.log(a);//5
+            console.log(a); //5
 
-            let b =0O777;
-            console.log(b);//511
+            let b = 0O777;
+            console.log(b); //511
         }
 
         //Math
         //转换成数字
-        console.log(Math.trunc(5.5));//5
-        console.log(Math.trunc(true));//1
-        console.log(Number.parseInt(true));//NaN
-        console.log(Math.trunc(undefined));//NaN
-        console.log(Math.trunc());//NaN
+        console.log(Math.trunc(5.5)); //5
+        console.log(Math.trunc(true)); //1
+        console.log(Number.parseInt(true)); //NaN
+        console.log(Math.trunc(undefined)); //NaN
+        console.log(Math.trunc()); //NaN
 
         //正数返回1，负数返回-1，0返回0
-        console.log(Math.sign(5));//1
-        console.log(Math.sign(-5));//-1
-        console.log(Math.sign(0));//0
-        console.log(Math.sign(NaN));//NaN
-        console.log(Math.sign(true));//1
-        console.log(Math.sign(false));//0
+        console.log(Math.sign(5)); //1
+        console.log(Math.sign(-5)); //-1
+        console.log(Math.sign(0)); //0
+        console.log(Math.sign(NaN)); //NaN
+        console.log(Math.sign(true)); //1
+        console.log(Math.sign(false)); //0
+
+        /*
+        Math对象
+        Math.PI;            // 返回 3.141592653589793
+        Math.round(x) 的返回值是 x 四舍五入为最接近的整数
+        Math.pow(x, y) 的返回值是 x 的 y 次幂
+        Math.sqrt(x) 返回 x 的平方根
+        Math.abs(x) 返回 x 的绝对（正）值
+        Math.ceil(x) 的返回值是 x 上舍入最接近的整数
+        Math.floor(x) 的返回值是 x 下舍入最接近的整数
+        Math.min() 和 Math.max() 可用于查找参数列表中的最低或最高值
+        Math.min.apply([1, 2, 3]) 等于 Math.min(1, 2, 3)
+        Math.random() 返回介于 0（包括） 与 1（不包括） 之间的随机数
+        Math.floor(Math.random() * 10);        // 返回 0 至 9 之间的数
+        Math.floor(Math.random() * 11);        // 返回 0 至 10 之间的数
+        Math.floor(Math.random() * 10) + 1;    // 返回 1 至 10 之间的数
+
+        返回介于 min（包括）和 max（不包括）之间的随机数：
+        function getRndInteger(min, max) {
+           return Math.floor(Math.random() * (max - min) ) + min;
+        }
+
+        返回介于 min 和 max（都包括）之间的随机数
+        function getRndInteger(min, max) {
+           return Math.floor(Math.random() * (max - min + 1) ) + min;
+        }
 
 
+        */
     </script>
 </body>
 

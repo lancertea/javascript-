@@ -20,11 +20,12 @@
             }
         }
 
+
         function shalloCopy(obj) {
             return Object.assign(Object.create(Object.getPrototypeOf(obj)), obj);
 
         }
-
+        //Object.getOwnPropertyDescriptors的引入目的，主要是为了解决Object.assign()无法正确拷贝get属性和set属性的问题
         function shalloCopy1(obj) {
             return Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 

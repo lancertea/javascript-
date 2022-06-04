@@ -140,7 +140,18 @@ console.log("外部", a);
 
 ## 解构赋值
 - 只要某种数据结构具有 Iterator 接口，都可以采用数组形式的解构赋值
-- 对象的解构赋值的内部机制，是先找到同名属性，然后再赋给对应的变量。对象的解构赋值可以取到继承的属性
+- 对象的解构赋值的内部机制，是先找到同名属性，然后再赋给对应的变量。
+- 对象的解构赋值可以取到继承的属性，扩展运算符的解构赋值，不能复制继承自原型对象的属性
+```javascript
+const o = Object.create({ x: 1, y: 2 });
+o.z = 3;
+
+let { x, ...newObj } = o;
+let { y, z } = newObj;
+x // 1
+y // undefined
+z // 3
+```
 - 解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象。由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错
 
 解构赋值的应用场景
@@ -209,6 +220,64 @@ for (let [key, value] of map) {
 const { SourceMapConsumer, SourceNode } = require("source-map");
 ```
 
+## 对象的扩展运算符
+对象的扩展运算符（...）用于取出参数对象的所有可遍历属性，拷贝到当前对象之中。
+```javascript
+let z = { a: 3, b: 4 };
+let n = { ...z };
+n // { a: 3, b: 4 }
+```
+由于数组是特殊的对象，所以对象的扩展运算符也可以用于数组。
+```javascript
+let foo = { ...['a', 'b', 'c'] };
+foo
+// {0: "a", 1: "b", 2: "c"}
+```
+如果扩展运算符后面是一个空对象，则没有任何效果。
+```javascript
+{...{}, a: 1}
+// { a: 1 }
+```
+如果扩展运算符后面不是对象，则会自动将其转为对象。
+```javascript
+// 等同于 {...Object(1)}
+{...1} // {}
+//1会自动转为数值的包装对象Number{1}。由于该对象没有自身属性，所以返回一个空对象
+```
+对象的扩展运算符等同于使用Object.assign()方法
+```javascript
+let aClone = { ...a };
+// 等同于
+let aClone = Object.assign({}, a);
+```
+扩展运算符可以用于合并两个对象
+```javascript
+let ab = { ...a, ...b };
+// 等同于
+let ab = Object.assign({}, a, b);
+```
+
+它只是拷贝了对象实例的属性，如果想完整克隆一个对象，还拷贝对象原型的属性，可以：
+```javascript
+// 写法一
+const clone1 = {
+  __proto__: Object.getPrototypeOf(obj),
+  ...obj
+};
+
+// 写法二
+const clone2 = Object.assign(
+  Object.create(Object.getPrototypeOf(obj)),
+  obj
+);
+
+// 写法三
+const clone3 = Object.create(
+  Object.getPrototypeOf(obj),
+  Object.getOwnPropertyDescriptors(obj)
+)
+```
+
 ## 属性的遍历
 ### 属性描述符
  Object.getOwnPropertyDescriptor() 方法返回指定对象上一个自有属性对应的属性描述符。（自有属性指的是直接赋予该对象的属性，不需要从原型链上进行查找的属性）
@@ -248,15 +317,18 @@ Object.getOwnPropertyDescriptor(obj, 'foo')
 ```
 ### [对象防篡改](https://github.com/lancertea/javascript-/blob/master/ES6/change.html)
      
-### 可枚举不可枚举
-可枚举属性是指那些内部 “可枚举” 标志设置为 true 的属性，对于通过直接的赋值和属性初始化的属性，该标识值默认为即为 true，对于通过 Object.defineProperty 等定义的属性，该标识值默认为 false。可枚举的属性可以通过 for...in 循环进行遍历（除非该属性名是一个 Symbol）  
-常见不可枚举的属性：name prototype length 
+### 可枚举
+可枚举属性是指那些内部 “可枚举” 标志设置为 true 的属性，对于通过直接的赋值和属性初始化的属性，该标识值默认为即为 true，对于通过 Object.defineProperty 等定义的属性，该标识值默认为 false。常见不可枚举的属性：name prototype length 
+
+实际上，引入“可枚举”（enumerable）这个概念的最初目的，就是让某些属性可以规避掉for...in操作，不然所有内部属性和方法都会被遍历到
 
 目前，有四个操作会忽略enumerable为false的属性。
 - for...in循环：只遍历对象自身的和继承的可枚举的属性。
 - Object.keys()：返回对象自身的所有可枚举的属性的键名。
 - JSON.stringify()：只串行化对象自身的可枚举的属性。
 - Object.assign()： 忽略enumerable为false的属性，只拷贝对象自身的可枚举的属性。
+
+ES6 规定，所有Class 的原型的方法都是不可枚举的
 
 ### 遍历方法
 1. for...in 循环
@@ -324,7 +396,7 @@ console.log(res);//["0", "1", "2", "length"]
 最后遍历所有 Symbol 键，按照加入时间升序排列。
 
 ### for in 和for of的区别
-JavaScript 原有的for...in循环，只能获得对象的键名，不能直接获取键值。ES6 提供for...of循环，允许遍历获得键值。
+JavaScript 原有的for...in循环，只能获得对象的键名，不能直接获取键值。ES6提供for...of循环，允许遍历获得键值。
 for...of循环调用遍历器接口，数组的遍历器接口只返回具有数字索引的属性。这一点跟for...in循环也不一样。
 ```javascript
 let arr = [3, 5, 7];
