@@ -249,3 +249,17 @@ console.log(obj===copy); // false
 浅拷贝：会先创建一个新对象，然后依次拷贝这个对象的属性及其值（栈中的值，数据或地址）给新对象
 深拷贝：逐次新创建对象，拷贝，新对象和原对象不共享内存，修改新对象不回改到原对象
 
+Array自带的浅拷贝方法:slice、concat、Array.from()，[...arr]
+Object自带的浅拷贝方法
+copy=Object.assign({}, origin)
+copy={...origin}
+
+深拷贝：
+JSON.parse(JSON.stringify())
+缺点: 进行深拷贝是有局限性的:不能深拷贝还有 undefined、function、symbol值的对象。
+
+自实现
+判断属性值类型是基本类型和引用类型，还是null，基本类型或null直接赋值
+引用类型判断是对象还是数组，创建对应的空对象或空数组，递归调用函数
+使用for-in遍历对象，因为for-in会遍历原型链上的属性，所以需要判断属性是否在原型链上，不是原型链才拷贝
+
