@@ -78,7 +78,7 @@ function c() {}
 console.log(c() == undefined); //true
 console.log(c() === undefined); //true
 ```
-null:用于表示有这个变量，但是它当前没有值（对象的占位符）。或主动释放一个变量引用的对象，表示一个变量不再指向任何对象地址
+null:用于表示有这个变量，但是它当前没有值（对象的占位符,空对象指针）。或主动释放一个变量引用的对象，表示一个变量不再指向任何对象地址
 
 区别联系：
 - undefined 实际上是从null派生来的，因此 ECMAScript 把它们定义为相等的（==）
@@ -123,7 +123,7 @@ console.log(String(null)); //'null'
 为什么 typeof 运算符对于 null 值会返回 "Object"？这实际上是 JavaScript 最初实现中的一个错误，然后被 ECMAScript 沿用了。现在，null 被认为是对象的占位符，从而解释了这一矛盾，但从技术上来说，它仍然是原始值。
 
 ### instanceof
-用来检测某个实例是否属于这个类  
+用来检测构造函数的prototype属性是否出现在某个实例对象的原型链上  
 语法：实例 instanceof 类  
 属于返回true，不属于返回false    
 [局限性]
