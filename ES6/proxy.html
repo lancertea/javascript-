@@ -6,6 +6,12 @@
   <title>代理</title>
 </head>
 <script>
+  // Proxy 实际上重载（overload）了点运算符，即用自己的定义覆盖了语言的原始定义
+  // var proxy = new Proxy(target,handler);
+  // target参数表示所要拦截的目标对象
+  // handler参数也是一个对象，用来定制拦截行为
+  //要使得Proxy起作用，必须针对Proxy实例（上例是proxy对象）进行操作，而不是针对目标对象（上例是空对象）进行操作
+  //如果handler没有设置任何拦截，那就等同于直接通向原对象
   {
     // ES3,ES5 数据保护
     var Person = function () {
