@@ -262,6 +262,31 @@ for (let key in P) {
 console.log(Object.keys(P)); //Array [ "pnum" ]
 console.log(Object.getOwnPropertyNames(P));//Array ["length", "name", "arguments", "caller", "prototype", "pnum"]    
 ```    
+## 原型式继承
+[原理]借助Object.create方法实现普通对象的继承
+[缺点]Object.create方法实现的是浅拷贝，多个实例的引用类型属性指向相同的内存，存在篡改的可能
+``` javascript
+let p = {
+    name: "p",
+    friends: ["p1", "p2", "p3"],
+    getName: function() {
+      return this.name;
+    }
+  };
+
+  let p1= Object.create(p);
+  p1.name = "tom";
+  p1.friends.push("jerry");
+
+  let p2 = Object.create(p);
+  p2.friends.push("lucy");
+
+  console.log(p1.name); // tom
+  console.log(p1.name === p1.getName()); // true
+  console.log(p2.name); // p1
+  console.log(p1.friends); // ["p1", "p2", "p3","jerry","lucy"]
+  console.log(p2.friends); // ["p1", "p2", "p3","jerry","lucy"]
+``` 
 
 ## 组合继承优化版
 ```javascript

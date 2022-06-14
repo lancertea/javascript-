@@ -157,20 +157,29 @@ console.log(Reflect.ownKeys(O.prototype));// [ "constructor", "age", "arr" ]
 3. Object.create(proto,[propertiesObject])
 创建一个新对象，使用现有的对象proto来提供新创建的对象的__proto__（充当原型）
 proto是null或者原始包装对象，否则会报错
+propertiesObject为属性描述符对象
 ```javascript
 var P = {
     name: 'o1',
     arr: [1, 2, 3]
 };
-var o1 = Object.create(P);
+var o1 = Object.create(P,{
+    'age':{
+        value: 18,
+        writable: true,
+        configurable: true,
+        enumerable: true,
+    }
+});
 
 console.log(o1); //Object {}
 console.log(o1.name); //'o1'
+console.log(o1.age); //18
 o1.name = 'oo';
 o1.arr.push(4);
 console.log(o1.name); //'oo'
 console.log(o1.arr); //[1,2,3,4]
-console.log(o1); //Object { name: "oo" }
+console.log(o1); //Object { name: "oo",age: 18 }
 console.log(P); //Object { name: "o1", arr: [1,2,3,4] }
 
 // console.log(P.prototype.isPrototypeOf(o1));  P.prototype is undefined
@@ -246,8 +255,8 @@ console.log(obj===copy); // false
 
 ```
 赋值：把一个对象赋值给一个新的变量时，赋的其实是该对象在栈中的地址，而不是堆中的数据。所以这两个对象指向同一个存储空间，无论哪个对象发生变化，都会使原数据一同改变
-浅拷贝：会先创建一个新对象，然后依次拷贝这个对象的属性及其值（栈中的值，数据或地址）给新对象
-深拷贝：逐次新创建对象，拷贝，新对象和原对象不共享内存，修改新对象不回改到原对象
+浅拷贝：会先创建一个新对象，然后依次拷贝这个对象的属性及其值（栈中的值，数据或地址）给新对象, 即浅拷贝是拷贝一层，属性为对象时，浅拷贝是复制，两个对象指向同一个地址
+深拷贝：递归拷贝深层次，属性为对象时，深拷贝是新开栈，两个对象指向不同的地址，修改新对象不回改到原对象
 
 Array自带的浅拷贝方法:slice、concat、Array.from()，[...arr]
 Object自带的浅拷贝方法

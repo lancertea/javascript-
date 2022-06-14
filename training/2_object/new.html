@@ -9,15 +9,15 @@
 
 <body>
     <script>
-        function myNew(...arg) {
+        function myNew(...params) {
             let obj = {},
-            // base = [].shift.call(arguments);
-            // base=[...arguments].shift();  这样是错的，相当于进行了一次浅拷贝
-            base = arg[0] || Object;
+                // base = [].shift.call(arguments);
+                // base=[...arguments].shift();  这样是错的，相当于进行了一次浅拷贝
+                base = params.shift() || Object;
             // obj.__proto__ = base.prototype;
             Object.setPrototypeOf(obj, base.prototype);
-            base.apply(obj, arg.slice(1));
-            return obj;
+            let res = base.apply(obj, params);
+            return res instanceof Object ? res : obj;
         }
 
         function Car(color) {
@@ -30,6 +30,21 @@
         };
         var car = myNew(Car, 'black');
         car.start();
+
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+            return {
+                a: 1
+            }
+        }
+        Person.prototype.say = function () {
+            console.log(this.name)
+        }
+
+        let p = myNew(Person, "huihui", 123)
+        console.log(p)
+        p.say()
     </script>
 </body>
 

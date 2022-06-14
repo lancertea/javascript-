@@ -288,6 +288,8 @@ const clone3 = Object.create(
  - value: 该属性的值(仅针对数据属性描述符有效); 默认为undefined
  - get
  - set
+
+ ps: 使用Object.defineProperty() 定义对象属性时，如已设置 set 或 get, 就不能设置 writable 和 value 中的任何一个了，不然会报错，因为不再需要value和writable的属性了，所有关于value的操作都由get和set代理了
         
  Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象。默认情况下，通过Object.defineProperty()添加的属性是不可修改的(上面三个属性默认为false)
  ```javascript
