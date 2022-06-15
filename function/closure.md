@@ -102,6 +102,63 @@ c.set('a', 100)
 console.log(c.get('a')) //100
 ```
 
+延长变量的生命周期
+一般函数的词法环境在函数返回后就被销毁，但是闭包会保存对创建时所在词法环境的引用，即便创建时所在的执行上下文被销毁，但创建时所在词法环境依然存在，以达到延长变量的生命周期的目的
+
+柯里化函数
+柯里化(Currying)是函数式编程的一个很重要的概念，将使用多个参数的一个函数转换成一系列使用一个参数的函数
+主要有三个作用:
+1. 参数复用
+```javaScript
+// 正则验证字符串
+// before
+funciton check(reg,txt){
+    return reg,test(txt);
+}
+
+check(/\d+/g,'test') //false
+check(/[a-z]+/g, 'test') //true
+
+// 需要复用第一个参数
+funciton curryingCheck(reg){
+    return funciton(txt){
+         return reg,test(txt);
+    }
+}
+
+let hasNum = curryingCheck(/\d+/g);
+let hasLetter = curryingCheck(/[a-z]+/g);
+hasNum('test1') //true
+hasLetter('2121') //false
+```
+2. 提前返回
+```javaScript
+// eg: 解决原生方法在现代浏览器和IE之间的兼容问题
+const addEvent = (funciton(){
+    if(window.addEventListener){
+        return funciton(ele, type, fn, isCapture){
+            ele.addEventListener(type,fn,isCapture);
+        }
+    } else if(window.attachEvent){
+        return funciton(ele, type, fn){
+            ele.attachEvent('on' + type, fn);
+        }
+    }
+})();
+```
+
+3. 延迟计算/运行
+```javaScript
+// js的bind实现机制
+Function.prototype.bind = funciton (context, ...params){
+    let self = this;
+    context = context || window;
+    return funciton(){
+        return self.apply(context,params);
+    }
+}
+```
+
 不太理解的一个例子
 ```javaScript
 var Person = function (_name, _age) {
