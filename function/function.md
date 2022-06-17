@@ -77,9 +77,134 @@ fn();
 })();
 console.log(b); //=>10 
 ```
+## 函数式编程
+函数式编程的特性
+纯函数、柯里化、函数组合等
+
+为什么现在还要学函数式编程?
+1.函数式编程是随着 React 的流行受到越来越多的关注，Vue 3也开始拥抱函数式编程
+2.函数式编程可以抛弃 this
+3.打包过程中可以更好的利用 tree shaking 过滤无用代码；方便测试、方便并行处理；
+4.有很多库可以帮助我们进行函数式开发:lodash、underscore、ramda
+
+怎么理解函数式编程？
+- 面向对象编程的思维方式:把现实世界中的事物抽象成程序世界中的类和对象，通过封装、继承和多态来演示事物事件的联系
+- 函数式编程的思维方式:把现实世界的事物和事物之间的联系抽象到程序世界(对运算过程进行抽象），用来描述数据（函数）之间的映射
+
+## 函数
+### 函数是一等公民
+函数可以存储在变量中
+函数作为参数
+函数作为返回值
+
+### 高阶函数
+高阶函数 (Higher-order function) 
+eg:react中的高阶组件就是高阶函数
+1. 可以把函数作为参数传递给另一个函数
+eg: Array的遍历函数 forEach、map等
+好处：屏蔽内部实现细节
+```javascript
+// forEach
+function forEach (array, fn) {
+for (let i = 0; i < array.length; i++) {
+    fn(array[i])
+  }
+}
+// filter
+function filter (array, fn) {
+let results = []
+for (let i = 0; i < array.length; i++) {
+if (fn(array[i])) { results.push(array[i])
+} }
+  return results
+}
+```
+2. 可以把函数作为另一个函数的返回结果
+```javascript
+// once 支付场景
+funciton once (fn){
+	let done = false;
+	return funciton(){
+		if(!done){
+			done = true;
+			return fn.apply(this,arguments);
+		}
+	}
+}
+
+let pay = once(function (money) { console.log(`支付:${money} RMB`)
+})
+// 只会支付一次 pay(5)
+pay(5)
+pay(5)
+pay(5)
+```
+
+### 纯函数
+纯函数:相同的输入永远会得到相同的输出，而且没有任何可观察的副作用
+eg: Array的slice是纯函数、splice是不纯的函数
+
+好处：可缓存、可测试、并行处理
+eg: memorize函数
+
+#### 副作用
+```javascript
+// 不纯的,因为mini的值更改了，结果就不一定了
+let mini = 18 
+function checkAge (age) {
+  return age >= mini
+}
+// 纯的(有硬编码，后续可以通过柯里化解决)
+ function checkAge (age) {
+let mini = 18
+  return age >= mini
+}
+```
+副作用让一个函数变的不纯(如上例)，纯函数的根据相同的输入返回相同的输出，如果函数依赖于外部 的状态就无法保证输出相同，就会带来副作用。
+副作用来源：配置文件、数据库、获取用户输入
+
+所有的外部交互都有可能带来副作用，副作用也使得方法通用性下降不适合扩展和可重用性，同时副作
+用会给程序中带来安全隐患给程序带来不确定性，但是副作用不可能完全禁止，尽可能控制它们在可控
+范围内发生。
+
+### 柯里化
+当一个函数有多个参数的时候先传递一部分参数调用它(这部分参数以后永远不变)，然后返回一个新的函数接收剩余的参数，返回结果
+```javascript
+//硬编码
+function checkAge (age) { 
+let min = 18
+return age >= min
+}
+// 普通纯函数
+function checkAge (min, age) {
+  return age >= min
+}
+checkAge(18, 24)
+checkAge(18, 20)
+
+checkAge(20, 30)
+// 柯里化
+function checkAge (min) {
+  return function (age) {
+    return age >= min
+} }
+// ES6 写法
+let checkAge = min => (age => age >= min)
+let checkAge18 = checkAge(18) 
+let checkAge20 = checkAge(20)
+checkAge18(24)
+checkAge18(20)
+```
+
+### 函数组合
+函数组合 (compose):如果一个函数要经过多个函数处理才能得到最终值，这个时候可以把中间过程的函数合并成一个函数
+
+```javascript
+const compose = (...args)=>value=> args.reverse().reduce((res,fn)=>fn(res),value);
+```
 
 ## [函数柯里化](https://github.com/lancertea/javascript-/blob/master/training/4_function/currying.html) 
-## [函数调用扁平化](https://github.com/lancertea/javascript-/blob/master/training/4_function/compose.html) 
+## [函数组合](https://github.com/lancertea/javascript-/blob/master/training/4_function/compose.html) 
 
 
 
