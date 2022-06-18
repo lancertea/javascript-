@@ -154,3 +154,167 @@ throw()是将yield表达式替换成一个throw语句。
 return()是将yield表达式替换成一个return语句。
 
 虽然 Generator 函数将异步操作表示得很简洁，但是流程管理却不方便（即何时执行第一阶段、何时执行第二阶段）。
+
+
+## 生成器函数回顾
+```javascript
+function * foo(){
+  console.log('start');
+}
+
+//调用生成器函数并不会立即执行这个函数，而是返回一个生成器对象
+const generator = foo(); //
+
+//直到手动调用next方法，才会执行
+generator.next(); //start
+```
+
+```javascript
+function * foo(){
+  console.log('start');
+  const res = yield 'foo'; //此时暂停到了这一句，等待一下次调用next（）方法
+  console.log('test');
+  console.log(res);
+}
+
+const generator = foo(); 
+
+//可通过调用next()返回yield后面的返回值，及生成器是否遍历结束的状态
+const res = generator.next(); //start
+console.log(res); //{value: 'foo', done: false}
+
+generator.next('bar') //给next传值可以被外面获取到
+```
+
+```javascript
+function * foo(){
+  console.log('start');
+  try{
+     const res = yield 'foo'; 
+     console.log(res);
+  }catch(e){
+    console.log(e); //err
+  }
+}
+
+const generator = foo(); 
+
+const res = generator.next(); //start
+console.log(res); //{value: 'foo', done: false}
+
+generator.throw(new Error('err')); //外部向内部抛出异常
+```
+
+```javascript
+function * foo(){
+  console.log('start');
+     const res = yield 'foo';
+     console.log('test'); 
+     console.log(res);
+}
+
+const generator = foo(); 
+
+const res = generator.next(); //start
+console.log(res); //{value: 'foo', done: false}
+
+generator.return('123'); 
+```
+
+generator配合promise的异步解决方案
+```javascript
+function ajax(url){
+  if(url.includes('users')){
+    return [{name:'a',age:12}, {name:'b',age:13}]
+  }
+  return [{name:'c',age:12}, {name:'d',age:13}]
+}
+function * main(){
+     const users = yield ajax('/api/users.json');
+     console.log(users);
+
+     const posts = yield ajax('/api/posts.json');
+     console.log(posts);
+}
+
+const g = main(); 
+
+const res = g.next();
+//如果value返回的是一个promise对象
+res.value.then(data=>{
+  const res2 = g.next(data);
+  if(res2.done) return;
+  res2.value.then(data=>{
+    g.next(data)
+  })
+})
+```
+
+上述更通用的实现
+```javascript
+function ajax(url){
+  if(url.includes('users')){
+    return [{name:'a',age:12}, {name:'b',age:13}]
+  }
+  return [{name:'c',age:12}, {name:'d',age:13}]
+}
+function * main(){
+  try{
+     const users = yield ajax('/api/users.json');
+     console.log(users);
+
+     const posts = yield ajax('/api/posts.json');
+     console.log(posts);
+
+     const urls = yield ajax('/api/urls.json');
+     console.log(urls);
+  }catch(e){
+    console.log(e);
+  }
+}
+
+function co (generator){
+const g = generator(); 
+function handleResult(res){
+  if(res.done) return;
+  res.value.then(data=>{
+    handleResult(g.next(data))
+  },err=>g.throw(err))
+}
+
+handleResult(g.next())
+}
+
+co(main)
+```
+async await
+```javascript
+function ajax(url){
+  if(url.includes('users')){
+    return [{name:'a',age:12}, {name:'b',age:13}]
+  }
+  return [{name:'c',age:12}, {name:'d',age:13}]
+}
+async function main(){
+  try{
+     const users = await ajax('/api/users.json');
+     console.log(users);
+
+     const posts = await ajax('/api/posts.json');
+     console.log(posts);
+
+     const urls = await ajax('/api/urls.json');
+     console.log(urls);
+  }catch(e){
+    console.log(e);
+  }
+}
+
+//不需要配合上述类似co的执行器，可以直接调用
+//且返回的是一个promise对象
+const p = main();
+p.then(()=>{
+  console.log('end');
+})
+```
+
