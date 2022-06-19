@@ -83,6 +83,7 @@ console.log(b); //=>10
 
 为什么现在还要学函数式编程?
 1.函数式编程是随着 React 的流行受到越来越多的关注，Vue 3也开始拥抱函数式编程
+(vue2创建组件是new Vue()类的方式，当组件比较庞大的时候，我们不好拆分，vue3借鉴了一些函数式编程的思想，用什么import什么，粒度更小，也有利于tree shaking)
 2.函数式编程可以抛弃 this
 3.打包过程中可以更好的利用 tree shaking 过滤无用代码；方便测试、方便并行处理；
 4.有很多库可以帮助我们进行函数式开发:lodash、underscore、ramda
@@ -195,6 +196,21 @@ let checkAge20 = checkAge(20)
 checkAge18(24)
 checkAge18(20)
 ```
+应用：
+1. 固定不常变化的参数：
+vue中的patch函数，前面通过柯里化省略了一个对象，这个对象保存了其执行的时候所依赖的一些模块
+```javascript
+function createPatch(obj){
+	let ...
+	return function patch(vdom1,vdom2){
+		...
+	}
+}
+
+const patch = createPatch(...)
+```
+2. 延迟执行
+bind函数
 
 ### 函数组合
 函数组合 (compose):如果一个函数要经过多个函数处理才能得到最终值，这个时候可以把中间过程的函数合并成一个函数

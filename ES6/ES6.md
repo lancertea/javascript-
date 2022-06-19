@@ -398,7 +398,7 @@ console.log(res);//["0", "1", "2", "length"]
 最后遍历所有 Symbol 键，按照加入时间升序排列。
 
 ### for in 和for of的区别
-JavaScript 原有的for...in循环，只能获得对象的键名，不能直接获取键值。ES6提供for...of循环，允许遍历获得键值。
+JavaScript 原有的for...in循环，只能获得对象的键名，不能直接获取键值。ES6提供for...of循环，允许遍历获得键值,其作为遍历所有数据结构的统一方式(内部通过调用被遍历对象的Symbol.interator方法,得到一个迭代器，从而去遍历内部所有的数据，这也是Interable接口所约定的内容，如果一个普通对象也实现了该接口，就可以被for of 遍历)
 for...of循环调用遍历器接口，数组的遍历器接口只返回具有数字索引的属性。这一点跟for...in循环也不一样。
 ```javascript
 let arr = [3, 5, 7];
@@ -411,6 +411,46 @@ for (let i in arr) {
 for (let i of arr) {
   console.log(i); //  "3", "5", "7"
 }
+```
+```javascript
+//obj这一层实现了一个可迭代接口（Iterable）
+ const obj = {
+   //这个接口约定了内部必须有一个返回一个迭代器的方法
+   [Symbol.iterator]: function () {
+     //迭代器（Iterator）
+     return {
+       next: function() {
+         //迭代结果（iterationResult）
+         return {
+           value: 'zce',
+           done: true
+         }
+       }
+     }
+   }
+ }
+```
+```javascript
+ const obj = {
+   store: [1,2,3],
+   [Symbol.iterator]: function () {
+     let index = 0;
+     const self = this;
+     return {
+       next: function() {
+         const result = {
+           value: self.store[index],
+           done: index >= self.store.length
+         }
+         index ++;
+         return result;
+       }
+     }
+   }
+ }
+ for(const item of obj){
+   console.log(item);
+ }
 ```
 for...in循环有几个缺点。
 1. 数组的键名是数字，但是for...in循环是以字符串作为键名“0”、“1”、“2”等等。
@@ -535,6 +575,13 @@ Symbol.for()与Symbol()这两种写法，都会生成新的 Symbol。它们的�
  ```javascript
 let s1 = Symbol.for('foo');
 let s2 = Symbol.for('foo');
+
+s1 === s2 // true
+ ```
+```javascript
+//参数会先转换为string类型，再比较
+let s1 = Symbol.for(true);
+let s2 = Symbol.for('true');
 
 s1 === s2 // true
  ```
@@ -871,3 +918,38 @@ function sum(a, a, c) { // !!! 语法错误
 - 正常模式中，对参数重新赋值，会修改 arguments 类数组对象下的参数值。同时，修改 arguments 类数组对象的值，也会修改函数参数的值。严格模式下，不仅参数的值不会随着 arguments 类数组对象的变化而变化，参数的变化也不会引起 arguments 对象的变化，arguments 对象会记住参数的传入初始值。
 
 - ES5禁止在非函数代码块声明函数。ES5 的严格模式只允许在全局作用域或函数作用域声明函数。
+
+
+## reflect
+静态对象，内部封装了一系列对对象的底层操作，其成员方法就是proxy处理对象的默认实现
+
+```javascript
+const obj = {
+  foo: '123',
+  bar: '456'
+};
+const proxy = new Proxy(obj,{
+  get(target,property){
+    console.log('自己的一些劫持逻辑')
+    return Reflect.get(target,property)
+  }
+})
+```
+
+为什么有reflect
+统一提供一套用于操作对象的API
+```javascript
+//before
+const obj = {
+  foo: '123',
+  bar: '456'
+};
+
+console.log('foo' in obj);
+console.log(delete obj.bar);
+console.log(Object.keys(obj));
+
+console.log(Reflect.has(obj,'foo'));
+console.log(Reflect.deleteProperty(obj,'bar'));
+console.log(Reflect.ownKeys(obj);)
+```

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>闭包陷阱</title>
+</head>
+
+<body>
+  <button id="btn">add</button>
+</body>
+<script>
+  // 形成闭包
+  // function foo() {
+    // 当前el已经存在于document，即使这里不通过el引用，这种引用使这个btn DOM节点被引用了两次
+    // 将来删除这个DOM节点，但js代码中还有对它的引用，垃圾回收无法回收该内存
+  //   var el = document.getElementById('btn');
+  //   el.onclick = function () {
+  //     console.log(el.id);
+  //   }
+  // }
+
+  // foo();
+
+  // 如何优化
+  function foo() {
+    var el = document.getElementById('btn');
+    el.onclick = function () {
+      console.log(el.id);
+    }
+    el = null;
+  }
+
+  foo();
+
+</script>
+
+</html>

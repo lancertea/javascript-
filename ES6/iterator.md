@@ -15,3 +15,41 @@ NodeList 对象
 扩展运算符
 yield*
 数组作为参数的场合: for...of、Array.from()、Map()、Set()、WeakMap()、WeakSet()、Promise.all()、Promise.race() 
+
+
+### 应用及意义
+对外提供统一遍历的接口，让外部不用关心内部这个数据的结构究竟是怎样的
+```javascript
+const todos = {
+  life: ['吃饭','睡觉','打豆豆'],
+  learn: ['语文','数学','外语'],
+  work: ['喝茶'],
+  [Symbol.iterator]: function () {
+    const all = [...life,...learn,...work];
+    let index = 0;
+    return {
+      next:function(){
+        return {
+          value: all[index],
+          done: index++ >= all.length
+        }
+      }
+    }
+  }
+}
+```
+
+使用Generator函数实现iterator方法
+```javascript
+const todos = {
+  life: ['吃饭','睡觉','打豆豆'],
+  learn: ['语文','数学','外语'],
+  work: ['喝茶'],
+  [Symbol.iterator]: function * () {
+    const all = [...life,...learn,...work];
+    for(const item of all){
+      yield item
+    }
+  }
+}
+```

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>堆快照监控内存</title>
+</head>
+<body>
+  <button id="btn">add</button>
+</body>
+<script>
+  var tmp;
+  function test(){
+    var ul = document.createElement('ul');
+    for(var i = 0; i < 10; i++){
+      var li = document.createElement('li');
+      ul.appendChild(li);
+    }
+    tmp = ul;
+  }
+
+  const oBtn = document.getElementById('btn');
+  oBtn.addEventListener('click',test);
+  
+</script>
+</html>
