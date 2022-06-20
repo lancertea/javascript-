@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>大数相加</title>
+  </head>
+
+  <body>
+    <script>
+    var addBigNum = function(s1,s2){
+        let i = s1.length - 1,
+            j = s2.length - 1,
+            c = 0,
+            arr = [];
+        while(i >= 0 || j >= 0 || c){
+            let c1 = i >= 0 ? s1.charAt(i) - '0' : 0;
+            let c2 = j >= 0 ? s2.charAt(j) - '0' : 0;
+            let sum = c1 + c2 + c;
+            arr.unshift(sum%10);
+            c = Math.floor(sum/10);
+            i--;
+            j--;
+        }
+        return arr.join('');
+    }
+    </script>
+  </body>
+</html>
