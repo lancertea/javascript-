@@ -101,11 +101,7 @@ prototype: 该对象的新原型（一个对象或null）
 - hasOwnProperty()  
 检测一个属性是存在于实例还是存在与原型
 
-## 构造函数，new时发生了什么
-var obj  = {}; 
-obj.__proto__ = Base.prototype;
-Base.call(obj);  
-
+## 构造函数，new时发生了什么 
 1. 创建一个新的对象 obj;
 2. 将这个空对象的__proto__成员指向了Base函数对象prototype成员对象
 3. Base函数对象的this指针替换成obj, 相当于执行了Base.call(obj);
