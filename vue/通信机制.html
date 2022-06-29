@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>通信机制</title>
+</head>
+
+<body>
+    <!-- 
+考点：
+跨域相关：同源机制、有哪些方法
+postMessage的使用
+事件监听
+
+window.open(在新窗口中加载的URL，新窗口的名称，新窗口特征) 用指定的窗口将指定的资源加载到浏览器上下文（窗口/iframe/tab）
+URL为空，打开空白窗口
+如果没有指定名称，则一个新的窗口会被打开并且指定的资源会被加载进这个窗口的浏览器上下文中
+特征：menubar/location/resizable/scrollbars...
+返回值：新窗口的引用，如果父子窗口满足“同源策略”，你可以通过这个引用访问新窗口的属性或方法
+
+
+-->
+    <script>
+        //message.js
+        const message = {};
+        let queue = [];
+        let map = new Map();
+        let win = null;
+
+
+        window.addEventListener('message', async (event) => {
+            const {
+                data
+            } = event;
+            if (data ? .uniqueId && map.has(data.uniqueId)) {
+                map.get(data.uniqueId).resolve(data);
+            }
+            const findTask = queue.find(item => item.id === data.id);
+            if (findTask) {
+                findTask.cb(data);
+            }
+        }, false);
+
+
+        message.on = (id, cb) => {
+            const findIndex = queue.findIndex(item => item.id === id);
+            if (findIndex === -1) {
+                queue.push({
+                    id,
+                    cb,
+                })
+            }
+        }
+
+        message.emit = (id, data = {}) => {
+            data.uniqueId = uuid();
+            data.id = id;
+            return new Promise((resolve, reject) => {
+                if (!win) {
+                    reject();
+                    return;
+                }
+                //B发给A
+                win.postMessage(data, '*');
+                //A发给B
+                //window.opener.postMessage(data, '*');
+                map.set(data.uniqueId, {
+                    resolve,
+                    reject
+                });
+            })
+        }
+
+        message.answer = (uniqueId, data = {}) => {
+            data.uniqueId = uniqueId;
+            if (!win) {
+                return false;
+            }
+            win.postMessage(data, '*');
+            return true;
+        }
+
+        //A
+        message.init = (val) => {
+            win = val;
+        }
+
+        message.checkIsClosed = () => !win || (win && win.closed);
+
+
+        message.exit = () => {
+            if (win) {
+                win.close();
+                win = null;
+            }
+        }
+    </script>
+
+    <script>
+        //窗口A
+        let refB = window.open('B窗口的URL', '_blank', 'location=no');
+        message.init(refB);
+
+        message.on('b.init', (data) => {
+            //计算出结果
+            let res;
+            message.answer(data.uniqueId, res);
+        })
+
+        //窗口B  
+        message.emit('b.init', {}).then(data => {
+            //拿到 message.answer的应答消息
+
+        }).catch(e => console.log(e));
+    </script>
+    <script>
+        let id = 0;
+        const m = new Map();
+        const postMessage = (data) => {
+
+        };
+        const listen = (cb) => {
+
+        };
+        // window1
+        const api = {
+            foo(name) {
+                return name + ' world'
+            }
+        }
+        listen(message => {
+            let {id, data} = JSON.parse(message);
+            let res = api.foo(data);
+            let param = JSON.stringify({
+                    id,
+                    data: res,
+                });
+            postMessage(param)
+        });
+
+
+
+
+        // window2
+        const request = (data) => {
+            return new Promise((resolve, reject) => {
+
+                let param = JSON.stringify({
+                    id: id++,
+                    data,
+                });
+                postMessage(param);
+                m.set(id, resolve)
+            })
+        };
+
+        listen(message => {
+        let {id, data} = JSON.parse(message);
+            m.get(id)?.(data);
+        })
+
+        request('foo', 'hello') //Promise --> 'hello world'
+    </script>
+
+</body>
+
+</html>
