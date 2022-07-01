@@ -19,6 +19,8 @@ URL为空，打开空白窗口
 特征：menubar/location/resizable/scrollbars...
 返回值：新窗口的引用，如果父子窗口满足“同源策略”，你可以通过这个引用访问新窗口的属性或方法
 
+window.postMessage(message,targetOrigin)
+message：结构化克隆算法 不能复制Error/Function/DOM节点 对象的属性描述符/setter/getter/原型链上的属性
 
 -->
     <script>
