@@ -80,11 +80,12 @@
 				return currying(fn.bind(null, ...args), length - args.length);
 			}
 		}
-		function add(...arg) {
-            return arg.reduce((res, cur) => res + cur);
-        }
 
-		add = currying(add,5);
+		function add(...arg) {
+			return arg.reduce((res, cur) => res + cur);
+		}
+
+		add = currying(add, 5);
 
 		console.log(add(1, 2, 3, 4, 5));
 		console.log(add(1, 2)(3, 4, 5));
@@ -147,6 +148,28 @@
 					return func(...args);
 				}
 			}
+		} {
+			function curry(func) {
+				let params = [];
+				return function curriedFn(...args) {
+					if (args.length) {
+						params = [...params, ...args];
+						return curriedFn
+
+					}
+					return func(...params);
+				}
+			}
+
+			function add(...arr) {
+				return arr.reduce((cur, item) => cur + item);
+			}
+
+			function add1(x, y, z) {
+				return x + y + z;
+			}
+			const curAdd = curry(add);
+			console.log(curAdd(1)(2)(3)());
 		}
 	</script>
 </body>
