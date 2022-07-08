@@ -206,6 +206,9 @@ innerHeight 和 innerWidth 所组成的区域通常被认为是布局视口(layo
 
 
 ### demo
+#### 判断用户是否阅读过文本
+checkRead = this.scrollHeight - Math.round(this.scrollTop) === this.clientHeight
+
 #### [获取盒子上偏移值](https://github.com/lancertea/javascript-/blob/master/DOM/offset.html)
 #### [回到顶部](https://github.com/lancertea/javascript-/blob/master/DOM/top.html)
 

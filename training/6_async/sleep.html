@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>实现sleep函数</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <script>
+        //sleep函数顾名思义就是需要实现一个能等待执行的函数
+        const test = (name) => {
+            console.log('test', name);
+        }
+        //1.setTimeout
+        const sleep1 = (fn, wait = 1000) => {
+            return function () {
+                setTimeout(() => {
+                    fn.apply(this, arguments);
+                }, wait);
+            }
+        }
+        sleep1(test)('111');
+
+        //2.Generator函数
+        function* sleep2(fn, wait, ...args) {
+            const innerFunc = () => {
+                setTimeout(() => {
+                    fn(...args);
+                }, wait);
+            }
+            yield innerFunc();
+        }
+        sleep2(test, 2000, '222').next();
+
+        //3.async/await
+        async function sleep3(fn, wait, ...args) {
+            const innerFunc = () => {
+                setTimeout(() => {
+                    fn(...args);
+                }, wait);
+            }
+            await innerFunc();
+        }
+        sleep3(test, 3000, '333');
+
+        //4.promise
+        const sleep4 = (wait) => {
+            return new Promise((resolve)=>{
+                setTimeout(resolve,wait);
+            })
+        }
+        sleep4(4000).then(()=>{
+            test('444');
+        })
+    </script>
+</body>
+
+</html>

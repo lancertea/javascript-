@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>打印颜色</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <script>
+        //打印red，停1s,打印yellow,停2s,打印green,停4s，循环5次
+        const red = () => {
+            console.log('red');
+        }
+        const yellow = () => {
+            console.log('yellow');
+        }
+        const green = () => {
+            console.log('green');
+        }
+
+        const pro = (fn, wait) => {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    fn();
+                    resolve();
+                }, wait);
+
+            })
+        }
+
+        function f() {
+            let count = 0;
+            return function printColor() {
+                pro(red, 1000).then(() => {
+                    return pro(yellow, 2000);
+                }).then(() => {
+                    return pro(green, 4000);
+                }).finally(() => {
+                    count++;
+                    if (count < 5) {
+                        printColor();
+                    }
+                });
+            }
+        }
+
+        // 无限循环打印
+        // const printColor = () => {
+        //     pro(red, 1000).then(() => {
+        //         return pro(yellow, 2000);
+        //     }).then(() => {
+        //         return pro(green, 4000);
+        //     }).finally(()=>{
+        //         printColor();
+        //     });
+        // }
+
+        f()();
+    </script>
+</body>
+
+</html>
