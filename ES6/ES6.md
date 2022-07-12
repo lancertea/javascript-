@@ -500,7 +500,8 @@ if (sym) {
 Number(sym) // TypeError
 sym + 2 // TypeError
 ```
-### 作为属性名的Symbol
+### 应用
+1. 作为属性名的Symbol
 Symbol 值作为对象属性名时，不能用点运算符。
 ```javascript
 let mySymbol = Symbol();
@@ -613,6 +614,12 @@ console.log(Object.keys(obj2));//["b", "c"]
 console.log(Object.getOwnPropertyNames(obj2));//["b", "c"]
 console.log(Reflect.ownKeys(obj2));// ["b", "c", Symbol(a)]
 ```
+
+2. 模拟类的私有方法
+```javascript
+ const speak = Symbol();
+ class person {    [speak]() {    }}
+ ```
 ## Iterator
 遍历器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
 

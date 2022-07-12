@@ -196,7 +196,7 @@ instanceof原理
 判断实例对象的__proto__属性与构造函数的prototype是不是用一个引用。如果不是，他会沿着对象的__proto__向上查找的，直到顶端的Object.prototype
 
 ### constructor
-constructor属性返回对创建此对象的函数的引用  
+constructor属性返回对创建此对象的函数(构造函数)的引用  
 [局限性] 只能验证对象实例（对象才有属性），实例的constructor指向其构造函数，但是可以随意修改对应的constructor值或者手动给ary增加一个私有的constructor属性
 ```javascript
 let ary = [];

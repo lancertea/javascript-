@@ -1,36 +1,37 @@
 # 继承
+
 ## 原型链实现继承
-[原理]：把子类的prototype（原型对象）设置为父类的实例  
-[形式]：Child.prototype = new Parent()     
-[缺点]：子类只进行一次原型更改，所以子类的所有实例保存的是同一个父类的值。 当子类对象上进行值修改时，如果是修改的原始类型的值，那么会在实例上新建这样一个值； 但如果是引用类型的话，他就会去修改子类上唯一一个父类实例里面的这个引用类型，这会影响所有子类实例  
+
+[原理]：把子类的 prototype（原型对象）设置为父类的实例  
+[形式]：Child.prototype = new Parent()  
+[缺点]
+1.construcor 指向错误：C.prototype.constructor === P 2.父类属性共享，造成污染：子类的所有实例保存的是同一个父类；如果一个子类修改父类上的属性，其他子类上的父类属性也会被修改 3.父类属性固定：因为子类的原型是指向一个父类的实例，所以一开始父类的属性就被初始化了
 
 ```javascript
 function P(name, parr) {
-    this.name = name;
-    this.parr = parr;
-    this.pstr = ['A', 'B', 'C'];
-    pp = 'pp';
-    ppp: 'ppp';
+  this.name = name;
+  this.parr = parr;
+  this.pstr = ["A", "B", "C"];
+  pp = "pp"; //全局属性
+  ppp: "ppp"; //错误写法
 }
 P.pnum = 1;
-P.prototype.pact = 'eat';
+P.prototype.pact = "eat";
 P.prototype.prr = [1, 2, 3];
 
 //原型链继承实现方式
-C.prototype = new P('zz', ['z1', 'z2']);
+C.prototype = new P("zz", ["z1", "z2"]);
 
 function C(age, carr) {
-    this.age = age;
-    this.carr = carr;
-    this.cstr = ['a', 'b', 'c']
-    cc = 'cc';
-    ccc: 'ccc';
+  this.age = age;
+  this.carr = carr;
+  this.cstr = ["a", "b", "c"];
 }
 C.cnum = 1;
-C.prototype.cact = 'game';
+C.prototype.cact = "game";
 C.prototype.crr = [7, 8, 9];
 
-let c1 = new C(18, ['z3', 'z4']);
+let c1 = new C(18, ["z3", "z4"]);
 console.log(c1);
 
 /*
@@ -54,7 +55,7 @@ age: 18
  */
 
 //一个实例改变原型上的引用类型属性，其他实例也会受影响
-let c2 = new C(18, ['z3', 'z4']);
+let c2 = new C(18, ["z3", "z4"]);
 c2.cstr.pop();
 console.log(c1.cstr); //Array[ "a", "b", "c" ]
 c2.crr.pop();
@@ -63,66 +64,67 @@ c2.pstr.pop();
 console.log(c1.pstr); //Array [ "A", "B" ]
 c2.prr.pop();
 console.log(c1.prr); //Array [ 1, 2 ]
-console.log(c2.name);//'zz'
-c2.name='c2';
-console.log(c2.name);//'c2'
-console.log(c1.name);//'zz'
+console.log(c2.name); //'zz'
+c2.name = "c2";
+console.log(c2.name); //'c2'
+console.log(c1.name); //'zz'
 c2.parr.pop();
-console.log(c1.parr);//Array [ "z1" ]
+console.log(c1.parr); //Array [ "z1" ]
 
 //遍历：
 for (let key in c1) {
-    console.log(key);
-    //age carr cstr name parr pstr cact crr pact prr(实例+原型)
+  console.log(key);
+  //age carr cstr name parr pstr cact crr pact prr(实例+原型)
 }
 console.log(Object.keys(c1)); //Array [ "age", "carr", "cstr" ]
 console.log(Object.getOwnPropertyNames(c1)); //Array [ "age", "carr", "cstr" ]
 
 for (let key in C) {
-    console.log(key); //cnum
+  console.log(key); //cnum
 }
 console.log(Object.keys(C)); //Array [ "cnum" ]
-console.log(Object.getOwnPropertyNames(C));//Array ["length", "name", "arguments", "caller", "prototype", "cnum"]
+console.log(Object.getOwnPropertyNames(C)); //Array ["length", "name", "arguments", "caller", "prototype", "cnum"]
 
 for (let key in P) {
-    console.log(key); //pnum
+  console.log(key); //pnum
 }
 console.log(Object.keys(P)); //Array [ "pnum" ]
-console.log(Object.getOwnPropertyNames(P));//Array ["length", "name", "arguments", "caller", "prototype", "cnum"]
+console.log(Object.getOwnPropertyNames(P)); //Array ["length", "name", "arguments", "caller", "prototype", "cnum"]
 ```
 
 ## 借用构造函数
-[原理]：在子类构造函数中 使用Parent.call(this)继承父类属性  
+
+[原理]：在子类构造函数中 使用 Parent.call(this)继承父类属性  
 [形式]：function Child(){
-             Parent.call(this);
-        }    
-[缺点]：Parent原型链上的属性和方法并不会被子类继承 
+Parent.call(this);
+}  
+[缺点]：Parent 原型链上的属性和方法并不会被子类继承
 
 ```javascript
 function P(name, parr) {
-    this.name = name;
-    this.parr = parr;
-    this.pstr = ['A', 'B', 'C'];
-    pp = 'pp';
-    ppp: 'ppp';
+  this.name = name;
+  this.parr = parr;
+  this.pstr = ["A", "B", "C"];
+  pp = "pp";
+  ppp: "ppp";
 }
 P.pnum = 1;
-P.prototype.pact = 'eat';
+P.prototype.pact = "eat";
 P.prototype.prr = [1, 2, 3];
 
 function C(age, carr) {
-    P.call(this, 'zz', ['z1', 'z2']);
-    this.age = age;
-    this.carr = carr;
-    this.cstr = ['a', 'b', 'c']
-    cc = 'cc';
-    ccc: 'ccc';
+  P.call(this, "zz", ["z1", "z2"]);
+  this.age = age;
+  this.carr = carr;
+  this.cstr = ["a", "b", "c"];
+  cc = "cc";
+  ccc: "ccc";
 }
 C.cnum = 1;
-C.prototype.cact = 'game';
+C.prototype.cact = "game";
 C.prototype.crr = [7, 8, 9];
 
-let c1 = new C(18, ['z3', 'z4']);
+let c1 = new C(18, ["z3", "z4"]);
 console.log(c1);
 /*
 子类、父类构造函数的属性作为实例属性，每个实例都有一份       
@@ -138,8 +140,8 @@ name: 'zz'
         constructor: function C(age, carr)
         ​​<prototype>: Object { … }
 */
-        
-let c2 = new C(18, ['z3', 'z4']);
+
+let c2 = new C(18, ["z3", "z4"]);
 c2.cstr.pop();
 console.log(c1.cstr); //Array[ "a", "b", "c" ]
 c2.pstr.pop();
@@ -147,64 +149,67 @@ console.log(c1.pstr); //Array [ "A", "B", "C"]
 c2.crr.pop();
 console.log(c1.crr); //Array [7, 8]
 // c2.prr.pop();
-// console.log(c1.prr); 
-console.log(c2.name);//'zz'
-c2.name='c2';
-console.log(c2.name);//'c2'
-console.log(c1.name);//'zz'
+// console.log(c1.prr);
+console.log(c2.name); //'zz'
+c2.name = "c2";
+console.log(c2.name); //'c2'
+console.log(c1.name); //'zz'
 c2.parr.pop();
-console.log(c1.parr);//Array ['z1', 'z2']
+console.log(c1.parr); //Array ['z1', 'z2']
 
 for (let key in c1) {
-    console.log(key);
-    //age carr cstr name parr pstr cact crr （父类原型上的方法继承不到）
+  console.log(key);
+  //age carr cstr name parr pstr cact crr （父类原型上的方法继承不到）
 }
 console.log(Object.keys(c1)); // Array[ "name", "parr", "pstr", "age", "carr", "cstr" ]
 console.log(Object.getOwnPropertyNames(c1)); // Array[ "name", "parr", "pstr", "age", "carr", "cstr" ]
 
 for (let key in C) {
-    console.log(key); //cnum
+  console.log(key); //cnum
 }
 console.log(Object.keys(C)); //Array [ "cnum" ]
-console.log(Object.getOwnPropertyNames(C));//Array ["length", "name", "arguments", "caller", "prototype", "cnum"]
+console.log(Object.getOwnPropertyNames(C)); //Array ["length", "name", "arguments", "caller", "prototype", "cnum"]
 
 for (let key in P) {
-    console.log(key); //pnum
+  console.log(key); //pnum
 }
 console.log(Object.keys(P)); //Array [ "pnum" ]
-console.log(Object.getOwnPropertyNames(P));//Array ["length", "name", "arguments", "caller", "prototype", "pnum"]   
+console.log(Object.getOwnPropertyNames(P)); //Array ["length", "name", "arguments", "caller", "prototype", "pnum"]
 ```
 
 ## 组合继承方式
+
 [原理]：组合使用原型链继承和借用构造函数继承  
-[形式]：子类构造函数中使用Parent.call(this);的方式可以继承写在父类构造函数中this上绑定的各属性和方法；使用Child.prototype = new Parent()的方式可以继承挂在在父类原型上的各属性和方法  
-[缺点]：父类构造函数在子类构造函数中执行了一次，在子类绑定原型时又执行了一次
+[形式]：子类构造函数中使用 Parent.call(this);的方式可以继承写在父类构造函数中 this 上绑定的各属性和方法；使用 Child.prototype = new Parent()的方式可以继承挂在在父类原型上的各属性和方法  
+[缺点]：父类构造函数在子类构造函数中执行了一次，在子类绑定原型时又执行了一次; 有些属性是冗余的
+
 ```javascript
 function P(name, parr) {
-    this.name = name;
-    this.parr = parr;
-    this.pstr = ['A', 'B', 'C'];
-    pp = 'pp';
-    ppp: 'ppp';
+  this.name = name;
+  this.parr = parr;
+  this.pstr = ["A", "B", "C"];
+  pp = "pp";
+  ppp: "ppp";
 }
 P.pnum = 1;
-P.prototype.pact = 'eat';
+P.prototype.pact = "eat";
 P.prototype.prr = [1, 2, 3];
 
 function C(age, carr) {
-    P.call(this, 'zz', ['z1', 'z2']);
-    this.age = age;
-    this.carr = carr;
-    this.cstr = ['a', 'b', 'c']
-    cc = 'cc';
-    ccc: 'ccc';
+  P.call(this, "zz", ["z1", "z2"]);
+  this.age = age;
+  this.carr = carr;
+  this.cstr = ["a", "b", "c"];
+  cc = "cc";
+  ccc: "ccc";
 }
 C.prototype = new P();
+C.prototype.constructor = C;
 C.cnum = 1;
-C.prototype.cact = 'game';
+C.prototype.cact = "game";
 C.prototype.crr = [7, 8, 9];
 
-let c1 = new C(18, ['z3', 'z4']);
+let c1 = new C(18, ["z3", "z4"]);
 console.log(c1);
 /*
 执行两次可以看出一些属性是重复的      
@@ -226,8 +231,8 @@ name: 'zz'
                 constructor: ƒ P(name, parr)
                  ​​<prototype>: Object {...}
 */
-        
-let c2 = new C(18, ['z3', 'z4']);
+
+let c2 = new C(18, ["z3", "z4"]);
 c2.cstr.pop();
 console.log(c1.cstr); //Array[ "a", "b", "c" ]
 c2.pstr.pop();
@@ -235,99 +240,103 @@ console.log(c1.pstr); //Array [ "A", "B", "C"]
 c2.crr.pop();
 console.log(c1.crr); //Array [7, 8]
 // c2.prr.pop();
-// console.log(c1.prr); 
-console.log(c2.name);//'zz'
-c2.name='c2';
-console.log(c2.name);//'c2'
-console.log(c1.name);//'zz'
+// console.log(c1.prr);
+console.log(c2.name); //'zz'
+c2.name = "c2";
+console.log(c2.name); //'c2'
+console.log(c1.name); //'zz'
 c2.parr.pop();
-console.log(c1.parr);//Array ['z1', 'z2']
+console.log(c1.parr); //Array ['z1', 'z2']
 
 for (let key in c1) {
-    console.log(key);
-    //age carr cstr name parr pstr cact crr pact prr（父类原型上的方法继承不到）
+  console.log(key);
+  //age carr cstr name parr pstr cact crr pact prr（父类原型上的方法继承不到）
 }
 console.log(Object.keys(c1)); // Array[ "name", "parr", "pstr", "age", "carr", "cstr" ]
 console.log(Object.getOwnPropertyNames(c1)); // Array[ "name", "parr", "pstr", "age", "carr", "cstr" ]
 
 for (let key in C) {
-    console.log(key); //cnum
+  console.log(key); //cnum
 }
 console.log(Object.keys(C)); //Array [ "cnum" ]
-console.log(Object.getOwnPropertyNames(C));//Array ["length", "name", "arguments", "caller", "prototype", "cnum"]
+console.log(Object.getOwnPropertyNames(C)); //Array ["length", "name", "arguments", "caller", "prototype", "cnum"]
 
 for (let key in P) {
-    console.log(key); //pnum
+  console.log(key); //pnum
 }
 console.log(Object.keys(P)); //Array [ "pnum" ]
-console.log(Object.getOwnPropertyNames(P));//Array ["length", "name", "arguments", "caller", "prototype", "pnum"]    
-```    
+console.log(Object.getOwnPropertyNames(P)); //Array ["length", "name", "arguments", "caller", "prototype", "pnum"]
+```
+
 ## 原型式继承
-[原理]借助Object.create方法实现普通对象的继承
-[缺点]Object.create方法实现的是浅拷贝，多个实例的引用类型属性指向相同的内存，存在篡改的可能
-``` javascript
+
+[原理]借助 Object.create 方法实现普通对象的继承
+[缺点]Object.create 方法实现的是浅拷贝，多个实例的引用类型属性指向相同的内存，存在篡改的可能
+
+```javascript
 let p = {
-    name: "p",
-    friends: ["p1", "p2", "p3"],
-    getName: function() {
-      return this.name;
-    }
-  };
+  name: "p",
+  friends: ["p1", "p2", "p3"],
+  getName: function () {
+    return this.name;
+  },
+};
 
-  let p1= Object.create(p);
-  p1.name = "tom";
-  p1.friends.push("jerry");
+let p1 = Object.create(p);
+p1.name = "tom";
+p1.friends.push("jerry");
 
-  let p2 = Object.create(p);
-  p2.friends.push("lucy");
+let p2 = Object.create(p);
+p2.friends.push("lucy");
 
-  console.log(p1.name); // tom
-  console.log(p1.name === p1.getName()); // true
-  console.log(p2.name); // p1
-  console.log(p1.friends); // ["p1", "p2", "p3","jerry","lucy"]
-  console.log(p2.friends); // ["p1", "p2", "p3","jerry","lucy"]
-``` 
+console.log(p1.name); // tom
+console.log(p1.name === p1.getName()); // true
+console.log(p2.name); // p1
+console.log(p1.friends); // ["p1", "p2", "p3","jerry","lucy"]
+console.log(p2.friends); // ["p1", "p2", "p3","jerry","lucy"]
+```
 
 ## 组合继承优化版
+
 ```javascript
 function P(name, parr) {
-    this.name = name;
-    this.parr = parr;
-    this.pstr = ['A', 'B', 'C'];
-    pp = 'pp';
-    ppp: 'ppp';
-    this.sayHip = function () {
-        console.log('hi~ ' + this.name);
-    }
+  this.name = name;
+  this.parr = parr;
+  this.pstr = ["A", "B", "C"];
+  pp = "pp";
+  ppp: "ppp";
+  this.sayHip = function () {
+    console.log("hi~ " + this.name);
+  };
 }
 P.pnum = 1;
-P.prototype.pact = 'eat';
+P.prototype.pact = "eat";
 P.prototype.prr = [1, 2, 3];
 P.prototype.sayByep = function () {
-    console.log('bye~ ' + this.name);
-}
+  console.log("bye~ " + this.name);
+};
 
 C.prototype = Object.create(P.prototype);
 C.prototype.constructor = C;
 
 function C(age, carr) {
-    P.call(this, 'zz', ['z1', 'z2']);
-    this.age = age;
-    this.carr = carr;
-    this.cstr = ['a', 'b', 'c'];
-    this.sayHic = function () {
-        console.log('hi~ ');
-    }
-    cc = 'cc';
-    ccc: 'ccc';
+  P.call(this, "zz", ["z1", "z2"]);
+  this.age = age;
+  this.carr = carr;
+  this.cstr = ["a", "b", "c"];
+  this.sayHic = function () {
+    console.log("hi~ ");
+  };
+  cc = "cc";
+  ccc: "ccc";
 }
 C.cnum = 2;
-C.prototype.cact = 'game';
+C.prototype.cact = "game";
 C.prototype.crr = [7, 8, 9];
 C.prototype.sayByec = function () {
-    console.log('bye~ ');
-}
-let c1 = new C(18, ['z3', 'z4']);
+  console.log("bye~ ");
+};
+let c1 = new C(18, ["z3", "z4"]);
 console.log(c1);
 /*
 ES5:
@@ -358,103 +367,103 @@ sayHic: function sayHic()
                     sayByep: function sayByep()
         ​​​            <prototype>: Object { … }
 */
-let c2 = new C(18, ['z3', 'z4']);
-    c2.cstr.pop();
-    console.log(c1.cstr); //Array[ "a", "b", "c" ]
-    c2.crr.pop();
-    console.log(c1.crr); //Array [ 7, 8 ] 原型上的引用类型还是会受影响
-    c2.pstr.pop();
-    console.log(c1.pstr); //Array [ "A", "B", "C"]
-    c2.prr.pop();
-    console.log(c1.prr); //Array [ 1, 2 ]
-    console.log(c2.name); //'zz'
-    c2.name = 'c2';
-    console.log(c2.name); //'c2'
-    console.log(c1.name); //'zz'
-    c2.parr.pop();
-    console.log(c1.parr); //Array ['z1', 'z2']
+let c2 = new C(18, ["z3", "z4"]);
+c2.cstr.pop();
+console.log(c1.cstr); //Array[ "a", "b", "c" ]
+c2.crr.pop();
+console.log(c1.crr); //Array [ 7, 8 ] 原型上的引用类型还是会受影响
+c2.pstr.pop();
+console.log(c1.pstr); //Array [ "A", "B", "C"]
+c2.prr.pop();
+console.log(c1.prr); //Array [ 1, 2 ]
+console.log(c2.name); //'zz'
+c2.name = "c2";
+console.log(c2.name); //'c2'
+console.log(c1.name); //'zz'
+c2.parr.pop();
+console.log(c1.parr); //Array ['z1', 'z2']
 
 for (let key in c1) {
-            console.log(key);
-            //age carr cstr sayHic name parr pstr sayHip   实例属性+方法(8)
-            //cact crr pact prr constructor sayByec sayByep  原型属性+方法(7)
+  console.log(key);
+  //age carr cstr sayHic name parr pstr sayHip   实例属性+方法(8)
+  //cact crr pact prr constructor sayByec sayByep  原型属性+方法(7)
 }
 console.log(Object.keys(c1)); // Array(8) [ "name", "parr", "pstr", "sayHip", "age", "carr", "cstr", "sayHic" ]
 console.log(Object.getOwnPropertyNames(c1)); // Array(8) [ "name", "parr", "pstr", "sayHip", "age", "carr", "cstr", "sayHic" ]
 
 for (let key in C) {
-    console.log(key); //cnum 静态方法
+  console.log(key); //cnum 静态方法
 }
 console.log(Object.keys(C)); //Array [ "cnum" ]
-console.log(Object.getOwnPropertyNames(C));//Array(6) ["length", "name", "arguments", "caller", "prototype", "cnum"]
+console.log(Object.getOwnPropertyNames(C)); //Array(6) ["length", "name", "arguments", "caller", "prototype", "cnum"]
 console.log(Object.keys(C.prototype)); //Array(4) [ "constructor", "cact", "crr", "sayByec" ]
-console.log(Object.getOwnPropertyNames(C.prototype));//Array(4) [ "constructor", "cact", "crr", "sayByec" ]
+console.log(Object.getOwnPropertyNames(C.prototype)); //Array(4) [ "constructor", "cact", "crr", "sayByec" ]
 
 for (let key in P) {
-    console.log(key); //pnum
+  console.log(key); //pnum
 }
 console.log(Object.keys(P)); //Array [ "pnum" ]
-console.log(Object.getOwnPropertyNames(P));//Array(6) ["length", "name", "arguments", "caller", "prototype", "pnum"]
+console.log(Object.getOwnPropertyNames(P)); //Array(6) ["length", "name", "arguments", "caller", "prototype", "pnum"]
 console.log(Object.keys(P.prototype)); //Array(3) [ "pact", "prr", "sayByep" ]
-console.log(Object.getOwnPropertyNames(P.prototype));//Array(4) [ "constructor", "pact", "prr", "sayByep" ]
+console.log(Object.getOwnPropertyNames(P.prototype)); //Array(4) [ "constructor", "pact", "prr", "sayByep" ]
 ```
 
 ## ES6 class
+
 ```javascript
 class P {
-    //实例属性除了定义在constructor()方法里面的this上面，也可以定义在类的最顶层。
-    constructor(name, parr) {
-        //实例属性
-        this.name = name;
-        this.parr = parr;
-        this.pstr = ['A', 'B', 'C'];
-        //实例方法
-        this.sayHip = function () {
-            console.log('hi~ ' + this.name);
-        }
-    }
+  //实例属性除了定义在constructor()方法里面的this上面，也可以定义在类的最顶层。
+  constructor(name, parr) {
     //实例属性
-    pp = 'pp';
-    //静态属性
-    static pact = 'eat';
-    //原型方法
-    sayByep() {
-        console.log('bye~ ' + this.name);
-    }
-    //静态方法
-    static numberp() {
-        console.log(P.pnum);
-    }
+    this.name = name;
+    this.parr = parr;
+    this.pstr = ["A", "B", "C"];
+    //实例方法
+    this.sayHip = function () {
+      console.log("hi~ " + this.name);
+    };
+  }
+  //实例属性
+  pp = "pp";
+  //静态属性
+  static pact = "eat";
+  //原型方法
+  sayByep() {
+    console.log("bye~ " + this.name);
+  }
+  //静态方法
+  static numberp() {
+    console.log(P.pnum);
+  }
 }
 //静态方法
 P.pnum = 1;
 //原型属性
 P.prototype.prr = [1, 2, 3];
 
-
 class C extends P {
-    constructor(name, parr, age, carr) {
-        super(name, parr);
-        this.age = age;
-        this.carr = carr;
-        this.cstr = ['a', 'b', 'c']
-        this.sayHic = function () {
-            console.log('hi~ ');
-        }
-    }
-    cc = 'cc';
-    static cact = 'game';
-    sayByec() {
-        console.log('bye~ ');
-    }
-    static numberc() {
-        console.log(C.cnum);
-    }
+  constructor(name, parr, age, carr) {
+    super(name, parr);
+    this.age = age;
+    this.carr = carr;
+    this.cstr = ["a", "b", "c"];
+    this.sayHic = function () {
+      console.log("hi~ ");
+    };
+  }
+  cc = "cc";
+  static cact = "game";
+  sayByec() {
+    console.log("bye~ ");
+  }
+  static numberc() {
+    console.log(C.cnum);
+  }
 }
 C.cnum = 2;
 C.prototype.crr = [7, 8, 9];
 
-let c1 = new C('zz', ['z1', 'z2'], 18, ['z3', 'z4']);
+let c1 = new C("zz", ["z1", "z2"], 18, ["z3", "z4"]);
 console.log(c1);
 /*
 ES6:
@@ -484,7 +493,7 @@ age: 18
 ​​​                      sayByep: function sayByep()
 ​​​                      <prototype>: Object { … }
 */
-let c2 = new C('c2', ['z11', 'z22'], 20, ['z33', 'z44']);
+let c2 = new C("c2", ["z11", "z22"], 20, ["z33", "z44"]);
 c2.cstr.pop();
 console.log(c1.cstr); //Array[ "a", "b", "c" ]
 c2.crr.pop();
@@ -494,68 +503,71 @@ console.log(c1.pstr); //Array [ "A", "B", "C"]
 c2.prr.pop();
 console.log(c1.prr); //Array [ 1, 2 ]
 //父类的静态方法可以被子类继承
-console.log(C.pnum);//1
-C.numberp();//1
+console.log(C.pnum); //1
+C.numberp(); //1
 
 for (let key in c1) {
-    console.log(key);
-    //pp name parr pstr sayHip cc age carr cstr sayHic (10)实例属性+方法
-    //crr prr  原型属性 没有原型方法(类定义在prototype上的方法是不可枚举的)
+  console.log(key);
+  //pp name parr pstr sayHip cc age carr cstr sayHic (10)实例属性+方法
+  //crr prr  原型属性 没有原型方法(类定义在prototype上的方法是不可枚举的)
 }
 console.log(Object.keys(c1)); // Array(10) [ "pp", "name", "parr", "pstr", "sayHip", "cc", "age", "carr", "cstr", "sayHic" ]
 
 console.log(Object.getOwnPropertyNames(c1)); //Array(10) [ "pp", "name", "parr", "pstr", "sayHip", "cc", "age", "carr", "cstr", "sayHic" ]
 
 for (let key in P) {
-    console.log(key); //pact pnum  静态属性 没有静态方法(类的内部所有定义的方法，都是不可枚举的)
+  console.log(key); //pact pnum  静态属性 没有静态方法(类的内部所有定义的方法，都是不可枚举的)
 }
 console.log(Object.keys(P)); //Array [ "pact", "pnum" ]
-console.log(Object.getOwnPropertyNames(P));//Array(6) [ "prototype", "numberp", "pact", "pnum", "length", "name" ]
-console.log(Object.keys(P.prototype));//Array [ "prr" ]
-console.log(Object.getOwnPropertyNames(P.prototype));//Array(3) [ "constructor", "sayByep", "prr" ]
+console.log(Object.getOwnPropertyNames(P)); //Array(6) [ "prototype", "numberp", "pact", "pnum", "length", "name" ]
+console.log(Object.keys(P.prototype)); //Array [ "prr" ]
+console.log(Object.getOwnPropertyNames(P.prototype)); //Array(3) [ "constructor", "sayByep", "prr" ]
 
 for (let key in C) {
-    //父类的静态方法可以被子类继承
-    console.log(key); //cact cnum pact pnum
+  //父类的静态方法可以被子类继承
+  console.log(key); //cact cnum pact pnum
 }
 console.log(Object.keys(C)); //Array [ "cact", "cnum" ]
-console.log(Object.getOwnPropertyNames(C));//Array(6) [ "prototype", "numberc", "cact", "cnum", "length", "name" ]
-console.log(Object.keys(C.prototype));//Array [ "crr" ]
-console.log(Object.getOwnPropertyNames(C.prototype));//Array(3) [ "constructor", "sayByec", "crr" ]
+console.log(Object.getOwnPropertyNames(C)); //Array(6) [ "prototype", "numberc", "cact", "cnum", "length", "name" ]
+console.log(Object.keys(C.prototype)); //Array [ "crr" ]
+console.log(Object.getOwnPropertyNames(C.prototype)); //Array(3) [ "constructor", "sayByec", "crr" ]
 ```
 
 ## 封装一个原生的继承方法
+
 ```javascript
 function extendsClass(Parent, Child) {
-    function F() {};
-    F.prototype = Parent.prototype;
-    Child.prototype = new F();
-    Child.prototype.constructor = Child;
-    return Child;
+  function F() {}
+  F.prototype = Parent.prototype;
+  Child.prototype = new F();
+  Child.prototype.constructor = Child;
+  return Child;
 }
 ```
 
 ## 重载重写的区别，应用场景
+
 重载： 方法名相同，参数类型或者数量不同  
 重写： 当父类的方法不能完全满足子类使用的时候，既可以保留父类的功能(沿袭、传承)，还可以有自己特有的功能
 
 ## 练习题
+
 ```javascript
 function C1(name) {
-    if (name) {
-        this.name = name;
-    }
+  if (name) {
+    this.name = name;
+  }
 }
 
 function C2(name) {
-    this.name = name;
+  this.name = name;
 }
 
 function C3(name) {
-    this.name = name || 'join';
+  this.name = name || "join";
 }
-C1.prototype.name = 'Tom';
-C2.prototype.name = 'Tom';
-C3.prototype.name = 'Tom';
-alert((new C1().name) + (new C2().name) + (new C3().name));
+C1.prototype.name = "Tom";
+C2.prototype.name = "Tom";
+C3.prototype.name = "Tom";
+alert(new C1().name + new C2().name + new C3().name);
 ```
