@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>深拷贝</title>
+</head>
+
+<body>
+    <script>
+        //hash用于解决循环引用的问题
+        function deepClone(source, hash = new WeakMap()) {
+            if (source === null || typeof source !== 'object') {
+                return source;
+            }
+            if (source instanceof Date) { //Map、Set、Regexp
+                return new Date(source);
+            }
+            if (hash.get(source)) {
+                return hash.get(source);
+            }
+            let res = new source.constructor();
+            hash.set(source, res);
+            for (let key in source) {
+                if (source.hasOwnProperty(key)) {
+                    res[key] = deepClone(source[key], hash);
+                }
+            }
+            return res;
+        }
+        let a = {
+            name: "aa",
+            book: {
+                title: "You Don't Know JS",
+                price: "45"
+            },
+            a1: undefined,
+            a2: null,
+            a3: 123
+        }
+        let b = cloneShallow(a);
+
+        a.name = "bb";
+        a.book.price = "55";
+
+        console.log(b);
+    </script>
+</body>
+
+</html>
