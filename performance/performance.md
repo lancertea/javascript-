@@ -127,6 +127,40 @@ Timeline时序图记录
 分离状态的DOM节点： 在DOM树上进行了脱离，但JS代码中还引用（表现为在界面上看不见，但在内存中却占据空间）
 垃圾对象时的DOM节点： 在DOM树上进行了脱离，JS代码中也不引用了
 
+### 常见的内存泄漏的情况
+1. 全局变量
+在非严格模式下，当应用未声明的变量时，会在全局对象中创建一个新变量。在浏览器中，全局对象将是 window
+```javascript
+funciton foo(arg){
+    bar = 'xx'; //bar将泄漏到全局
+}
+```
+全局变量是在页面关闭后，才会被垃圾回收机制回收，如果必须使用全局模式来存储数据，请确保使用完，将其指定为 null 便于回收
+解决方法： 严格模式
+
+2. 被遗忘的定时器和回调函数
+```javascript
+var someResource = getData();
+  setInterval(function() {
+      var node = document.getElementById('Node');
+      if(node) {
+          node.innerHTML = JSON.stringify(someResource));
+          // 定时器也没有清除
+      }
+  }, 1000);
+```
+解决方法：在定时器完成工作的时候，手动清除定时器
+
+3. DOM引用
+```javascript
+  var refA = document.getElementById('refA');
+  document.body.removeChild(refA); // dom删除了
+  console.log(refA, "refA");  // 但是还存在引用
+  // 能 console 出整个div 没有被回收
+```
+因为变量还在引用DOM节点，导致GC没有回收
+解决方法：使用完及时设置null
+
 ### 执行顺序
 当从服务器接收HTML页面的第一批数据时，DOM解析器就开始工作了，在解析过程中，如果遇到了JS脚本，如下所示：
 ```HTML
