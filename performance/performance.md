@@ -82,7 +82,7 @@ JavaScript内存管理有一个主要概念是可达性，“可达性” 值是
 可达对象：
 - 可以访问到的对象就是可达对象（引用、作用域链）
 - 可达的标准就是从根出发是否能够被找到
-- JS中的根就可以理解为是全局变量对象
+- JS中的根就可以理解为是全局变量对象（浏览器中为window,node.js中为global）
 
 优：
 - 可以回收循环引用的对象
@@ -129,29 +129,74 @@ Timeline时序图记录
 
 ### 常见的内存泄漏的情况
 1. 全局变量
-在非严格模式下，当应用未声明的变量时，会在全局对象中创建一个新变量。在浏览器中，全局对象将是 window
+在非严格模式下，当应用未声明的变量时，会在全局对象中创建一个新变量。在浏览器中，全局对象将是 window，这意味着
 ```javascript
 funciton foo(arg){
-    bar = 'xx'; //bar将泄漏到全局
+    bar = 'some text'; //bar将泄漏到全局
 }
 ```
-全局变量是在页面关闭后，才会被垃圾回收机制回收，如果必须使用全局模式来存储数据，请确保使用完，将其指定为 null 便于回收
+等价于：
+```javascript
+funciton foo(arg){
+   window.bar = 'some text'; 
+}
+```
+假如变量 bar 的目的是仅在 foo 函数中引用一个变量。如果不使用 var 进行声明，则会创建一个冗余的全局变量
+
 解决方法： 严格模式
+全局变量是在页面关闭后，才会被垃圾回收机制回收，如果必须使用全局模式来存储数据，请确保使用完，将其指定为 null 或将其重新分配
+
 
 2. 被遗忘的定时器和回调函数
 ```javascript
 var someResource = getData();
   setInterval(function() {
-      var node = document.getElementById('Node');
+      var node = document.getElementById('node');
       if(node) {
           node.innerHTML = JSON.stringify(someResource));
           // 定时器也没有清除
       }
   }, 1000);
 ```
-解决方法：在定时器完成工作的时候，手动清除定时器
+上面的代码段展示了：计时器引用了不再需要的节点或数据的后果：someResource不会被垃圾收集
 
-3. DOM引用
+解决方法：在定时器完成工作的时候，手动清除定时器
+```javascript
+var element = document.getElementById('launch-button');
+var counter = 0;
+function onClick(event) {
+   counter++;
+   element.innerHtml = 'text ' + counter;
+}
+
+element.addEventListener('click', onClick);
+
+// Do stuff
+element.removeEventListener('click', onClick);
+// element.parentNode.removeChild(element); 能 console 出整个div 没有被回收
+element = null;
+```
+
+3. 闭包
+```javascript
+var theThing = null;
+var replaceThing = function () {
+  var originalThing = theThing;
+  var unused = function () {
+    if (originalThing) // a reference to 'originalThing'
+      console.log("hi");
+  };
+  theThing = {
+    longStr: new Array(1000000).join('*'),
+    someMethod: function () {
+      console.log("message");
+    }
+  };
+};
+setInterval(replaceThing, 1000);
+```
+
+4. DOM引用
 ```javascript
   var refA = document.getElementById('refA');
   document.body.removeChild(refA); // dom删除了
@@ -292,12 +337,16 @@ v8是一款主流的JS执行引擎，采用即时编译，内存设限（64位OS
 JS是后者
 
 #### 生成AST
-1.分词（词法分析）：其作用是将一行行的源码拆解成一个个 token。所谓 token，指的是语法上不可能再分的、最小的单个字符或字符串
-2.解析（语法分析）：其作用是将上一步生成的 token 数据，根据语法规则转为 AST。如果源码符合语法规则，这一步就会顺利完成。但如果源码存在语法错误，这一步就会终止，并抛出一个 “语法错误”
+1.分词（词法分析）：其作用是将一行行的源码拆解成一个个token。所谓token，指的是语法上不可能再分的、最小的单个字符或字符串
+2.解析（语法分析）：其作用是将上一步生成的token数据，根据语法规则转为AST。如果源码符合语法规则，这一步就会顺利完成。但如果源码存在语法错误，这一步就会终止，并抛出一个 “语法错误”
 
 AST应用：
 1.Babel 的工作原理就是先将 ES6 源码转换为 AST，然后再将 ES6 语法的 AST 转换为 ES5 语法的 AST，最后利用 ES5 的 AST 生成 JavaScript 源代码。
 2.ESLint 也使用 AST。ESLint 是一个用来检查 JavaScript 编写规范的插件，其检测流程也是需要将源码转换为 AST，然后再利用 AST 来检查代码规范化的问题
+
+AST的生成：
+词法分析：其作用是将一行行的源码拆解成一个个token（语法上不能再分的最小的单个字符或字符串）
+语法分析：根据语法规则将token转为AST
 
 有了 AST 后，那接下来 V8 就会生成该段代码的执行上下文
 
@@ -308,9 +357,11 @@ AST应用：
 - 机器码所占用的空间远远超过了字节码，所以使用字节码可以减少系统的内存使用
 
 #### 执行代码
+对于第一次执行的字节码由解释器解释执行
+编译器 TurboFan 就会把该段热点的字节码编译为高校的机器码
+热点代码：被重复执行多次的一段代码
 
-
-
+即时编译（JIT）技术：解释器 lgnition 在解释执行字节码的同时，收集代码信息，当它发现某一部分代码变热了之后，TurboFan 编译器便闪亮登场，把热点的字节码转换为机器码，并把转换后的机器码保存起来，以备下次使用
 
 
 
