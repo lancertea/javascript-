@@ -1,86 +1,77 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>string</title>
-  </head>
 
-  <body>
-    <script>
-      let s = "hello world hello!";
-      //s.toLowerCase/toUpperCase
-      //s.charAt at
-      //s.endsWith(searchStr,length)
-      //s.concat()
-      //s.padStart(targetLen,padStr)
-      //s.repeat(count)
-      //s.search(regexp)
-      //s.replaceAll
-      //s.matchAll
+<head>
+  <meta charset="UTF-8" />
+  <title>string</title>
+</head>
 
-      let a = [1, 2, 3, 4];
-      //a.reverse()
-      //a.sort localeCompare
-      //a.copyWithin
-      //a.fill
-      //改变
-      console.log(a.push(5, 6));
-      console.log(a.pop());
-      console.log(a.unshift(0));
-      console.log(a.shift());
-      console.log(a.splice(3, 1, 7, 8));
-      console.log(a.join());
-      console.log(a.join(""));
+<body>
+  <div id="aqq">123</div>
+  <script>
+    let s = "hello world hello!";
+    //s.toLowerCase/toUpperCase
+    //s.charAt at
+    //s.endsWith(searchStr,length)
+    //s.concat()
+    //s.padStart(targetLen,padStr)
+    //s.repeat(count)
+    //s.search(regexp)
+    //s.replaceAll
+    //s.matchAll
 
-      //查找
-      console.log(a.at(2));
-      console.log(a.indexOf(2));
-      console.log(a.lastIndexOf(3));
+    let a = [1, 2, 3, 4];
+    //a.reverse()
+    //a.sort localeCompare
+    //a.copyWithin
+    //a.fill
+    //改变
+    console.log(a.push(5, 6));
+    console.log(a.pop());
+    console.log(a.unshift(0));
+    console.log(a.shift());
+    console.log(a.splice(3, 1, 7, 8));
+    console.log(a.join());
+    console.log(a.join(""));
 
-      //操作
-      console.log(a.concat([5, 6]));
-      //遍历
-      //a.forEach
-      //a.filter
-      //a.map
-      //a.some
-      //a.every
-      //a.find
-      //a.findIndex
-      //a.reduce
-      //a.flat
+    //查找
+    console.log(a.at(2));
+    console.log(a.indexOf(2));
+    console.log(a.lastIndexOf(3));
 
-      console.log(Array.isArray([1, 2]));
-      console.log(Array.of(1, 2, 3));
-      console.log(
-        Array.from(
-          {
-            length: 5,
-          },
-          () => 3
-        )
-      );
+    //操作
+    console.log(a.concat([5, 6]));
+    //遍历
+    //a.forEach
+    //a.filter
+    //a.map
+    //a.some
+    //a.every
+    //a.find
+    //a.findIndex
+    //a.reduce
+    //a.flat
 
-      //for in  可枚举 包括原型
-      //Object.keys()  可枚举 自身 数组
-      //Object.getOwnProperyNames()   无论是否可枚举 自身 数组
-      //Object.getOwnSymbolNames()   无论是否可枚举 自身 数组
-      //Reflect.ownKeys() 无论是否可枚举 自身 数组
-      //for of 
+    console.log(Array.isArray([1, 2]));
+    console.log(Array.of(1, 2, 3));
+    console.log(
+      Array.from(
+        {
+          length: 5,
+        },
+        () => 3
+      )
+    );
 
-     function deepClone (obj){
-        if(obj === null || typeof obj !== 'object'){
-            return obj;
-        }
-        if(obj instanceof Map){ //Set Date RegExp 
-            return new Map(obj)
-        }
-        let res = new a.constructor();
-        for(let k of obj){
-            res[k] = deepClone(obj[k]);
-        }
-        return res;
-     }
-    </script>
-  </body>
+    //for in  可枚举 包括原型
+    //Object.keys()  可枚举 自身 数组
+    //Object.getOwnProperyNames()   无论是否可枚举 自身 数组
+    //Object.getOwnSymbolNames()   无论是否可枚举 自身 数组
+    //Reflect.ownKeys() 无论是否可枚举 自身 数组
+    //for of 
+    console.log(aqq);
+
+  </script>
+</body>
+
 </html>

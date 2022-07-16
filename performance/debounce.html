@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>debounce</title>
     <style>
-        body{
+        body {
             height: 3000px;
         }
     </style>
@@ -13,31 +13,50 @@
 
 <body>
     <script>
-    //优化前    
-    //  window.addEventListener('scroll',function(){
-    //      var scrollTop=document.body.scrollTop||document.documentElement.scrollTop;
-    //      console.log('滚动的高度'+scrollTop);
-         
-    //  });
+        //优化前    
+        //  window.addEventListener('scroll',function(){
+        //      var scrollTop=document.body.scrollTop||document.documentElement.scrollTop;
+        //      console.log('滚动的高度'+scrollTop);
 
-    function debounce(fn,delay){
-          var timeout=null;
-          return function(){
-              //判断当前有无定时器
-              if(timeout!=null){
-               clearTimeout(timeout);
-              }
-              timeout=setTimeout(fn,delay);
-          }
-    }
+        //  });
 
-    function handle(){
-        console.log(Math.random());
-        
-    }
+        function debounce(fn, delay) {
+            let timer = null;
+            return function (...arg) {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(() => {
+                    fn.call(this, ...arg);
+                }, delay);
 
-     window.addEventListener('scroll',debounce(handle,1000));
-        
+            }
+        }
+
+        function debounce1(fn, delay) {
+            let timer = null;
+            return function () {
+                let self = this,
+                    para = arguments;
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(function () {
+                    fn.call(self, ...para);
+                }, delay);
+            }
+        }
+
+        function handle() {
+            console.log(Math.random());
+
+        }
+
+        function test(name) {
+            console.log(Math.random(), name);
+        }
+
+        window.addEventListener('scroll', debounce(handle, 1000));
     </script>
 </body>
 

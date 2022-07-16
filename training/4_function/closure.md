@@ -284,6 +284,7 @@ console.log(obj);
 
 6、
 ```javascript
+//可看出函数内的实参相当于是用var声明的
 var a = 1;
 function fn(a){
     console.log(a);

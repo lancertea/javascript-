@@ -38,15 +38,11 @@ let obj = {
 obj.fn();
 ```
 ```javascript
-let obj = {
-    funciton fn(){
-        //this:window
-    console.log(this)
+    function fn() {
+      console.log(this)
     }
-document.body.onclick=function(){
-    //this:document.body
-    fn();
-}
+
+    document.getElementById('b').onclick = fn;
 ```
 
 ## 原型链中的this问题
