@@ -317,4 +317,4 @@ p.then(()=>{
   console.log('end');
 })
 ```
-
+async/await 本质上还是基于 Promise 的一些封装，而 Promise 是属于微任务的一种，所以 await 关键字与Promise.then 效果类似。async 函数在 await 之前的代码都是同步执行的，可以理解成 await 之前的代码属于 new Promsie 时传入的代码，await 之后的所有代码都是在 Promise.then 中的回调
