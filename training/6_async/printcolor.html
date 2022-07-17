@@ -60,6 +60,20 @@
         //     });
         // }
 
+        //async实现
+        function f1(){
+        let count = 0;
+        return async function printColor(){
+          if(count < 5){
+            await print(red,100);
+            await print(yellow,200);
+            await print (green,400);
+            count++;
+            printColor();
+          }
+        }
+      }
+
         f()();
     </script>
 </body>
