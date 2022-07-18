@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>虚拟列表</title>
+</head>
+<body>
+    <!-- 可视区  viewPort-->
+    <div className="viewport" onscroll="">
+        <!-- 真实列表区 形成滚动条 -->
+        <div className="list-phantom"></div>
+        <!-- 列表项的渲染区域 -->
+        <div className="list-area">
+            <!-- item-1  itemSize-->
+            <!-- item-2 -->
+            <!-- item-n -->
+        </div>
+   </div>
+  <script>
+    /* 
+    当用户滚动列表时：
+     1. 计算可视区的 startIndex 和 endIndex  根据其渲染数据
+     startIndex = Math.floor(scrollTop / itemSize)
+     endIndex = startIndex + viewPort/itemSize
+     2. 计算 startOffset 偏移量并设置其为列表渲染区
+     startOffset = startIndex * itemSize
+    */
+    /* 
+    不定高度：渲染完成事件通知更新列表项高度（性能差） ResizeObserver监听指定元素的高度变化
+    滚动过快有白屏： 让列表渲染区 > 可视区
+    计算优化：startIndex 二分查找  硬件渲染加速和dom元素的复用
+    */
+  </script>
+</body>
+</html>
