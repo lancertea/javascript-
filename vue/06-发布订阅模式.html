@@ -1,45 +1,59 @@
 <!DOCTYPE html>
 <html lang="cn">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>发布订阅模式</title>
 </head>
+
 <body>
   <script>
-    // 事件触发器
     class EventEmitter {
-      constructor () {
+      constructor() {
         // { 'click': [fn1, fn2], 'change': [fn] }
         this.subs = Object.create(null)
       }
-
-      // 注册事件
-      $on (eventType, handler) {
+      on(eventType, handler) {
         this.subs[eventType] = this.subs[eventType] || []
         this.subs[eventType].push(handler)
       }
 
-      // 触发事件
-      $emit (eventType) {
+      emit(eventType, ...args) {
         if (this.subs[eventType]) {
-          this.subs[eventType].forEach(handler => {
-            handler()
-          })
+          this.subs[eventType].forEach(handler => handler.call(this, ...arg))
+        }
+      }
+
+      once(eventType, handler) {
+        const _this = this;
+        function oneTime(...args) {
+          handler.call(this, ...args);
+          _this.off(eventType, oneTime);
+        }
+        _this.on(eventType, oneTime)
+      }
+
+      off(eventType, handler) {
+        if (this.subs[eventType]) {
+          const index = this.subs[eventType].indexOf(handler);
+          this.subs[eventType].splice(index, 1);
         }
       }
     }
 
-    // 测试
-    let em = new EventEmitter()
-    em.$on('click', () => {
-      console.log('click1')
-    })
-    em.$on('click', () => {
-      console.log('click2')
-    })
+    let e = new EventEmitter();
 
-    em.$emit('click')
+    e.on('say', function (str) {
+      console.log(str);
+    });
+    e.once('say', function (str) {
+      console.log('这是once:' + str)
+    })
+    e.emit('say', 'visa');
+    e.emit('say', 'visa222');
+    e.emit('say', 'visa333');
   </script>
 </body>
+
 </html>
