@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对象深度遍历</title>
+</head>
+
+<body>
+    <script>
+        const entry = {
+            a: {
+                b: {
+                    c: {
+                        dd: 'abcdd',
+                    },
+                },
+                d: {
+                    xx: 'adxx',
+                },
+                e: 'ae',
+            },
+        };
+
+        // 要求转换成如下对象
+        const output = {
+            'a.b.c.dd': 'abcdd',
+            'a.d.xx': 'adxx',
+            'a.e': 'ae',
+        };
+
+        function flatObj(obj, parentKey = "", result = {}) {
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    let keyName = `${parentKey}${key}`;
+                    if (typeof obj[key] === 'object')
+                        flatObj(obj[key], keyName + ".", result)
+                    else
+                        result[keyName] = obj[key];
+                }
+            }
+            return result;
+        }
+
+        function flatO(obj, parentKey = '', res = {}) {
+            for (let [k, v] of Object.entries(obj)) {
+                let key = `${parentKey}${k}`;
+                if (typeof v === 'object') {
+                    flatO(v, key + '.', res);
+                } else {
+                    res[key] = v;
+                }
+            }
+            return res;
+        }
+
+        const buildObj = obj => {
+            const res = {};
+            for (const [k, v] of Object.entries(obj)) {
+                const keyArr = k.split('.');
+                keyArr.reduce((pre, next, index, array) => {
+                    if (index === array.length - 1) {
+                        pre[next] = v;
+                        return;
+                    }
+                    pre[next] = pre[next] || {};
+                    return pre[next];
+                }, res);
+            }
+            return res;
+        };
+
+        console.log(flatObj(entry));
+        console.log(flatO(entry));
+        console.log(buildObj(output));
+    </script>
+</body>
+
+</html>
