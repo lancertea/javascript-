@@ -8,26 +8,32 @@
 
 <body>
     <script>
-        //hash用于解决循环引用的问题
+        //深拷贝 = 浅拷贝 + 递归
+        //hash用于解决循环引用 + 引用丢失的问题
         function deepClone(source, hash = new WeakMap()) {
-            if (source === null || typeof source !== 'object') {
+            const isObject = obj => (obj !== null) && (typeof obj === 'object');
+            if (!isObject(source)) {
                 return source;
             }
-            if (source instanceof Date) { //Map、Set、Regexp
-                return new Date(source);
-            }
-            if (hash.get(source)) {
+            if (hash.has(source)) {
                 return hash.get(source);
             }
-            let res = new source.constructor();
-            hash.set(source, res);
-            for (let key in source) {
-                if (source.hasOwnProperty(key)) {
-                    res[key] = deepClone(source[key], hash);
-                }
+            if (source instanceof Map) { //Set Date RegExp
+                return new Map(source);
             }
-            return res;
+            const target = new source.constructor();
+            hash.set(source, target);
+            //如果要拷贝原型上的属性，还是用for in， Symbol可以用getOwnPropertySymbols去单独处理
+            Reflect.ownKeys(source).forEach(key => {
+                if (isObject(source[key])) {
+                    target[key] = deepClone(source[key]);
+                } else {
+                    target[key] = source[key];
+                }
+            })
+            return target;
         }
+
         let a = {
             name: "aa",
             book: {
@@ -44,6 +50,51 @@
         a.book.price = "55";
 
         console.log(b);
+
+        //破解爆栈递归
+        function cloneDeep5(x) {
+            const root = {};
+
+            // 栈
+            const loopList = [
+                {
+                    parent: root,
+                    key: undefined,
+                    data: x,
+                }
+            ];
+
+            while (loopList.length) {
+                // 广度优先
+                const node = loopList.pop();
+                const parent = node.parent;
+                const key = node.key;
+                const data = node.data;
+
+                // 初始化赋值目标，key为undefined则拷贝到父元素，否则拷贝到子元素
+                let res = parent;
+                if (typeof key !== 'undefined') {
+                    res = parent[key] = {};
+                }
+
+                for (let k in data) {
+                    if (data.hasOwnProperty(k)) {
+                        if (typeof data[k] === 'object') {
+                            // 下一次循环
+                            loopList.push({
+                                parent: res,
+                                key: k,
+                                data: data[k],
+                            });
+                        } else {
+                            res[k] = data[k];
+                        }
+                    }
+                }
+            }
+
+            return root;
+        }
     </script>
 </body>
 

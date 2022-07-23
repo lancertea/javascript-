@@ -232,9 +232,8 @@ function createObj(o) {
 }
 ```
 
-Object.assign() 方法用于将所有可枚举属性的值从一个或多个源对象(sources)复制到目标对象(target)。它将返回目标对象。
+Object.assign() 方法用于将所有可枚举属性的值从一个或多个源对象(sources)复制到目标对象(target)。它返回的是目标对象，不会创建新对象
 Object.assign(target, ...sources)
-
 ```javascript
 const target = { a: 1 };
 
@@ -246,31 +245,76 @@ target; // {a:1, b:2, c:3}
 ```
 
 如果目标对象与源对象有同名属性，或多个源对象有同名属性，则后面的属性会覆盖前面的属性。
-
 ```javascript
 const target = { a: 1, b: 1 };
 
 const source1 = { b: 2, c: 2 };
 const source2 = { c: 3 };
 
-Object.assign(target, source1, source2);
-target; // {a:1, b:2, c:3}
+const obj = Object.assign(target, source1, source2);
+console.log(target); // {a:1, b:2, c:3}
+console.log(obj === target); // false
 ```
 
 如果只有一个参数，Object.assign()会直接返回该参数。
-
 ```javascript
 const obj = { a: 1 };
 Object.assign(obj) === obj; // true
 ```
 
+如果目标参数不是一个对象，会先尝试转成对象，无法转成会报错
 ```javascript
-// 复制一个对象
+const obj = Object.assign(2，{a: 1}) //Number{2, a: 1}
+Object.assign(undefined) // 报错
+Object.assign(null) // 报错
+```
+
+如果源参数不是一个对象，会先尝试转成对象，无法转成会跳过
+```javascript
+const obj = {a: 1};
+Object.assign(obj, undefined) === obj // true
+Object.assign(obj, null) === obj // true
+```
+
+```javascript
+const v1 = 'abc';
+const v2 = true;
+const v3 = 10;
+
+const obj = Object.assign({}, v1, v2, v3);
+console.log(obj); // { "0": "a", "1": "b", "2": "c" }
+```
+
+注意点:
+1. 浅拷贝一个对象
+```javascript
 const obj = { a: 1 };
 const copy = Object.assign({}, obj);
 console.log(copy); // { a: 1 }
 console.log(obj === copy); // false
 ```
+
+2. 同名属性替换（包括数组）
+```javascript
+Object.assign([1, 2, 3], [4, 5])
+// [4, 5, 3]
+```
+
+3. 无法拷贝getter、setter属性
+```javascript
+const source = {
+  get foo() { return 1 }
+};
+const target = {};
+
+Object.assign(target, source)
+// { foo: 1 }
+```
+应用：
+1. 为对象添加属性、方法
+2. 浅拷贝对象
+3. 合并多个对象
+4. 为属性指定默认值
 
 ## [属性的遍历](https://github.com/lancertea/javascript-/blob/master/ES6/ES6.md)
 
@@ -313,7 +357,7 @@ JSON.parse(JSON.stringify())
 1.会忽略对象的undefined、function、symbol值
 2.不能序列化函数
 3.不能解决循环引用的对象
-4.不能正确处理new Date()/正则
+4.不能正确处理日期/正则对象
 
 自实现
 判断属性值类型是基本类型和引用类型，还是 null，基本类型或 null 直接赋值
