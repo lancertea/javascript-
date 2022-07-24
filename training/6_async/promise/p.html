@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Promise实现-基本结构</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 1. Promise 是一个类， 在执行这个类时，需要传递一个执行器，执行器会立即执行
+         * 2. Promise中有三个状态，pending/fulfilled/rejected
+         * 3. resolve（pending -> fulfilled）和reject（pending -> rejected）函数是用来更改状态的
+         * 4. then方法根据状态调用成功/失败的回调函数
+         */
+        const PENDING = 'pending';
+        const FULFILLED = 'filfilled';
+        const REJECTED = 'rejected';
+
+        class MyPromise {
+            constructor(executor) {
+                executor(this.resolve, this.reject)
+            }
+            status = PENDING;
+            value = undefined;
+            reason = undefined
+            resolve = value => {
+                if(this.status !== PENDING) return;
+                this.status = FULFILLED;
+                this.value = value;
+            }
+            reject = reason => {
+                if(this.status !== PENDING) return;
+                this.status = REJECTED;
+                this.reason = reason;
+            }
+            then(successCallback,failCallback) {
+                if(this.status === FULFILLED){
+                    successCallback(this.value);
+                } else if(this.status === REJECTED){
+                    failCallback(this.reason);
+                }
+            }
+        }
+
+        let p1 = new MyPromise((resolve,reject)=>{
+            //resolve(1)
+            reject(2)
+        });
+        p1.then(val=>{console.log(val)}, e=>{console.log(e)})
+
+    </script>
+</body>
+
+</html>

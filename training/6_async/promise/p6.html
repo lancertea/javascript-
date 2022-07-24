@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Promise实现-then参数可选处理</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 1. Promise 是一个类， 在执行这个类时，需要传递一个执行器，执行器会立即执行
+         * 2. Promise中有三个状态，pending/fulfilled/rejected
+         * 3. resolve（pending -> fulfilled）和reject（pending -> rejected）函数是用来更改状态的
+         * 4. then方法根据状态调用成功/失败的回调函数
+         */
+        const PENDING = 'pending';
+        const FULFILLED = 'filfilled';
+        const REJECTED = 'rejected';
+
+        class MyPromise {
+            constructor(executor) {
+                try {
+                    executor(this.resolve, this.reject)
+                } catch (e) {
+                    this.reject(e);
+                }
+
+            }
+            status = PENDING;
+            value = undefined;
+            reason = undefined;
+            //数组存储多个回调函数
+            successCallback = [];
+            failCallback = [];
+
+            resolve = value => {
+                if (this.status !== PENDING) return;
+                this.status = FULFILLED;
+                this.value = value;
+                // 判断成功回调是否存在 如果存在调用
+                // this.successCallback && this.successCallback(this.value);
+                while (this.successCallback.length) {
+                    this.successCallback.shift()();
+                }
+            }
+            reject = reason => {
+                if (this.status !== PENDING) return;
+                this.status = REJECTED;
+                this.reason = reason;
+                // 判断失败回调是否存在 如果存在 调用
+                // this.failCallback && this.failCallback(this.reason);
+                while (this.failCallback.length) {
+                    this.failCallback.shift()();
+                }
+            }
+            then(successCallback, failCallback) {
+                // 参数可选
+                successCallback = successCallback ? successCallback : value => value;
+                // 参数可选
+                failCallback = failCallback ? failCallback : reason => { throw reason };
+                let promise = new MyPromise((resolve, reject) => {
+                    if (this.status === FULFILLED) {
+                        //利用setTimeout把代码编程异步
+                        setTimeout(() => {
+                            try {
+                                let x = successCallback(this.value);
+                                // 判断 x 的值是普通值还是promise对象
+                                // 如果是普通值 直接调用resolve 
+                                // 如果是promise对象 查看promsie对象返回的结果 
+                                // 再根据promise对象返回的结果 决定调用resolve 还是调用reject
+                                resolvePromise(promise, x, resolve, reject);
+                            } catch (e) {
+                                reject(e);
+                            }
+                        }, 0)
+
+                    } else if (this.status === REJECTED) {
+                        setTimeout(() => {
+                            try {
+                                let x = failCallback(this.reason);
+                                resolvePromise(promise, x, resolve, reject);
+                            } catch (e) {
+                                reject(e);
+                            }
+                        }, 0)
+                        failCallback(this.reason);
+                    } else {
+                        // 处理异步捕获
+                        this.successCallback.push(() => {
+                            setTimeout(() => {
+                                try {
+                                    let x = successCallback(this.value);
+                                    resolvePromise(promise, x, resolve, reject);
+                                } catch (e) {
+                                    reject(e);
+                                }
+                            }, 0)
+                        });
+                        this.failCallback.push(() => {
+                            setTimeout(() => {
+                                try {
+                                    let x = failCallback(this.reason);
+                                    resolvePromise(promise, x, resolve, reject);
+                                } catch (e) {
+                                    reject(e);
+                                }
+                            }, 0)
+                        });
+                    }
+                })
+                return promise;
+            }
+        }
+
+        function resolvePromise(promise, x, resolve, reject) {
+            //判断是否是循环调用
+            if (promise === x) {
+                return reject(new TypeError('Chaining cycle detected for promise #<Promise>'))
+            }
+            if (x instanceof MyPromise) {
+                // promise 对象
+                x.then(resolve, reject);
+            } else {
+                // 普通值
+                resolve(x)
+            }
+        }
+
+        //测试executor/then error
+        let p1 = new MyPromise((resolve, reject) => {
+            // throw new Error('executor err');
+            resolve('success')
+        });
+
+        p1.then().then().then(v => {
+            console.log(v);
+        }, e => {
+            console.log(e);
+        });
+
+    </script>
+</body>
+
+</html>

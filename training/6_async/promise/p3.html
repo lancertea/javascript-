@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Promise实现-then链式调用</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 1. Promise 是一个类， 在执行这个类时，需要传递一个执行器，执行器会立即执行
+         * 2. Promise中有三个状态，pending/fulfilled/rejected
+         * 3. resolve（pending -> fulfilled）和reject（pending -> rejected）函数是用来更改状态的
+         * 4. then方法根据状态调用成功/失败的回调函数
+         */
+        const PENDING = 'pending';
+        const FULFILLED = 'filfilled';
+        const REJECTED = 'rejected';
+
+        class MyPromise {
+            constructor(executor) {
+                executor(this.resolve, this.reject)
+            }
+            status = PENDING;
+            value = undefined;
+            reason = undefined;
+            //数组存储多个回调函数
+            successCallback = [];
+            failCallback = [];
+
+            resolve = value => {
+                if (this.status !== PENDING) return;
+                this.status = FULFILLED;
+                this.value = value;
+                // 判断成功回调是否存在 如果存在调用
+                // this.successCallback && this.successCallback(this.value);
+                while (this.successCallback.length) {
+                    this.successCallback.shift()(this.value);
+                }
+            }
+            reject = reason => {
+                if (this.status !== PENDING) return;
+                this.status = REJECTED;
+                this.reason = reason;
+                // 判断失败回调是否存在 如果存在 调用
+                // this.failCallback && this.failCallback(this.reason);
+                while (this.failCallback.length) {
+                    this.failCallback.shift()(this.reason);
+                }
+            }
+            then(successCallback, failCallback) {
+                let promise = new MyPromise((resolve, reject) => {
+                    if (this.status === FULFILLED) {
+                        let x = successCallback(this.value);
+                        // 判断 x 的值是普通值还是promise对象
+                        // 如果是普通值 直接调用resolve 
+                        // 如果是promise对象 查看promsie对象返回的结果 
+                        // 再根据promise对象返回的结果 决定调用resolve 还是调用reject
+                        resolvePromise(x, resolve, reject);
+                    } else if (this.status === REJECTED) {
+                        failCallback(this.reason);
+                    } else {
+                        // 将成功/失败回调存储起来
+                        this.successCallback.push(successCallback);
+                        this.failCallback.push(failCallback);
+                    }
+                })
+                return promise;
+            }
+        }
+
+        function resolvePromise(x, resolve, reject) {
+            if (x instanceof MyPromise) {
+                // promise 对象
+                x.then(resolve, reject);
+            } else {
+                // 普通值
+                resolve(x)
+            }
+        }
+
+        let p1 = new MyPromise((resolve, reject) => {
+            console.log('start');
+            resolve('success');
+        });
+
+        function other(){
+            return new MyPromise((resolve,reject) => {
+                resolve('other');
+            });
+        }
+
+        p1.then(v => {
+            console.log(1);
+            console.log(v);
+            return other();
+        }).then(v => {
+            console.log(2);
+            console.log(v);
+            return 200;
+        }).then(v => {
+            console.log(3);
+            console.log(v);
+        });
+
+    </script>
+</body>
+
+</html>

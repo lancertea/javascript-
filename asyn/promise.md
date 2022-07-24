@@ -124,6 +124,11 @@ console.log(3);
 ```	
 
 ##### then链
+- promise对象的then方法会返回一个全新的Promise对象
+- 后面的then方法就是在为上一个then返回的promise注册回调
+- 前面then方法中回调函数的返回值会作为后面then方法回调的参数
+- 如果回调中返回的是promise，那后面then方法的回调会等待它的结束
+
 THEN方法结束都会返回一个新的Promise实例（THEN链）
   [[PromiseStatus]]:'pending'
   [[PromiseValue]]:undefined
@@ -246,6 +251,16 @@ const someAsyncThing = function() {
     });
 // oh no [ReferenceError: x is not defined]
 // carry on 
+```	
+除此之外还可以全局注册unhandlerejection事件去捕获异常(不推荐)
+```javascript
+window.addEventListener('unhandlerejecttion',event=>{
+	const { reason, promise } = event;
+	console.log(reason,promise);
+	// reason =>  Promise失败原因，一般是一个错误对象
+	// promise => 出现异常的 Promise 对象
+	event.preventDefault()
+},false)
 ```		
 
 #### all
