@@ -88,6 +88,33 @@ g.next() // { value: 0, done: false }
 g.next() // { value: 1, done: false }
 g.next(true) // { value: 0, done: false } -1++=>0
 ```
+```javascript
+    function* helloWorldGenerator() {
+      let a = yield 'hello';
+      console.log(a);
+      let b = yield 'world';
+      console.log(b);
+      let c = yield 'ending';
+      console.log(c);
+    }
+
+    var hw = helloWorldGenerator();
+
+    hw.next(1)
+    // { value: 'hello', done: false }
+
+    hw.next(2)
+    // 2
+    // { value: 'world', done: false }
+
+    hw.next(3)
+    // 3
+    // { value: 'ending', done: false }
+
+    hw.next(4)
+    // 4
+    // { value: undefined, done: true }
+```
 
 for...of循环可以自动遍历 Generator 函数运行时生成的Iterator对象，且此时不再需要调用next方法。
 ```javascript
@@ -273,16 +300,18 @@ function * main(){
   }
 }
 
-function co (generator){
-const g = generator(); 
-function handleResult(res){
-  if(res.done) return;
-  res.value.then(data=>{
-    handleResult(g.next(data))
-  },err=>g.throw(err))
-}
-
-handleResult(g.next())
+function co(generator) {
+  const g = generator();
+  function handleResult(res) {
+    if (res.done) return Promise.resolve(res.value);
+    if (!(res.value instanceof Promise)) {
+      res.value = Promise.resolve(res.value);
+    }
+    return res.value.then(data => {
+      handleResult(g.next(data))
+    }, err => g.throw(err))
+  
+  return handleResult(g.next())
 }
 
 co(main)
