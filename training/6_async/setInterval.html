@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>setTimeout实现setInterval</title>
+</head>
+
+<body>
+    <script>
+        /*
+        setTimeout/setInterval
+        定时器指定的时间间隔，表示的是何时将定时器的代码添加到消息队列，而不是何时执行代码。
+        所以真正何时执行代码的时间是不能保证的，取决于何时被主线程的事件循环取到，并执行
+
+        setInterval指定的是“开始执行”之间的间隔，并不考虑每次任务执行本身所消耗的时间
+        所以如果执行任务耗时比指定的时间间隔长，下一次会立即执行（可能多个定时器连续执行）
+
+        setInterval还有一个特点，仅当队列中没有该定时器的任何其他代码实例时，才将定时器代码添加到队列中
+        这可能导致某些间隔会跳过
+        */
+        // setTimeout实现setInterval
+        function mySetInterval(fn, t) {
+            let timer = null;
+            function interval() {
+                fn();
+                timer = setTimeout(interval, t);
+            }
+            interval();
+            mySetInterval.cancel = () => {
+                clearTimeout(timer);
+            };
+        }
+        mySetInterval(() => {
+            console.log(1);
+        }, 1000);
+
+        setTimeout(() => {
+            mySetInterval.cancel();
+        }, 5000);
+
+        // setInterval实现setTimeout
+        const mySetTimeout = (fn, time) => {
+            const timer = setInterval(() => {
+                clearInterval(timer);
+                fn();
+            }, time);
+        };
+        mySetTimeout(() => {
+            console.log(2);
+        }, 1000)
+    </script>
+</body>
+
+</html>
