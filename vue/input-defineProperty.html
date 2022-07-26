@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>defineProperty</title>
+</head>
+
+<body>
+  姓名：<span id="spanName"></span>
+  <br>
+  <input type="text" id="inpName">
+  <script>
+    // 模拟 Vue 中的 data 选项
+    let data = {
+      name: 'aa'
+    }
+    // 模拟 Vue 的实例
+    let vm = {}
+    let spanName = document.getElementById('spanName'),
+      inpName = document.getElementById('inpName');
+    // 数据劫持：当访问或者设置 vm 中的成员的时候，做一些干预操作
+    Object.defineProperty(vm, 'name', {
+      enumerable: true,
+      // 可配置（可以使用 delete 删除，可以通过 defineProperty 重新定义）
+      configurable: true,
+      get() {
+        console.log('get: ', data.name)
+        return data.name
+      },
+      set(newValue) {
+        console.log('set: ', newValue)
+        if (newValue === data.name) return
+        data.name = newValue
+        observer();
+      }
+    })
+    function observer() {
+      spanName.textContent = data.name;
+      inpName.value = data.name;
+    }
+    // 测试
+    vm.name = 'zzz'
+    console.log(vm.name)
+    //v-model
+    inpName.oninput = function () {
+      vm.name = this.value;
+    }
+
+  </script>
+</body>
+
+</html>
