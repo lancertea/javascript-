@@ -1,9 +1,41 @@
 # 原型及原型链模式
-原型是function对象的一个属性，它定义了构造函数构造出来的实例对象的公共祖先，这些实例对象可以继承该原型的属性和方法，原型本身也是对象，自然也有其自己的原型，这样原型上还有原型的结构就构成了原型链
+原型是function对象的一个属性，它定义了构造函数构造出来的实例对象的原型对象，这些实例对象可以继承该原型的属性和方法，原型本身也是对象，自然也有其自己的原型，这样原型上还有原型的结构就构成了原型链
 
 对象有属性_proto_，指向该对象的构造函数的原型对象
 方法（函数）除了有_proto_，还有属性prototype，指向该方法的原型对象（用来存储实例公用属性和方法）
 原型对象有个constructor属性，指回其构造函数  
+
+```javascript
+function Person() {}
+
+const p = new Person()
+
+// 关键关系
+p.__proto__ === Person.prototype     // ✅ 实例的隐式原型指向构造函数的 prototype
+Person.prototype.constructor === Person // ✅ prototype 对象有 constructor 指回原函数
+
+```
+
+```plaintext
+[Constructor Function] Person
+        │
+        ▼
+  Person.prototype  <-- constructor --┐
+        ▲                             │
+        │                             │
+     p.__proto__ ---------------------┘
+        ▲
+        │
+      实例对象 p
+
+```
+
+| 名称            | 所属   | 用途                    |
+| ------------- | ---- | --------------------- |
+| `prototype`   | 构造函数 | 指定实例的原型，用来实现继承        |
+| `__proto__`   | 实例对象 | 实际指向构造函数的 `prototype` |
+| `constructor` | 原型对象 | 指向构造函数本身，用于反查实例由谁构造   |
+
 
 - 普通的函数
 - 类（自定义类和内置类）

@@ -62,6 +62,19 @@ var arr = ary1.concat(ary2).sort((a, b) => a.localeCompare(b)).map(item => {
 });
 console.log(arr);
 
+const merge =(ary1,ary2)=>{
+   let res = [], i = 0;
+   const len = ary2.length;
+   for(const prefix of ary2){
+    while(i < len && ary1[i].startsWith(prefix)){
+        res.push(ary1[i++]);
+    }
+    res.push(prefix)
+   }
+   return res;
+}
+console.log(merge(ary1,ary2))
+
 ary1 = ['D1', 'D2', 'A1', 'A2', 'C1', 'C2', 'B1', 'B2'];
 ary2 = ['B', 'A', 'D', 'C'];
 //=>合并后的数组为：['D1', 'D2','D', 'A1', 'A2','A', 'C1', 'C2','C' ,'B1', 'B2','B']
@@ -77,6 +90,24 @@ for (let i = 0; i < ary2.length; i++) {
     ary1.splice(n + 1, 0, item2);
 }
 console.log(ary1);
+
+const merge =(ary1,ary2)=>{
+const countMap = new Map(),sumMap = new Map(),res = [];
+ary2.forEach(item => {
+    countMap.set(item,ary1.filter(i=>i.startsWith(item)).length)
+})
+for(const item of ary1){
+    res.push(item)
+    const pre = item[0]
+    const count = sumMap.get(pre) || 0
+    sumMap.set(pre,count+1)
+    if(sumMap.get(pre) === countMap.get(pre)){
+        res.push(pre)
+    }
+}
+return res;
+}
+console.log(merge(ary1,ary2))
 ```
 
 ## 旋转数组
@@ -104,6 +135,26 @@ function rotate(arr, k) {
     if (k > arr.length)
         k = k % arr.length;
     return arr.slice(-k).concat(arr.slice(0, arr.length - k));
+}
+
+function rotate1(arr, k) {
+    const len = arr.length;
+    if (k <= 0 || k === len)
+        return arr;
+    if (k > len)
+        k = k % len;
+    const reverse = (arr,start,end)=>{
+        let i = start, j = end;
+        while(i<j){
+            [arr[i],arr[j]] = [arr[j],arr[i]]
+            i++;
+            j--;
+        }
+    }
+    reverse(arr,0,len-1)
+    reverse(arr,0,k-1)
+    reverse(arr,k,len-1)
+    return arr
 }
 
 let arr = [1, 2, 3, 4, 5, 6, 7];
