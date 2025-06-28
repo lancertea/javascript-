@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>占位符</div>
+    </div>
+    <script src="./renderer.js"></script>
+    <script>
+        //1. 通过h函数来创建一个vnode
+        const vnode = h('div', { class: 'aa', id: 'container' }, [
+            h('h1', null, 'Hello World'),
+            h('p', { class: 'bb' }, 'This is a paragraph.'),
+            h("button", { onClick: function () { console.log(1212) } }, "+1"),
+            h('ul', null, [
+                h('li', null, 'Item 1'),
+                h('li', null, 'Item 2'),
+                h('li', null, 'Item 3')
+            ])])
+
+        //2. 通过mount函数，将vnode挂载到div#app上
+        mount(vnode, document.querySelector('#app'))
+
+        //3. 通过h函数创建一个新的vnode 
+        const newVnode = h('div', { class: 'new-container' }, [
+            h('p', { class: 'new-paragraph' }, 'This is a new paragraph.'),
+            h("button", { onClick: function () { console.log(3434) } }, "+2"),
+            h('ul', null, [
+                h('li', null, 'New Item 1'),
+                h('li', null, 'New Item 2'),
+                h('li', null, 'New Item 3')
+            ])
+        ])
+           setTimeout(() => {
+            //3.1 通过patch函数将新的vnode更新到div#app上
+            patch(vnode, newVnode)
+        }, 2000)
+    </script>
+
+</body>
+
+</html>
