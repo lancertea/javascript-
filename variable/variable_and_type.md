@@ -127,6 +127,9 @@ console.log(obj['true']) //转换成string
     - this 值：确定当前执行的上下文
 - 当调用函数时，会创建新的执行上下文，这个执行上下文被推入调用栈。函数执行完后，这个执行上下文会从栈中弹出。执行上下文的栈式管理保证了代码执行的有序性
 
+#### JS参数传递是值传递还是引用传递
+JS只有值传递，引用类型传递的是地址的值
+
 ### 基本类型和基本包装类型的区别
 > 基本类型是简单数据值，不是对象。基本包装类型是对象类型，用于给基本类型提供方法。
 
@@ -350,7 +353,8 @@ console.log((new Boolean(false)).valueOf()); //false
 当计算生成的数大于 Number.MAX_VALUE 时，它将被赋予值 Number.POSITIVE_INFINITY，意味着不再有数字值。同样，生成的数值小于 Number.MIN_VALUE 的计算也会被赋予值 Number.NEGATIVE_INFINITY，也意味着不再有数字值。如果计算返回的是无穷大值，那么生成的结果不能再用于其他计算。Number.POSITIVE_INFINITY 的值为 Infinity。Number.NEGATIVE_INFINITY 的值为 -Infinity。  
 可以对任何数调用 isFinite() 方法，以确保该数不是无穷大,这个函数在参数位于最小最大数值之间时会返回true
 
-- NaN，表示非数（Not a Number）任何涉及NaN的操作都会返回NaN.NaN与任何值都不相等，包括NaN本身  
+- NaN，表示不是一个有效数字（Not a Number），但它本身仍然属于Number类型。通常是非法数学运算产生的
+- 任何涉及NaN的操作都会返回NaN.NaN与任何值都不相等，包括NaN本身  
 可以对任何数调用 isNaN() 方法，以确定这个数是否“不是数值”。
 ES5时，isNaN() 在接收到一个值后，会尝试将其转换为数值，不能转换的返回true（相当于调用了Number()）
 ```javascript

@@ -22,28 +22,36 @@
             }
         }
 
-        let f1=new fox('zz',3);
+        let f1 = new fox('zz', 3);
         console.log(getType(f1));
         console.log(f1.constructor);//fox
 
-        let obj={}
+        let obj = {}
         console.log(obj.constructor);
         console.log(Object.prototype.toString.call(Symbol));//'[object Function]'
         console.log(Object.prototype.toString.call(Symbol()));//'[object Symbol]'
-        
+
 
         function getType(obj) {
             if (typeof obj !== 'object') {
+                //string boolean number symbol undefined function 
                 return (typeof obj);
             }
             //判断可以枚举标准内置类
-            return Object.prototype.toString.call(obj).slice(8, -1);
+            return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
+        }
+
+        function getType1(value) {
+            return Object.prototype.toString
+                .call(value)
+                .slice(8, -1)
+                .toLowerCase()
         }
         //自定义类型可以暂时用函数的name属性获取,但是要注意实例自己可能也有name属性的情况
         console.log(f1.name);//'zz'
         console.log(f1.constructor.name);//'fox'
 
-        
+
     </script>
 </body>
 
