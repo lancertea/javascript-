@@ -802,14 +802,15 @@ function f (x, y = 7, z = x + y) {
 ### [ES5实现默认参数](https://github.com/lancertea/javascript-/blob/master/ES6/ES6_with_ES5/default_parameter.html)
 
 ### 箭头函数和普通函数的区别
-1. 箭头函数语法上比普通函数更加简洁（ES6中每一种函数都可以使用形参赋默认值和剩余运算符）
-2. 普通function的声明在变量提升中是最高的，箭头函数的创建都是函数表达式方式（变量=函数），这种模式下，不存在变量提升，函数只能在创建完成后被执行（也就是创建的代码之后执行）
+1. 箭头函数语法更简洁，特别适合写 **回调函数**（ES6中每一种函数都可以使用形参赋默认值和剩余运算符）
+2. 普通函数的函数声明会变量提升，箭头函数的创建都是函数表达式方式（变量=函数），只能在创建完成后被执行
 3. 箭头函数没有自己的this，它里面的this是继承函数所处上下文中的this（使用call/apply等任何方式都无法改变this的指向）
 4. 箭头函数中没有arguments（类数组），但是可以基于...arg扩展运算符获取实参集合
 5. 箭头函数不能用于构造函数，不能用new关键字去调用
-- 没有自己的 this，无法调用 call，apply
-- 没有 prototype 属性 ，而 new 命令在执行时需要将构造函数的 prototype 赋值给新的对象的__proto__
+- 没有自己的 this
+- 没有 prototype、constructor，而 new 命令在执行时需要将构造函数的 prototype 赋值给新的对象的__proto__
 6. 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数
+
 ```javascript
 function foo() {
   setTimeout(() => {

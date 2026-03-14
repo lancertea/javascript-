@@ -1,4 +1,258 @@
 # this
+## 为什么需要 this
+JavaScript 的 **词法作用域（Lexical Scope）** 决定了：函数内部访问变量 → 取决于函数定义的位置，而不是函数被哪个对象调用，这样就没办法实现在对象内部方法中使用对象内部属性的需求， this**让函数在运行时能够知道自己是被哪个对象调用的，从而访问该对象的数据。**
+
+例如：
+
+```javascript
+function foo() {
+  console.log(this.name);
+}
+
+const obj = {
+  name: "Tom",
+  foo
+};
+
+obj.foo();
+```
+
+如果没有 `this`，函数内部就无法知道 **当前是哪个对象调用了它**。
+
+## this 的本质
+this 是执行上下文（Execution Context）中的一个属性。除了 **箭头函数**，this 的值在函数调用时确定，而不是在函数定义时确定
+
+
+## this 的绑定规则（优先级）
+new绑定 > 显式绑定 > 隐式绑定 > 默认绑定
+
+### new 绑定
+```javascript
+function Foo() {
+  this.a = 1;
+}
+
+const obj = new Foo();
+```
+
+`new` 做了四件事：
+
+1️⃣ 创建新对象
+2️⃣ 新对象的 `__proto__` 指向构造函数 `prototype`
+3️⃣ `this` 指向新对象
+4️⃣ 执行函数代码
+
+返回规则：
+
+```text
+如果构造函数返回对象 → 返回该对象
+如果返回原始值 → 返回新对象
+```
+
+例如：
+
+```javascript
+function Foo(){
+  this.a = 1
+  return {b:2}
+}
+
+new Foo() // {b:2}
+```
+
+---
+
+### 显式绑定
+
+```javascript
+foo.call(obj)
+foo.apply(obj)
+foo.bind(obj)
+```
+
+特点：
+
+```text
+this 由第一个参数决定
+```
+
+如果传：
+
+```javascript
+foo.call(null)
+```
+
+非严格模式：
+
+```text
+this → window
+```
+
+严格模式：
+
+```text
+this → null
+```
+
+---
+
+###  隐式绑定
+
+例如：
+
+```javascript
+obj.foo()
+```
+
+规则：
+
+```text
+谁调用函数，this 就指向谁
+```
+
+例如：
+
+```javascript
+const obj = {
+  a:1,
+  foo(){
+    console.log(this.a)
+  }
+}
+
+obj.foo() // this = obj
+```
+
+复杂一点：
+
+```javascript
+obj.b.a.foo()
+```
+
+调用点是：
+
+```text
+a.foo()
+```
+
+所以：
+
+```text
+this → a
+```
+
+---
+
+### 默认绑定
+
+直接调用：
+
+```javascript
+foo()
+```
+
+非严格模式：
+
+```text
+this → window
+```
+
+严格模式：
+
+```text
+this → undefined
+```
+
+---
+
+### 关于自执行函数
+
+```javascript
+(function(){
+ console.log(this)
+})()
+```
+
+非严格模式：
+
+```text
+window
+```
+
+严格模式：
+
+```text
+undefined
+```
+
+### 回调函数
+回调函数的 this 取决于调用方式
+
+例如：
+
+```javascript
+setTimeout(function(){
+  console.log(this)
+})
+```
+
+浏览器：
+
+```text
+window
+```
+
+但：
+
+```javascript
+obj.method(callback)
+```
+
+就可能不同。
+
+---
+
+### 箭头函数
+
+箭头函数没有自己的 this，它的 `this` 来自外层作用域，在定义时确定
+
+```javascript
+const obj = {
+  a:1,
+  foo(){
+    const bar = () => {
+      console.log(this.a)
+    }
+    bar()
+  }
+}
+
+obj.foo() // 1
+```
+
+### DOM 事件中的 this
+
+```javascript
+button.onclick = function(){
+ console.log(this)
+}
+```
+
+这里：
+
+```text
+this → 触发事件的元素
+```
+
+等价于：
+
+```text
+event.currentTarget
+```
+
+**this 是 JavaScript 执行上下文中的一个属性，用来表示函数运行时的调用对象。this 的值是在函数调用时确定的，而不是在函数定义时确定的。其绑定规则按照优先级依次为：new 绑定、显式绑定（call/apply/bind）、隐式绑定（对象调用）、默认绑定（函数直接调用）。箭头函数没有自己的 this，它的 this 继承自外层作用域。**
+
+
 https://mp.weixin.qq.com/s/hYm0JgBI25grNG_2sCRlTA
 为什么有this:
 基于JavaScript的作用域机制，没办法实现在对象内部的方法中使用对象内部的属性的需求
