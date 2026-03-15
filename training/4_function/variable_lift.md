@@ -111,6 +111,7 @@ f = function () {return true;}
 g = function () {return false;}
 ~function () {
     if (g() && [] == ![]) {
+        //g 在块级已声明但未初始化
         f = function () {return false;}
         function g() {return true;}
     }
@@ -193,5 +194,17 @@ fn()(3);
 fn()(4);
 f(5);
 console.log(i);
+```
+
+```javascript
+var a = 100
+
+function foo() {
+  console.log(a)
+  return
+  var a = 200
+}
+
+foo()
 ```
 
