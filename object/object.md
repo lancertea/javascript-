@@ -67,12 +67,18 @@ oldMan.name
 
 1. 字面量创建
 2. new 关键字创建
+```javascript
+let obj1 = { a: 1, b: 2 };
+let obj2 = Object(obj1);
+console.log(obj1 == obj2); //true
+console.log(obj1 === obj2); //true
+```
 
 ```javascript
 let obj1 = { a: 1, b: 2 };
 let obj2 = new Object(obj1);
-console.log(obj1 == obj2); //true
-console.log(obj1 === obj2); //true
+console.log(obj1 == obj2); //false
+console.log(obj1 === obj2); //false
 ```
 
 ```javascript
@@ -101,7 +107,7 @@ console.log(P2 === P2.prototype.constructor); //true
 function O(name, num) {
   this.name = name;
   this.num = num;
-  //这样写算什么
+  //没有作用
   gender: "woman";
 }
 O.prototype.age = 18;
@@ -163,6 +169,13 @@ console.log(Reflect.ownKeys(O)); //  ["length", "name", "arguments", "caller", 
 console.log(Reflect.ownKeys(o1)); //[ "name", "num" ]
 console.log(Reflect.ownKeys(O.prototype)); // [ "constructor", "age", "arr" ]
 ```
+| 方法                             | 是否只看对象自身 | 是否看原型链 | 是否只看可枚举 | 是否包含 Symbol |
+| ------------------------------ | -------: | -----: | ------: | ----------: |
+| `for...in`                     |        否 |      是 |       是 |           否 |
+| `Object.keys()`                |        是 |      否 |       是 |           否 |
+| `Object.getOwnPropertyNames()` |        是 |      否 |       否 |           否 |
+| `Reflect.ownKeys()`            |        是 |      否 |       否 |           是 |
+
 
 3. Object.create(proto,[propertiesObject])
    创建一个新对象，使用现有的对象 proto 来提供新创建的对象的**proto**（充当原型）
@@ -183,7 +196,7 @@ var o1 = Object.create(P, {
   },
 });
 
-console.log(o1); //Object {}
+console.log(o1); //Object {age: 18}
 console.log(o1.name); //'o1'
 console.log(o1.age); //18
 o1.name = "oo";

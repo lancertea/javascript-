@@ -14,6 +14,17 @@ var:variable(可变的)
 
 const约束的是变量保存的地址不能改变，如果想让对象不能修改用Object.freeze()
 
+Global Environment
+│
+├── Object Environment Record
+│      ↓
+│    window 对象
+│    (var / function)
+│
+└── Declarative Environment Record
+       ↓
+     let / const / class
+
 ### 变量提升
 - 什么是变量提升
 在 JavaScript 代码执行过程中，JavaScript 引擎把变量的声明部分和函数的声明部分提升到代码开头的 “行为”。变量被提升后，会给变量设置undefined默认值。
