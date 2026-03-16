@@ -30,7 +30,8 @@
         ]),
         arr: ['a', 'b', 'c'],
         c1,
-        joe
+        joe,
+        c2: c1
     };
     let cloneObj = deepClone(obj);
     console.log(cloneObj);
@@ -113,23 +114,115 @@
         return res;
     }
 
-    function deepClone1(obj, hash = new WeakMap()) {
-        if (obj === null) return obj; // 如果是null或者undefined我就不进行拷贝操作
+    //面试版本
+    function deepClone(obj, hash = new WeakMap()) {
+        if (obj === null || typeof obj !== "object") return obj;
         if (obj instanceof Date) return new Date(obj);
         if (obj instanceof RegExp) return new RegExp(obj);
-        // 可能是对象或者普通的值  如果是函数的话是不需要深拷贝
-        if (typeof obj !== "object") return obj;
-        // 是对象的话就要进行深拷贝
-        if (hash.get(obj)) return hash.get(obj);
-        let cloneObj = new obj.constructor();
-        // 找到的是所属类原型上的constructor,而原型上的 constructor指向的是当前类本身
+        if (hash.has(obj)) return hash.get(obj);
+
+        const cloneObj = Array.isArray(obj)
+            ? []
+            : Object.create(Object.getPrototypeOf(obj));
+
         hash.set(obj, cloneObj);
-        for (let key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            // 实现一个递归拷贝
+
+        Reflect.ownKeys(obj).forEach((key) => {
             cloneObj[key] = deepClone(obj[key], hash);
-          }
-        }
+        });
+
         return cloneObj;
-      }
+    }
+
+    function deepClone(obj, hash = new WeakMap()) {
+        // 1. 基本类型 / 函数 / null 直接返回
+        if (obj === null || typeof obj !== "object") {
+            return obj;
+        }
+
+        // 2. 处理循环引用
+        //const obj = {};
+        // obj.self = obj;
+        if (hash.has(obj)) {
+            return hash.get(obj);
+        }
+
+        // 3. 获取对象类型
+        const type = Object.prototype.toString.call(obj);
+
+        // 4. 特殊对象处理
+        switch (type) {
+            case "[object Date]":
+                return new Date(obj.getTime());
+
+            case "[object RegExp]":
+                return new RegExp(obj.source, obj.flags);
+
+            case "[object Map]": {
+                const result = new Map();
+                hash.set(obj, result);
+                obj.forEach((value, key) => {
+                    result.set(deepClone(key, hash), deepClone(value, hash));
+                });
+                return result;
+            }
+
+            case "[object Set]": {
+                const result = new Set();
+                hash.set(obj, result);
+                obj.forEach((value) => {
+                    result.add(deepClone(value, hash));
+                });
+                return result;
+            }
+
+            case "[object ArrayBuffer]":
+                return obj.slice(0);
+
+            case "[object Error]": {
+                const result = new obj.constructor(obj.message);
+                hash.set(obj, result);
+                result.name = obj.name;
+                result.stack = obj.stack;
+                return result;
+            }
+
+            case "[object Boolean]":
+            case "[object Number]":
+            case "[object String]":
+            case "[object Symbol]":
+            case "[object BigInt]":
+                return Object(obj.valueOf());
+        }
+
+        // 5. 创建克隆对象，保留原型
+        const cloneObj = Array.isArray(obj)
+            ? []
+            : Object.create(Object.getPrototypeOf(obj));
+
+        hash.set(obj, cloneObj);
+
+        // 6. 获取所有自身键：包括
+        // - 可枚举
+        // - 不可枚举
+        // - Symbol 键
+        const keys = Reflect.ownKeys(obj);
+
+        // 7. 拷贝每个属性，并尽量保留属性描述符
+        keys.forEach((key) => {
+            const desc = Object.getOwnPropertyDescriptor(obj, key);
+
+            if (!desc) return;
+
+            // 数据属性
+            if ("value" in desc) {
+                desc.value = deepClone(desc.value, hash);
+            }
+
+            // 访问器属性（get/set）直接复用
+            Object.defineProperty(cloneObj, key, desc);
+        });
+
+        return cloneObj;
+    }
 }
