@@ -71,6 +71,9 @@
 		// add(1, 2)(3); //6
 		// add(1, 2, 3); //6
 
+		//fn.length：
+		// 函数“形参”的个数，但只统计第一个有默认值参数之前的参数，不包含剩余参数 ...args
+
 		function currying(fn, length) {
 			length = length || fn.length;
 			return function (...args) {

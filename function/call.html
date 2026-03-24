@@ -26,12 +26,31 @@ fn.call(null);
 //=>this:window  严格下是null（第一个参数传递的是null/undefined/不传，非严格模式下this指向window，
 //严格模式下传递的是谁this就是谁，不传this是undefined）
 
+// 给所有的函数添加一个hycall的方法
+Function.prototype.hycall = function(thisArg, ...args) {
+  // 在这里可以去执行调用的那个函数(foo)
+  // 问题: 得可以获取到是哪一个函数执行了hycall
+  // 1.获取需要被执行的函数
+  var fn = this
+
+  // 2.对thisArg转成对象类型(防止它传入的是非对象类型)
+  thisArg = (thisArg !== null && thisArg !== undefined) ? Object(thisArg): window
+
+  // 3.调用需要被执行的函数
+  thisArg.fn = fn
+  var result = thisArg.fn(...args)
+  delete thisArg.fn
+
+  // 4.将最终的结果返回出去
+  return result
+}
+
         // bind()、call()、apply()方法在Function.prototype上
-        Function.prototype.myCall = function (context) { //context指向第一个参数，即this指向的对象
+        Function.prototype.myCall = function (thisArg, ...args) { 
             if (typeof this !== 'function') {
                 throw new TypeError('not function')
             }
-            context = context || window
+            thisArg = (thisArg !== null && thisArg !== undefined) ? Object(thisArg): window
             //***************************************************************************************************
             // 这三步也可以这样理解：
             // this指的就是调用call 方法的函数
@@ -39,12 +58,11 @@ fn.call(null);
             // 把call方法传入的其他的参数传入到属性fn指代的函数中，直接调用函数
             // f.myCall(obj)   就是将f方法添加到obj的属性中，f中的this 指向 obj；即 obj.f()
 
-            context.fn = this; //this指向的是当前的函数（Function实例）
-            //[...arguments]将类数组变成数组
-            let arg = [...arguments].slice(1); //获取除了this指向对象以外的参数，空数组slice后返回仍是空数组
-            let result = context.fn(...arg); //隐式绑定，当前函数的this指向context
+            const key = Symbol('fn')
+            thisArg[key] = this; //this指向的是当前的函数（Function实例）
+            const result = thisArg[key](...args); //隐式绑定，当前函数的this指向context
             //***************************************************************************************************
-            delete context.fn
+            delete thisArg[key]
             return result
         }
 

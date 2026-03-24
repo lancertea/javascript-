@@ -285,7 +285,8 @@ document.addEventListener("DOMContentLoaded", function() {
 ```
 外部脚本：
 1. async
-浏览器遇到 async 脚本时不会阻塞页面渲染，而是直接下载然后运行。这样脚本的运行次序就无法控制，只是脚本不会阻止剩余页面的显示。当页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本时，async是最理想的选择
+浏览器遇到 async 脚本时不会阻塞HTML页面渲染，而是直接下载然后运行。这样脚本的运行次序就无法控制，只是脚本不会阻止剩余页面的显示。当页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本时，async是最理想的选择
+- 很多SDK/埋点/第三方脚本用这个
 ```HTML
 <!-- 三者的调用顺序是不确定的 -->
 <script async src="js/vendor/jquery.js"></script>
@@ -295,7 +296,8 @@ document.addEventListener("DOMContentLoaded", function() {
 <script async src="js/script3.js"></script>
 ```
 2. defer
-脚本会被延迟到整个页面都解析完毕后再运行。设置该属性相当于告诉浏览器立即下载，但延迟执行
+脚本会被延迟到整个页面都解析完毕后再运行。设置该属性相当于告诉浏览器立即下载，但延迟执行（等DOM解析完再执行）
+- 适合主业务JS
 ```HTML
 <!-- 脚本将按照在页面中出现的顺序加载和运行 -->
 <script defer src="js/vendor/jquery.js"></script>

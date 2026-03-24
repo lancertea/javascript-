@@ -11,23 +11,18 @@
     <script>
 
         // bind()、call()、apply()方法在Function.prototype上
-        Function.prototype.myApply = function (context) {
-            if(typeof this!=='function'){
-                throw new TypeError('not function');
-            }
-
-            context=context||window;
-            context.fn=this;
-            let res;
-            if(arguments[1]){
-            res=context.fn(...arguments[1]);
-            }
-            else{
-            res=context.fn();
-            }
-            delete context.fn;
-            return res;
+       Function.prototype.myApply = function(thisArg, argArray){
+        if(typeof this !== 'function'){
+            throw new TypeError('not function')
         }
+        thisArg = (thisArg !== undefined) && (thisArg !== null) ? Object(thisArg) : window
+        const key = Symbol('fn')
+        thisArg[key] = this
+        argArray = argArray || []
+        const res = thisArg[key](...argArray)
+        delete thisArg[key]
+        return res
+       }
 
         function fn1(a, b, c) {
             console.log('this', this)
