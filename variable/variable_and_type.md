@@ -118,7 +118,7 @@ console.log(obj['true']) //转换成string
 - 特点：
     - 空间较大但运行效率相对较低
     - 存储的值大小不固定
-    - 需要手动清理(通过垃圾回收机制)
+    - 由垃圾回收机制自动管理内存
 3. 执行上下文(Execution Context)
 - 是 JavaScript 代码执行的环境
 - 包含三个主要部分：
@@ -196,12 +196,12 @@ console.log(c() === undefined); //true
 null:用于表示有这个变量，但是它当前没有值（对象的占位符,空对象指针）。或主动释放一个变量引用的对象，表示一个变量不再指向任何对象地址
 
 区别联系：
-- undefined 实际上是从null派生来的，因此 ECMAScript 把它们定义为相等的（==）
+- undefined 和 null 是两个独立的原始值；仅在宽松相等（==）比较时会被判定为相等
 - 两者均为基本类型（原始值），保存在栈中，但数据类型不同（typeof返回不同）
 - 转为布尔类型均为false，但转为数值类型不同，undefined:NaN,null:0
-- 都没有valueOf()和toString()方法，但可通过String()方法转为字符串类型
+- 不能直接在 null/undefined 上调用实例方法（会报错），但可通过String()方法转为字符串类型
 ```javascript
-//值 undefined 实际上是从值 null 派生来的，因此 ECMAScript 把它们定义为相等的。
+//undefined 和 null 是不同的值；在宽松相等比较中它们会被判定为相等。
 console.log(undefined == null); //true
 console.log(undefined === null); //false
 //当使用完一个比较大的对象时，需要对其进行释放内存时，设置为 null。
@@ -216,7 +216,7 @@ console.log(Boolean(null)); //false
 console.log(Number(undefined)); //NaN
 console.log(Number(null)); //0
 
-//都没有valueOf()和toString()方法，但可通过String()方法转为字符串类型
+//不能在 null/undefined 上直接调用方法，但可通过 String() 进行转换
 console.log(String(undefined)); //'undefined'
 console.log(String(null)); //'null'
 ```
@@ -343,14 +343,14 @@ console.log((new Boolean(false)).valueOf()); //false
 ### Number类型
 这种类型使用IEEE754格式来表示整数和浮点数值     
 - 整数也可以被表示为八进制（以 8 为底）或十六进制（以 16 为底）的字面量。
-1. 八进制字面量的首数字必须是 0，其后的数字可以是任何八进制数字（0-7），若数值超出范围，被当做十进制来解析
+1. 现代 JavaScript 中八进制字面量使用 0o/0O 前缀（如 0o17），旧式前导 0 写法已不推荐
 2. 十六进制字面量的前两位必须是 0x,然后是任意的十六进制数字（0 到 9 和 A 到 F）,大小写不敏感
 3. 尽管所有整数都可以表示为八进制或十六进制的字面量，但所有数学运算返回的都是十进制结果  
 - 浮点数必须包括小数点和小数点后的一位数字,也可用科学计数法表示浮点数  浮点数e/E(正整数/负整数)
 
 特殊的Number值:
 - Number.MAX_VALUE和 Number.MIN_VALUE：定义了 Number 值集合的外边界
-当计算生成的数大于 Number.MAX_VALUE 时，它将被赋予值 Number.POSITIVE_INFINITY，意味着不再有数字值。同样，生成的数值小于 Number.MIN_VALUE 的计算也会被赋予值 Number.NEGATIVE_INFINITY，也意味着不再有数字值。如果计算返回的是无穷大值，那么生成的结果不能再用于其他计算。Number.POSITIVE_INFINITY 的值为 Infinity。Number.NEGATIVE_INFINITY 的值为 -Infinity。  
+当计算生成的数大于 Number.MAX_VALUE 时，会得到 Infinity；小于 -Number.MAX_VALUE 时，会得到 -Infinity。Number.MIN_VALUE 是最小的正数（约 5e-324），不是最小负数；正数小于它通常会下溢为 0。如果计算返回的是无穷大值，那么生成的结果不能再用于有限数值运算。Number.POSITIVE_INFINITY 的值为 Infinity。Number.NEGATIVE_INFINITY 的值为 -Infinity。
 可以对任何数调用 isFinite() 方法，以确保该数不是无穷大,这个函数在参数位于最小最大数值之间时会返回true
 
 - NaN，表示不是一个有效数字（Not a Number），但它本身仍然属于Number类型。通常是非法数学运算产生的

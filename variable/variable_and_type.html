@@ -56,7 +56,7 @@
         };
         console.log(obj.valueOf() === obj); // true
 
-        //RegExp:返回正则表达式字面量的字符串表示
+        //RegExp: valueOf() 返回正则对象本身（控制台通常显示为 /ab/g）
         console.log(/ab/g.valueOf()); ///ab/g
 
         // Date：当前时间距1970年1月1日午夜的毫秒数
@@ -271,18 +271,17 @@
         console.log(parseInt('0xa')); //10
         console.log(parseInt('0Xaw'));//10
         
-        //如果输入的 string以 "0"（0）开头， radix被假定为8（八进制）或10（十进制）。具体选择哪一个radix取决于实现。
+        //现代 JavaScript 中，parseInt('09') 与 parseInt('011') 默认按十进制解析（非早期实现的八进制歧义行为）。
         console.log(parseInt('09'));//9
         console.log(parseInt('011'));//11
         
         console.log(parseInt('AF', 16)); //175
-        //JS默认0开头的数字是8进制，所以021对应的十进制是17
-        console.log(parseInt(021,8));//15  
+        //使用字符串演示 parseInt 的基数参数行为，避免旧式八进制字面量语法错误
+        console.log(parseInt('17',8));//15
         console.log(parseInt('021',8));//17
 
-        //如果 parseInt 遇到的字符不是指定 radix 参数中的数字，它将忽略该字符以及所有后续字符，
-        //并返回到该点为止已解析的整数值。
-        console.log('546',2);//NaN
+        //如果 parseInt 遇到不属于指定 radix 的字符，会停止解析并返回已解析部分；首字符不合法则返回 NaN。
+        console.log(parseInt('546',2));//NaN
         
 
         //parseFloat(string)

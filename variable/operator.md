@@ -63,7 +63,7 @@ array.some(function(currentValue,index,arr), thisValue)
 首先会判断两者类型是否相同。相同的话就是比大小了  
 类型不相同的话，就会进行类型转换：  
 1. 先判断是否在对比 null 和 undefined，是的话就会返回 true
-2. 如果两者是类型不同的基本类型，就将两者都先转换为number，再判断。 注意：flase->0  true->1
+2. 如果两者是类型不同的基本类型，就将两者都先转换为number，再判断。 注意：false->0  true->1
 3. 比较相等性之前，不能将null和undefined转换成其他任何值(null==undefined)
 4. 判断其中一方是否为 object 且另一方为 string、number 或者 symbol，是的话就会把 object转为原始类型再进行判断  
 '1' == { a: 'b' } ->'1' == '[object Object]'  
@@ -75,7 +75,7 @@ console.log(null == undefined); //true
 console.log(1 == '1'); //true
 console.log(1 == 'b'); //false  "b"转换为number为NaN
 //判断其中一方是否为 boolean，是的话就会把 boolean 转为 number 再进行判断
-//注意：flase->0  true->1
+//注意：false->0  true->1
 console.log(false == 0); //true
 console.log(true == 1); //true
 console.log(true == 2); //false
@@ -128,7 +128,7 @@ console.log(NaN != NaN); //true
 console.log(3+[20])//"320"
 //3已经是基本类型number，([20]).valueOf()=>[20]，还是引用类型，所以调用([20]).toString()=>'20'，变为3+'20'=>'320'
 console.log(3==[20])//false
-// 同上，([20]).toString()=>'20'，Number('20')=>NaN
+// 同上，([20]).toString()=>'20'，Number('20')=>20，所以比较 3==20 为 false
 ```
 
 #### 赋值操作
@@ -175,7 +175,15 @@ console.log(b.x)；//综上所述，这个结果是{n:2}
 
 ### ===   
 不转类型，直接判断类型和值是否相同。 但是 NaN === NaN 还是false  
-注意和Set的区别，Set判断有没有重复键的时候用的是"==="，不会进行类型转换，但是NaN===NaN
+注意和Set的区别，Set判断重复值使用的是 SameValueZero（不做类型转换，且认为 NaN 和 NaN 相等）
+```javascript
+// === 的行为
+NaN === NaN // false
+
+// Set 的行为
+const s = new Set([NaN, NaN])
+console.log(s.size) // 1
+```
 
 ### 何时使用 ===  何时使用 == ？
 一般我们都应该使用===，在代码中obj.a==null代表obj.a===null || obj.a===undefined，所以可以在判断对象中某个属性是否有值时用==null，其他地方都使用===

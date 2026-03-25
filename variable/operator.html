@@ -115,7 +115,7 @@
         如果两个操作数都是数值，其规则为：
         1.如果一个操作数为NaN，则结果为NaN
         2.Infinity-Infinity结果为NaN ，-Infinity-(-Infinity)结果为NaN，Infinity-(-Infinity)结果为Infinity，-Infinity-Infinity结果为-Infinity
-        3.+0-(+0)结果为+0，(-0)-(-0)结果为+0，(+0)-(-0)结果为-0
+        3.+0-(+0)结果为+0，(-0)-(-0)结果为+0，(+0)-(-0)结果为+0
 
         如果有一个操作数为字符串、布尔值、null或undefined，则现在后台调用Number()转型函数将其转换为数值再根据前面规则计算
         如果一个操作数是对象，则调用对象的valueOf()方法以取得该对象的数值，如果得到的结果是NaN，则减法结果为NaN。
