@@ -356,17 +356,17 @@ console.log(c.get('a')) //100
 ```javaScript
 // 正则验证字符串
 // before
-funciton check(reg,txt){
-    return reg,test(txt);
+function check(reg,txt){
+    return reg.test(txt);
 }
 
 check(/\d+/g,'test') //false
 check(/[a-z]+/g, 'test') //true
 
 // 需要复用第一个参数
-funciton curryingCheck(reg){
-    return funciton(txt){
-         return reg,test(txt);
+function curryingCheck(reg){
+    return function(txt){
+         return reg.test(txt);
     }
 }
 
@@ -378,13 +378,13 @@ hasLetter('2121') //false
 2. 提前返回
 ```javaScript
 // eg: 解决原生方法在现代浏览器和IE之间的兼容问题
-const addEvent = (funciton(){
+const addEvent = (function(){
     if(window.addEventListener){
-        return funciton(ele, type, fn, isCapture){
+        return function(ele, type, fn, isCapture){
             ele.addEventListener(type,fn,isCapture);
         }
     } else if(window.attachEvent){
-        return funciton(ele, type, fn){
+        return function(ele, type, fn){
             ele.attachEvent('on' + type, fn);
         }
     }
@@ -394,10 +394,10 @@ const addEvent = (funciton(){
 3. 延迟计算/运行
 ```javaScript
 // js的bind实现机制
-Function.prototype.bind = funciton (context, ...params){
+Function.prototype.bind = function (context, ...params){
     let self = this;
     context = context || window;
-    return funciton(){
+    return function(){
         return self.apply(context,params);
     }
 }
@@ -447,7 +447,7 @@ setTimeout(bar, 100);
 ```javaScript
 var tracker = (function () {
 var accessCounter = 0;
-var adAcce  ss = [];
+var adAccess = [];
 // 模块化  module.exports={}  用这句    替换return
     return {
     increaseAccessCounter: function () {

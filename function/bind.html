@@ -15,16 +15,22 @@
             if (typeof this !== 'function') {
                 throw new TypeError('not function')
             }
+            const fn = this
             thisArg = (thisArg !== undefined) && (thisArg !== null) ? Object(thisArg) : window
 
             return function(...props){
                 const key = Symbol('fn')
-                thisArg[key] = this
+                thisArg[key] = fn
                 const res = thisArg[key](...args,...props)
                 delete thisArg[key]
                 return res
             }
 
+        }
+        function fn1(a, b, c) {
+            console.log('this', this)
+            console.log(a, b, c)
+            return 'this is fn1'
         }
 
         const fn2 = fn1.myBind({

@@ -25,7 +25,7 @@ const todos = {
   learn: ['语文','数学','外语'],
   work: ['喝茶'],
   [Symbol.iterator]: function () {
-    const all = [...life,...learn,...work];
+    const all = [...this.life, ...this.learn, ...this.work];
     let index = 0;
     return {
       next:function(){
@@ -46,7 +46,7 @@ const todos = {
   learn: ['语文','数学','外语'],
   work: ['喝茶'],
   [Symbol.iterator]: function * () {
-    const all = [...life,...learn,...work];
+    const all = [...this.life, ...this.learn, ...this.work];
     for(const item of all){
       yield item
     }

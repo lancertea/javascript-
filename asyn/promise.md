@@ -254,7 +254,7 @@ const someAsyncThing = function() {
 ```	
 除此之外还可以全局注册unhandlerejection事件去捕获异常(不推荐)
 ```javascript
-window.addEventListener('unhandlerejecttion',event=>{
+window.addEventListener('unhandledrejection',event=>{
 	const { reason, promise } = event;
 	console.log(reason,promise);
 	// reason =>  Promise失败原因，一般是一个错误对象

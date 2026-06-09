@@ -9,20 +9,20 @@ let name='hope';
 let age=18;
 let sex='woman';
 
-let name='jack';
-let age=23;
-let sex='man';
+let name2='jack';
+let age2=23;
+let sex2='man';
 
 //单例：
 let beautyGirl={
     name:'hope',
     age:18,
-    sex='woman'
+    sex:'woman'
 };
 let oldMan={
     name:'jack',
     age:23,
-    sex='man'
+    sex:'man'
 };
 ```
 
@@ -42,7 +42,7 @@ namespace.name
 namespace.fn();
 ```
 
-## 工场模式
+## 工厂模式
 
 批量化生产：把实现某个功能的代码进行封装，后期在想实现这个功能，直接执行函数
 
@@ -73,12 +73,17 @@ let obj2 = Object(obj1);
 console.log(obj1 == obj2); //true
 console.log(obj1 === obj2); //true
 ```
+Object(value) 的规则是：
+| value 类型                   | 返回结果             |
+| -------------------------- | ---------------- |
+| 原始值（number/string/boolean） | 包装成对象            |
+| **对象**                     | **直接返回原对象（不拷贝）** |
 
 ```javascript
 let obj1 = { a: 1, b: 2 };
 let obj2 = new Object(obj1);
-console.log(obj1 == obj2); //false
-console.log(obj1 === obj2); //false
+console.log(obj1 == obj2); //true
+console.log(obj1 === obj2); //true
 ```
 
 ```javascript
@@ -179,7 +184,7 @@ console.log(Reflect.ownKeys(O.prototype)); // [ "constructor", "age", "arr" ]
 
 3. Object.create(proto,[propertiesObject])
    创建一个新对象，使用现有的对象 proto 来提供新创建的对象的**proto**（充当原型）
-   proto 是 null 或者原始包装对象，否则会报错
+   proto 只能是 null 或对象，否则会报错
    propertiesObject 为属性描述符对象
 
 ```javascript
@@ -238,7 +243,7 @@ Object.create(proto[, propertiesObject])
 ```javascript
 // 用于创建一个新对象,被创建的对象继承另一个对象(o)的原型
 function createObj(o) {
-  //传入的参数o为返回实例的__porto__,也就是实例构造函数的显示原型
+  //传入的参数o为返回实例的__proto__，也就是实例构造函数的显式原型
   function F() {} //构造函数
   F.prototype = o;
   return new F(); //返回实例
@@ -266,7 +271,7 @@ const source2 = { c: 3 };
 
 const obj = Object.assign(target, source1, source2);
 console.log(target); // {a:1, b:2, c:3}
-console.log(obj === target); // false
+console.log(obj === target); // true
 ```
 
 如果只有一个参数，Object.assign()会直接返回该参数。
@@ -277,7 +282,7 @@ Object.assign(obj) === obj; // true
 
 如果目标参数不是一个对象，会先尝试转成对象，无法转成会报错
 ```javascript
-const obj = Object.assign(2，{a: 1}) //Number{2, a: 1}
+const obj = Object.assign(2, {a: 1}) //[Number: 2] { a: 1 }
 Object.assign(undefined) // 报错
 Object.assign(null) // 报错
 ```

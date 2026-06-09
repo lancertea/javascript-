@@ -411,7 +411,7 @@ console.log(res);//["0", "1", "2", "length"]
 最后遍历所有 Symbol 键，按照加入时间升序排列。
 
 ### for in 和for of的区别
-JavaScript 原有的for...in循环，只能获得对象的键名，不能直接获取键值。ES6提供for...of循环，允许遍历获得键值,其作为遍历所有数据结构的统一方式(内部通过调用被遍历对象的Symbol.interator方法,得到一个迭代器，从而去遍历内部所有的数据，这也是Interable接口所约定的内容，如果一个普通对象也实现了该接口，就可以被for of 遍历)
+JavaScript 原有的for...in循环，只能获得对象的键名，不能直接获取键值。ES6提供for...of循环，允许遍历获得键值,其作为遍历所有数据结构的统一方式(内部通过调用被遍历对象的Symbol.iterator方法,得到一个迭代器，从而去遍历内部所有的数据，这也是Iterable接口所约定的内容，如果一个普通对象也实现了该接口，就可以被for of 遍历)
 for...of循环调用遍历器接口，数组的遍历器接口只返回具有数字索引的属性。这一点跟for...in循环也不一样。
 ```javascript
 let arr = [3, 5, 7];
@@ -732,7 +732,7 @@ function f(x = 1, y) {
 
 f() // [1, undefined]
 f(2) // [2, undefined]
-f(, 1) // 报错
+// f(, 1) // 语法错误
 f(undefined, 1) // [1, 1]
 
 // 例二
@@ -742,7 +742,7 @@ function f(x, y = 5, z) {
 
 f() // [undefined, 5, undefined]
 f(1) // [1, 5, undefined]
-f(1, ,2) // 报错
+// f(1, ,2) // 语法错误
 f(1, undefined, 2) // [1, 5, 2]
 ```
 上面代码中，有默认值的参数都不是尾参数。这时，无法只省略该参数，而不省略它后面的参数，除非显式输入undefined。
@@ -972,5 +972,5 @@ console.log(Object.keys(obj));
 
 console.log(Reflect.has(obj,'foo'));
 console.log(Reflect.deleteProperty(obj,'bar'));
-console.log(Reflect.ownKeys(obj);)
+console.log(Reflect.ownKeys(obj));
 ```

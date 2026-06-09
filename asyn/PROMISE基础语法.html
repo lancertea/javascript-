@@ -148,19 +148,19 @@
 			console.log(3);
 		}
 
+		/*
+		THEN方法结束都会返回一个新的Promise实例（THEN链）
+		  [[PromiseStatus]]: 'pending'
+		  [[PromiseValue]]: undefined
 
-		THEN方法结束都会返回一个新的Promise实例（ THEN链）
-			[[PromiseStatus]]: 'pending' [
-				[PromiseValue]
-			]: undefined
+		p1这个new Promise出来的实例，成功或者失败，取决于executor函数执行时调用的是resolve(成功)还是reject(失败)；
+		如果executor执行发生异常错误，也会把实例状态改为失败。
 
-		p1这个new Promise出来的实例， 成功或者失败， 取决于executor函数执行的时候， 执行的是resolve(成功) 还是reject(失败) 决定的，
-		再或者executor函数执行发生异常错误， 也是会把实例状态改为失败的
-
-		p2 / p3这种每一次执行then返回的新实例的状态， 由then中存储的方法执行的结果来决定最后的状态（ 上一个THEN中某个方法执行的结果， 决定下一个then中哪一个方法会被执行） =>
-			不论是成功的方法执行， 还是失败的方法执行（ THEN中的两个方法）， 凡是执行抛出了异常， 则都会把实例的状态改为失败 =>
-			方法中如果返回一个新的PROMISE实例， 返回这个实例的结果是成功还是失败， 也决定了当前实例是成功还是失败 =>
-			剩下的情况基本上都是让实例变为成功的状态（ 方法返回的结果是当前实例的value值： 上一个then中方法返回的结果会传递到下一个then的方法中）
+		p2 / p3这种每一次执行then返回的新实例状态，由上一个then中回调函数执行结果决定：
+		- 回调抛异常 => 下一个实例失败
+		- 回调返回新的Promise => 由该Promise状态决定
+		- 其他情况 => 下一个实例成功，value为回调返回值
+		*/
 
 
 		let p1 = new Promise((resolve, reject) => {
@@ -217,11 +217,12 @@
 		"失败: ReferenceError: a is not defined"
 		"成功：undefined"
 		*/
-
+		/*
 		then中也可以只写一个或者不写函数
-			.then(fn)
-			.then(null, fn)
-		遇到一个THEN， 要执行成功或者失败的方法， 如果此方法并没有在当前THEN中被定义， 则顺延到下一个对应的函数
+		.then(fn)
+		.then(null, fn)
+		遇到一个THEN，要执行成功或者失败的方法，如果此方法并没有在当前THEN中被定义，则顺延到下一个对应的函数
+		*/
 		Promise.reject(10).then(result => {
 			console.log(`成功：${result}`);
 			return result * 10;
@@ -231,15 +232,11 @@
 	</script>
 
 	<script>
-		console.log(a); //=>Uncaught ReferenceError: a is not defined
-		let b = 10;
-		console.log(b);
-		在JS中当前行代码报错， 会中断主线程的渲染（ 下面代码将不再执行）
-		throw new Error('')： 手动抛出一个异常错误， 目的就是让后面代码不再执行
-		如果上面代码报错， 不想让期影响后面的代码， 我们需要做异常捕获：
-		try
-		catch
-		finally
+		/*
+		在JS中当前行代码报错，会中断主线程渲染（下面代码将不再执行）
+		throw new Error('')：手动抛出异常，目的是让后续代码不再执行
+		如果不想影响后续代码，需要做异常捕获：try/catch/finally
+		*/
 
 		try {
 			console.log(a);
@@ -247,7 +244,7 @@
 			//=>错误信息
 			console.log(e.message);
 		}
-		let b = 10;
+		const b = 10;
 		console.log(b);
 
 		// Promise.prototype.catch(fn)
@@ -284,18 +281,18 @@ console.log('carry on');
 
 
 
-	<script>
-Promise.all([promise1, promise2, ...])： ALL中存放的是多个PROMISE实例（ 每一个实例管理者一个异步操作），
-执行ALL方法返回的结果是一个新的PROMISE实例 "PROA" *
-	当所有PROMISE实例的状态都为Fulfilled的时候(成功)， 让PROA的状态也变为Fulfilled, 并且把所有PROMISE成功获取的结果，
-存储为成为一个数组（ 顺序和最开始编写的顺序一致）“ result = [result1, result2, ...]”， 让PROA这个数组的VALUE值等于这个数组 *
-	都成功（ PROA状态是FUFILLED） 才会通知THEN中第一个方法执行， 只要有一个失败（ PROA状态是REJECTED），
-就会通知THEN中第二个方法或者CATCH中的方法执行
+<script>
+/*
+Promise.all([promise1, promise2, ...])：ALL中存放多个PROMISE实例（每个实例管理一个异步操作），
+返回一个新的PROMISE实例"PROA"。
+当所有实例都fulfilled时，PROA才fulfilled，value是按传入顺序组成的结果数组。
+只要有一个失败，PROA就rejected。
+*/
 Promise.all([ajax1(), ajax3(), ajax2()]).then(results => {
 	//=>results:[result1,result3,result2]
 });
 
-	例如：
+	// 例如：
 	let p2 = new Promise(resolve => {
 		setTimeout(_ => {
 			resolve(2);

@@ -1,8 +1,8 @@
 # 原型及原型链模式
 原型是function对象的一个属性，它定义了构造函数构造出来的实例对象的原型对象，这些实例对象可以继承该原型的属性和方法，原型本身也是对象，自然也有其自己的原型，这样原型上还有原型的结构就构成了原型链
 
-对象有属性_proto_，指向该对象的构造函数的原型对象
-方法（函数）除了有_proto_，还有属性prototype，指向该方法的原型对象（用来存储实例公用属性和方法）
+对象有属性 `__proto__`，指向该对象的构造函数的原型对象
+方法（函数）除了有 `__proto__`，还有属性 `prototype`，指向该方法的原型对象（用来存储实例公用属性和方法）
 原型对象有个constructor属性，指回其构造函数  
 
 ```javascript
@@ -91,9 +91,9 @@ div
 判断实例对象的__proto__属性与构造函数的prototype是不是同一个引用。
 如果不是，他会沿着对象的__proto__向上查找的，直到顶端Object.prototype  
 eg: p1 instanceof Person
-- construcor  
+- constructor  
 判断对象是哪个类的直接实例  
-eg:p1.construcor===Person
+eg:p1.constructor===Person
 所有对象（使用 Object.create(null) 创建的对象除外）都将具有 constructor 属性。
 在没有显式使用构造函数的情况下，创建的对象（例如对象和数组文本）将具有 constructor 属性，这个属性指向该对象的基本对象构造函数类型。
 ```javascript
@@ -150,7 +150,7 @@ prototype: 该对象的新原型（一个对象或null）
 问题：
 1. 重定向后的空间中不一定有constructor属性（只有浏览器默认给prototype开辟的堆内存中才存在constructor），这样导致类和原型机制不完整；所以需要手动再给新的原型空间设置constructor属性   
 2. 在重新指向之前，需要确保原有原型的堆内存中没有设置属性和方法，因为重定向后，原有的属性和方法就没啥用了（如果需要克隆到新的原型堆内存中，需要额外处理） 
-3. 内置类的原型，由于担心这样的改变会让内置的方法都消失，所以禁止给内置类原型的空间重定向，例如：Array.prototype={...}这样没有用，如果想加方法Array.prototype.xxx=function(){...}可以这样处理
+3. 内置类的原型不建议重定向（例如 `Array.prototype = {...}`），这会破坏原有原型方法；如果想扩展方法，使用 `Array.prototype.xxx = function(){...}` 这种方式
 ```javascript
 function Fn() {
 	// ...

@@ -21,7 +21,7 @@
 
       emit(eventType, ...args) {
         if (this.subs[eventType]) {
-          this.subs[eventType].forEach(handler => handler.call(this, ...arg))
+          this.subs[eventType].forEach(handler => handler.call(this, ...args))
         }
       }
 
@@ -37,7 +37,9 @@
       off(eventType, handler) {
         if (this.subs[eventType]) {
           const index = this.subs[eventType].indexOf(handler);
-          this.subs[eventType].splice(index, 1);
+          if (index > -1) {
+            this.subs[eventType].splice(index, 1);
+          }
         }
       }
     }

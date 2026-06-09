@@ -57,7 +57,6 @@ return new Proxy(raw,{
         dep.notify();
     }
 })
-  return raw;
 }
 
 const info = reactive({ counter: 100, name: "why" });

@@ -1012,8 +1012,8 @@ getter函数：能返回一个值的函数
       <h1>需求：水温达到50℃，或水位达到20cm，则联系服务器</h1>
       <h2 id="demo">水温：{{temp}}</h2>
       <h2>水位：{{height}}</h2>
-      <button @click="changePrice">水温+1</button>
-      <button @click="changeSum">水位+10</button>
+    <button @click="changePrice">水温+10</button>
+    <button @click="changeSum">水位+1</button>
     </div>
   </template>
   
@@ -1098,9 +1098,9 @@ Vue 3 使用的是基于 `Proxy/Reflect` 的响应式系统（通过 `reactive` 
 ```vue
 <template>
   <div class="person">
-    <h1 ref="title1">尚硅谷</h1>
-    <h2 ref="title2">前端</h2>
-    <h3 ref="title3">Vue</h3>
+    <h1 id="title1" ref="title1">尚硅谷</h1>
+    <h2 id="title2" ref="title2">前端</h2>
+    <h3 id="title3" ref="title3">Vue</h3>
     <input type="text" ref="inpt"> <br><br>
     <button @click="showLog">点我打印内容</button>
   </div>

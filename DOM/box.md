@@ -22,8 +22,8 @@ Document对象是 Window 对象的一部分，即 window.document
 //方法
 document.getElementById([ID])
 document.getElementsByName([NAME])///=>在IE6-8浏览器中只对表单元素的NAME有作用
-[context].queryselector([SELECTOR])//=>在IE6~8中不兼容
-[context].queryselectorAll([SELECTPR])//=>在IE6~8中不兼容
+[context].querySelector([SELECTOR])//=>在IE6~8中不兼容
+[context].querySelectorAll([SELECTOR])//=>在IE6~8中不兼容
 [context].getElementsByTagName([TAG-NAME])
 [context].getElementsByClassName([CLASS-NAME])
 
@@ -68,7 +68,7 @@ console.log([element].xxx);
 delete [element].xxx;
 
 [element].setAttribute("xxx",xxx);
-console.log([element].getAttribute("xxx");
+console.log([element].getAttribute("xxx"));
 [element].removeAttribute("xxx");
 ```
 ### [用例](https://github.com/lancertea/javascript-/blob/master/DOM/DOM.html)

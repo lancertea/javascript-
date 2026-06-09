@@ -131,13 +131,13 @@ Timeline时序图记录
 1. 全局变量
 在非严格模式下，当应用未声明的变量时，会在全局对象中创建一个新变量。在浏览器中，全局对象将是 window，这意味着
 ```javascript
-funciton foo(arg){
+function foo(arg){
     bar = 'some text'; //bar将泄漏到全局
 }
 ```
 等价于：
 ```javascript
-funciton foo(arg){
+function foo(arg){
    window.bar = 'some text'; 
 }
 ```
@@ -153,7 +153,7 @@ var someResource = getData();
   setInterval(function() {
       var node = document.getElementById('node');
       if(node) {
-          node.innerHTML = JSON.stringify(someResource));
+          node.innerHTML = JSON.stringify(someResource);
           // 定时器也没有清除
       }
   }, 1000);
@@ -166,7 +166,7 @@ var element = document.getElementById('launch-button');
 var counter = 0;
 function onClick(event) {
    counter++;
-   element.innerHtml = 'text ' + counter;
+   element.innerHTML = 'text ' + counter;
 }
 
 element.addEventListener('click', onClick);
@@ -235,7 +235,7 @@ setInterval(replaceThing, 1000);
 ```HTML
 <html>
     <head>
-        <style type="text/css" src = "theme.css" />
+       <link rel="stylesheet" href="theme.css" />
     </head>
     <body>
         <p>极客时间</p>
@@ -246,9 +246,12 @@ setInterval(replaceThing, 1000);
     </body>
 </html>
 ```
-当我在JavaScript中访问了某个元素的样式，那么这时候就需要等待这个样式被下载完成才能继续往下执行，所以在这种情况下，CSS也会阻塞DOM的解析。
-
-所以这时候如果头部包含了js文件，那么同样也会暂停DOM解析，等带该JavaScript文件下载后，便开始编译执行该文件，执行结束之后，才开始继续DOM解析。
+HTML 继续解析（不会被 CSS 阻塞）
+遇到 JS → 准备执行
+但 JS 可能依赖样式（如 getComputedStyle）
+👉 所以必须等 CSS 下载完成
+👉 然后再执行 JS 
+所以CSS可能会间接阻塞JS执行
 
 ### src和href的区别
 href是Hypertext Reference的简写，表示超文本引用，指向网络资源所在位置
@@ -258,7 +261,9 @@ href是Hypertext Reference的简写，表示超文本引用，指向网络资源
 ```
 src是source的简写，目的是要把文件下载到html页面中去
 ```HTML
+<!-- 图片 <img> 不会阻塞解析 -->
 <img src="img/girl.jpg"> 
+<!-- iframe 也不会完全阻塞 -->
 <iframe src="top.html"> 
 <script src="show.js">
 ```
@@ -268,12 +273,11 @@ src是source的简写，目的是要把文件下载到html页面中去
 
 浏览器解析方式：
 1. 当浏览器遇到href会并行下载资源并且不会停止对当前文档的处理。(同时也是为什么建议使用 link 方式加载 CSS，而不是使用 @import 方式)
-2. 当浏览器解析到src ，会暂停其他资源的下载和处理，直到将该资源加载或执行完毕。(这也是script标签为什么放在底部而不是头部的原因)
+2. 当浏览器解析到script中的src ，会暂停其他资源的下载和处理，直到将该资源加载或执行完毕。(这也是script标签为什么放在底部而不是头部的原因)
+
 
 ### 怎样向页面添加JS
-浏览器在读取一个网页时都发生什么:浏览器在读取一个网页时，代码（HTML, CSS 和 JavaScript）将在一个运行环境（浏览器标签页）中得到执行。就像一间工厂，将原材料（代码）加工为一件产品（网页）。在 HTML 和 CSS 集合组装成一个网页后，浏览器的 JavaScript 引擎将执行 JavaScript 代码。这保证了当 JavaScript 开始运行之前，网页的结构和样式已经就位。
-
-这样很好，因为JavaScript 最普遍的用处是通过 DOM API（见上文）动态修改 HTML 和 CSS 来更新用户界面 （user interface）。如果 JavaScript 在 HTML 和 CSS 就位之前加载运行，就会引发错误。
+浏览器在读取一个网页时都发生什么:浏览器在读取一个网页时，代码（HTML, CSS 和 JavaScript）将在一个运行环境（浏览器标签页）中得到执行。就像一间工厂，将原材料（代码）加工为一件产品（网页）。HTML 是边解析边执行 JS，CSS 不是必须全部加载完，但JS 执行时，如果依赖 CSS会等
 
 内部脚本：
 1. 把脚本元素放在文档体的底端（</body> 标签之前，与之相邻）
@@ -285,8 +289,8 @@ document.addEventListener("DOMContentLoaded", function() {
 ```
 外部脚本：
 1. async
-浏览器遇到 async 脚本时不会阻塞HTML页面渲染，而是直接下载然后运行。这样脚本的运行次序就无法控制，只是脚本不会阻止剩余页面的显示。当页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本时，async是最理想的选择
-- 很多SDK/埋点/第三方脚本用这个
+浏览器遇到 async 脚本时不会阻塞HTML页面渲染，而是直接下载（并行下载）然后运行。这样脚本的运行次序就无法控制，只是脚本不会阻止剩余页面的显示。当页面的脚本之间彼此独立，且不依赖于本页面的其它任何脚本时，async是最理想的选择
+- 很多SDK/埋点/广告/第三方脚本用这个
 ```HTML
 <!-- 三者的调用顺序是不确定的 -->
 <script async src="js/vendor/jquery.js"></script>
@@ -296,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <script async src="js/script3.js"></script>
 ```
 2. defer
-脚本会被延迟到整个页面都解析完毕后再运行。设置该属性相当于告诉浏览器立即下载，但延迟执行（等DOM解析完再执行）
+脚本会被延迟到整个页面都解析完毕后再运行。设置该属性相当于告诉浏览器立即下载（并行下载），但延迟执行（等DOM解析完再执行）
 - 适合主业务JS
 ```HTML
 <!-- 脚本将按照在页面中出现的顺序加载和运行 -->
@@ -308,6 +312,13 @@ document.addEventListener("DOMContentLoaded", function() {
 ```
 如果脚本无需等待页面解析，且无依赖独立运行，那么应使用async。
 如果脚本需要等待页面解析，且依赖于其它脚本，调用这些脚本时应使用defer，将关联的脚本按所需顺序置于 HTML中。
+
+总结：
+JavaScript 会阻塞 DOM 解析，因为它可能修改 DOM
+CSS 不会阻塞 DOM 解析，但会阻塞后续 JS 执行
+<script> 标签（而不是 src 本身）会导致解析阻塞
+async 适合独立脚本（不保证顺序）
+defer 适合有依赖的脚本（保证顺序，DOM 完成后执行）
 
 ## JS代码优化
 jsperf.com
@@ -324,6 +335,38 @@ jsperf.com
 4. 避免属性访问方法使用
 5. for循环优化（缓存数组长度, 遍历性能foreach > for > forin）
 
+## 标准浏览器架构
+浏览器（多进程架构）
+ ├── 浏览器进程
+ │     ├── UI
+ │     ├── 地址栏
+ │     ├── 历史记录
+ │
+ ├── 渲染进程（每个页面一个）
+ │     ├── 渲染引擎（Blink）
+ │     │     ├── HTML 解析 → DOM
+ │     │     ├── CSS 解析 → CSSOM
+ │     │     ├── Render Tree
+ │     │     ├── Layout
+ │     │     └── Paint
+ │     │
+ │     ├── JS 引擎（V8） 将JS代码翻译成CPU指令
+ │     │     ├── 编译
+ │     │     ├── 执行
+ │     │     └── GC
+ │     │
+ │     ├── Web API
+ │     │     ├── DOM
+ │     │     ├── 定时器
+ │     │     ├── fetch/XHR
+ │     │     └── 事件
+ │     │
+ │     └── Event Loop（事件循环）
+ │
+ ├── 网络进程
+ ├── GPU 进程
+ └── ...
+
 
 ## 认识v8
 v8是一款主流的JS执行引擎，采用即时编译，内存设限（64位OS不超过1.5G 32位OS不超过800M）
@@ -336,10 +379,10 @@ v8是一款主流的JS执行引擎，采用即时编译，内存设限（64位OS
 
 1.在编译型语言的编译过程中，编译器首先会依次对源代码进行词法分析、语法分析，生成抽象语法树（AST），然后是代码优化，最后再生成处理器能够理解的机器码。如果编译成功，将会生成一个可执行的文件。但如果编译过程发生了语法或者其他的错误，那么编译器就会抛出异常，最后的二进制文件也不会生成成功。
 2.在解释型语言的解释过程中，同样解释器也会对源代码进行词法分析、语法分析，并生成抽象语法树（AST），不过它会再基于抽象语法树生成字节码，最后再根据字节码来执行程序、输出结果。
-JS是后者
+JavaScript 是“解释执行 + JIT 编译”的语言（混合型）
 
 #### 生成AST
-1.分词（词法分析）：其作用是将一行行的源码拆解成一个个token。所谓token，指的是语法上不可能再分的、最小的单个字符或字符串
+1.分词（词法分析）：其作用是将一行行的源码拆解成一个个token。token 是“语法上有意义的最小单位”
 2.解析（语法分析）：其作用是将上一步生成的token数据，根据语法规则转为AST。如果源码符合语法规则，这一步就会顺利完成。但如果源码存在语法错误，这一步就会终止，并抛出一个 “语法错误”
 
 AST应用：
@@ -350,20 +393,32 @@ AST的生成：
 词法分析：其作用是将一行行的源码拆解成一个个token（语法上不能再分的最小的单个字符或字符串）
 语法分析：根据语法规则将token转为AST
 
-有了 AST 后，那接下来 V8 就会生成该段代码的执行上下文
+有了 AST 后，经过作用域分析（Scope）和变量提升（Hoisting），V8 就会生成该段代码的执行上下文
 
 #### 生成字节码
-有了 AST 和执行上下文后，那接下来的第二步，解释器 lgnition 就登场了，它会根据 AST 生成字节码，并解释执行字节码
+有了 AST 和执行上下文后，那接下来的第二步，解释器 Ignition 就登场了，它会根据 AST 生成字节码，并解释执行字节码
 
-- 字节码就是介于 AST 和机器码之间的一种代码。但是与特定类型的机器码无关，字节码需要通过解释器将其转换为机器码后才能执行
-- 机器码所占用的空间远远超过了字节码，所以使用字节码可以减少系统的内存使用
+- 字节码就是介于 AST 和机器码之间的一种代码。跨平台（与机器码解耦），字节码需要通过解释器将其转换为机器码后才能执行
+- 更快启动（比直接编译机器码快），方便 JIT 优化
 
 #### 执行代码
 对于第一次执行的字节码由解释器解释执行
-编译器 TurboFan 就会把该段热点的字节码编译为高校的机器码
+编译器 TurboFan 就会把该段热点的字节码编译为高效的机器码
 热点代码：被重复执行多次的一段代码
 
-即时编译（JIT）技术：解释器 lgnition 在解释执行字节码的同时，收集代码信息，当它发现某一部分代码变热了之后，TurboFan 编译器便闪亮登场，把热点的字节码转换为机器码，并把转换后的机器码保存起来，以备下次使用
+即时编译（JIT）技术：解释器 Ignition 在解释执行字节码的同时，收集代码信息，当它发现某一部分代码变热了之后，TurboFan 编译器便闪亮登场，把热点的字节码转换为机器码，并把转换后的机器码保存起来，以备下次使用
+
+总结：
+JavaScript 不是纯解释型语言，而是基于 V8 的 JIT（即时编译）执行模型。
+执行流程如下：
+源代码先经过词法分析生成 token
+再经过语法分析生成 AST
+进行作用域分析和变量提升，构建执行上下文
+V8 的解释器 Ignition 将 AST 转换为字节码并执行
+在执行过程中收集运行时信息
+对于热点代码，TurboFan 会将字节码编译为高效的机器码
+后续直接执行机器码，提高性能
+如果运行时假设被打破，会发生反优化（Deopt）
 
 
 

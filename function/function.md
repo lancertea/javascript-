@@ -123,9 +123,9 @@ if (fn(array[i])) { results.push(array[i])
 2. 可以把函数作为另一个函数的返回结果
 ```javascript
 // once 支付场景
-funciton once (fn){
+function once (fn){
 	let done = false;
-	return funciton(){
+	return function(){
 		if(!done){
 			done = true;
 			return fn.apply(this,arguments);

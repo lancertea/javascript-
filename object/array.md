@@ -6,7 +6,7 @@ a[1] = 99;
 console.log(a); //[1, 99, 3.14, 'Hello', null, true]
 //Array的大小是动态调整的
 a.length = 8;
-console.log(a); //[1, 99, 3.14, 'Hello', null, true，undefined，undefined]
+console.log(a); //[1, 99, 3.14, 'Hello', null, true, empty × 2]
 
 //避免 使用new Array()
 //arr与arr1都创建了空数组
@@ -25,7 +25,7 @@ console.log(new Array(2)); //创建包含 2个未定义元素的数组
 let arr = [1, 2, 3];
 let obj = {};
 //1.Array.isArray(obj)
-//ECMAScript 5种的函数，当使用ie8的时候就会出现问题
+//ECMAScript 5 中的函数，当使用 IE8 的时候会出现问题
 console.log(Array.isArray(arr)); //true
 console.log(Array.isArray(obj)); //false
 
@@ -95,7 +95,7 @@ fromIndex如果为负值，则按升序从 array.length + fromIndex 的索引开
 判断当前数组是否包含某指定的值，如果是返回 true，否则返回 false
 可以发现NaN
 
-arr.at() ES6
+arr.at() ES2022
 根据索引返回相应位置的值，接受负数，表示从最后开始找
 
 #### 迭代方法
@@ -167,14 +167,14 @@ console.log(arr);
 ```javascript
 let colors = ["red", "green", "blue"];
 let removed = colors.splice(0, 1); //移除第一项
-console.log(colors); // [green", "blue" ]
+console.log(colors); //["green", "blue"]
 console.log(removed); // [ "red"]
 
 removed = colors.splice(1, 0, "yellow", "orange"); //在索引为1的位置插入两项
 console.log(colors); //[ "green", "yellow", "orange", "blue" ]
 console.log(removed); //[]
 
-removed = colors.splice(1, 1, "red", "purple"); //i在索引为1的位置删除一项，插入两项
+removed = colors.splice(1, 1, "red", "purple"); //在索引为1的位置删除一项，插入两项
 console.log(colors); //[ "green", "red", "purple", "orange", "blue" ]
 console.log(removed); //[ "yellow" ]
 ```
@@ -326,7 +326,7 @@ res = arr.filter((item,index)=>{
     return arr.indexOf(item)===arr.lastIndexOf(item);
 })
 console.log(res);//[2, 7, 8]
-console.log(arr);//[1, 1, 2, 3, 3, 4, 5, 7, 8, 4, 5
+console.log(arr);//[1, 1, 2, 3, 3, 4, 5, 7, 8, 4, 5]
 ``` 
 过滤数组  
 有时需要过滤数组中值为 false 的值. 例如(0, undefined, null, false)，可传入一个 Boolean 函数

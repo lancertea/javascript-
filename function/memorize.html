@@ -13,7 +13,9 @@
             return function () {
                 //将伪数组转变成一个字符串，作为键
                 let key = JSON.stringify(arguments);
-                cache[key] = cache[key] || f.apply(f, arguments);
+                if (!Object.prototype.hasOwnProperty.call(cache, key)) {
+                    cache[key] = f.apply(this, arguments);
+                }
                 return cache[key];
             }
         }

@@ -14,7 +14,7 @@
     mouseout  鼠标滑出  
     mouseenter 鼠标进入  
     mouseleave 鼠标离开  
-    mousewhell 鼠标滚轮滚动  
+    mousewheel 鼠标滚轮滚动  
 
   [键盘事件]  
     keydown 按下某个键  
@@ -164,7 +164,7 @@ box.onclick = function (ev) {
 	// type：触发事件的类型
 	// target：事件源（操作的是哪个元素，哪个元素就是事件源），在不兼容的浏览器中可以使用srcElement获取，也的是事件源
 	// preventDefault()：用来阻止默认行为的方法，不兼容的浏览器中用ev.returnValue=false也可以阻止默认行为
-	// stopPropagation()：阻止冒泡传播，不兼容的浏览器中用ev.cancelBubble=true也可以阻止默认行为
+	// stopPropagation()：阻止冒泡传播，不兼容的浏览器中用ev.cancelBubble=true也可以阻止冒泡传播
 	// console.log(ev);
 } 
 ```
@@ -210,11 +210,11 @@ IE: window.event.srcElement
 
 阻止事件默认行为  
 W3C： ev.preventDefault()  
-IE: window.event.returnValue = 'false' 
+IE: window.event.returnValue = false 
 
 阻止事件传播  
 W3C： ev.stopPropagation()  
-IE: window.event.cancelBubble = 'true'
+IE: window.event.cancelBubble = true
 
 ## 常见事件行为
 ### [a标签默认行为](https://github.com/lancertea/javascript-/blob/master/Event/preventDefault.html)

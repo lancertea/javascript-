@@ -23,7 +23,7 @@ RegExp.prototype.execAll = function (str) {
     }
     let res = [],
         restr;
-    while (restr = reg.exec(str)) {
+    while (restr = this.exec(str)) {
         res.push(restr[0]);
     }
     return res.length ? res : null;
@@ -252,7 +252,7 @@ console.log(reg.exec(str));
  *   [object]把所有问号参数信息以键值对的方式存储起来并且返回
  * 
  */
-String.prototype.queryURLParams() {
+String.prototype.queryURLParams = function () {
 	let obj = {};
 	this.replace(/([^?=&#]+)=([^?=&#]+)/g, (...[, $1, $2]) => obj[$1] = $2);
 	this.replace(/#([^?=&#]+)/g, (...[, $1]) => obj['HASH'] = $1);
@@ -283,7 +283,7 @@ String.prototype.getParam = function (key) {
         let [key, value] = item.split('=');
         obj[key] = value;
     });
-	if(end){
+	if(end !== -1){
 		obj['HASH'] = _this.slice(end+1);
 	}
     return obj[key];

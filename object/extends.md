@@ -91,7 +91,7 @@ for (let key in P) {
   console.log(key); //pnum
 }
 console.log(Object.keys(P)); //Array [ "pnum" ]
-console.log(Object.getOwnPropertyNames(P)); //Array ["length", "name", "arguments", "caller", "prototype", "cnum"]
+console.log(Object.getOwnPropertyNames(P)); //Array ["length", "name", "arguments", "caller", "prototype", "pnum"]
 ```
 
 ## 借用构造函数
@@ -252,7 +252,7 @@ console.log(c1.parr); //Array ['z1', 'z2']
 
 for (let key in c1) {
   console.log(key);
-  //age carr cstr name parr pstr cact crr pact prr（父类原型上的方法继承不到）
+  //age carr cstr name parr pstr cact crr pact prr（父类原型上的方法可以继承到）
 }
 console.log(Object.keys(c1)); // Array[ "name", "parr", "pstr", "age", "carr", "cstr" ]
 console.log(Object.getOwnPropertyNames(c1)); // Array[ "name", "parr", "pstr", "age", "carr", "cstr" ]
@@ -293,7 +293,7 @@ p2.friends.push("lucy");
 
 console.log(p1.name); // tom
 console.log(p1.name === p1.getName()); // true
-console.log(p2.name); // p1
+console.log(p2.name); // p
 console.log(p1.friends); // ["p1", "p2", "p3","jerry","lucy"]
 console.log(p2.friends); // ["p1", "p2", "p3","jerry","lucy"]
 ```

@@ -192,14 +192,14 @@
             console.log(1);
 
         }
-        //函数声明会被提声到最前面
+        //函数声明会被提升到最前面
         function getName() {
             console.log(6);
 
         }
         var name = 'aaa'
         var a = {
-            name = 'zzz', //将全局名字重写为zzz
+            // name = 'zzz', // 这行是非法对象字面量语法，不能这样写
             name: 'sss' //对象有个属性为name
             //this.name='yyy'  报错
             //var name='sss'  报错
