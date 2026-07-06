@@ -116,21 +116,56 @@
 
     //面试版本
     function deepClone(obj, hash = new WeakMap()) {
+        // 1.处理基本数据类型 (null, undefined, string, number, boolean, symbol)
         if (obj === null || typeof obj !== "object") return obj;
-        if (obj instanceof Date) return new Date(obj);
-        if (obj instanceof RegExp) return new RegExp(obj);
+        // 2. 处理特殊对象类型 (Date, RegExp, Error 等)
+        if (obj instanceof Date) return new Date(obj.getTime());
+        if (obj instanceof RegExp) return new RegExp(obj.source,obj.flags);
+        if(obj instanceof Error){
+            const err = new obj.constructor(obj.message);
+            err.stack = obj.stack; //保留堆栈信息
+            return err;
+        }
+        // 3.处理循环引用（关键步骤）
+        // 如果当前对象已经被克隆过，直接返回之前的克隆结果
         if (hash.has(obj)) return hash.get(obj);
 
-        const cloneObj = Array.isArray(obj)
-            ? []
-            : Object.create(Object.getPrototypeOf(obj));
-
+        // 4. 初始化容器
+        // 获取对象的原型，确保克隆出来的对象保持原有的原型链关系
+        const cloneObj = new obj.constructor();
+        // const cloneObj = Array.isArray(obj)
+        //     ? []
+        //     : Object.create(Object.getPrototypeOf(obj));
+        
+       // 将当前对象加入哈希表，标记为“正在处理中”
         hash.set(obj, cloneObj);
 
-        Reflect.ownKeys(obj).forEach((key) => {
-            cloneObj[key] = deepClone(obj[key], hash);
-        });
+        // 5.处理 Map 类型
+        if(obj instanceof Map){
+            obj.forEach((value, key) => {
+              cloneObj.set(deepClone(key,hash),deepClone(value,hash));
+            })
+            return cloneObj
+        }
 
+        // 6.处理 Set 类型
+        if(obj instanceof Set){
+            obj.forEach((value) => {
+                cloneObj.add(deepClone(value, hash));
+            });
+            return cloneObj;
+        }
+        // 7. 处理普通对象和数组
+        // Reflect.ownKeys 能获取到 Symbol 属性和不可枚举属性
+        Reflect.ownKeys(obj).forEach((key) => {
+            const descriptor = Object.getOwnPropertyDescriptor(obj,key);
+            // 如果是数据属性（有 value）
+            if(descriptor && 'value' in descriptor){
+            descriptor.value = deepClone(descriptor.value, hash);
+            }
+            // 使用 defineProperty 还原属性的描述符（如 writable, enumerable, configurable）
+            Object.defineProperty(cloneObj, key, descriptor);
+        });
         return cloneObj;
     }
 

@@ -1,3 +1,31 @@
+# 总结
+简单来说，原型链是 JavaScript 实现继承和对象方法共享的核心机制。​​当你想理解一个对象的行为时，它就像一条“求助链”——自己不会，就问它的原型；原型不会，就问原型的原型，一直往上找，直到链的尽头。
+## 什么是原型和原型链？
+​- ​原型 (Prototype):​​ 每个函数都有一个 prototype 属性，它指向一个对象，这个对象就是“原型对象”。这个原型对象可以用来存放所有实例共享的属性和方法。
+- ​原型链 (Prototype Chain):​​ 当我们访问一个对象的属性时，如果对象自身没有，JavaScript 引擎就会沿着对象的原型链向上查找，直到找到该属性或者到达原型链的末尾（null）。
+
+🔑 关键角色与关系
+要搞懂原型链，主要理解下面这几个角色的关系：
+- ​prototype (显式原型):​​ 这是函数独有的一个属性，指向一个对象（原型对象）。当我们用 new 一个函数创建实例时，这个实例就可以共享原型对象上的方法。
+- ​​__proto__ (隐式原型):​​ 这是每个对象（包括实例对象和原型对象）内部都有的一个隐藏属性，它指向创建该对象的构造函数的 prototype。它是连接实例和原型的桥梁。 现代开发中，更推荐使用 Object.getPrototypeOf(obj) 来获取对象的原型。
+- ​​constructor:​​ 原型对象上有一个 constructor 属性，指回它所属的构造函数。
+它们的关系可以总结为：实例的 __proto__ 指向构造函数的 prototype，而 prototype 的 constructor 又指回构造函数本身。
+
+💡 原型链的查找过程
+当你访问 obj.name 时，JavaScript 引擎会按以下顺序查找：
+1.首先检查 obj 对象自身有没有 name 属性。
+2.如果没有，就通过 obj.__proto__ 去它的原型对象上查找。
+3.如果还没找到，就继续沿着 __proto__ 一级一级向上找。
+4.最终会到达 Object.prototype，这是原型链的顶端。如果 Object.prototype 上也没有，就返回 undefined。
+
+✨ 为什么需要原型链？
+原型链最主要的目的是为了实现继承和代码复用。通过在原型上定义方法，所有实例都可以共享这些方法，而不需要在每个实例上都重新创建一份，从而节省了内存空间。
+
+⚠️ 常见误区
+- ​​prototype 是对象的属性：​​ 错！prototype 是函数的属性，普通对象是没有这个属性的。
+- ​箭头函数有 prototype：​​ 错！箭头函数不能作为构造函数使用，所以它没有 prototype 属性。
+- ​​原型链就是继承链：​​ 不完全对。原型链本质上是属性查找机制，JavaScript 的“继承”更像是对象间的委托（Delegation），即自己不会处理，就委托给原型去处理。
+
 # 原型及原型链模式
 原型是function对象的一个属性，它定义了构造函数构造出来的实例对象的原型对象，这些实例对象可以继承该原型的属性和方法，原型本身也是对象，自然也有其自己的原型，这样原型上还有原型的结构就构成了原型链
 
@@ -143,6 +171,20 @@ prototype: 该对象的新原型（一个对象或null）
 2. 将这个空对象的__proto__成员指向了Base函数对象prototype成员对象
 3. Base函数对象的this指针替换成obj, 相当于执行了Base.call(obj);
 4. 如果构造函数显示的返回一个对象，那么则这个实例为这个返回的对象。 否则返回这个新创建的对象
+```javascript
+ function myNew(Constructor, ...args) {
+    //1. 
+	const obj = {};
+	//2.
+	// obj.__proto__ = Constructor.prototype;
+	Object.setPrototypeOf(obj,Constructor.prototype);
+	//3.
+	const res = Constructor.apply(obj,args);
+	//4.
+	return (typeof res === 'object' && res !== null) ? res : obj;
+ }
+
+```
  
 
 ## 重构类的原型

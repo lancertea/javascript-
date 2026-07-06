@@ -175,11 +175,12 @@ console.log(Reflect.ownKeys(o1)); //[ "name", "num" ]
 console.log(Reflect.ownKeys(O.prototype)); // [ "constructor", "age", "arr" ]
 ```
 | 方法                             | 是否只看对象自身 | 是否看原型链 | 是否只看可枚举 | 是否包含 Symbol |
-| ------------------------------ | -------: | -----: | ------: | ----------: |
-| `for...in`                     |        否 |      是 |       是 |           否 |
-| `Object.keys()`                |        是 |      否 |       是 |           否 |
-| `Object.getOwnPropertyNames()` |        是 |      否 |       否 |           否 |
-| `Reflect.ownKeys()`            |        是 |      否 |       否 |           是 |
+| ------------------------------  | -------:  | -----: | ------: | ----------: |
+| `for...in`                      |        否 |      是 |       是 |           否 |
+| `Object.keys()`                 |        是 |      否 |       是 |           否 |
+| `Object.getOwnPropertyNames()`  |        是 |      否 |       否 |           否 |
+| `Object.getOwnPropertySymbols()`|        是 |      否 |       否 |           是 |
+| `Reflect.ownKeys()`             |        是 |      否 |       否 |           是 |
 
 
 3. Object.create(proto,[propertiesObject])

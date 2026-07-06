@@ -236,6 +236,12 @@
             return Object.prototype.toString.call(obj).slice(8, -1);
         }
 
+        function getType2(obj) {
+            if(obj === null) return 'null';
+            if(obj === undefined) return 'undefined';
+             //    return obj.toString(); //'1,2,3'
+            return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
+        }
 }
 
 /*

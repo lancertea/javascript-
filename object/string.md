@@ -135,6 +135,5 @@ console.log(s.split()); //[ "helloworld" ]
 console.log(s.split('')); //[ "h", "e", "l", "l", "o", "w", "o", "r", "l", "d" ]
 ```
 
-## [ES6对字符串的扩展](https://github.com/lancertea/javascript-/blob/master/ES6/string.html)
 
 

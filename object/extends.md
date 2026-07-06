@@ -2,12 +2,13 @@
 
 ## 原型链实现继承
 
-[原理]：把子类的 prototype（原型对象）设置为父类的实例  
-[形式]：Child.prototype = new Parent()  
+[原理]：把子类的 prototype（原型对象）设置为父类的实例.利用原型链的特性，子类实例可以访问到父类原型上的属性和方法。 
+[形式]：Child.prototype = new Parent() 
+[优点]：父类原型上的方法可以被所有子类实例复用
 [缺点]
 1.construcor 指向错误：C.prototype.constructor === P 
-2.父类属性共享，造成污染：子类的所有实例保存的是同一个父类；如果一个子类修改父类上的属性，其他子类上的父类属性也会被修改 
-3.父类属性固定：因为子类的原型是指向一个父类的实例，所以一开始父类的属性就被初始化了
+2.父类引用类型属性共享，造成污染：所有子类实例共享父类实例的引用类型属性，修改一个会影响其他
+3.无法向父类传参：创建子类实例时，无法向父类构造函数传递参数（因为子类的原型是指向一个父类的实例，所以一开始父类的属性就被初始化了）
 
 ```javascript
 function P(name, parr) {
@@ -95,11 +96,13 @@ console.log(Object.getOwnPropertyNames(P)); //Array ["length", "name", "argument
 ```
 
 ## 借用构造函数
-
-[原理]：在子类构造函数中 使用 Parent.call(this)继承父类属性  
+[原理]：在子类构造函数中，使用 Parent.call/apply(this)调用父类构造函数，从而在子类实例上复制一份父类的实例属性  
 [形式]：function Child(){
-Parent.call(this);
-}  
+Parent.call(this,xxx);
+}
+[优点]：
+1.解决了引用类型属性被共享的问题（每个实例都有独立的属性）
+2.可以在创建子类实例时向父类传递参数  
 [缺点]：Parent 原型链上的属性和方法并不会被子类继承
 
 ```javascript
@@ -182,8 +185,15 @@ console.log(Object.getOwnPropertyNames(P)); //Array ["length", "name", "argument
 ## 组合继承方式
 
 [原理]：组合使用原型链继承和借用构造函数继承  
-[形式]：子类构造函数中使用 Parent.call(this);的方式可以继承写在父类构造函数中 this 上绑定的各属性和方法；使用 Child.prototype = new Parent()的方式可以继承挂在在父类原型上的各属性和方法  
-[缺点]：父类构造函数在子类构造函数中执行了一次，在子类绑定原型时又执行了一次; 有些属性是冗余的
+[形式]：子类构造函数中使用 Parent.call(this);的方式可以继承写在父类构造函数中 this 上绑定的各属性和方法；使用 Child.prototype = new Parent()的方式可以继承挂在在父类原型上的各属性和方法 
+```javascript
+function Parent(name) { this.name = name; }
+function Child(name) { Parent.call(this, name); } // 借用构造函数
+Child.prototype = new Parent(); // 原型链继承
+Child.prototype.constructor = Child; // 修正构造函数指向
+``` 
+[优点]：既能向父类传参、保证实例属性独立，又能复用父类原型上的方法。
+[缺点]：父类构造函数在子类构造函数中执行了一次，在子类绑定原型时又执行了一次; 导致子类原型上多了一份不必要的父类实例属性。
 
 ```javascript
 function P(name, parr) {
@@ -271,9 +281,18 @@ console.log(Object.getOwnPropertyNames(P)); //Array ["length", "name", "argument
 ```
 
 ## 原型式继承
-
 [原理]借助 Object.create 方法实现普通对象的继承
-[缺点]Object.create 方法实现的是浅拷贝，多个实例的引用类型属性指向相同的内存，存在篡改的可能
+```javascript
+function createObj(o) {
+  function F() {}
+  F.prototype = o;
+  return new F();
+}
+const person = { names: ['a'] };
+const p1 = createObj(person);
+``` 
+[优点]：适合在已有对象的基础上进行简单包装，无需定义新的构造函数
+[缺点]：与原型链继承一样，引用类型属性会被所有实例共享。
 
 ```javascript
 let p = {
@@ -411,6 +430,57 @@ console.log(Object.getOwnPropertyNames(P.prototype)); //Array(4) [ "constructor"
 ```
 
 ## ES6 class
+class 是语法糖，底层依然基于原型链和构造函数。extends 关键字在底层做了两件事：
+1.使用 Object.create() 将子类的原型指向父类的原型（继承方法）。
+2.使用 Object.setPrototypeOf() 将子类本身的原型指向父类本身（继承静态方法）。
+在子类的 constructor 中必须调用 super()，底层等价于 Parent.call(this)
+```javascript
+class Parent { constructor(name) { this.name = name; } }
+class Child extends Parent {
+  constructor(name) { super(name); } // 核心代码
+}
+``` 
+[优点]：
+语法更清晰，接近传统面向对象语言。
+内置严格模式，防止 this 指向错误。
+自动处理原型链和构造函数指向，避免了组合继承的繁琐和冗余。
+支持 static、getter/setter 等现代特性。
+[缺点]：
+底层依然是原型链，对于习惯了传统 OOP 的开发者来说，理解其本质仍需要扎实的原型链基础。
+
+```javascript
+function Animal(name) {
+  "use strict"; // 1. 默认严格模式
+  this.name = name;
+}
+// 2. 方法不可枚举
+Object.defineProperty(Animal.prototype, 'speak', {
+  value: function() { console.log(`${this.name} makes a noise.`); },
+  enumerable: false,
+  configurable: true,
+  writable: true
+});
+// 3. 静态方法
+Animal.create = function(name) { return new Animal(name); };
+
+function Dog(name) {
+  "use strict";
+  Animal.call(this, name); // 借用父类构造函数
+}
+// 4. 继承原型链
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+// 5. 继承静态方法（子类原型指向父类本身）
+Object.setPrototypeOf(Dog, Animal); 
+
+// Dog 自己的 speak 方法（同样不可枚举）
+Object.defineProperty(Dog.prototype, 'speak', {
+  value: function() { console.log(`${this.name} barks.`); },
+  enumerable: false,
+  configurable: true,
+  writable: true
+});
+``` 
 
 ```javascript
 class P {

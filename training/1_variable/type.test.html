@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>类型转换相关练习题</title>
+    <style></style>
+  </head>
+
+  <body>
+    <script>
+      console.log(1 + "1"); 
+      console.log(2 * "2"); 
+      console.log([1, 2] + [2, 1]); 
+
+      console.log('8' + 3 + 5);
+      console.log(3 + 5 + '8');  
+
+      console.log(Number([]));
+      console.log(Boolean([])); 
+      console.log([].valueOf());
+      console.log([].toString()); 
+      console.log(3 + []); 
+
+      console.log([20].valueOf()); 
+      console.log(Number([20])); 
+      console.log([20].toString()); 
+      console.log(Boolean([20])); 
+      console.log(3 + [20]); 
+
+      console.log(Number(function () {})); 
+      console.log(Boolean(function () {})); 
+      console.log((function () {}).valueOf()); 
+      console.log((function () {}).toString()); 
+      console.log((function () {}) + 3); 
+
+      console.log(Number({})); 
+      console.log(Boolean({})); 
+      console.log({}.valueOf()); 
+      console.log({}.toString()); 
+      console.log(3 + {});
+
+      console.log([] == []); 
+      console.log([] == ![]);
+      console.log({} == {});
+      console.log({} == !{});
+
+      console.log([] + []);
+      console.log([] + {});
+      console.log({} + []);
+      console.log({} + {});
+      console.log(true + true);
+      console.log(1 + {a:1});
+    </script>
+  </body>
+</html>

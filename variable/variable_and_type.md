@@ -304,6 +304,25 @@ ECMAScript 5中的函数，但它不兼容IE8及其以下低版本。
 constructor属性返回对创建此对象的函数的引用
 
 ## 类型转换
+当对象需要被转换为基本类型（如字符串或数字）时，底层会触发一套隐式转换机制。这套机制的核心依赖于对象原型链上的两个特殊方法：Symbol.toPrimitive、valueOf 和 toString。
+
+### 转换的底层调用顺序
+根据不同的转换场景（期望转为数字还是字符串），底层的调用优先级有所不同：
+- 优先调用 Symbol.toPrimitive（最高优先级）
+这是 ES6 引入的内置 Symbol 方法。如果对象定义了该方法，引擎会最先调用它，并传入一个 hint（提示）参数：
+'number'：期望转为数字（如使用 +obj 或 obj - 0）。
+'string'：期望转为字符串（如使用 String(obj) 或模板字符串）。
+'default'：无明确偏好（如使用 == 比较，或 obj + ''）。
+
+回退到 valueOf() 和 toString()
+如果对象没有定义 Symbol.toPrimitive，或者该方法返回的不是基本类型，引擎会根据 hint 的类型按以下顺序回退：
+
+当 hint 为 'string' 时（字符串优先）：
+  先调用 toString()，如果返回值不是基本类型，再调用 valueOf()。
+  
+当 hint 为 'number' 或 'default' 时（数字优先）：
+  先调用 valueOf()，如果返回值不是基本类型，再调用 toString()。
+
 ### valueOf()和toString()
 valueOf()用于返回指定对象的原始值（基本类型值）  
 1. undefined、null没有这个方法  
