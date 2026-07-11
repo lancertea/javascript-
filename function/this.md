@@ -16,8 +16,12 @@ const obj = {
 
 obj.foo();
 ```
-
 如果没有 `this`，函数内部就无法知道 **当前是哪个对象调用了它**。
+
+## this在全局作用域指向什么
+浏览器: window(globalObject)
+Node环境: {}
+Node会把执行的js当成一个module,module -> 加载 -> 编译 -> 放到一个函数 -> 执行这个函数.call({})
 
 ## this 的本质
 this 是执行上下文（Execution Context）中的一个属性。除了 **箭头函数**，this 的值在函数调用时确定，而不是在函数定义时确定

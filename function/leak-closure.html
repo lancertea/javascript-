@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>危险示范：导致内存泄漏的写法</title>
+</head>
+
+<body>
+    <script>
+        let leakArray = [];
+
+        function createLeak() {
+            let hugeData = new Array(1000000).fill("占用大量内存");
+
+            // 将闭包保存到了全局变量 leakArray 中
+            leakArray.push(function () {
+                console.log(hugeData);
+            });
+        }
+
+        createLeak();
+        // 即使函数执行完了，leakArray 依然持有闭包的引用
+        // -> 闭包持有 hugeData 的引用
+        // -> hugeData 永远无法被回收！
+    </script>
+</body>
+
+</html>

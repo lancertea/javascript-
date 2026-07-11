@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>执行上下文测试</title>
+</head>
+
+<body>
+    <script>
+        // 1. 全局变量
+        let globalVar = "我是全局变量";
+
+        // 2. 外部函数（包含闭包）
+        function outerFunc(name) {
+            let outerVar = "我是外部函数变量";
+
+            // 3. 内部函数（闭包）
+            function innerFunc() {
+                let innerVar = "我是内部函数变量";
+
+                // 在这里打断点！
+                debugger;
+
+                // 访问不同作用域的变量，验证作用域链
+                console.log(innerVar, outerVar, name, globalVar);
+            }
+
+            return innerFunc;
+        }
+
+        // 4. 对象方法（测试 this）
+        const myObj = {
+            objName: "我是对象属性",
+            sayHello: function () {
+                // 调用外部函数，触发调用栈
+                const inner = outerFunc("参数传递进来的名字");
+                inner(); // 执行内部函数
+            }
+        };
+
+        // 启动执行
+        myObj.sayHello();
+    </script>
+</body>
+
+</html>
