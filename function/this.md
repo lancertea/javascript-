@@ -69,9 +69,37 @@ new Foo() // {b:2}
 ### 显式绑定
 
 ```javascript
-foo.call(obj)
-foo.apply(obj)
+foo.call(obj,a,b,c)
+foo.apply(obj,[a,b,c])
 foo.bind(obj)
+```
+
+```javascript
+function foo() {
+  console.log(this)
+}
+
+// foo.call("aaa")
+// foo.call("aaa")
+// foo.call("aaa")
+// foo.call("aaa")
+
+// 默认绑定和显示绑定bind冲突: 优先级(显示绑定)
+
+//生成一个新函数
+var newFoo = foo.bind("aaa") //不用像上面那样写，显式绑定一次就行
+
+newFoo()
+newFoo()
+newFoo()
+newFoo()
+newFoo()
+newFoo()
+
+var bar = foo
+console.log(bar === foo)
+console.log(newFoo === foo)
+
 ```
 
 特点：
@@ -87,8 +115,8 @@ foo.call(null)
 ```
 
 非严格模式：
-
-```text
+```javascript
+// apply/call/bind: 当传入null/undefined时, 自动将this绑定成全局对象
 this → window
 ```
 
@@ -232,6 +260,36 @@ const obj = {
 }
 
 obj.foo() // 1
+```
+
+```javascript
+var obj = {
+  data: [],
+  getData: function() {
+    // 发送网络请求, 将结果放到上面data属性中
+    // 在箭头函数之前的解决方案
+    // var _this = this
+    // setTimeout(function() {
+    //   var result = ["abc", "cba", "nba"]
+    //   _this.data = result
+    // }, 2000);
+
+
+    // 有箭头函数之后
+    // 【时刻 A】这里开始执行了！
+    // 因为是 obj.getData() 调用的，所以此刻 this = obj
+    setTimeout(() => {
+      // 【时刻 B】箭头函数在这里被“定义/创建”出来
+      // 就在这一瞬间，它向外看了一圈：“哎？我现在外面的 this 是谁？”
+      // 它发现外层是 getData 的执行环境，而此刻 this 已经是 obj 了。
+      // 于是，它把这个 this = obj “锁”进了自己的身体里。
+      var result = ["abc", "cba", "nba"]
+      this.data = result
+    }, 2000);
+  }
+}
+
+obj.getData()
 ```
 
 ### DOM 事件中的 this

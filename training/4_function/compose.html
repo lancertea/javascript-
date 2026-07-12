@@ -20,9 +20,9 @@
         };
 
         /* let x = fn1(5);
-		x = fn2(x);
-		x = fn1(x);
-		x = fn3(x); */
+        x = fn2(x);
+        x = fn1(x);
+        x = fn3(x); */
 
         /* console.log(fn3(fn1(fn2(fn1(5))))); //=> ((5+10)*10+10)/10 => 16 */
 
@@ -67,19 +67,60 @@
 
         function compose2(...args) {
             return function (val) {
-                return args.reverse().reduce((acc, fn)=>fn(acc), val)
+                return args.reverse().reduce((acc, fn) => fn(acc), val)
             }
         }
         /* let arr = [12, 23, 34, 45];
         let total = arr.reduce((x, y) => {
-        	//=>x:上一次处理的结果
-        	//=>y:数组中某一项
-        	//reduce不传第二个参数：x初始值是第一项的值，然后每一次返回的结果作为下一次x的值
-        	//reduce传第二个参数:x初始值就是第二个参数值
-        	console.log(x, y);
-        	return x + y;
+            //=>x:上一次处理的结果
+            //=>y:数组中某一项
+            //reduce不传第二个参数：x初始值是第一项的值，然后每一次返回的结果作为下一次x的值
+            //reduce传第二个参数:x初始值就是第二个参数值
+            console.log(x, y);
+            return x + y;
         }, 0);
         console.log(total); */
+
+        {
+            function double(num) {
+                return num * 2
+            }
+
+            function square(num) {
+                return num ** 2
+            }
+
+            var count = 10
+            var result = square(double(count))
+            console.log(result)
+
+            // 实现最简单的组合函数
+            function composeFn(m, n) {
+                return function (count) {
+                    return n(m(count))
+                }
+            }
+
+            var newFn = composeFn(double, square)
+            console.log(newFn(10))
+
+            function compose(...fns) {
+                for (let v of fns) {
+                    if (typeof v !== 'function') {
+                        throw new TypeError('not function')
+                    }
+                }
+                return function (...params) {
+                    const len = fns.length;
+                    let i = 0,
+                        res = len ? fns[i].apply(this, params) : params;
+                    while (++i < len) {
+                        res = fns[i].call(this, res);
+                    }
+                    return res;
+                }
+            }
+        }
     </script>
 </body>
 
