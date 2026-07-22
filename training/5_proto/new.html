@@ -46,6 +46,13 @@
         console.log(p)
         p.say()
     </script>
+    <script>
+        function syNew(P, ...args) {
+            const obj = Object.create(P.prototype),
+                res = P.apply(obj, args)
+            return res instanceof Object ? res : obj
+        }
+    </script>
 </body>
 
 </html>

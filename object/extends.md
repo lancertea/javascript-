@@ -6,7 +6,7 @@
 [形式]：Child.prototype = new Parent() 
 [优点]：父类原型上的方法可以被所有子类实例复用
 [缺点]
-1.construcor 指向错误：C.prototype.constructor === P 
+1.construcor 指向错误：：Child.prototype.constructor === P 
 2.父类引用类型属性共享，造成污染：所有子类实例共享父类实例的引用类型属性，修改一个会影响其他
 3.无法向父类传参：创建子类实例时，无法向父类构造函数传递参数（因为子类的原型是指向一个父类的实例，所以一开始父类的属性就被初始化了）
 
@@ -281,7 +281,8 @@ console.log(Object.getOwnPropertyNames(P)); //Array ["length", "name", "argument
 ```
 
 ## 原型式继承
-[原理]借助 Object.create 方法实现普通对象的继承
+[原理]：借助 Object.create 方法实现普通对象的继承
+[形式]：Child.prototype = Object.create(Parent.prototype)
 ```javascript
 function createObj(o) {
   function F() {}
@@ -290,6 +291,21 @@ function createObj(o) {
 }
 const person = { names: ['a'] };
 const p1 = createObj(person);
+``` 
+⬇️
+```javascript
+function createObj(o) {
+ var newObj = {}
+  Object.setPrototypeOf(newObj, o)
+  return newObj
+}
+const person = { names: ['a'] };
+const p1 = createObj(person);
+``` 
+⬇️
+```javascript
+const person = { names: ['a'] };
+const p1 = Object.create(person);
 ``` 
 [优点]：适合在已有对象的基础上进行简单包装，无需定义新的构造函数
 [缺点]：与原型链继承一样，引用类型属性会被所有实例共享。
@@ -316,8 +332,78 @@ console.log(p2.name); // p
 console.log(p1.friends); // ["p1", "p2", "p3","jerry","lucy"]
 console.log(p2.friends); // ["p1", "p2", "p3","jerry","lucy"]
 ```
+## 寄生式继承
+[原理]在原型式继承的基础上，增强对象（给对象添加新方法），然后返回这个对象
+```javascript
+// 1. 基础对象（可以是任何对象）
+const person = {
+  name: "Nicholas",
+  friends: ["Shelby", "Court", "Van"],
+  sayName() {
+    console.log(this.name);
+  }
+};
 
-## 组合继承优化版
+// 2. 寄生式继承函数
+function createAnother(original) {
+  // 3. 创建新对象（基于 original）
+  const clone = Object.create(original);
+  
+  // 4. 增强对象
+  clone.sayHi = function() {
+    console.log("hi");
+  };
+  
+  // 5. 返回增强后的对象
+  return clone;
+}
+
+// 使用
+const anotherPerson = createAnother(person);
+anotherPerson.sayName(); // "Nicholas" (继承自 person)
+anotherPerson.sayHi();   // "hi"      (新增的方法)
+``` 
+[优点]：不需要定义复杂的构造函数或类，可以快速为对象添加功能；可以将通用的增强逻辑封装在一个函数里，复用性强
+[缺点]：方法无法复用：每次调用 createAnother 都会创建一个全新的 sayHi 函数。如果有 100 个实例，就会有 100 个 sayHi 函数副本，浪费内存。这是它与“原型链继承”最大的区别——原型链上的方法是共享的，而寄生式继承新增的方法是独立的
+
+## 寄生组合式继承
+```javascript
+// 1. 定义父类
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+    this.colors = ['red', 'blue']; // 引用类型属性
+}
+
+Person.prototype.sayName = function() {
+    console.log(this.name);
+};
+
+// 2. 定义子类
+function Student(name, age, sno) {
+    // 【第一步】借用构造函数：继承实例属性
+    // 这一步只负责把 name, age, colors 复制到 Student 实例上
+    Person.call(this, name, age); 
+    this.sno = sno;
+}
+
+// 【第二步】寄生式继承：继承原型方法
+// 核心函数：inheritPrototype
+function inheritPrototype(subType, superType) {
+    subType.prototype = Object.create(superType.prototype); 
+    subType.prototype.constructor = subType; 
+}
+
+// 执行继承
+inheritPrototype(Student, Person);
+
+// 3. 给子类添加特有方法
+Student.prototype.saySno = function() {
+    console.log(this.sno);
+};
+``` 
+[优点]：只调用了一次 Parent 构造函数；保持了原型链的正常查找；实例属性互不干扰
+[缺点]：代码相对繁琐
 
 ```javascript
 function P(name, parr) {
@@ -434,6 +520,68 @@ class 是语法糖，底层依然基于原型链和构造函数。extends 关键
 1.使用 Object.create() 将子类的原型指向父类的原型（继承方法）。
 2.使用 Object.setPrototypeOf() 将子类本身的原型指向父类本身（继承静态方法）。
 在子类的 constructor 中必须调用 super()，底层等价于 Parent.call(this)
+```javascript
+// 1. 实现继承的核心函数 (类似 Object.create)
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+  // 关键点：建立原型链，但不执行父类构造函数
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: { value: subClass, writable: true, configurable: true }
+  });
+  // 设置静态属性的继承 (Student.__proto__ = Person)
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+// 2. 确保构造函数被正确调用 (防止直接调用 Student() 而不是 new Student())
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+// --- 正式代码 ---
+
+var Person = function () {
+  function Person(name) {
+    _classCallCheck(this, Person); // 检查是否使用了 new
+    this.name = name;
+  }
+
+  // 将方法定义在原型上
+  Person.prototype.sayHello = function sayHello() {
+    console.log("Hello, " + this.name);
+  };
+
+  return Person;
+}();
+
+var Student = function (_Person) {
+  // 【步骤 A】：建立继承关系 (对应 extends)
+  _inherits(Student, _Person);
+
+  function Student(name, sno) {
+    _classCallCheck(this, Student);
+
+    // 【步骤 B】：借用构造函数 (对应 super(name))
+    // 注意：这里不能直接写 _Person.call(this)，因为 _Person 可能是 undefined
+    // Babel 会使用一个更复杂的 _possibleConstructorReturn 来处理
+    var _this = _Person.call(this, name) || this; 
+    
+    _this.sno = sno;
+    return _this;
+  }
+
+  // 子类独有的方法
+  Student.prototype.study = function study() {
+    console.log('Studying...');
+  };
+
+  return Student;
+}(Person);
+``` 
+
 ```javascript
 class Parent { constructor(name) { this.name = name; } }
 class Child extends Parent {

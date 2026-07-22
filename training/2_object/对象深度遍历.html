@@ -45,10 +45,14 @@
         }
 
         function flatO(obj, parentKey = '', res = {}) {
-            for (let [k, v] of Object.entries(obj)) {
-                let key = `${parentKey}${k}`;
-                if (typeof v === 'object') {
-                    flatO(v, key + '.', res);
+            for (const [k, v] of Object.entries(obj)) {
+                // 拼接当前的 key，如果 parentKey 存在就加个点，否则直接是 k
+                let key = parentKey ? `${parentKey}.${k}` : k;
+
+                // 坑点修复：判断是不是纯对象。
+                // 必须满足：是对象类型，且不是 null，且不是数组（通常拍平不需要处理数组内部）
+                if (typeof v === 'object' && v !== null && !Array.isArray(v)) {
+                    flatO(v, key, res); // 注意这里直接传 key 即可，点号已经在上面拼好了
                 } else {
                     res[key] = v;
                 }
